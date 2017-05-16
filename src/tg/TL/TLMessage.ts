@@ -1,4 +1,3 @@
-
 import {TLSerializable} from "./Interfaces/TLSerializable";
 import {ByteStream} from "../DataStructures/ByteStream";
 import {TLLong} from "./Types/TLLong";
@@ -6,7 +5,7 @@ import {TLObject} from "./Interfaces/TLObject";
 import {TLInt} from "./Types/TLInt";
 import {concat} from "./BytesConcat";
 import {deserializedObject} from "./TLObjectDeserializer";
-import * as Long from "Long";
+import * as Long from "long";
 
 export class TLMessage implements TLSerializable {
     static deserialized(data: ByteStream): TLMessage | undefined {
@@ -19,7 +18,7 @@ export class TLMessage implements TLSerializable {
         const contentLength = TLInt.deserialized(data);
         if (!contentLength) return undefined;
 
-        if (contentLength.valueOf() != (data.bytes.length - data.cursor)) {
+        if (contentLength.value !== (data.bytes.length - data.cursor)) {
             return undefined;
         }
 
@@ -39,5 +38,5 @@ export class TLMessage implements TLSerializable {
         return concat(authKeyId, messageId, length, content);
     }
 
-    constructor(public readonly messageId: TLLong, public readonly content: TLObject) {}
+    constructor(readonly messageId: TLLong, readonly content: TLObject) {}
 }

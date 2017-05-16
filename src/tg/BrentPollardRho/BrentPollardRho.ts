@@ -1,4 +1,4 @@
-import { BN } from 'bn.js';
+import {BN} from "bn.js";
 
 const MAX_SAFE_INTEGER = 2 ** 53 - 1;
 

@@ -1,21 +1,21 @@
 import {TLSerializable} from "../Interfaces/TLSerializable";
 import {ByteStream} from "../../DataStructures/ByteStream";
 
-export class TLInt128 implements TLSerializable {
+export class TLInt256 implements TLSerializable {
     readonly value: Uint8Array;
 
-    static deserialized(data: ByteStream): TLInt128 | undefined {
-        const bytes = data.read(16);
+    static deserialized(data: ByteStream): TLInt256 | undefined {
+        const bytes = data.read(32);
         if (!bytes) return undefined;
 
-        return new TLInt128(bytes);
+        return new TLInt256(bytes);
     }
 
     serialized(): Uint8Array {
         return this.value;
     }
 
-    equals(to: TLInt128): boolean {
+    equals(to: TLInt256): boolean {
         for (let i = 0; i < this.value.length; i++) {
             if (this.value[i] !== to.value[i]) {
                 return false;
@@ -26,7 +26,7 @@ export class TLInt128 implements TLSerializable {
     }
 
     constructor(value: Uint8Array) {
-        if (value.length !== 16) {
+        if (value.length !== 32) {
             throw new TypeError();
         }
         this.value = value;

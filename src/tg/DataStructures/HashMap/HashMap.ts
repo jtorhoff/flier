@@ -1,4 +1,3 @@
-
 import {Hashable} from "./Hashable";
 
 /**
@@ -6,7 +5,7 @@ import {Hashable} from "./Hashable";
  * The following implementation is closely based on
  * the Java implementation by Keith Schwarz (htiek@cs.stanford.edu).
  *
- * According to [1], the max load factor for three hash functions
+ * According to [1], the max load factor for three hash tables
  * appears to be around 0.91 based on experiments.
  * We chose 0.7, well below that threshold to minimize rehashing.
  *
@@ -26,9 +25,14 @@ export class HashMap<K extends Hashable, V> {
         HashMap.numHashFunctions);
     private count = 0;
 
-    constructor() {
+    constructor(initialCapacity: number = HashMap.initialCapacity) {
+        //noinspection JSBitwiseOperatorUsage
+        if (initialCapacity <= 1 || (initialCapacity & (initialCapacity - 1))) {
+            throw new Error("initialCapacity must be a power of two");
+        }
+
         for (let i = 0; i < HashMap.numHashFunctions; i++) {
-            this.tables[i] = new Array(HashMap.initialCapacity);
+            this.tables[i] = new Array(initialCapacity);
         }
 
         this.generateHashFunctions();
@@ -38,8 +42,9 @@ export class HashMap<K extends Hashable, V> {
      * @param key Key for the associated value.
      * @param value Value to be associated with the key.
      */
-    put(key: K, value: V) {
-        // Check if the key is already in the map and replace the value in that case.
+    put(key: K, value: V): void {
+        // Check if the key is already in the map
+        // and replace the value in that case.
         for (let i = 0; i < HashMap.numHashFunctions; i++) {
             const hash = this.hashFunctions[i].hash(key);
             const entry = this.tables[i][hash];
@@ -53,7 +58,6 @@ export class HashMap<K extends Hashable, V> {
         const maxLoad = HashMap.maxLoadFactor
             * HashMap.numHashFunctions
             * this.tables[0].length;
-
         if (this.count >= maxLoad) {
             this.grow();
         }
@@ -62,11 +66,9 @@ export class HashMap<K extends Hashable, V> {
         let toInsert: any = new Entry<K, V>(key, value);
         while (true) {
             toInsert = this.tryInsertEntry(toInsert);
-
             if (typeof toInsert === "undefined") {
                 break;
             }
-
             this.rehash();
         }
         this.count++;
@@ -92,7 +94,7 @@ export class HashMap<K extends Hashable, V> {
     /**
      * @param key The key to remove.
      */
-    remove(key: K) {
+    remove(key: K): V | undefined {
         for (let i = 0; i < HashMap.numHashFunctions; i++) {
             const hash = this.hashFunctions[i].hash(key);
             const entry = this.tables[i][hash];
@@ -100,15 +102,17 @@ export class HashMap<K extends Hashable, V> {
             if (typeof entry !== "undefined" && entry.key.equals(key)) {
                 this.tables[i][hash] = undefined;
                 this.count--;
-                return;
+                return entry.value;
             }
         }
+
+        return undefined;
     }
 
     /**
      * @returns {Array} An array of all entries of the hash table.
      */
-    entries() {
+    get entries(): Array<Entry<K, V>> {
         let entries = [];
         for (let i = 0; i < HashMap.numHashFunctions; i++) {
             for (let j = 0; j < this.tables[i].length; j++) {
@@ -120,6 +124,26 @@ export class HashMap<K extends Hashable, V> {
         }
 
         return entries;
+    }
+
+    /**
+     * Executes the provided function once for each entry in the hash map.
+     * @param body Function to execute for each entry,
+     * taking two arguments: key and value.
+     */
+    forEach(body: (key: K, value: V) => void): void {
+        for (const entry of this.entries) {
+            body(entry.key, entry.value);
+        }
+    }
+
+    /**
+     * @returns {Array} An array containing just the keys of the hash map.
+     */
+    get keys(): Array<K> {
+        return this.entries.map(entry => {
+            return entry.key
+        });
     }
 
     /**
@@ -147,7 +171,7 @@ export class HashMap<K extends Hashable, V> {
      * Recompute the hash values of the entries and place them accordingly.
      */
     private rehash() {
-        const entries = this.entries();
+        const entries = this.entries;
         reinsert: while (true) {
             // Clear the tables
             for (let i = 0; i < HashMap.numHashFunctions; i++) {
@@ -171,10 +195,12 @@ export class HashMap<K extends Hashable, V> {
     /**
      * Try to insert the entry into the hash table.
      * @param toInsert
-     * @returns {any} The last displaced entry of undefined if all collisions were resolved.
+     * @returns {any} The last displaced entry or undefined if all collisions
+     * were resolved.
      */
     private tryInsertEntry(toInsert: Entry<K, V>): Entry<K, V> | undefined {
-        // Try to insert the entry into one of the hash tables switching between them.
+        // Try to insert the entry into one of the hash tables
+        // switching between them.
         for (let numTries = 0; numTries < this.count + 1; numTries++) {
             const hash = this.hashFunctions
                 [numTries % HashMap.numHashFunctions].hash(toInsert.key);
@@ -222,10 +248,11 @@ class UniversalHashFunction<K extends Hashable> {
     randomHashFunction(buckets: number): HashFunction<K> {
         // Compute log_2 of the number of buckets.
         // This is the number of bits required to hold the number of buckets,
-        // minus one because we want to know the number of bits to index any of these buckets.
+        // minus one because we want to know the number of bits
+        // to index any of these buckets.
         let lgBuckets = -1;
         for (; buckets > 0; buckets >>>= 1) {
-            ++lgBuckets;
+            lgBuckets++;
         }
 
         return new HashFunction(

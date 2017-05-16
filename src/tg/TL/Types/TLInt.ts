@@ -1,30 +1,39 @@
-
 import {TLSerializable} from "../Interfaces/TLSerializable";
 import {ByteStream} from "../../DataStructures/ByteStream";
-import {deserialized32bit, serialized32bit} from "./NumberUtils";
 import {Hashable} from "../../DataStructures/HashMap/Hashable";
 
 export class TLInt implements TLSerializable, Hashable {
     static deserialized(data: ByteStream): TLInt | undefined {
         const bytes = data.read(4);
-        if (!bytes) {
-            return undefined;
-        }
+        if (!bytes) return undefined;
 
-        return new TLInt(deserialized32bit(bytes));
+        const value =
+            (bytes[3] << 24) |
+            (bytes[2] << 16) |
+            (bytes[1] << 8)  |
+            (bytes[0]);
+
+        return new TLInt(value);
     }
 
     serialized(): Uint8Array {
-        return serialized32bit(this.value);
+        const bytes = new Uint8Array(4);
+
+        bytes[3] = (this.value >> 24)  & 0xff;
+        bytes[2] = (this.value >> 16)  & 0xff;
+        bytes[1] = (this.value >> 8)   & 0xff;
+        bytes[0] =  this.value         & 0xff;
+
+        return bytes;
     }
 
     get hashValue(): number {
         return this.value;
     }
 
-    equals(to: Hashable): boolean {
-        return to instanceof TLInt && this.value === to.value;
+    equals(to: TLInt): boolean {
+        return this.value === to.value;
     }
 
-    constructor(public readonly value: number) {}
+    constructor(readonly value: number) {}
 }

@@ -1,5 +1,5 @@
 
 export interface Hashable {
     hashValue: number;
-    equals(to: Hashable): boolean;
+    equals(to: this): boolean;
 }

@@ -1,0 +1,97 @@
+export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<{{ result_type }}>{% else %}{{ base_type }}{% endif %} {
+    static readonly cons = new TLInt({{ constructor }});
+{% if not is_func %}
+    static deserialized(data: ByteStream): {{ name }} | undefined {
+    {%- if name != "Message" %}
+        const constructor = TLInt.deserialized(data);
+        if (!constructor) return undefined;
+    {%- endif %}
+{% for arg in args %}
+    {%- if arg.type == "TLObject" %}
+        {%- if name == "RpcResult" %}
+        const {{ arg.name }} = data;
+        {%- else %}
+        const {{ arg.name }} = deserializedObject(data);
+        if (!{{ arg.name }}) return undefined;
+        {%- endif %}
+    {%- elif arg.type[-1] == "]" %}
+        const {{ arg.name }}Count = TLInt.deserialized(data);
+        if (!{{ arg.name }}Count) return undefined;
+
+        let {{ arg.name }}: {{ arg.type }} = [];
+        for (let i = 0; i < {{ arg.name }}Count.value; i++) {
+            const tmp = {{ arg.type[:-2] }}.deserialized(data);
+            if (!tmp) return undefined;
+            {{ arg.name }}.push(tmp);
+        }
+    {%- else %}
+        {%- if name == "Message" and arg.name == "bytes" %}
+        // ignore bytes arg
+        const _ = TLInt.deserialized(data);
+        if (!_) return undefined;
+        {%- else %}
+        {%- if arg.type is iterable and arg.type is not string %}
+        const {{ arg.name }} = {{ arg.type[0] }}.deserialized(data, {{ arg.type[1] }}) as {{ arg.type[0] }}<{{ arg.type[1] }}>;
+        {% else %}
+        const {{ arg.name }} = {{ arg.type }}.deserialized(data);
+        {% endif -%}
+        if (!{{ arg.name }}) return undefined;
+        {%- endif %}
+    {%- endif %}
+{% endfor %}
+        return new {{ name }}(
+        {%- for arg in args %}
+        {%- if name == "Message" and arg.name == "bytes" %}
+            // ignore bytes arg
+        {%- else %}
+            {{ arg.name }}{% if not loop.last %},{% endif %}
+        {%- endif %}
+        {%- endfor %})
+    }
+{% endif %}
+    serialized(): Uint8Array {
+{%- if name == "Message" -%}
+        const msgId = this.msgId.serialized();
+        const seqno = this.seqno.serialized();
+        const body = this.body.serialized();
+        const len = new TLInt(body.length).serialized();
+
+        return concat(msgId, seqno, len, body);
+{%- elif name == "MsgContainer" %}
+        const constructor = {{ name }}.cons.serialized();
+
+        const count = new TLInt(this.messages.length).serialized();
+        const messages: Uint8Array[] = [];
+
+        this.messages.forEach(item => {
+            messages.push(item.serialized());
+        });
+
+        return concat(constructor, count, ...messages);
+{%- else %}
+        const constructor = {{ name }}.cons.serialized();
+{%- for arg in args %}
+    {%- if name == "RpcResult" and arg.name == "result" %}
+        const {{ arg.name }} = this.result.bytes.slice(this.result.cursor);
+    {%- else %}
+        const {{ arg.name }} = this.{{ arg.name }}.serialized();
+    {%- endif %}
+{%- endfor %}
+
+        return concat(constructor, {{ args | map(attribute="name") | join(", ") }});
+{%- endif %}
+    }
+
+    constructor(
+    {%- for arg in args %}
+    {%- if name == "Message" and arg.name == "bytes" %}
+        // ignore bytes arg
+    {%- elif name == "RpcResult" and arg.name == "result" %}
+        readonly result: ByteStream{% if not loop.last %},{% endif %}
+    {%- elif arg.type is iterable and arg.type is not string %}
+        readonly {{ arg.name }}: {{ arg.type[0] }}<{{ arg.type[1] }}> {%- if not loop.last %},{% endif %}
+    {%- else %}
+        readonly {{ arg.name }}: {{ arg.type }} {%- if not loop.last %},{% endif %}
+    {%- endif %}
+    {%- endfor %}) {}
+}

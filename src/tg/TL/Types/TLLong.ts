@@ -1,32 +1,40 @@
-
-import * as Long from "Long";
+import * as Long from "long";
 import {TLSerializable} from "../Interfaces/TLSerializable";
 import {ByteStream} from "../../DataStructures/ByteStream";
-import {deserialized32bit, serialized32bit} from "./NumberUtils";
 import {Hashable} from "../../DataStructures/HashMap/Hashable";
 
 export class TLLong implements TLSerializable, Hashable {
     static deserialized(data: ByteStream): TLLong | undefined {
-        const lowBits = data.read(4);
-        if (!lowBits) {
-            return undefined;
-        }
-        const highBits = data.read(4);
-        if (!highBits) {
-            return undefined;
-        }
+        const bytes = data.read(8);
+        if (!bytes) return undefined;
 
-        const low = deserialized32bit(lowBits);
-        const high = deserialized32bit(highBits);
+        const low =
+            (bytes[3] << 24) |
+            (bytes[2] << 16) |
+            (bytes[1] << 8)  |
+            (bytes[0]);
 
-        return new TLLong(new Long(low, high));
+        const high =
+            (bytes[7] << 24) |
+            (bytes[6] << 16) |
+            (bytes[5] << 8)  |
+            (bytes[4]);
+
+        return new TLLong(Long.fromBits(low, high));
     }
 
     serialized(): Uint8Array {
         const bytes = new Uint8Array(8);
 
-        bytes.set(serialized32bit(this.value.low), 0);
-        bytes.set(serialized32bit(this.value.high), 4);
+        bytes[3] = (this.value.low >> 24)  & 0xff;
+        bytes[2] = (this.value.low >> 16)  & 0xff;
+        bytes[1] = (this.value.low >> 8)   & 0xff;
+        bytes[0] =  this.value.low         & 0xff;
+
+        bytes[7] = (this.value.high >> 24)  & 0xff;
+        bytes[6] = (this.value.high >> 16)  & 0xff;
+        bytes[5] = (this.value.high >> 8)   & 0xff;
+        bytes[4] =  this.value.high         & 0xff;
 
         return bytes;
     }
@@ -35,9 +43,9 @@ export class TLLong implements TLSerializable, Hashable {
         return this.value.low ^ this.value.high;
     }
 
-    equals(to: Hashable): boolean {
-        return to instanceof TLLong && this.value.equals(to.value);
+    equals(to: TLLong): boolean {
+        return this.value.equals(to.value);
     }
 
-    constructor(public readonly value: Long) {}
+    constructor(readonly value: Long) {}
 }
