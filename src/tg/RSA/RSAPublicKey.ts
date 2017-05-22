@@ -1,9 +1,9 @@
 import {BN} from "bn.js";
 import * as Long from "long";
-import {sha1, sha1Size} from "../SHA/SHA";
-import {concat} from "../TL/BytesConcat";
-import {SecureRandom} from "../SecureRandom/SecureRandom";
+import {sha1} from "../SHA/SHA";
+import {concat} from "../Utils/BytesConcat";
 import {TLBytes} from "../TL/Types/TLBytes";
+import {SecureRandom} from "../SecureRandom/SecureRandom";
 
 export class RSAPublicKey {
     /**
@@ -42,78 +42,18 @@ export class RSAPublicKey {
         return new RSAPublicKey(modulusBN, exponentBN, fingerprint);
     }
 
-    /**
-     * Mask Generation Function.
-     * @param seed Seed from which mask is generated.
-     * @param length Intended mask length.
-     * @returns {Uint8Array}
-     */
-    private static mgf(seed: Uint8Array, length: number): Uint8Array {
-        const hashLength = sha1Size;
-        const mask = new Uint8Array(length);
-        const counter = new Uint8Array(4);
-        const chunks = Math.ceil(length / hashLength);
-
-        for (let i = 0; i < chunks; i++) {
-            counter[0] = (i >>> 24);
-            counter[1] = (i >>> 16) & 0xFF;
-            counter[2] = (i >>> 8) & 0xFF;
-            counter[3] = i & 0xFF;
-
-            const subMask = mask.subarray(i * hashLength);
-            let chunk = sha1(concat(seed, counter));
-
-            if (chunk.length > subMask.length) {
-                chunk = chunk.subarray(0, subMask.length);
-            }
-
-            subMask.set(chunk);
-        }
-
-        return mask;
-    }
-
     encrypt(message: Uint8Array): Uint8Array {
+        const paddingLength = this.modulus.byteLength() - message.length - 1;
+        if (paddingLength < 0) throw new RangeError(
+            "Message too long to encrypt with the given key");
+
+        const padding = SecureRandom.bytes(paddingLength);
+
         const redCtx = BN.mont(this.modulus);
-        const m = new BN(this.pad(message)).toRed(redCtx);
+        const m = new BN(concat(message, padding)).toRed(redCtx);
         const c = m.redPow(this.exponent).fromRed();
 
         return c.toArrayLike(Uint8Array);
-    }
-
-    /**
-     * Pad the message using the optimal asymmetric encryption padding
-     * with SHA-1.
-     * @param message
-     * @returns {Uint8Array} Encoded message.
-     */
-    private pad(message: Uint8Array): Uint8Array {
-        const keyLength = this.modulus.byteLength();
-        const hashLength = sha1Size;
-        const messageLength = message.length;
-        const psLength = keyLength - messageLength - (2 * hashLength) - 2;
-
-        if (messageLength > keyLength - (2 * hashLength) - 2) {
-            throw new RangeError("Message too long");
-        }
-
-        const labelHash = sha1(new Uint8Array([]));
-        const ps = new Uint8Array(psLength);
-        const dataBlock = concat(
-            labelHash, ps, new Uint8Array([0x01]), message);
-        const seed = SecureRandom.bytes(hashLength);
-
-        const dataBlockMask = RSAPublicKey.mgf(seed, dataBlock.length);
-        for (let i = 0; i < dataBlock.length; i++) {
-            dataBlock[i] ^= dataBlockMask[i];
-        }
-
-        const seedMask = RSAPublicKey.mgf(dataBlock, hashLength);
-        for (let i = 0; i < seed.length; i++) {
-            seed[i] ^= seedMask[i];
-        }
-
-        return concat(new Uint8Array([0x00]), seed, dataBlock);
     }
 
     private constructor(

@@ -26,10 +26,10 @@ export class TLLong implements TLSerializable, Hashable {
     serialized(): Uint8Array {
         const bytes = new Uint8Array(8);
 
-        bytes[3] = (this.value.low >> 24)  & 0xff;
-        bytes[2] = (this.value.low >> 16)  & 0xff;
-        bytes[1] = (this.value.low >> 8)   & 0xff;
-        bytes[0] =  this.value.low         & 0xff;
+        bytes[3] = (this.value.low >> 24)   & 0xff;
+        bytes[2] = (this.value.low >> 16)   & 0xff;
+        bytes[1] = (this.value.low >> 8)    & 0xff;
+        bytes[0] =  this.value.low          & 0xff;
 
         bytes[7] = (this.value.high >> 24)  & 0xff;
         bytes[6] = (this.value.high >> 16)  & 0xff;

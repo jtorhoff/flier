@@ -4,10 +4,6 @@ import {TLInt} from "./Types/TLInt";
 import {MTProto} from "../Codegen/MTProto/MTProtoSchema";
 
 export const deserializedObject = (data: ByteStream): TLObject | undefined => {
-    // if (!constructables) {
-    //     populateConstructables();
-    // }
-
     const constructor = TLInt.deserialized(data);
     if (!constructor) return undefined;
 

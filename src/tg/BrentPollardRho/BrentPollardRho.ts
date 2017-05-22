@@ -17,7 +17,7 @@ const rand = (min: number, max: number) => {
 export const factorize = (n: BN): BN | undefined => {
     const redCtx = BN.mont(n);
     const c = new BN(rand(1, MAX_SAFE_INTEGER)).toRed(redCtx);
-    const m = rand(1, MAX_SAFE_INTEGER);
+    const m = rand(2, MAX_SAFE_INTEGER);
 
     let y = new BN(rand(1, MAX_SAFE_INTEGER)).toRed(redCtx);
     let ys;
@@ -42,7 +42,7 @@ export const factorize = (n: BN): BN | undefined => {
             g = q.gcd(n);
             k += m;
         } while (k < r && g.eqn(1));
-        r *= 2;
+        r <<= 1;
     } while (g.eqn(1));
 
     if (g.eq(n)) {

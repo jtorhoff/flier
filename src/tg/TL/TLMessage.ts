@@ -3,7 +3,7 @@ import {ByteStream} from "../DataStructures/ByteStream";
 import {TLLong} from "./Types/TLLong";
 import {TLObject} from "./Interfaces/TLObject";
 import {TLInt} from "./Types/TLInt";
-import {concat} from "./BytesConcat";
+import {concat} from "../Utils/BytesConcat";
 import {deserializedObject} from "./TLObjectDeserializer";
 import * as Long from "long";
 

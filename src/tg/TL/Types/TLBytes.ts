@@ -1,6 +1,6 @@
 import {TLSerializable} from "../Interfaces/TLSerializable";
 import {ByteStream} from "../../DataStructures/ByteStream";
-import {concat} from "../BytesConcat";
+import {concat} from "../../Utils/BytesConcat";
 
 export class TLBytes implements TLSerializable {
     static deserialized(data: ByteStream): TLBytes | undefined {

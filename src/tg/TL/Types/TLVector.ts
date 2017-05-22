@@ -2,7 +2,7 @@ import {TLSerializable} from "../Interfaces/TLSerializable";
 import {TLObject} from "../Interfaces/TLObject";
 import {TLInt} from "./TLInt";
 import {ByteStream} from "../../DataStructures/ByteStream";
-import {concat} from "../BytesConcat";
+import {concat} from "../../Utils/BytesConcat";
 
 export class TLVector<T extends TLSerializable> implements TLObject {
     static readonly cons = new TLInt(0x1cb5c415);
@@ -12,8 +12,7 @@ export class TLVector<T extends TLSerializable> implements TLObject {
         if (typeof prototype === "undefined") {
             throw new TypeError(
                 "TLVector expects an explicit " +
-                "deserialized function reference " +
-                "of the generic element type.");
+                "prototype of the generic element type.");
         }
 
         const constructor = TLInt.deserialized(data);

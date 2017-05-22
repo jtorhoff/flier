@@ -3,6 +3,8 @@ import {ByteStream} from "../../DataStructures/ByteStream";
 import {Hashable} from "../../DataStructures/HashMap/Hashable";
 
 export class TLInt implements TLSerializable, Hashable {
+    readonly value: number;
+
     static deserialized(data: ByteStream): TLInt | undefined {
         const bytes = data.read(4);
         if (!bytes) return undefined;
@@ -19,10 +21,10 @@ export class TLInt implements TLSerializable, Hashable {
     serialized(): Uint8Array {
         const bytes = new Uint8Array(4);
 
-        bytes[3] = (this.value >> 24)  & 0xff;
-        bytes[2] = (this.value >> 16)  & 0xff;
-        bytes[1] = (this.value >> 8)   & 0xff;
-        bytes[0] =  this.value         & 0xff;
+        bytes[3] = (this.value >> 24)   & 0xff;
+        bytes[2] = (this.value >> 16)   & 0xff;
+        bytes[1] = (this.value >> 8)    & 0xff;
+        bytes[0] =  this.value          & 0xff;
 
         return bytes;
     }
@@ -35,5 +37,7 @@ export class TLInt implements TLSerializable, Hashable {
         return this.value === to.value;
     }
 
-    constructor(readonly value: number) {}
+    constructor(value: number) {
+        this.value = value & 0xffffffff;
+    }
 }
