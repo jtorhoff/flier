@@ -18,7 +18,7 @@ export class AES {
      * The first 4 sub-tables are the expanded S-box with MixColumns.
      * The last (tables[][4]) is the S-box itself.
      */
-    static tables: Array<Array<Uint32Array>> = [
+    private static tables: Array<Array<Uint32Array>> = [
         [UI32A256(), UI32A256(), UI32A256(), UI32A256(), UI32A256()],
         [UI32A256(), UI32A256(), UI32A256(), UI32A256(), UI32A256()],
     ];
