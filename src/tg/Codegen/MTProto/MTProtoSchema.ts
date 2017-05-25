@@ -13,7 +13,7 @@ import {TLVector} from "../../TL/Types/TLVector";
 import {TLObject} from "../../TL/Interfaces/TLObject";
 import {TLFunction} from "../../TL/Interfaces/TLFunction";
 
-import {concat} from "../../Utils/BytesConcat";
+import {concat} from "../../TL/BytesConcat";
 import {deserializedObject} from "../../TL/TLObjectDeserializer";
 
 export namespace MTProto {
@@ -487,7 +487,7 @@ export namespace MTProto {
         serialized(): Uint8Array {
             const constructor = RpcResult.cons.serialized();
             const reqMsgId = this.reqMsgId.serialized();
-            const result = this.result.bytes.slice(this.result.cursor);
+            const result = this.result.bytes.slice(this.result.cursor,);
     
             return concat(constructor, reqMsgId, result);
         }

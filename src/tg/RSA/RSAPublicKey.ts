@@ -24,13 +24,13 @@ export class RSAPublicKey {
         }
 
         const modulus = bytes.slice(9, -5);
-        const exponent = bytes.slice(-3);
+        const exponent = bytes.slice(-3,);
 
         const modulusBytes = new TLBytes(modulus).serialized();
         const exponentBytes = new TLBytes(exponent).serialized();
 
         const fingerprintBytes = sha1(concat(modulusBytes, exponentBytes))
-            .slice(12);
+            .slice(12,);
 
         const fingerprintTwos = new Uint32Array(fingerprintBytes.buffer);
         const fingerprint = Long.fromBits(

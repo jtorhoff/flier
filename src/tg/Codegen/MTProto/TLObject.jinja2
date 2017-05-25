@@ -72,7 +72,7 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<{
         const constructor = {{ name }}.cons.serialized();
 {%- for arg in args %}
     {%- if name == "RpcResult" and arg.name == "result" %}
-        const {{ arg.name }} = this.result.bytes.slice(this.result.cursor);
+        const {{ arg.name }} = this.result.bytes.slice(this.result.cursor,);
     {%- else %}
         const {{ arg.name }} = this.{{ arg.name }}.serialized();
     {%- endif %}

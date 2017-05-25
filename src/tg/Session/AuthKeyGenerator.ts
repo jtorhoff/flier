@@ -182,7 +182,7 @@ export class AuthKeyGenerator {
 
         this.ige = new IGE(tmpKey.buffer);
         this.tmpIV = concat(
-            sha1(concat(serverNonce, newNonce)).slice(12),
+            sha1(concat(serverNonce, newNonce)).slice(12,),
             sha1(concat(newNonce, newNonce)),
             newNonce.slice(0, 4)
         );
@@ -287,7 +287,7 @@ export class AuthKeyGenerator {
             if (response instanceof MTProto.DhGenOk) {
                 const newNonceHash1 = sha1(concat(
                     this.newNonce.value, new Uint8Array([1]), authKeyAux))
-                    .slice(4);
+                    .slice(4,);
                 if (!eql(response.newNonceHash1.value, newNonceHash1)) {
                     this.stateObserver.next(State.Unauthorized);
                     return;
@@ -300,7 +300,7 @@ export class AuthKeyGenerator {
             } else if (response instanceof MTProto.DhGenRetry) {
                 const newNonceHash2 = sha1(concat(
                     this.newNonce.value, new Uint8Array([2]), authKeyAux))
-                    .slice(4);
+                    .slice(4,);
                 if (!eql(response.newNonceHash2.value, newNonceHash2)) {
                     this.stateObserver.next(State.Unauthorized);
                     return;

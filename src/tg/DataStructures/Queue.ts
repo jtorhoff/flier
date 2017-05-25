@@ -30,7 +30,7 @@ export class Queue<T> {
         this.offset++;
 
         if (this.offset * 2 >= this.data.length) {
-            this.data = this.data.slice(this.offset);
+            this.data = this.data.slice(this.offset,);
             this.offset = 0;
         }
 
