@@ -1,0 +1,9 @@
+{%- if "." in name -%}
+{% set namespace = name.split(".")[0] -%}
+{% set type_name = name.split(".")[1] -%}
+export namespace {{ namespace }} {
+	export type {{ type_name }} = {{ types | join(" | ") }};
+}
+{%- else -%}
+export type {{ name }} = {{ types | join(" | ") }};
+{%- endif -%}

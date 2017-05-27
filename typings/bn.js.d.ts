@@ -1,22 +1,21 @@
 declare module "bn.js" {
     abstract class BigNum<Self> {
         clone(): Self;
-        isNeg(): boolean;
         eq(num: BigNum<any>): boolean;
         eqn(num: number): boolean;
         lt(than: BN): boolean;
         lte(to: BN): boolean;
         lten(to: number): boolean;
         gte(to: BN): boolean;
+        gten(to: number): boolean;
         gcd(num: BN): BN;
-        bitLength(): number;
         byteLength(): number;
         toArrayLike(arrayType: Uint8ArrayConstructor, endian?: "le" | "be", length?: number): Uint8Array;
+        toNumber(): number;
     }
 
     export class BN extends BigNum<BN> {
         static mont(num: BN): Mont;
-        static red(num: BN): Red;
 
         constructor(num?: number | string | BN, base?: number, endian?: "le" | "be");
         constructor(bytes: Uint8Array, endian?: "le" | "be");
@@ -24,18 +23,15 @@ declare module "bn.js" {
         toString(radix?: number): string;
         div(by: BN): BN;
         divn(by: number): BN;
-        pow(exp: BN): BN;
-        iaddn(summand: number): BN;
+        idivn(by: number): BN;
+        muln(multiplier: number): BN;
+        imuln(multiplier: number): BN;
         sub(subtrahend: BN): BN;
         subn(subtrahend: number): BN;
-        isubn(subtrahend: number): BN;
-        mul(multiplier: BN): BN;
-        zeroBits(): number;
-        ishrn(bits: number): BN;
-        shln(bits: number): BN;
+        isub(subtrahend: BN): BN;
         ishln(bits: number): BN;
-        testn(bit: number): boolean;
-        mod(mod: BN): BN;
+        iushln(bits: number): BN;
+        iushrn(bits: number): BN;
     }
 
     class RedBN extends BigNum<RedBN> {

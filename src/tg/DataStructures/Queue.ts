@@ -14,8 +14,12 @@ export class Queue<T> {
         return this.data[this.offset];
     }
 
-    get size(): number {
+    get length(): number {
         return this.data.length - this.offset;
+    }
+
+    get entries(): T[] {
+        return this.data.slice(this.offset) as T[];
     }
 
     enqueue(item: T) {

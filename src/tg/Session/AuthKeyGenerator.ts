@@ -16,13 +16,13 @@ import {ByteStream} from "../DataStructures/ByteStream";
 import * as Long from "long";
 import {SecureRandom} from "../SecureRandom/SecureRandom";
 import {IGE} from "../AES/IGE";
-import PQInnerData = MTProto.PQInnerData;
+import {TLInt} from "../TL/Types/TLInt";
+import {Subject} from "rxjs/Subject";
 
 export class AuthKeyGenerator {
-    private state = new Observable<State>(observer => {
-        this.stateObserver = observer;
-    });
-    private stateObserver: Observer<State>;
+    static readonly temporaryKeyExpiresIn = 60 * 60;
+    private readonly state = new Subject<State>();
+
     private nonce: TLInt128;
     private serverNonce: TLInt128;
     private pq: TLBytes;
@@ -42,14 +42,18 @@ export class AuthKeyGenerator {
     private authKey: Uint8Array;
     private serverSalt: Uint8Array;
 
-    private start: number;
+    private observer: Observer<{
+        key: Uint8Array, salt: Uint8Array, timeDiff: number}>;
 
     constructor(
         readonly session: Session,
-        readonly rsaPublicKeyStore: RSAPublicKeyStore) {
+        readonly rsaPublicKeyStore: RSAPublicKeyStore,
+        readonly temporary: boolean) {
         this.state.subscribe(state => {
             switch (state) {
                 case State.Unauthorized:
+                    this.observer.error(new Error());
+                    this.observer.complete();
                     break;
 
                 case State.RequestPQ:
@@ -77,35 +81,39 @@ export class AuthKeyGenerator {
                     break;
 
                 case State.Authorized:
-                    console.log("authorized");
-                    console.log(Date.now() - this.start);
-
-                    this.generate();
+                    this.observer.next({
+                        key: this.authKey,
+                        salt: this.serverSalt,
+                        timeDiff: this.timeDifference
+                    });
+                    this.observer.complete();
                     break;
             }
         });
     }
 
-    generate() {
-        this.start = Date.now();
-        this.stateObserver.next(State.RequestPQ);
+    generate(): Observable<{key: Uint8Array, salt: Uint8Array, timeDiff: number}> {
+        return new Observable(observer => {
+            this.observer = observer;
+            this.state.next(State.RequestPQ);
+        });
     }
 
     private requestPQ() {
         this.nonce = new TLInt128(SecureRandom.bytes(16));
         this.session.send(new MTProto.ReqPq(this.nonce), response => {
             if (!(response instanceof MTProto.ResPQ)) {
-                this.stateObserver.next(State.Unauthorized);
+                this.state.next(State.Unauthorized);
                 return;
             }
             if (!this.nonce.equals(response.nonce)) {
-                this.stateObserver.next(State.Unauthorized);
+                this.state.next(State.Unauthorized);
                 return;
             }
             const key = this.rsaPublicKeyStore.key(
-                response.serverPublicKeyFingerprints.array[0]);
+                response.serverPublicKeyFingerprints.items[0]);
             if (!key) {
-                this.stateObserver.next(State.Unauthorized);
+                this.state.next(State.Unauthorized);
                 return;
             }
 
@@ -113,7 +121,7 @@ export class AuthKeyGenerator {
             this.pq = response.pq;
             this.rsaKey = key;
 
-            this.stateObserver.next(State.FactorizePQ);
+            this.state.next(State.FactorizePQ);
         });
     }
 
@@ -129,21 +137,33 @@ export class AuthKeyGenerator {
                 this.p = new TLBytes(q.toArrayLike(Uint8Array));
                 this.q = new TLBytes(p.toArrayLike(Uint8Array));
             }
-            this.stateObserver.next(State.RequestDHParams);
+            this.state.next(State.RequestDHParams);
         } else {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
         }
     }
 
     private requestDhParams() {
         this.newNonce = new TLInt256(SecureRandom.bytes(32));
-        const pqInnerData = new PQInnerData(
-            this.pq,
-            this.p,
-            this.q,
-            this.nonce,
-            this.serverNonce,
-            this.newNonce).serialized();
+        let pqInnerData: Uint8Array;
+        if (this.temporary) {
+            pqInnerData = new MTProto.PQInnerDataTemp(
+                this.pq,
+                this.p,
+                this.q,
+                this.nonce,
+                this.serverNonce,
+                this.newNonce,
+                new TLInt(AuthKeyGenerator.temporaryKeyExpiresIn)).serialized();
+        } else {
+            pqInnerData = new MTProto.PQInnerData(
+                this.pq,
+                this.p,
+                this.q,
+                this.nonce,
+                this.serverNonce,
+                this.newNonce).serialized();
+        }
         const hash = sha1(pqInnerData);
         const encryptedData = this.rsaKey.encrypt(concat(hash, pqInnerData));
 
@@ -157,17 +177,17 @@ export class AuthKeyGenerator {
 
         this.session.send(reqDhParams, response => {
             if (!(response instanceof MTProto.ServerDHParamsOk)) {
-                this.stateObserver.next(State.Unauthorized);
+                this.state.next(State.Unauthorized);
                 return;
             }
             if (!response.nonce.equals(this.nonce) ||
                 !response.serverNonce.equals(this.serverNonce)) {
-                this.stateObserver.next(State.Unauthorized);
+                this.state.next(State.Unauthorized);
                 return;
             }
 
             this.encryptedAnswer = response.encryptedAnswer;
-            this.stateObserver.next(State.ServerDHParamsOK);
+            this.state.next(State.ServerDHParamsOK);
         });
     }
 
@@ -193,52 +213,52 @@ export class AuthKeyGenerator {
         const answerWithHash = new ByteStream(new Uint8Array(decrypted));
         const hash = answerWithHash.read(20);
         if (!hash) {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
         const cursorBeforeAnswer = answerWithHash.cursor;
         const answer = MTProto.ServerDHInnerData.deserialized(answerWithHash);
         if (!answer) {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
         const answerBytes = answerWithHash.bytes.slice(
             cursorBeforeAnswer, answerWithHash.cursor);
         if (!eql(sha1(answerBytes), hash)) {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
         if (!answer.nonce.equals(this.nonce) ||
             !answer.serverNonce.equals(this.serverNonce)) {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
         this.g = answer.g.value;
         this.dhPrime = answer.dhPrime.bytes;
         this.gA = answer.gA.bytes;
-        this.timeDifference = Date.now() - answer.serverTime.value;
+        this.timeDifference = Date.now() - (answer.serverTime.value * 1000);
 
-        this.stateObserver.next(State.CheckServerDHParams);
+        this.state.next(State.CheckServerDHParams);
     }
 
     private checkServerDHParams() {
         const p = dhPairs[this.g];
         if (!p) {
             console.log("No pre-checked dhPrime for g found");
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
         if (!eql(p, this.dhPrime)) {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
-        this.stateObserver.next(State.SetClientDHParams);
+        this.state.next(State.SetClientDHParams);
     }
 
     private setClientDHParams() {
@@ -249,7 +269,7 @@ export class AuthKeyGenerator {
         const upper = dhPrime.sub(lower);
 
         if (gA.lte(lower) || gA.gte(upper)) {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
@@ -259,7 +279,7 @@ export class AuthKeyGenerator {
         const gB = g.redPow(b).fromRed();
 
         if (gB.lte(lower) || gB.gte(upper)) {
-            this.stateObserver.next(State.Unauthorized);
+            this.state.next(State.Unauthorized);
             return;
         }
 
@@ -289,28 +309,28 @@ export class AuthKeyGenerator {
                     this.newNonce.value, new Uint8Array([1]), authKeyAux))
                     .slice(4,);
                 if (!eql(response.newNonceHash1.value, newNonceHash1)) {
-                    this.stateObserver.next(State.Unauthorized);
+                    this.state.next(State.Unauthorized);
                     return;
                 }
                 this.serverSalt = xor(
                     this.newNonce.value.slice(0, 8),
                     this.serverNonce.value.slice(0, 8));
 
-                this.stateObserver.next(State.Authorized);
+                this.state.next(State.Authorized);
             } else if (response instanceof MTProto.DhGenRetry) {
                 const newNonceHash2 = sha1(concat(
                     this.newNonce.value, new Uint8Array([2]), authKeyAux))
                     .slice(4,);
                 if (!eql(response.newNonceHash2.value, newNonceHash2)) {
-                    this.stateObserver.next(State.Unauthorized);
+                    this.state.next(State.Unauthorized);
                     return;
                 }
                 this.dhRetryId = TLLong.deserialized(
                     new ByteStream(authKeyAux))!;
 
-                this.stateObserver.next(State.SetClientDHParams);
+                this.state.next(State.SetClientDHParams);
             } else {
-                this.stateObserver.next(State.Unauthorized);
+                this.state.next(State.Unauthorized);
             }
         });
     }

@@ -1,0 +1,104 @@
+{%- if "." in name -%}
+{% set namespace = name.split(".")[0] -%}
+{% set name = name.split(".")[1] -%}
+export namespace {{ namespace }} {
+{% endif -%}
+export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<
+{%- if result_type is iterable and result_type is not string %}{{ result_type[0] }}<{{ result_type[1] }}>{% else %}{{ result_type }}{% endif %}>{% else %}{{ base_type }}{% endif %} {
+    static readonly cons = new TLInt({{ constructor }});
+{% if not is_func %}
+    static deserialized(_data: ByteStream): {{ name }} | undefined {
+        const constructor = TLInt.deserialized(_data);
+        if (!constructor || !constructor.equals(this.cons)) return undefined;
+{%- for arg in args %}
+    {%- if arg.type is mapping %}
+      {%- set flags_arg_name = (args | selectattr("type", "equalto", "#") | first).name %}
+      {%- if arg.type.value == "boolean" %}
+        const {{ arg.name }} = ({{ flags_arg_name }}.value & {{ arg.type.condition.const }}) !== 0;
+      {%- else %}
+        {%- if arg.type.value is iterable and arg.type.value is not string %}
+        let {{ arg.name }}: {{ arg.type.value[0] }}<{{ arg.type.value[1] }}> | undefined;
+        {%- else %}
+        let {{ arg.name }}: {{ arg.type.value | replace("?", "") }} | undefined;
+        {%- endif %}
+        if (({{ flags_arg_name }}.value & {{ arg.type.condition.const }}) !== 0) {
+          {%- if arg.type.cons %}
+            const obj = deserializedObject(_data) as {{ arg.type.value }};
+            if (!obj) return undefined;
+          {%- else %}
+            {%- if arg.type.value is iterable and arg.type.value is not string %}
+            const obj = {{ arg.type.value[0] }}.deserialized(_data, {% if not is_aggr(arg.type.value[1]) %}{{ arg.type.value[1] }}{% endif %}) as {{ arg.type.value[0] }}<{{ arg.type.value[1] }}>;
+            {%- else %}
+            const obj = {{ arg.type.value | replace("?", "") }}.deserialized(_data);
+            {%- endif %}
+            if (!obj) return undefined;
+          {%- endif %}
+            {{ arg.name }} = obj
+        }
+      {%- endif %}
+    {%- elif arg.cons %}
+        const {{ arg.name }} = deserializedObject(_data) as {{ arg.type }};
+        if (!{{ arg.name }}) return undefined;
+        {# if (!({{ arg.name }} instanceof {{ arg.type }})) return undefined;         #}
+    {%- elif arg.type is iterable and arg.type is not string %}
+        const {{ arg.name }} = {{ arg.type[0] }}.deserialized(_data, {% if not is_aggr(arg.type[1]) %}{{ arg.type[1] }}{% endif %}) as {{ arg.type[0] }}<{{ arg.type[1] }}>;
+        if (!{{ arg.name }}) return undefined;
+    {%- else %}
+        const {{ arg.name }} = {% if arg.type == "#" %}TLInt{% else %}{{ arg.type }}{% endif %}.deserialized(_data);
+        if (!{{ arg.name }}) return undefined;
+    {%- endif %}
+{%- endfor %}
+        return new {{ name }}(
+          {%- for arg in args if arg.type != "#" %}
+            {{ arg.name }}{% if not loop.last %},{% endif %}
+          {%- endfor %})
+    }
+{% endif %}
+    serialized(): Uint8Array {
+        const constructor = {{ name }}.cons.serialized();
+        const data: Uint8Array[] = [constructor]; 
+
+  {%- for arg in args if arg.type.value != "boolean" %}
+    {%- if arg.type is mapping %}
+        if (this.{{ arg.name }}) data.push(this.{{ arg.name }}.serialized());
+    {%- elif arg.type == "#" %}
+        let {{ arg.name }} = 0;
+      {%- for opt_arg in args if opt_arg.type is mapping %}
+        {{ arg.name }} = (
+          {%- if opt_arg.type.value == "boolean" -%}
+            this.{{ opt_arg.name }}
+          {%- else -%}
+            !this.{{ opt_arg.name }}
+          {%- endif -%}
+          ) ? (
+          {{- arg.name }} | {{ opt_arg.type.condition.const }}) : (
+          {{- arg.name }} & ~{{ opt_arg.type.condition.const }});
+      {%- endfor %}
+        data.push(new TLInt({{ arg.name }}).serialized());
+    {%- else %}
+        data.push(this.{{ arg.name }}.serialized());
+    {%- endif %}
+  {%- endfor %}
+
+        return concat(...data);
+    }
+{% if args %}
+    constructor(
+    {%- for arg in args %}
+      {%- if arg.type is mapping %}
+        {%- if arg.type.value is iterable and arg.type.value is not string %}
+        readonly {{ arg.name }}: {{ arg.type.value[0] }}<{{ arg.type.value[1] }}> | undefined{% if not loop.last %},{% endif %}
+        {%- else %}
+        readonly {{ arg.name }}: {{ arg.type.value }}{% if arg.type.value != "boolean" %} | undefined{% endif %}{% if not loop.last %},{% endif %}
+        {%- endif %}
+      {%- elif arg.type is iterable and arg.type is not string %}
+        readonly {{ arg.name }}: {{ arg.type[0] }}<{{ arg.type[1] }}>{% if not loop.last %},{% endif %}
+      {%- elif arg.type != "#" %}
+        readonly {{ arg.name }}: {{ arg.type }}{% if not loop.last %},{% endif %}
+      {%- endif %}
+    {%- endfor %}) {}
+{% endif %}
+} // class {{ name }}
+{% if namespace -%}
+} // namespace {{ namespace }}
+{%- endif %}

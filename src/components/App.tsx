@@ -1,8 +1,8 @@
 import * as React from "react";
 import {RSAPublicKeyStore} from "../tg/RSA/RSAPublicKeyStore";
 import {RSAPublicKey} from "../tg/RSA/RSAPublicKey";
-import {Session} from "../tg/Session/Session";
-import {AuthKeyGenerator} from "../tg/Session/AuthKeyGenerator";
+import {DataCenter} from "../tg/Session/DataCenter";
+import {TLInt} from "../tg/TL/Types/TLInt";
 
 export interface AppProps { compiler: string; framework: string; }
 
@@ -21,10 +21,7 @@ export class App extends React.Component<AppProps, undefined> {
 
         let keyStore = new RSAPublicKeyStore();
         keyStore.addKey(RSAPublicKey.fromString(key));
-        let session = new Session("149.154.167.51:80");
-        let keyGenerator = new AuthKeyGenerator(session, keyStore);
-
-        keyGenerator.generate();
+        let dc = new DataCenter("149.154.167.51:80", new TLInt(0), keyStore);
 
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }

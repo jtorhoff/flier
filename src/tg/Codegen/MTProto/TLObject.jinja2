@@ -4,7 +4,7 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<{
     static deserialized(data: ByteStream): {{ name }} | undefined {
     {%- if name != "Message" %}
         const constructor = TLInt.deserialized(data);
-        if (!constructor || !constructor.equals({{ name }}.cons)) return undefined;
+        if (!constructor || !constructor.equals(this.cons)) return undefined;
     {%- endif %}
 {% for arg in args %}
     {%- if arg.type == "TLObject" %}
