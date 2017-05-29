@@ -4,14 +4,16 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<{
     static deserialized(data: ByteStream): {{ name }} | undefined {
     {%- if name != "Message" %}
         const constructor = TLInt.deserialized(data);
-        if (!constructor || !constructor.equals(this.cons)) return undefined;
+        if (!constructor || !constructor.equals({{ name }}.cons)) return undefined;
     {%- endif %}
 {% for arg in args %}
     {%- if arg.type == "TLObject" %}
         {%- if name == "RpcResult" %}
         const {{ arg.name }} = data;
         {%- else %}
-        const {{ arg.name }} = deserializedObject(data);
+        const {{ arg.name }} = deserializedObject(new ByteStream(
+            data.bytes.slice(data.cursor, data.cursor + bytes.value)));
+        data.moveCursorBy(bytes.value);
         if (!{{ arg.name }}) return undefined;
         {%- endif %}
     {%- elif arg.type[-1] == "]" %}
@@ -26,9 +28,8 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<{
         }
     {%- else %}
         {%- if name == "Message" and arg.name == "bytes" %}
-        // ignore bytes arg
-        const _ = TLInt.deserialized(data);
-        if (!_) return undefined;
+        const bytes = TLInt.deserialized(data);
+        if (!bytes) return undefined;
         {%- else %}
         {%- if arg.type is iterable and arg.type is not string %}
         const {{ arg.name }} = {{ arg.type[0] }}.deserialized(data, {{ arg.type[1] }}) as {{ arg.type[0] }}<{{ arg.type[1] }}>;

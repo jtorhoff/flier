@@ -6,6 +6,7 @@ declare module "bn.js" {
         lt(than: BN): boolean;
         lte(to: BN): boolean;
         lten(to: number): boolean;
+        gtn(than: number): boolean;
         gte(to: BN): boolean;
         gten(to: number): boolean;
         gcd(num: BN): BN;

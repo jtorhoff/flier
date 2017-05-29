@@ -9,7 +9,7 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<
 {% if not is_func %}
     static deserialized(_data: ByteStream): {{ name }} | undefined {
         const constructor = TLInt.deserialized(_data);
-        if (!constructor || !constructor.equals(this.cons)) return undefined;
+        if (!constructor || !constructor.equals({{ name }}.cons)) return undefined;
 {%- for arg in args %}
     {%- if arg.type is mapping %}
       {%- set flags_arg_name = (args | selectattr("type", "equalto", "#") | first).name %}

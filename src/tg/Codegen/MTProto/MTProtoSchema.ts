@@ -30,7 +30,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): ResPQ | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ResPQ.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -73,7 +73,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): PQInnerData | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PQInnerData.cons)) return undefined;
     
             const pq = TLBytes.deserialized(data);
             if (!pq) return undefined;
@@ -128,7 +128,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): PQInnerDataTemp | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PQInnerDataTemp.cons)) return undefined;
     
             const pq = TLBytes.deserialized(data);
             if (!pq) return undefined;
@@ -189,7 +189,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): ServerDHParamsFail | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ServerDHParamsFail.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -226,7 +226,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): ServerDHParamsOk | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ServerDHParamsOk.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -263,7 +263,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): ServerDHInnerData | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ServerDHInnerData.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -318,7 +318,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): ClientDHInnerData | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ClientDHInnerData.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -361,7 +361,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): DhGenOk | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DhGenOk.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -398,7 +398,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): DhGenRetry | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DhGenRetry.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -435,7 +435,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): DhGenFail | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DhGenFail.cons)) return undefined;
     
             const nonce = TLInt128.deserialized(data);
             if (!nonce) return undefined;
@@ -472,7 +472,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): RpcResult | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(RpcResult.cons)) return undefined;
     
             const reqMsgId = TLLong.deserialized(data);
             if (!reqMsgId) return undefined;
@@ -502,7 +502,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): RpcError | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(RpcError.cons)) return undefined;
     
             const errorCode = TLInt.deserialized(data);
             if (!errorCode) return undefined;
@@ -533,7 +533,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): RpcAnswerUnknown | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(RpcAnswerUnknown.cons)) return undefined;
     
             return new RpcAnswerUnknown()
         }
@@ -552,7 +552,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): RpcAnswerDroppedRunning | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(RpcAnswerDroppedRunning.cons)) return undefined;
     
             return new RpcAnswerDroppedRunning()
         }
@@ -571,7 +571,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): RpcAnswerDropped | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(RpcAnswerDropped.cons)) return undefined;
     
             const msgId = TLLong.deserialized(data);
             if (!msgId) return undefined;
@@ -608,7 +608,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): Pong | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Pong.cons)) return undefined;
     
             const msgId = TLLong.deserialized(data);
             if (!msgId) return undefined;
@@ -639,7 +639,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): DestroySessionOk | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DestroySessionOk.cons)) return undefined;
     
             const sessionId = TLLong.deserialized(data);
             if (!sessionId) return undefined;
@@ -664,7 +664,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): DestroySessionNone | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DestroySessionNone.cons)) return undefined;
     
             const sessionId = TLLong.deserialized(data);
             if (!sessionId) return undefined;
@@ -689,7 +689,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): NewSessionCreated | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NewSessionCreated.cons)) return undefined;
     
             const firstMsgId = TLLong.deserialized(data);
             if (!firstMsgId) return undefined;
@@ -726,7 +726,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgContainer | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgContainer.cons)) return undefined;
     
             const messagesCount = TLInt.deserialized(data);
             if (!messagesCount) return undefined;
@@ -770,11 +770,12 @@ export namespace MTProto {
             const seqno = TLInt.deserialized(data);
             if (!seqno) return undefined;
     
-            // ignore bytes arg
-            const _ = TLInt.deserialized(data);
-            if (!_) return undefined;
+            const bytes = TLInt.deserialized(data);
+            if (!bytes) return undefined;
     
-            const body = deserializedObject(data);
+            const body = deserializedObject(new ByteStream(
+                data.bytes.slice(data.cursor, data.cursor + bytes.value)));
+            data.moveCursorBy(bytes.value);
             if (!body) return undefined;
     
             return new Message(
@@ -804,7 +805,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgCopy | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgCopy.cons)) return undefined;
     
             const origMessage = Message.deserialized(data);
             if (!origMessage) return undefined;
@@ -829,7 +830,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): GzipPacked | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(GzipPacked.cons)) return undefined;
     
             const packedData = TLBytes.deserialized(data);
             if (!packedData) return undefined;
@@ -854,7 +855,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgsAck | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgsAck.cons)) return undefined;
     
             const msgIds = TLVector.deserialized(data, TLLong) as TLVector<TLLong>;
             if (!msgIds) return undefined;
@@ -879,7 +880,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): BadMsgNotification | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BadMsgNotification.cons)) return undefined;
     
             const badMsgId = TLLong.deserialized(data);
             if (!badMsgId) return undefined;
@@ -916,7 +917,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): BadServerSalt | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BadServerSalt.cons)) return undefined;
     
             const badMsgId = TLLong.deserialized(data);
             if (!badMsgId) return undefined;
@@ -959,7 +960,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgResendReq | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgResendReq.cons)) return undefined;
     
             const msgIds = TLVector.deserialized(data, TLLong) as TLVector<TLLong>;
             if (!msgIds) return undefined;
@@ -984,7 +985,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgsStateReq | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgsStateReq.cons)) return undefined;
     
             const msgIds = TLVector.deserialized(data, TLLong) as TLVector<TLLong>;
             if (!msgIds) return undefined;
@@ -1009,7 +1010,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgsStateInfo | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgsStateInfo.cons)) return undefined;
     
             const reqMsgId = TLLong.deserialized(data);
             if (!reqMsgId) return undefined;
@@ -1040,7 +1041,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgsAllInfo | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgsAllInfo.cons)) return undefined;
     
             const msgIds = TLVector.deserialized(data, TLLong) as TLVector<TLLong>;
             if (!msgIds) return undefined;
@@ -1071,7 +1072,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgDetailedInfo | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgDetailedInfo.cons)) return undefined;
     
             const msgId = TLLong.deserialized(data);
             if (!msgId) return undefined;
@@ -1114,7 +1115,7 @@ export namespace MTProto {
     
         static deserialized(data: ByteStream): MsgNewDetailedInfo | undefined {
             const constructor = TLInt.deserialized(data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MsgNewDetailedInfo.cons)) return undefined;
     
             const answerMsgId = TLLong.deserialized(data);
             if (!answerMsgId) return undefined;

@@ -161,7 +161,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BoolFalse | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BoolFalse.cons)) return undefined;
             return new BoolFalse()
         }
     
@@ -180,7 +180,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BoolTrue | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BoolTrue.cons)) return undefined;
             return new BoolTrue()
         }
     
@@ -199,7 +199,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerEmpty.cons)) return undefined;
             return new InputPeerEmpty()
         }
     
@@ -218,7 +218,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerSelf | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerSelf.cons)) return undefined;
             return new InputPeerSelf()
         }
     
@@ -237,7 +237,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerChat | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerChat.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             return new InputPeerChat(
@@ -263,7 +263,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerUser | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerUser.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -294,7 +294,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerChannel | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerChannel.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -325,7 +325,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputUserEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputUserEmpty.cons)) return undefined;
             return new InputUserEmpty()
         }
     
@@ -344,7 +344,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputUserSelf | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputUserSelf.cons)) return undefined;
             return new InputUserSelf()
         }
     
@@ -363,7 +363,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputUser | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputUser.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -394,7 +394,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPhoneContact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPhoneContact.cons)) return undefined;
             const clientId = TLLong.deserialized(_data);
             if (!clientId) return undefined;
             const phone = TLString.deserialized(_data);
@@ -435,7 +435,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputFile | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputFile.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const parts = TLInt.deserialized(_data);
@@ -476,7 +476,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputFileBig | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputFileBig.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const parts = TLInt.deserialized(_data);
@@ -512,7 +512,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaEmpty.cons)) return undefined;
             return new InputMediaEmpty()
         }
     
@@ -531,7 +531,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaUploadedPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaUploadedPhoto.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const file = deserializedObject(_data) as InputFileType;
@@ -577,7 +577,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaPhoto.cons)) return undefined;
             const id = deserializedObject(_data) as InputPhotoType;
             if (!id) return undefined;
             
@@ -609,7 +609,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaGeoPoint | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaGeoPoint.cons)) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
             if (!geoPoint) return undefined;
             
@@ -636,7 +636,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaContact.cons)) return undefined;
             const phoneNumber = TLString.deserialized(_data);
             if (!phoneNumber) return undefined;
             const firstName = TLString.deserialized(_data);
@@ -672,7 +672,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaUploadedDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaUploadedDocument.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const file = deserializedObject(_data) as InputFileType;
@@ -728,7 +728,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaUploadedThumbDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaUploadedThumbDocument.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const file = deserializedObject(_data) as InputFileType;
@@ -790,7 +790,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaDocument.cons)) return undefined;
             const id = deserializedObject(_data) as InputDocumentType;
             if (!id) return undefined;
             
@@ -822,7 +822,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaVenue.cons)) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
             if (!geoPoint) return undefined;
             
@@ -869,7 +869,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaGifExternal | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaGifExternal.cons)) return undefined;
             const url = TLString.deserialized(_data);
             if (!url) return undefined;
             const q = TLString.deserialized(_data);
@@ -900,7 +900,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaPhotoExternal | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaPhotoExternal.cons)) return undefined;
             const url = TLString.deserialized(_data);
             if (!url) return undefined;
             const caption = TLString.deserialized(_data);
@@ -931,7 +931,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaDocumentExternal | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaDocumentExternal.cons)) return undefined;
             const url = TLString.deserialized(_data);
             if (!url) return undefined;
             const caption = TLString.deserialized(_data);
@@ -962,7 +962,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMediaGame | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMediaGame.cons)) return undefined;
             const id = deserializedObject(_data) as InputGameType;
             if (!id) return undefined;
             
@@ -989,7 +989,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputChatPhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputChatPhotoEmpty.cons)) return undefined;
             return new InputChatPhotoEmpty()
         }
     
@@ -1008,7 +1008,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputChatUploadedPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputChatUploadedPhoto.cons)) return undefined;
             const file = deserializedObject(_data) as InputFileType;
             if (!file) return undefined;
             
@@ -1035,7 +1035,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputChatPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputChatPhoto.cons)) return undefined;
             const id = deserializedObject(_data) as InputPhotoType;
             if (!id) return undefined;
             
@@ -1062,7 +1062,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputGeoPointEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputGeoPointEmpty.cons)) return undefined;
             return new InputGeoPointEmpty()
         }
     
@@ -1081,7 +1081,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputGeoPoint | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputGeoPoint.cons)) return undefined;
             const lat = TLDouble.deserialized(_data);
             if (!lat) return undefined;
             const long = TLDouble.deserialized(_data);
@@ -1112,7 +1112,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPhotoEmpty.cons)) return undefined;
             return new InputPhotoEmpty()
         }
     
@@ -1131,7 +1131,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPhoto.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -1162,7 +1162,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputFileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputFileLocation.cons)) return undefined;
             const volumeId = TLLong.deserialized(_data);
             if (!volumeId) return undefined;
             const localId = TLInt.deserialized(_data);
@@ -1198,7 +1198,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputEncryptedFileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputEncryptedFileLocation.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -1229,7 +1229,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputDocumentFileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputDocumentFileLocation.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -1265,7 +1265,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputAppEvent | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputAppEvent.cons)) return undefined;
             const time = TLDouble.deserialized(_data);
             if (!time) return undefined;
             const type = TLString.deserialized(_data);
@@ -1306,7 +1306,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerUser | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerUser.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             return new PeerUser(
@@ -1332,7 +1332,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerChat | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerChat.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             return new PeerChat(
@@ -1358,7 +1358,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerChannel | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerChannel.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             return new PeerChannel(
@@ -1385,7 +1385,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileUnknown | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileUnknown.cons)) return undefined;
             return new FileUnknown()
         }
     
@@ -1405,7 +1405,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileJpeg | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileJpeg.cons)) return undefined;
             return new FileJpeg()
         }
     
@@ -1425,7 +1425,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileGif | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileGif.cons)) return undefined;
             return new FileGif()
         }
     
@@ -1445,7 +1445,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FilePng | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FilePng.cons)) return undefined;
             return new FilePng()
         }
     
@@ -1465,7 +1465,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FilePdf | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FilePdf.cons)) return undefined;
             return new FilePdf()
         }
     
@@ -1485,7 +1485,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileMp3 | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileMp3.cons)) return undefined;
             return new FileMp3()
         }
     
@@ -1505,7 +1505,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileMov | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileMov.cons)) return undefined;
             return new FileMov()
         }
     
@@ -1525,7 +1525,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FilePartial | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FilePartial.cons)) return undefined;
             return new FilePartial()
         }
     
@@ -1545,7 +1545,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileMp4 | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileMp4.cons)) return undefined;
             return new FileMp4()
         }
     
@@ -1565,7 +1565,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileWebp | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileWebp.cons)) return undefined;
             return new FileWebp()
         }
     
@@ -1584,7 +1584,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileLocationUnavailable | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileLocationUnavailable.cons)) return undefined;
             const volumeId = TLLong.deserialized(_data);
             if (!volumeId) return undefined;
             const localId = TLInt.deserialized(_data);
@@ -1620,7 +1620,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FileLocation.cons)) return undefined;
             const dcId = TLInt.deserialized(_data);
             if (!dcId) return undefined;
             const volumeId = TLLong.deserialized(_data);
@@ -1661,7 +1661,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserEmpty.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             return new UserEmpty(
@@ -1687,7 +1687,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): User | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(User.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const self = (flags.value & 1024) !== 0;
@@ -1861,7 +1861,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserProfilePhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserProfilePhotoEmpty.cons)) return undefined;
             return new UserProfilePhotoEmpty()
         }
     
@@ -1880,7 +1880,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserProfilePhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserProfilePhoto.cons)) return undefined;
             const photoId = TLLong.deserialized(_data);
             if (!photoId) return undefined;
             const photoSmall = deserializedObject(_data) as FileLocationType;
@@ -1918,7 +1918,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserStatusEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserStatusEmpty.cons)) return undefined;
             return new UserStatusEmpty()
         }
     
@@ -1937,7 +1937,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserStatusOnline | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserStatusOnline.cons)) return undefined;
             const expires = TLInt.deserialized(_data);
             if (!expires) return undefined;
             return new UserStatusOnline(
@@ -1963,7 +1963,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserStatusOffline | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserStatusOffline.cons)) return undefined;
             const wasOnline = TLInt.deserialized(_data);
             if (!wasOnline) return undefined;
             return new UserStatusOffline(
@@ -1989,7 +1989,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserStatusRecently | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserStatusRecently.cons)) return undefined;
             return new UserStatusRecently()
         }
     
@@ -2008,7 +2008,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserStatusLastWeek | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserStatusLastWeek.cons)) return undefined;
             return new UserStatusLastWeek()
         }
     
@@ -2027,7 +2027,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserStatusLastMonth | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserStatusLastMonth.cons)) return undefined;
             return new UserStatusLastMonth()
         }
     
@@ -2046,7 +2046,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatEmpty.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             return new ChatEmpty(
@@ -2072,7 +2072,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Chat | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Chat.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const creator = (flags.value & 1) !== 0;
@@ -2162,7 +2162,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatForbidden | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatForbidden.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const title = TLString.deserialized(_data);
@@ -2193,7 +2193,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Channel | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Channel.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const creator = (flags.value & 1) !== 0;
@@ -2322,7 +2322,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelForbidden | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelForbidden.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const broadcast = (flags.value & 32) !== 0;
@@ -2370,7 +2370,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatFull | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatFull.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const participants = deserializedObject(_data) as ChatParticipantsType;
@@ -2425,7 +2425,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelFull | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelFull.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const canViewParticipants = (flags.value & 8) !== 0;
@@ -2566,7 +2566,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatParticipant | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatParticipant.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const inviterId = TLInt.deserialized(_data);
@@ -2602,7 +2602,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatParticipantCreator | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatParticipantCreator.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             return new ChatParticipantCreator(
@@ -2628,7 +2628,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatParticipantAdmin | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatParticipantAdmin.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const inviterId = TLInt.deserialized(_data);
@@ -2664,7 +2664,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatParticipantsForbidden | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatParticipantsForbidden.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const chatId = TLInt.deserialized(_data);
@@ -2704,7 +2704,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatParticipants | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatParticipants.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const participants = TLVector.deserialized(_data, ) as TLVector<ChatParticipantType>;
@@ -2740,7 +2740,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatPhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatPhotoEmpty.cons)) return undefined;
             return new ChatPhotoEmpty()
         }
     
@@ -2759,7 +2759,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatPhoto.cons)) return undefined;
             const photoSmall = deserializedObject(_data) as FileLocationType;
             if (!photoSmall) return undefined;
             
@@ -2792,7 +2792,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEmpty.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             return new MessageEmpty(
@@ -2818,7 +2818,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Message | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Message.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const out = (flags.value & 2) !== 0;
@@ -2974,7 +2974,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageService | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageService.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const out = (flags.value & 2) !== 0;
@@ -3061,7 +3061,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaEmpty.cons)) return undefined;
             return new MessageMediaEmpty()
         }
     
@@ -3080,7 +3080,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaPhoto.cons)) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
             
@@ -3112,7 +3112,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaGeo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaGeo.cons)) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
             if (!geo) return undefined;
             
@@ -3139,7 +3139,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaContact.cons)) return undefined;
             const phoneNumber = TLString.deserialized(_data);
             if (!phoneNumber) return undefined;
             const firstName = TLString.deserialized(_data);
@@ -3180,7 +3180,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaUnsupported | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaUnsupported.cons)) return undefined;
             return new MessageMediaUnsupported()
         }
     
@@ -3199,7 +3199,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaDocument.cons)) return undefined;
             const document = deserializedObject(_data) as DocumentType;
             if (!document) return undefined;
             
@@ -3231,7 +3231,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaWebPage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaWebPage.cons)) return undefined;
             const webpage = deserializedObject(_data) as WebPageType;
             if (!webpage) return undefined;
             
@@ -3258,7 +3258,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaVenue.cons)) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
             if (!geo) return undefined;
             
@@ -3305,7 +3305,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageMediaGame | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageMediaGame.cons)) return undefined;
             const game = deserializedObject(_data) as Game;
             if (!game) return undefined;
             
@@ -3332,7 +3332,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionEmpty.cons)) return undefined;
             return new MessageActionEmpty()
         }
     
@@ -3351,7 +3351,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatCreate | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatCreate.cons)) return undefined;
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             const users = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
@@ -3382,7 +3382,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatEditTitle | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatEditTitle.cons)) return undefined;
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             return new MessageActionChatEditTitle(
@@ -3408,7 +3408,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatEditPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatEditPhoto.cons)) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
             
@@ -3435,7 +3435,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatDeletePhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatDeletePhoto.cons)) return undefined;
             return new MessageActionChatDeletePhoto()
         }
     
@@ -3454,7 +3454,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatAddUser | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatAddUser.cons)) return undefined;
             const users = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
             if (!users) return undefined;
             return new MessageActionChatAddUser(
@@ -3480,7 +3480,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatDeleteUser | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatDeleteUser.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             return new MessageActionChatDeleteUser(
@@ -3506,7 +3506,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatJoinedByLink | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatJoinedByLink.cons)) return undefined;
             const inviterId = TLInt.deserialized(_data);
             if (!inviterId) return undefined;
             return new MessageActionChatJoinedByLink(
@@ -3532,7 +3532,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChannelCreate | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChannelCreate.cons)) return undefined;
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             return new MessageActionChannelCreate(
@@ -3558,7 +3558,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChatMigrateTo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChatMigrateTo.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             return new MessageActionChatMigrateTo(
@@ -3584,7 +3584,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionChannelMigrateFrom | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionChannelMigrateFrom.cons)) return undefined;
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             const chatId = TLInt.deserialized(_data);
@@ -3615,7 +3615,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionPinMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionPinMessage.cons)) return undefined;
             return new MessageActionPinMessage()
         }
     
@@ -3634,7 +3634,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionHistoryClear | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionHistoryClear.cons)) return undefined;
             return new MessageActionHistoryClear()
         }
     
@@ -3653,7 +3653,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageActionGameScore | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageActionGameScore.cons)) return undefined;
             const gameId = TLLong.deserialized(_data);
             if (!gameId) return undefined;
             const score = TLInt.deserialized(_data);
@@ -3684,7 +3684,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Dialog | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Dialog.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const peer = deserializedObject(_data) as PeerType;
@@ -3761,7 +3761,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PhotoEmpty.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             return new PhotoEmpty(
@@ -3787,7 +3787,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Photo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Photo.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const hasStickers = (flags.value & 1) !== 0;
@@ -3836,7 +3836,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PhotoSizeEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PhotoSizeEmpty.cons)) return undefined;
             const type = TLString.deserialized(_data);
             if (!type) return undefined;
             return new PhotoSizeEmpty(
@@ -3862,7 +3862,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PhotoSize | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PhotoSize.cons)) return undefined;
             const type = TLString.deserialized(_data);
             if (!type) return undefined;
             const location = deserializedObject(_data) as FileLocationType;
@@ -3909,7 +3909,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PhotoCachedSize | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PhotoCachedSize.cons)) return undefined;
             const type = TLString.deserialized(_data);
             if (!type) return undefined;
             const location = deserializedObject(_data) as FileLocationType;
@@ -3956,7 +3956,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): GeoPointEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(GeoPointEmpty.cons)) return undefined;
             return new GeoPointEmpty()
         }
     
@@ -3975,7 +3975,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): GeoPoint | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(GeoPoint.cons)) return undefined;
             const long = TLDouble.deserialized(_data);
             if (!long) return undefined;
             const lat = TLDouble.deserialized(_data);
@@ -4007,7 +4007,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): CheckedPhone | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(CheckedPhone.cons)) return undefined;
             const phoneRegistered = deserializedObject(_data) as BoolType;
             if (!phoneRegistered) return undefined;
             
@@ -4035,7 +4035,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SentCode | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SentCode.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const phoneRegistered = (flags.value & 1) !== 0;
@@ -4096,7 +4096,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Authorization | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Authorization.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             let tmpSessions: TLInt | undefined;
@@ -4138,7 +4138,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ExportedAuthorization | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ExportedAuthorization.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const bytes = TLBytes.deserialized(_data);
@@ -4169,7 +4169,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputNotifyPeer | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputNotifyPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as InputPeerType;
             if (!peer) return undefined;
             
@@ -4196,7 +4196,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputNotifyUsers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputNotifyUsers.cons)) return undefined;
             return new InputNotifyUsers()
         }
     
@@ -4215,7 +4215,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputNotifyChats | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputNotifyChats.cons)) return undefined;
             return new InputNotifyChats()
         }
     
@@ -4234,7 +4234,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputNotifyAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputNotifyAll.cons)) return undefined;
             return new InputNotifyAll()
         }
     
@@ -4253,7 +4253,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerNotifyEventsEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerNotifyEventsEmpty.cons)) return undefined;
             return new InputPeerNotifyEventsEmpty()
         }
     
@@ -4272,7 +4272,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerNotifyEventsAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerNotifyEventsAll.cons)) return undefined;
             return new InputPeerNotifyEventsAll()
         }
     
@@ -4291,7 +4291,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPeerNotifySettings | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPeerNotifySettings.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const showPreviews = (flags.value & 1) !== 0;
@@ -4334,7 +4334,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerNotifyEventsEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerNotifyEventsEmpty.cons)) return undefined;
             return new PeerNotifyEventsEmpty()
         }
     
@@ -4353,7 +4353,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerNotifyEventsAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerNotifyEventsAll.cons)) return undefined;
             return new PeerNotifyEventsAll()
         }
     
@@ -4372,7 +4372,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerNotifySettingsEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerNotifySettingsEmpty.cons)) return undefined;
             return new PeerNotifySettingsEmpty()
         }
     
@@ -4391,7 +4391,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerNotifySettings | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerNotifySettings.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const showPreviews = (flags.value & 1) !== 0;
@@ -4434,7 +4434,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerSettings | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerSettings.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const reportSpam = (flags.value & 1) !== 0;
@@ -4463,7 +4463,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): WallPaper | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(WallPaper.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const title = TLString.deserialized(_data);
@@ -4504,7 +4504,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): WallPaperSolid | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(WallPaperSolid.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const title = TLString.deserialized(_data);
@@ -4545,7 +4545,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputReportReasonSpam | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputReportReasonSpam.cons)) return undefined;
             return new InputReportReasonSpam()
         }
     
@@ -4564,7 +4564,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputReportReasonViolence | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputReportReasonViolence.cons)) return undefined;
             return new InputReportReasonViolence()
         }
     
@@ -4583,7 +4583,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputReportReasonPornography | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputReportReasonPornography.cons)) return undefined;
             return new InputReportReasonPornography()
         }
     
@@ -4602,7 +4602,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputReportReasonOther | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputReportReasonOther.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             return new InputReportReasonOther(
@@ -4628,7 +4628,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UserFull | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UserFull.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const blocked = (flags.value & 1) !== 0;
@@ -4705,7 +4705,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Contact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Contact.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const mutual = deserializedObject(_data) as BoolType;
@@ -4737,7 +4737,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ImportedContact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ImportedContact.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const clientId = TLLong.deserialized(_data);
@@ -4768,7 +4768,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ContactBlocked | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ContactBlocked.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const date = TLInt.deserialized(_data);
@@ -4799,7 +4799,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ContactStatus | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ContactStatus.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const status = deserializedObject(_data) as UserStatusType;
@@ -4832,7 +4832,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Link | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Link.cons)) return undefined;
             const myLink = deserializedObject(_data) as ContactLinkType;
             if (!myLink) return undefined;
             
@@ -4872,7 +4872,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ContactsNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ContactsNotModified.cons)) return undefined;
             return new ContactsNotModified()
         }
     
@@ -4892,7 +4892,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Contacts | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Contacts.cons)) return undefined;
             const contacts = TLVector.deserialized(_data, Contact) as TLVector<Contact>;
             if (!contacts) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -4924,7 +4924,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ImportedContacts | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ImportedContacts.cons)) return undefined;
             const imported = TLVector.deserialized(_data, ImportedContact) as TLVector<ImportedContact>;
             if (!imported) return undefined;
             const retryContacts = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
@@ -4961,7 +4961,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Blocked | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Blocked.cons)) return undefined;
             const blocked = TLVector.deserialized(_data, ContactBlocked) as TLVector<ContactBlocked>;
             if (!blocked) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -4993,7 +4993,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BlockedSlice | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BlockedSlice.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
             const blocked = TLVector.deserialized(_data, ContactBlocked) as TLVector<ContactBlocked>;
@@ -5030,7 +5030,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Dialogs | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Dialogs.cons)) return undefined;
             const dialogs = TLVector.deserialized(_data, Dialog) as TLVector<Dialog>;
             if (!dialogs) return undefined;
             const messages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
@@ -5072,7 +5072,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DialogsSlice | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DialogsSlice.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
             const dialogs = TLVector.deserialized(_data, Dialog) as TLVector<Dialog>;
@@ -5119,7 +5119,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Messages | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Messages.cons)) return undefined;
             const messages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
             if (!messages) return undefined;
             const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
@@ -5156,7 +5156,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessagesSlice | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessagesSlice.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
             const messages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
@@ -5198,7 +5198,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelMessages | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelMessages.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const pts = TLInt.deserialized(_data);
@@ -5249,7 +5249,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Chats | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Chats.cons)) return undefined;
             const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
             if (!chats) return undefined;
             return new Chats(
@@ -5276,7 +5276,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatFull | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatFull.cons)) return undefined;
             const fullChat = deserializedObject(_data) as ChatFullType;
             if (!fullChat) return undefined;
             
@@ -5314,7 +5314,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AffectedHistory | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AffectedHistory.cons)) return undefined;
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const ptsCount = TLInt.deserialized(_data);
@@ -5350,7 +5350,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterEmpty.cons)) return undefined;
             return new InputMessagesFilterEmpty()
         }
     
@@ -5369,7 +5369,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterPhotos | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterPhotos.cons)) return undefined;
             return new InputMessagesFilterPhotos()
         }
     
@@ -5388,7 +5388,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterVideo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterVideo.cons)) return undefined;
             return new InputMessagesFilterVideo()
         }
     
@@ -5407,7 +5407,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterPhotoVideo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterPhotoVideo.cons)) return undefined;
             return new InputMessagesFilterPhotoVideo()
         }
     
@@ -5426,7 +5426,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterPhotoVideoDocuments | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterPhotoVideoDocuments.cons)) return undefined;
             return new InputMessagesFilterPhotoVideoDocuments()
         }
     
@@ -5445,7 +5445,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterDocument.cons)) return undefined;
             return new InputMessagesFilterDocument()
         }
     
@@ -5464,7 +5464,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterUrl | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterUrl.cons)) return undefined;
             return new InputMessagesFilterUrl()
         }
     
@@ -5483,7 +5483,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterGif | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterGif.cons)) return undefined;
             return new InputMessagesFilterGif()
         }
     
@@ -5502,7 +5502,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterVoice | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterVoice.cons)) return undefined;
             return new InputMessagesFilterVoice()
         }
     
@@ -5521,7 +5521,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterMusic | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterMusic.cons)) return undefined;
             return new InputMessagesFilterMusic()
         }
     
@@ -5540,7 +5540,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessagesFilterChatPhotos | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessagesFilterChatPhotos.cons)) return undefined;
             return new InputMessagesFilterChatPhotos()
         }
     
@@ -5559,7 +5559,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateNewMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateNewMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
             
@@ -5596,7 +5596,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateMessageID | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateMessageID.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const randomId = TLLong.deserialized(_data);
@@ -5627,7 +5627,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateDeleteMessages | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateDeleteMessages.cons)) return undefined;
             const messages = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
             if (!messages) return undefined;
             const pts = TLInt.deserialized(_data);
@@ -5663,7 +5663,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateUserTyping | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateUserTyping.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const action = deserializedObject(_data) as SendMessageActionType;
@@ -5695,7 +5695,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChatUserTyping | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChatUserTyping.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const userId = TLInt.deserialized(_data);
@@ -5732,7 +5732,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChatParticipants | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChatParticipants.cons)) return undefined;
             const participants = deserializedObject(_data) as ChatParticipantsType;
             if (!participants) return undefined;
             
@@ -5759,7 +5759,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateUserStatus | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateUserStatus.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const status = deserializedObject(_data) as UserStatusType;
@@ -5791,7 +5791,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateUserName | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateUserName.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const firstName = TLString.deserialized(_data);
@@ -5832,7 +5832,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateUserPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateUserPhoto.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const date = TLInt.deserialized(_data);
@@ -5875,7 +5875,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateContactRegistered | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateContactRegistered.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const date = TLInt.deserialized(_data);
@@ -5906,7 +5906,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateContactLink | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateContactLink.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const myLink = deserializedObject(_data) as ContactLinkType;
@@ -5944,7 +5944,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateNewAuthorization | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateNewAuthorization.cons)) return undefined;
             const authKeyId = TLLong.deserialized(_data);
             if (!authKeyId) return undefined;
             const date = TLInt.deserialized(_data);
@@ -5985,7 +5985,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateNewEncryptedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateNewEncryptedMessage.cons)) return undefined;
             const message = deserializedObject(_data) as EncryptedMessageType;
             if (!message) return undefined;
             
@@ -6017,7 +6017,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateEncryptedChatTyping | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateEncryptedChatTyping.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             return new UpdateEncryptedChatTyping(
@@ -6043,7 +6043,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateEncryption | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateEncryption.cons)) return undefined;
             const chat = deserializedObject(_data) as EncryptedChatType;
             if (!chat) return undefined;
             
@@ -6075,7 +6075,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateEncryptedMessagesRead | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateEncryptedMessagesRead.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const maxDate = TLInt.deserialized(_data);
@@ -6111,7 +6111,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChatParticipantAdd | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChatParticipantAdd.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const userId = TLInt.deserialized(_data);
@@ -6157,7 +6157,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChatParticipantDelete | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChatParticipantDelete.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const userId = TLInt.deserialized(_data);
@@ -6193,7 +6193,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateDcOptions | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateDcOptions.cons)) return undefined;
             const dcOptions = TLVector.deserialized(_data, DcOption) as TLVector<DcOption>;
             if (!dcOptions) return undefined;
             return new UpdateDcOptions(
@@ -6219,7 +6219,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateUserBlocked | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateUserBlocked.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const blocked = deserializedObject(_data) as BoolType;
@@ -6251,7 +6251,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateNotifySettings | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateNotifySettings.cons)) return undefined;
             const peer = deserializedObject(_data) as NotifyPeerType;
             if (!peer) return undefined;
             
@@ -6284,7 +6284,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateServiceNotification | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateServiceNotification.cons)) return undefined;
             const type = TLString.deserialized(_data);
             if (!type) return undefined;
             const message = TLString.deserialized(_data);
@@ -6327,7 +6327,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdatePrivacy | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdatePrivacy.cons)) return undefined;
             const key = deserializedObject(_data) as PrivacyKeyType;
             if (!key) return undefined;
             
@@ -6359,7 +6359,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateUserPhone | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateUserPhone.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const phone = TLString.deserialized(_data);
@@ -6390,7 +6390,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateReadHistoryInbox | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateReadHistoryInbox.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
             
@@ -6432,7 +6432,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateReadHistoryOutbox | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateReadHistoryOutbox.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
             
@@ -6474,7 +6474,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateWebPage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateWebPage.cons)) return undefined;
             const webpage = deserializedObject(_data) as WebPageType;
             if (!webpage) return undefined;
             
@@ -6511,7 +6511,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateReadMessagesContents | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateReadMessagesContents.cons)) return undefined;
             const messages = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
             if (!messages) return undefined;
             const pts = TLInt.deserialized(_data);
@@ -6547,7 +6547,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChannelTooLong | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChannelTooLong.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const channelId = TLInt.deserialized(_data);
@@ -6587,7 +6587,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChannel | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChannel.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             return new UpdateChannel(
@@ -6613,7 +6613,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateNewChannelMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateNewChannelMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
             
@@ -6650,7 +6650,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateReadChannelInbox | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateReadChannelInbox.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             const maxId = TLInt.deserialized(_data);
@@ -6681,7 +6681,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateDeleteChannelMessages | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateDeleteChannelMessages.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             const messages = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
@@ -6722,7 +6722,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChannelMessageViews | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChannelMessageViews.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             const id = TLInt.deserialized(_data);
@@ -6758,7 +6758,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChatAdmins | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChatAdmins.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const enabled = deserializedObject(_data) as BoolType;
@@ -6795,7 +6795,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChatParticipantAdmin | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChatParticipantAdmin.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const userId = TLInt.deserialized(_data);
@@ -6837,7 +6837,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateNewStickerSet | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateNewStickerSet.cons)) return undefined;
             const stickerset = deserializedObject(_data) as messages.StickerSet;
             if (!stickerset) return undefined;
             
@@ -6864,7 +6864,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateStickerSetsOrder | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateStickerSetsOrder.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const masks = (flags.value & 1) !== 0;
@@ -6898,7 +6898,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateStickerSets | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateStickerSets.cons)) return undefined;
             return new UpdateStickerSets()
         }
     
@@ -6917,7 +6917,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateSavedGifs | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateSavedGifs.cons)) return undefined;
             return new UpdateSavedGifs()
         }
     
@@ -6936,7 +6936,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateBotInlineQuery | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateBotInlineQuery.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const queryId = TLLong.deserialized(_data);
@@ -6991,7 +6991,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateBotInlineSend | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateBotInlineSend.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const userId = TLInt.deserialized(_data);
@@ -7051,7 +7051,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateEditChannelMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateEditChannelMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
             
@@ -7088,7 +7088,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateChannelPinnedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateChannelPinnedMessage.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             const id = TLInt.deserialized(_data);
@@ -7119,7 +7119,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateBotCallbackQuery | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateBotCallbackQuery.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const queryId = TLLong.deserialized(_data);
@@ -7190,7 +7190,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateEditMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateEditMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
             
@@ -7227,7 +7227,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateInlineBotCallbackQuery | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateInlineBotCallbackQuery.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const queryId = TLLong.deserialized(_data);
@@ -7293,7 +7293,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateReadChannelOutbox | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateReadChannelOutbox.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             const maxId = TLInt.deserialized(_data);
@@ -7324,7 +7324,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateDraftMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateDraftMessage.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
             
@@ -7357,7 +7357,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateReadFeaturedStickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateReadFeaturedStickers.cons)) return undefined;
             return new UpdateReadFeaturedStickers()
         }
     
@@ -7376,7 +7376,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateRecentStickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateRecentStickers.cons)) return undefined;
             return new UpdateRecentStickers()
         }
     
@@ -7395,7 +7395,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateConfig | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateConfig.cons)) return undefined;
             return new UpdateConfig()
         }
     
@@ -7414,7 +7414,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdatePtsChanged | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdatePtsChanged.cons)) return undefined;
             return new UpdatePtsChanged()
         }
     
@@ -7434,7 +7434,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): State | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(State.cons)) return undefined;
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const qts = TLInt.deserialized(_data);
@@ -7481,7 +7481,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DifferenceEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DifferenceEmpty.cons)) return undefined;
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             const seq = TLInt.deserialized(_data);
@@ -7513,7 +7513,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Difference | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Difference.cons)) return undefined;
             const newMessages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
             if (!newMessages) return undefined;
             const newEncryptedMessages = TLVector.deserialized(_data, ) as TLVector<EncryptedMessageType>;
@@ -7566,7 +7566,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DifferenceSlice | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DifferenceSlice.cons)) return undefined;
             const newMessages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
             if (!newMessages) return undefined;
             const newEncryptedMessages = TLVector.deserialized(_data, ) as TLVector<EncryptedMessageType>;
@@ -7618,7 +7618,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdatesTooLong | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdatesTooLong.cons)) return undefined;
             return new UpdatesTooLong()
         }
     
@@ -7637,7 +7637,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateShortMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateShortMessage.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const out = (flags.value & 2) !== 0;
@@ -7748,7 +7748,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateShortChatMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateShortChatMessage.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const out = (flags.value & 2) !== 0;
@@ -7864,7 +7864,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateShort | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateShort.cons)) return undefined;
             const update = deserializedObject(_data) as UpdateType;
             if (!update) return undefined;
             
@@ -7896,7 +7896,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdatesCombined | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdatesCombined.cons)) return undefined;
             const updates = TLVector.deserialized(_data, ) as TLVector<UpdateType>;
             if (!updates) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -7947,7 +7947,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Updates | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Updates.cons)) return undefined;
             const updates = TLVector.deserialized(_data, ) as TLVector<UpdateType>;
             if (!updates) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -7993,7 +7993,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): UpdateShortSentMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(UpdateShortSentMessage.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const out = (flags.value & 2) !== 0;
@@ -8063,7 +8063,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Photos | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Photos.cons)) return undefined;
             const photos = TLVector.deserialized(_data, ) as TLVector<PhotoType>;
             if (!photos) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -8095,7 +8095,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PhotosSlice | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PhotosSlice.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
             const photos = TLVector.deserialized(_data, ) as TLVector<PhotoType>;
@@ -8132,7 +8132,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Photo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Photo.cons)) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
             
@@ -8165,7 +8165,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): File | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(File.cons)) return undefined;
             const type = deserializedObject(_data) as storage.FileTypeType;
             if (!type) return undefined;
             
@@ -8202,7 +8202,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DcOption | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DcOption.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const ipv6 = (flags.value & 1) !== 0;
@@ -8254,7 +8254,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Config | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Config.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const date = TLInt.deserialized(_data);
@@ -8400,7 +8400,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): NearestDc | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NearestDc.cons)) return undefined;
             const country = TLString.deserialized(_data);
             if (!country) return undefined;
             const thisDc = TLInt.deserialized(_data);
@@ -8437,7 +8437,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AppUpdate | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AppUpdate.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const critical = deserializedObject(_data) as BoolType;
@@ -8480,7 +8480,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): NoAppUpdate | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NoAppUpdate.cons)) return undefined;
             return new NoAppUpdate()
         }
     
@@ -8500,7 +8500,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InviteText | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InviteText.cons)) return undefined;
             const message = TLString.deserialized(_data);
             if (!message) return undefined;
             return new InviteText(
@@ -8526,7 +8526,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedChatEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedChatEmpty.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             return new EncryptedChatEmpty(
@@ -8552,7 +8552,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedChatWaiting | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedChatWaiting.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -8598,7 +8598,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedChatRequested | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedChatRequested.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -8649,7 +8649,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedChat | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedChat.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -8705,7 +8705,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedChatDiscarded | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedChatDiscarded.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             return new EncryptedChatDiscarded(
@@ -8731,7 +8731,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputEncryptedChat | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputEncryptedChat.cons)) return undefined;
             const chatId = TLInt.deserialized(_data);
             if (!chatId) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -8762,7 +8762,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedFileEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedFileEmpty.cons)) return undefined;
             return new EncryptedFileEmpty()
         }
     
@@ -8781,7 +8781,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedFile | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedFile.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -8827,7 +8827,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputEncryptedFileEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputEncryptedFileEmpty.cons)) return undefined;
             return new InputEncryptedFileEmpty()
         }
     
@@ -8846,7 +8846,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputEncryptedFileUploaded | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputEncryptedFileUploaded.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const parts = TLInt.deserialized(_data);
@@ -8887,7 +8887,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputEncryptedFile | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputEncryptedFile.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -8918,7 +8918,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputEncryptedFileBigUploaded | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputEncryptedFileBigUploaded.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const parts = TLInt.deserialized(_data);
@@ -8954,7 +8954,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedMessage.cons)) return undefined;
             const randomId = TLLong.deserialized(_data);
             if (!randomId) return undefined;
             const chatId = TLInt.deserialized(_data);
@@ -9001,7 +9001,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): EncryptedMessageService | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(EncryptedMessageService.cons)) return undefined;
             const randomId = TLLong.deserialized(_data);
             if (!randomId) return undefined;
             const chatId = TLInt.deserialized(_data);
@@ -9043,7 +9043,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DhConfigNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DhConfigNotModified.cons)) return undefined;
             const random = TLBytes.deserialized(_data);
             if (!random) return undefined;
             return new DhConfigNotModified(
@@ -9070,7 +9070,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DhConfig | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DhConfig.cons)) return undefined;
             const g = TLInt.deserialized(_data);
             if (!g) return undefined;
             const p = TLBytes.deserialized(_data);
@@ -9112,7 +9112,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SentEncryptedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SentEncryptedMessage.cons)) return undefined;
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             return new SentEncryptedMessage(
@@ -9139,7 +9139,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SentEncryptedFile | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SentEncryptedFile.cons)) return undefined;
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             const file = deserializedObject(_data) as EncryptedFileType;
@@ -9171,7 +9171,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputDocumentEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputDocumentEmpty.cons)) return undefined;
             return new InputDocumentEmpty()
         }
     
@@ -9190,7 +9190,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputDocument.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -9221,7 +9221,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentEmpty.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             return new DocumentEmpty(
@@ -9247,7 +9247,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Document | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Document.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -9315,7 +9315,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Support | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Support.cons)) return undefined;
             const phoneNumber = TLString.deserialized(_data);
             if (!phoneNumber) return undefined;
             const user = deserializedObject(_data) as UserType;
@@ -9347,7 +9347,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): NotifyPeer | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NotifyPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
             
@@ -9374,7 +9374,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): NotifyUsers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NotifyUsers.cons)) return undefined;
             return new NotifyUsers()
         }
     
@@ -9393,7 +9393,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): NotifyChats | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NotifyChats.cons)) return undefined;
             return new NotifyChats()
         }
     
@@ -9412,7 +9412,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): NotifyAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NotifyAll.cons)) return undefined;
             return new NotifyAll()
         }
     
@@ -9431,7 +9431,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageTypingAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageTypingAction.cons)) return undefined;
             return new SendMessageTypingAction()
         }
     
@@ -9450,7 +9450,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageCancelAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageCancelAction.cons)) return undefined;
             return new SendMessageCancelAction()
         }
     
@@ -9469,7 +9469,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageRecordVideoAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageRecordVideoAction.cons)) return undefined;
             return new SendMessageRecordVideoAction()
         }
     
@@ -9488,7 +9488,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageUploadVideoAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageUploadVideoAction.cons)) return undefined;
             const progress = TLInt.deserialized(_data);
             if (!progress) return undefined;
             return new SendMessageUploadVideoAction(
@@ -9514,7 +9514,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageRecordAudioAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageRecordAudioAction.cons)) return undefined;
             return new SendMessageRecordAudioAction()
         }
     
@@ -9533,7 +9533,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageUploadAudioAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageUploadAudioAction.cons)) return undefined;
             const progress = TLInt.deserialized(_data);
             if (!progress) return undefined;
             return new SendMessageUploadAudioAction(
@@ -9559,7 +9559,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageUploadPhotoAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageUploadPhotoAction.cons)) return undefined;
             const progress = TLInt.deserialized(_data);
             if (!progress) return undefined;
             return new SendMessageUploadPhotoAction(
@@ -9585,7 +9585,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageUploadDocumentAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageUploadDocumentAction.cons)) return undefined;
             const progress = TLInt.deserialized(_data);
             if (!progress) return undefined;
             return new SendMessageUploadDocumentAction(
@@ -9611,7 +9611,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageGeoLocationAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageGeoLocationAction.cons)) return undefined;
             return new SendMessageGeoLocationAction()
         }
     
@@ -9630,7 +9630,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageChooseContactAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageChooseContactAction.cons)) return undefined;
             return new SendMessageChooseContactAction()
         }
     
@@ -9649,7 +9649,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SendMessageGamePlayAction | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SendMessageGamePlayAction.cons)) return undefined;
             return new SendMessageGamePlayAction()
         }
     
@@ -9669,7 +9669,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Found | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Found.cons)) return undefined;
             const results = TLVector.deserialized(_data, ) as TLVector<PeerType>;
             if (!results) return undefined;
             const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
@@ -9705,7 +9705,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyKeyStatusTimestamp | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyKeyStatusTimestamp.cons)) return undefined;
             return new InputPrivacyKeyStatusTimestamp()
         }
     
@@ -9724,7 +9724,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyKeyChatInvite | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyKeyChatInvite.cons)) return undefined;
             return new InputPrivacyKeyChatInvite()
         }
     
@@ -9743,7 +9743,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyKeyStatusTimestamp | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyKeyStatusTimestamp.cons)) return undefined;
             return new PrivacyKeyStatusTimestamp()
         }
     
@@ -9762,7 +9762,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyKeyChatInvite | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyKeyChatInvite.cons)) return undefined;
             return new PrivacyKeyChatInvite()
         }
     
@@ -9781,7 +9781,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyValueAllowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyValueAllowContacts.cons)) return undefined;
             return new InputPrivacyValueAllowContacts()
         }
     
@@ -9800,7 +9800,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyValueAllowAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyValueAllowAll.cons)) return undefined;
             return new InputPrivacyValueAllowAll()
         }
     
@@ -9819,7 +9819,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyValueAllowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyValueAllowUsers.cons)) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<InputUserType>;
             if (!users) return undefined;
             return new InputPrivacyValueAllowUsers(
@@ -9845,7 +9845,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyValueDisallowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyValueDisallowContacts.cons)) return undefined;
             return new InputPrivacyValueDisallowContacts()
         }
     
@@ -9864,7 +9864,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyValueDisallowAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyValueDisallowAll.cons)) return undefined;
             return new InputPrivacyValueDisallowAll()
         }
     
@@ -9883,7 +9883,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputPrivacyValueDisallowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputPrivacyValueDisallowUsers.cons)) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<InputUserType>;
             if (!users) return undefined;
             return new InputPrivacyValueDisallowUsers(
@@ -9909,7 +9909,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyValueAllowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyValueAllowContacts.cons)) return undefined;
             return new PrivacyValueAllowContacts()
         }
     
@@ -9928,7 +9928,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyValueAllowAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyValueAllowAll.cons)) return undefined;
             return new PrivacyValueAllowAll()
         }
     
@@ -9947,7 +9947,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyValueAllowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyValueAllowUsers.cons)) return undefined;
             const users = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
             if (!users) return undefined;
             return new PrivacyValueAllowUsers(
@@ -9973,7 +9973,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyValueDisallowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyValueDisallowContacts.cons)) return undefined;
             return new PrivacyValueDisallowContacts()
         }
     
@@ -9992,7 +9992,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyValueDisallowAll | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyValueDisallowAll.cons)) return undefined;
             return new PrivacyValueDisallowAll()
         }
     
@@ -10011,7 +10011,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyValueDisallowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyValueDisallowUsers.cons)) return undefined;
             const users = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
             if (!users) return undefined;
             return new PrivacyValueDisallowUsers(
@@ -10038,7 +10038,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PrivacyRules | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PrivacyRules.cons)) return undefined;
             const rules = TLVector.deserialized(_data, ) as TLVector<PrivacyRuleType>;
             if (!rules) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -10069,7 +10069,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AccountDaysTTL | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AccountDaysTTL.cons)) return undefined;
             const days = TLInt.deserialized(_data);
             if (!days) return undefined;
             return new AccountDaysTTL(
@@ -10095,7 +10095,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentAttributeImageSize | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentAttributeImageSize.cons)) return undefined;
             const w = TLInt.deserialized(_data);
             if (!w) return undefined;
             const h = TLInt.deserialized(_data);
@@ -10126,7 +10126,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentAttributeAnimated | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentAttributeAnimated.cons)) return undefined;
             return new DocumentAttributeAnimated()
         }
     
@@ -10145,7 +10145,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentAttributeSticker | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentAttributeSticker.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const mask = (flags.value & 2) !== 0;
@@ -10195,7 +10195,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentAttributeVideo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentAttributeVideo.cons)) return undefined;
             const duration = TLInt.deserialized(_data);
             if (!duration) return undefined;
             const w = TLInt.deserialized(_data);
@@ -10231,7 +10231,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentAttributeAudio | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentAttributeAudio.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const voice = (flags.value & 1024) !== 0;
@@ -10295,7 +10295,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentAttributeFilename | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentAttributeFilename.cons)) return undefined;
             const fileName = TLString.deserialized(_data);
             if (!fileName) return undefined;
             return new DocumentAttributeFilename(
@@ -10321,7 +10321,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DocumentAttributeHasStickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DocumentAttributeHasStickers.cons)) return undefined;
             return new DocumentAttributeHasStickers()
         }
     
@@ -10341,7 +10341,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickersNotModified.cons)) return undefined;
             return new StickersNotModified()
         }
     
@@ -10361,7 +10361,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Stickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Stickers.cons)) return undefined;
             const hash = TLString.deserialized(_data);
             if (!hash) return undefined;
             const stickers = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
@@ -10392,7 +10392,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickerPack | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickerPack.cons)) return undefined;
             const emoticon = TLString.deserialized(_data);
             if (!emoticon) return undefined;
             const documents = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
@@ -10424,7 +10424,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AllStickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AllStickersNotModified.cons)) return undefined;
             return new AllStickersNotModified()
         }
     
@@ -10444,7 +10444,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AllStickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AllStickers.cons)) return undefined;
             const hash = TLInt.deserialized(_data);
             if (!hash) return undefined;
             const sets = TLVector.deserialized(_data, StickerSet) as TLVector<StickerSet>;
@@ -10475,7 +10475,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DisabledFeature | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DisabledFeature.cons)) return undefined;
             const feature = TLString.deserialized(_data);
             if (!feature) return undefined;
             const description = TLString.deserialized(_data);
@@ -10507,7 +10507,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AffectedMessages | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AffectedMessages.cons)) return undefined;
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const ptsCount = TLInt.deserialized(_data);
@@ -10538,7 +10538,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ContactLinkUnknown | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ContactLinkUnknown.cons)) return undefined;
             return new ContactLinkUnknown()
         }
     
@@ -10557,7 +10557,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ContactLinkNone | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ContactLinkNone.cons)) return undefined;
             return new ContactLinkNone()
         }
     
@@ -10576,7 +10576,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ContactLinkHasPhone | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ContactLinkHasPhone.cons)) return undefined;
             return new ContactLinkHasPhone()
         }
     
@@ -10595,7 +10595,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ContactLinkContact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ContactLinkContact.cons)) return undefined;
             return new ContactLinkContact()
         }
     
@@ -10614,7 +10614,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): WebPageEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(WebPageEmpty.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             return new WebPageEmpty(
@@ -10640,7 +10640,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): WebPagePending | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(WebPagePending.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const date = TLInt.deserialized(_data);
@@ -10671,7 +10671,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): WebPage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(WebPage.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const id = TLLong.deserialized(_data);
@@ -10831,7 +10831,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Authorization | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Authorization.cons)) return undefined;
             const hash = TLLong.deserialized(_data);
             if (!hash) return undefined;
             const flags = TLInt.deserialized(_data);
@@ -10918,7 +10918,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Authorizations | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Authorizations.cons)) return undefined;
             const authorizations = TLVector.deserialized(_data, Authorization) as TLVector<Authorization>;
             if (!authorizations) return undefined;
             return new Authorizations(
@@ -10945,7 +10945,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): NoPassword | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(NoPassword.cons)) return undefined;
             const newSalt = TLBytes.deserialized(_data);
             if (!newSalt) return undefined;
             const emailUnconfirmedPattern = TLString.deserialized(_data);
@@ -10977,7 +10977,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Password | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Password.cons)) return undefined;
             const currentSalt = TLBytes.deserialized(_data);
             if (!currentSalt) return undefined;
             const newSalt = TLBytes.deserialized(_data);
@@ -11025,7 +11025,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PasswordSettings | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PasswordSettings.cons)) return undefined;
             const email = TLString.deserialized(_data);
             if (!email) return undefined;
             return new PasswordSettings(
@@ -11052,7 +11052,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PasswordInputSettings | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PasswordInputSettings.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             let newSalt: TLBytes | undefined;
@@ -11118,7 +11118,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PasswordRecovery | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PasswordRecovery.cons)) return undefined;
             const emailPattern = TLString.deserialized(_data);
             if (!emailPattern) return undefined;
             return new PasswordRecovery(
@@ -11144,7 +11144,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ReceivedNotifyMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ReceivedNotifyMessage.cons)) return undefined;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const flags = TLInt.deserialized(_data);
@@ -11175,7 +11175,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatInviteEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatInviteEmpty.cons)) return undefined;
             return new ChatInviteEmpty()
         }
     
@@ -11194,7 +11194,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatInviteExported | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatInviteExported.cons)) return undefined;
             const link = TLString.deserialized(_data);
             if (!link) return undefined;
             return new ChatInviteExported(
@@ -11220,7 +11220,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatInviteAlready | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatInviteAlready.cons)) return undefined;
             const chat = deserializedObject(_data) as ChatType;
             if (!chat) return undefined;
             
@@ -11247,7 +11247,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChatInvite | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChatInvite.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const channel = (flags.value & 1) !== 0;
@@ -11314,7 +11314,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputStickerSetEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputStickerSetEmpty.cons)) return undefined;
             return new InputStickerSetEmpty()
         }
     
@@ -11333,7 +11333,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputStickerSetID | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputStickerSetID.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -11364,7 +11364,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputStickerSetShortName | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputStickerSetShortName.cons)) return undefined;
             const shortName = TLString.deserialized(_data);
             if (!shortName) return undefined;
             return new InputStickerSetShortName(
@@ -11390,7 +11390,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickerSet | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickerSet.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const installed = (flags.value & 1) !== 0;
@@ -11462,7 +11462,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickerSet | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickerSet.cons)) return undefined;
             const set = deserializedObject(_data) as StickerSet;
             if (!set) return undefined;
             
@@ -11499,7 +11499,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotCommand | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotCommand.cons)) return undefined;
             const command = TLString.deserialized(_data);
             if (!command) return undefined;
             const description = TLString.deserialized(_data);
@@ -11530,7 +11530,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInfo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInfo.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const description = TLString.deserialized(_data);
@@ -11566,7 +11566,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButton | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButton.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             return new KeyboardButton(
@@ -11592,7 +11592,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButtonUrl | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButtonUrl.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             const url = TLString.deserialized(_data);
@@ -11623,7 +11623,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButtonCallback | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButtonCallback.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             const data = TLBytes.deserialized(_data);
@@ -11654,7 +11654,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButtonRequestPhone | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButtonRequestPhone.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             return new KeyboardButtonRequestPhone(
@@ -11680,7 +11680,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButtonRequestGeoLocation | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButtonRequestGeoLocation.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             return new KeyboardButtonRequestGeoLocation(
@@ -11706,7 +11706,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButtonSwitchInline | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButtonSwitchInline.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const samePeer = (flags.value & 1) !== 0;
@@ -11745,7 +11745,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButtonGame | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButtonGame.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             return new KeyboardButtonGame(
@@ -11771,7 +11771,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): KeyboardButtonRow | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(KeyboardButtonRow.cons)) return undefined;
             const buttons = TLVector.deserialized(_data, ) as TLVector<KeyboardButtonType>;
             if (!buttons) return undefined;
             return new KeyboardButtonRow(
@@ -11797,7 +11797,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ReplyKeyboardHide | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ReplyKeyboardHide.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const selective = (flags.value & 4) !== 0;
@@ -11826,7 +11826,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ReplyKeyboardForceReply | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ReplyKeyboardForceReply.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const singleUse = (flags.value & 2) !== 0;
@@ -11859,7 +11859,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ReplyKeyboardMarkup | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ReplyKeyboardMarkup.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const resize = (flags.value & 1) !== 0;
@@ -11901,7 +11901,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ReplyInlineMarkup | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ReplyInlineMarkup.cons)) return undefined;
             const rows = TLVector.deserialized(_data, KeyboardButtonRow) as TLVector<KeyboardButtonRow>;
             if (!rows) return undefined;
             return new ReplyInlineMarkup(
@@ -11928,7 +11928,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AppChangelogEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AppChangelogEmpty.cons)) return undefined;
             return new AppChangelogEmpty()
         }
     
@@ -11948,7 +11948,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): AppChangelog | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(AppChangelog.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             return new AppChangelog(
@@ -11974,7 +11974,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityUnknown | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityUnknown.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12005,7 +12005,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityMention | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityMention.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12036,7 +12036,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityHashtag | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityHashtag.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12067,7 +12067,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityBotCommand | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityBotCommand.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12098,7 +12098,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityUrl | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityUrl.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12129,7 +12129,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityEmail | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityEmail.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12160,7 +12160,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityBold | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityBold.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12191,7 +12191,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityItalic | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityItalic.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12222,7 +12222,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityCode | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityCode.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12253,7 +12253,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityPre | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityPre.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12289,7 +12289,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityTextUrl | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityTextUrl.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12325,7 +12325,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEntityMentionName | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEntityMentionName.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12361,7 +12361,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputMessageEntityMentionName | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputMessageEntityMentionName.cons)) return undefined;
             const offset = TLInt.deserialized(_data);
             if (!offset) return undefined;
             const length = TLInt.deserialized(_data);
@@ -12398,7 +12398,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputChannelEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputChannelEmpty.cons)) return undefined;
             return new InputChannelEmpty()
         }
     
@@ -12417,7 +12417,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputChannel | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputChannel.cons)) return undefined;
             const channelId = TLInt.deserialized(_data);
             if (!channelId) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -12449,7 +12449,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ResolvedPeer | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ResolvedPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
             
@@ -12486,7 +12486,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageRange | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageRange.cons)) return undefined;
             const minId = TLInt.deserialized(_data);
             if (!minId) return undefined;
             const maxId = TLInt.deserialized(_data);
@@ -12518,7 +12518,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelDifferenceEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelDifferenceEmpty.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const final = (flags.value & 1) !== 0;
@@ -12563,7 +12563,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelDifferenceTooLong | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelDifferenceTooLong.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const final = (flags.value & 1) !== 0;
@@ -12643,7 +12643,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelDifference | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelDifference.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const final = (flags.value & 1) !== 0;
@@ -12707,7 +12707,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelMessagesFilterEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelMessagesFilterEmpty.cons)) return undefined;
             return new ChannelMessagesFilterEmpty()
         }
     
@@ -12726,7 +12726,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelMessagesFilter | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelMessagesFilter.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const excludeNewMessages = (flags.value & 2) !== 0;
@@ -12760,7 +12760,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipant | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipant.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const date = TLInt.deserialized(_data);
@@ -12791,7 +12791,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantSelf | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantSelf.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const inviterId = TLInt.deserialized(_data);
@@ -12827,7 +12827,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantModerator | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantModerator.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const inviterId = TLInt.deserialized(_data);
@@ -12863,7 +12863,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantEditor | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantEditor.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const inviterId = TLInt.deserialized(_data);
@@ -12899,7 +12899,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantKicked | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantKicked.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             const kickedBy = TLInt.deserialized(_data);
@@ -12935,7 +12935,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantCreator | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantCreator.cons)) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
             return new ChannelParticipantCreator(
@@ -12961,7 +12961,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantsRecent | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantsRecent.cons)) return undefined;
             return new ChannelParticipantsRecent()
         }
     
@@ -12980,7 +12980,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantsAdmins | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantsAdmins.cons)) return undefined;
             return new ChannelParticipantsAdmins()
         }
     
@@ -12999,7 +12999,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantsKicked | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantsKicked.cons)) return undefined;
             return new ChannelParticipantsKicked()
         }
     
@@ -13018,7 +13018,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipantsBots | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipantsBots.cons)) return undefined;
             return new ChannelParticipantsBots()
         }
     
@@ -13037,7 +13037,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelRoleEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelRoleEmpty.cons)) return undefined;
             return new ChannelRoleEmpty()
         }
     
@@ -13056,7 +13056,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelRoleModerator | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelRoleModerator.cons)) return undefined;
             return new ChannelRoleModerator()
         }
     
@@ -13075,7 +13075,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelRoleEditor | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelRoleEditor.cons)) return undefined;
             return new ChannelRoleEditor()
         }
     
@@ -13095,7 +13095,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipants | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipants.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
             const participants = TLVector.deserialized(_data, ) as TLVector<ChannelParticipantType>;
@@ -13132,7 +13132,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ChannelParticipant | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ChannelParticipant.cons)) return undefined;
             const participant = deserializedObject(_data) as ChannelParticipantType;
             if (!participant) return undefined;
             
@@ -13165,7 +13165,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TermsOfService | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TermsOfService.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             return new TermsOfService(
@@ -13191,7 +13191,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FoundGif | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FoundGif.cons)) return undefined;
             const url = TLString.deserialized(_data);
             if (!url) return undefined;
             const thumbUrl = TLString.deserialized(_data);
@@ -13242,7 +13242,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FoundGifCached | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FoundGifCached.cons)) return undefined;
             const url = TLString.deserialized(_data);
             if (!url) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
@@ -13281,7 +13281,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FoundGifs | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FoundGifs.cons)) return undefined;
             const nextOffset = TLInt.deserialized(_data);
             if (!nextOffset) return undefined;
             const results = TLVector.deserialized(_data, ) as TLVector<FoundGifType>;
@@ -13313,7 +13313,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SavedGifsNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SavedGifsNotModified.cons)) return undefined;
             return new SavedGifsNotModified()
         }
     
@@ -13333,7 +13333,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SavedGifs | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SavedGifs.cons)) return undefined;
             const hash = TLInt.deserialized(_data);
             if (!hash) return undefined;
             const gifs = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
@@ -13364,7 +13364,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaAuto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineMessageMediaAuto.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const caption = TLString.deserialized(_data);
@@ -13404,7 +13404,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineMessageText | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineMessageText.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const noWebpage = (flags.value & 1) !== 0;
@@ -13458,7 +13458,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaGeo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineMessageMediaGeo.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
@@ -13499,7 +13499,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineMessageMediaVenue.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
@@ -13560,7 +13560,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineMessageMediaContact.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const phoneNumber = TLString.deserialized(_data);
@@ -13610,7 +13610,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineMessageGame | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineMessageGame.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             let replyMarkup: ReplyMarkupType | undefined;
@@ -13645,7 +13645,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineResult | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineResult.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const id = TLString.deserialized(_data);
@@ -13776,7 +13776,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineResultPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineResultPhoto.cons)) return undefined;
             const id = TLString.deserialized(_data);
             if (!id) return undefined;
             const type = TLString.deserialized(_data);
@@ -13819,7 +13819,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineResultDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineResultDocument.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const id = TLString.deserialized(_data);
@@ -13886,7 +13886,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineResultGame | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineResultGame.cons)) return undefined;
             const id = TLString.deserialized(_data);
             if (!id) return undefined;
             const shortName = TLString.deserialized(_data);
@@ -13923,7 +13923,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInlineMessageMediaAuto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInlineMessageMediaAuto.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const caption = TLString.deserialized(_data);
@@ -13963,7 +13963,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInlineMessageText | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInlineMessageText.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const noWebpage = (flags.value & 1) !== 0;
@@ -14017,7 +14017,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInlineMessageMediaGeo | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInlineMessageMediaGeo.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
@@ -14058,7 +14058,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInlineMessageMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInlineMessageMediaVenue.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
@@ -14119,7 +14119,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInlineMessageMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInlineMessageMediaContact.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const phoneNumber = TLString.deserialized(_data);
@@ -14169,7 +14169,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInlineResult | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInlineResult.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const id = TLString.deserialized(_data);
@@ -14300,7 +14300,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotInlineMediaResult | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotInlineMediaResult.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const id = TLString.deserialized(_data);
@@ -14382,7 +14382,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotResults | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotResults.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const gallery = (flags.value & 1) !== 0;
@@ -14441,7 +14441,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ExportedMessageLink | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ExportedMessageLink.cons)) return undefined;
             const link = TLString.deserialized(_data);
             if (!link) return undefined;
             return new ExportedMessageLink(
@@ -14467,7 +14467,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageFwdHeader | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageFwdHeader.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             let fromId: TLInt | undefined;
@@ -14528,7 +14528,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): CodeTypeSms | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(CodeTypeSms.cons)) return undefined;
             return new CodeTypeSms()
         }
     
@@ -14548,7 +14548,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): CodeTypeCall | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(CodeTypeCall.cons)) return undefined;
             return new CodeTypeCall()
         }
     
@@ -14568,7 +14568,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): CodeTypeFlashCall | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(CodeTypeFlashCall.cons)) return undefined;
             return new CodeTypeFlashCall()
         }
     
@@ -14588,7 +14588,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SentCodeTypeApp | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SentCodeTypeApp.cons)) return undefined;
             const length = TLInt.deserialized(_data);
             if (!length) return undefined;
             return new SentCodeTypeApp(
@@ -14615,7 +14615,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SentCodeTypeSms | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SentCodeTypeSms.cons)) return undefined;
             const length = TLInt.deserialized(_data);
             if (!length) return undefined;
             return new SentCodeTypeSms(
@@ -14642,7 +14642,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SentCodeTypeCall | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SentCodeTypeCall.cons)) return undefined;
             const length = TLInt.deserialized(_data);
             if (!length) return undefined;
             return new SentCodeTypeCall(
@@ -14669,7 +14669,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): SentCodeTypeFlashCall | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(SentCodeTypeFlashCall.cons)) return undefined;
             const pattern = TLString.deserialized(_data);
             if (!pattern) return undefined;
             return new SentCodeTypeFlashCall(
@@ -14696,7 +14696,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): BotCallbackAnswer | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(BotCallbackAnswer.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const alert = (flags.value & 2) !== 0;
@@ -14750,7 +14750,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MessageEditData | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MessageEditData.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const caption = (flags.value & 1) !== 0;
@@ -14779,7 +14779,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputBotInlineMessageID | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputBotInlineMessageID.cons)) return undefined;
             const dcId = TLInt.deserialized(_data);
             if (!dcId) return undefined;
             const id = TLLong.deserialized(_data);
@@ -14815,7 +14815,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InlineBotSwitchPM | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InlineBotSwitchPM.cons)) return undefined;
             const text = TLString.deserialized(_data);
             if (!text) return undefined;
             const startParam = TLString.deserialized(_data);
@@ -14847,7 +14847,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): PeerDialogs | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(PeerDialogs.cons)) return undefined;
             const dialogs = TLVector.deserialized(_data, Dialog) as TLVector<Dialog>;
             if (!dialogs) return undefined;
             const messages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
@@ -14894,7 +14894,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeer | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
             
@@ -14926,7 +14926,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeerCategoryBotsPM | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeerCategoryBotsPM.cons)) return undefined;
             return new TopPeerCategoryBotsPM()
         }
     
@@ -14945,7 +14945,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeerCategoryBotsInline | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeerCategoryBotsInline.cons)) return undefined;
             return new TopPeerCategoryBotsInline()
         }
     
@@ -14964,7 +14964,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeerCategoryCorrespondents | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeerCategoryCorrespondents.cons)) return undefined;
             return new TopPeerCategoryCorrespondents()
         }
     
@@ -14983,7 +14983,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeerCategoryGroups | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeerCategoryGroups.cons)) return undefined;
             return new TopPeerCategoryGroups()
         }
     
@@ -15002,7 +15002,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeerCategoryChannels | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeerCategoryChannels.cons)) return undefined;
             return new TopPeerCategoryChannels()
         }
     
@@ -15021,7 +15021,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeerCategoryPeers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeerCategoryPeers.cons)) return undefined;
             const category = deserializedObject(_data) as TopPeerCategoryType;
             if (!category) return undefined;
             
@@ -15059,7 +15059,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeersNotModified.cons)) return undefined;
             return new TopPeersNotModified()
         }
     
@@ -15079,7 +15079,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): TopPeers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(TopPeers.cons)) return undefined;
             const categories = TLVector.deserialized(_data, TopPeerCategoryPeers) as TLVector<TopPeerCategoryPeers>;
             if (!categories) return undefined;
             const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
@@ -15115,7 +15115,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DraftMessageEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DraftMessageEmpty.cons)) return undefined;
             return new DraftMessageEmpty()
         }
     
@@ -15134,7 +15134,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): DraftMessage | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(DraftMessage.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const noWebpage = (flags.value & 2) !== 0;
@@ -15194,7 +15194,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FeaturedStickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FeaturedStickersNotModified.cons)) return undefined;
             return new FeaturedStickersNotModified()
         }
     
@@ -15214,7 +15214,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): FeaturedStickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(FeaturedStickers.cons)) return undefined;
             const hash = TLInt.deserialized(_data);
             if (!hash) return undefined;
             const sets = TLVector.deserialized(_data, ) as TLVector<StickerSetCoveredType>;
@@ -15251,7 +15251,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): RecentStickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(RecentStickersNotModified.cons)) return undefined;
             return new RecentStickersNotModified()
         }
     
@@ -15271,7 +15271,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): RecentStickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(RecentStickers.cons)) return undefined;
             const hash = TLInt.deserialized(_data);
             if (!hash) return undefined;
             const stickers = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
@@ -15303,7 +15303,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): ArchivedStickers | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(ArchivedStickers.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
             const sets = TLVector.deserialized(_data, ) as TLVector<StickerSetCoveredType>;
@@ -15335,7 +15335,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickerSetInstallResultSuccess | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickerSetInstallResultSuccess.cons)) return undefined;
             return new StickerSetInstallResultSuccess()
         }
     
@@ -15355,7 +15355,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickerSetInstallResultArchive | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickerSetInstallResultArchive.cons)) return undefined;
             const sets = TLVector.deserialized(_data, ) as TLVector<StickerSetCoveredType>;
             if (!sets) return undefined;
             return new StickerSetInstallResultArchive(
@@ -15381,7 +15381,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickerSetCovered | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickerSetCovered.cons)) return undefined;
             const set = deserializedObject(_data) as StickerSet;
             if (!set) return undefined;
             
@@ -15414,7 +15414,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): StickerSetMultiCovered | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(StickerSetMultiCovered.cons)) return undefined;
             const set = deserializedObject(_data) as StickerSet;
             if (!set) return undefined;
             
@@ -15446,7 +15446,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): MaskCoords | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(MaskCoords.cons)) return undefined;
             const n = TLInt.deserialized(_data);
             if (!n) return undefined;
             const x = TLDouble.deserialized(_data);
@@ -15487,7 +15487,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputStickeredMediaPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputStickeredMediaPhoto.cons)) return undefined;
             const id = deserializedObject(_data) as InputPhotoType;
             if (!id) return undefined;
             
@@ -15514,7 +15514,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputStickeredMediaDocument | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputStickeredMediaDocument.cons)) return undefined;
             const id = deserializedObject(_data) as InputDocumentType;
             if (!id) return undefined;
             
@@ -15541,7 +15541,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): Game | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(Game.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const id = TLLong.deserialized(_data);
@@ -15607,7 +15607,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputGameID | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputGameID.cons)) return undefined;
             const id = TLLong.deserialized(_data);
             if (!id) return undefined;
             const accessHash = TLLong.deserialized(_data);
@@ -15638,7 +15638,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): InputGameShortName | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(InputGameShortName.cons)) return undefined;
             const botId = deserializedObject(_data) as InputUserType;
             if (!botId) return undefined;
             
@@ -15670,7 +15670,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): HighScore | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(HighScore.cons)) return undefined;
             const pos = TLInt.deserialized(_data);
             if (!pos) return undefined;
             const userId = TLInt.deserialized(_data);
@@ -15707,7 +15707,7 @@ export namespace API {
     
         static deserialized(_data: ByteStream): HighScores | undefined {
             const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(this.cons)) return undefined;
+            if (!constructor || !constructor.equals(HighScores.cons)) return undefined;
             const scores = TLVector.deserialized(_data, HighScore) as TLVector<HighScore>;
             if (!scores) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;

@@ -21,7 +21,7 @@ export class App extends React.Component<AppProps, undefined> {
 
         let keyStore = new RSAPublicKeyStore();
         keyStore.addKey(RSAPublicKey.fromString(key));
-        let dc = new DataCenter("149.154.167.51:80", new TLInt(0), keyStore);
+        let dc = new DataCenter("149.154.167.51:80", new TLInt(17622), keyStore);
 
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }
