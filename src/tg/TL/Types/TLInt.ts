@@ -1,6 +1,6 @@
-import {TLSerializable} from "../Interfaces/TLSerializable";
-import {ByteStream} from "../../DataStructures/ByteStream";
-import {Hashable} from "../../DataStructures/HashMap/Hashable";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { Hashable } from "../../DataStructures/HashMap/Hashable";
+import { TLSerializable } from "../Interfaces/TLSerializable";
 
 export class TLInt implements TLSerializable, Hashable {
     readonly value: number;
@@ -38,6 +38,7 @@ export class TLInt implements TLSerializable, Hashable {
     }
 
     constructor(value: number) {
-        this.value = value & 0xffffffff;
+        // Force value to a 32-bit integer
+        this.value = value >>> 0;
     }
 }
