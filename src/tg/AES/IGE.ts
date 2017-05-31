@@ -1,5 +1,5 @@
-import {AES} from "./AES";
-import {SecureRandom} from "../SecureRandom/SecureRandom";
+import { SecureRandom } from "../SecureRandom/SecureRandom";
+import { AES } from "./AES";
 
 /**
  * IGE cipher mode

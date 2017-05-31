@@ -1,5 +1,5 @@
-import {TLSerializable} from "../Interfaces/TLSerializable";
-import {ByteStream} from "../../DataStructures/ByteStream";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { TLSerializable } from "../Interfaces/TLSerializable";
 
 export class TLInt128 implements TLSerializable {
     readonly value: Uint8Array;

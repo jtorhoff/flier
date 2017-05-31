@@ -1,5 +1,5 @@
-import * as Rusha from "Rusha";
 import * as fastSHA256 from "fast-sha256";
+import * as Rusha from "Rusha";
 
 /**
  * Hash digest size in bytes.

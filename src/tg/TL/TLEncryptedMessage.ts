@@ -1,12 +1,12 @@
-import {TLSerializable} from "./Interfaces/TLSerializable";
-import {ByteStream} from "../DataStructures/ByteStream";
-import {TLLong} from "./Types/TLLong";
-import {TLInt} from "./Types/TLInt";
-import {TLObject} from "./Interfaces/TLObject";
-import {concat} from "../Utils/BytesConcat";
-import {sha1} from "../SHA/SHA";
-import {IGE} from "../AES/IGE";
-import {deserializedObject} from "./TLObjectDeserializer";
+import { IGE } from "../AES/IGE";
+import { ByteStream } from "../DataStructures/ByteStream";
+import { sha1 } from "../SHA/SHA";
+import { concat } from "../Utils/BytesConcat";
+import { TLObject } from "./Interfaces/TLObject";
+import { TLSerializable } from "./Interfaces/TLSerializable";
+import { deserializedObject } from "./TLObjectDeserializer";
+import { TLInt } from "./Types/TLInt";
+import { TLLong } from "./Types/TLLong";
 
 export class TLEncryptedMessage implements TLSerializable {
     static deserialized(data: ByteStream,

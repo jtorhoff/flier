@@ -1,4 +1,4 @@
-import {Queue} from "./Queue";
+import { Queue } from "./Queue";
 
 
 export class EvictingQueue<T> extends Queue<T> {

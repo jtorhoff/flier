@@ -1,4 +1,4 @@
-import {Hashable} from "./Hashable";
+import { Hashable } from "./Hashable";
 
 /**
  * A hash map implementation backed by a cuckoo hash table.

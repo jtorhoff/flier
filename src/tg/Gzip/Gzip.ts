@@ -1,4 +1,3 @@
-
 import * as pako from "pako";
 
 export namespace Gzip {

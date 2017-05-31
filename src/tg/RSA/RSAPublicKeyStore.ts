@@ -1,6 +1,6 @@
-import {HashMap} from "../DataStructures/HashMap/HashMap";
-import {RSAPublicKey} from "./RSAPublicKey";
-import {TLLong} from "../TL/Types/TLLong";
+import { HashMap } from "../DataStructures/HashMap/HashMap";
+import { TLLong } from "../TL/Types/TLLong";
+import { RSAPublicKey } from "./RSAPublicKey";
 
 export class RSAPublicKeyStore {
     private readonly keys = new HashMap<TLLong, RSAPublicKey>();

@@ -154,22 +154,22 @@ for name, types in union_types.items():
     ts_union_types.append(type)
 
 imports = """
-import {HashMap} from "../../DataStructures/HashMap/HashMap";
-import {ByteStream} from "../../DataStructures/ByteStream";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { HashMap } from "../../DataStructures/HashMap/HashMap";
+import { TLFunction } from "../../TL/Interfaces/TLFunction";
 
-import {TLBytes} from "../../TL/Types/TLBytes";
-import {TLInt} from "../../TL/Types/TLInt";
-import {TLInt128} from "../../TL/Types/TLInt128";
-import {TLInt256} from "../../TL/Types/TLInt256";
-import {TLLong} from "../../TL/Types/TLLong";
-import {TLString} from "../../TL/Types/TLString";
-import {TLVector} from "../../TL/Types/TLVector";
+import { TLObject } from "../../TL/Interfaces/TLObject";
+import { deserializedObject } from "../../TL/TLObjectDeserializer";
 
-import {TLObject} from "../../TL/Interfaces/TLObject";
-import {TLFunction} from "../../TL/Interfaces/TLFunction";
+import { TLBytes } from "../../TL/Types/TLBytes";
+import { TLInt } from "../../TL/Types/TLInt";
+import { TLInt128 } from "../../TL/Types/TLInt128";
+import { TLInt256 } from "../../TL/Types/TLInt256";
+import { TLLong } from "../../TL/Types/TLLong";
+import { TLString } from "../../TL/Types/TLString";
+import { TLVector } from "../../TL/Types/TLVector";
 
-import {concat} from "../../Utils/BytesConcat";
-import {deserializedObject} from "../../TL/TLObjectDeserializer";
+import { concat } from "../../Utils/BytesConcat";
 """
 
 with open("MTProtoSchema.ts", "w") as mtproto:

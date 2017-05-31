@@ -1,9 +1,9 @@
-import {BN} from "bn.js";
+import { BN } from "bn.js";
 import * as Long from "long";
-import {sha1} from "../SHA/SHA";
-import {concat} from "../Utils/BytesConcat";
-import {TLBytes} from "../TL/Types/TLBytes";
-import {SecureRandom} from "../SecureRandom/SecureRandom";
+import { SecureRandom } from "../SecureRandom/SecureRandom";
+import { sha1 } from "../SHA/SHA";
+import { TLBytes } from "../TL/Types/TLBytes";
+import { concat } from "../Utils/BytesConcat";
 
 export class RSAPublicKey {
     /**

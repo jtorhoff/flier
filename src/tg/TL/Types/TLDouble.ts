@@ -1,6 +1,5 @@
-
-import {TLSerializable} from "../Interfaces/TLSerializable";
-import {ByteStream} from "../../DataStructures/ByteStream";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { TLSerializable } from "../Interfaces/TLSerializable";
 
 export class TLDouble implements TLSerializable {
     readonly value: number;

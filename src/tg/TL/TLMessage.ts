@@ -1,11 +1,11 @@
-import {TLSerializable} from "./Interfaces/TLSerializable";
-import {ByteStream} from "../DataStructures/ByteStream";
-import {TLLong} from "./Types/TLLong";
-import {TLObject} from "./Interfaces/TLObject";
-import {TLInt} from "./Types/TLInt";
-import {concat} from "../Utils/BytesConcat";
-import {deserializedObject} from "./TLObjectDeserializer";
 import * as Long from "long";
+import { ByteStream } from "../DataStructures/ByteStream";
+import { concat } from "../Utils/BytesConcat";
+import { TLObject } from "./Interfaces/TLObject";
+import { TLSerializable } from "./Interfaces/TLSerializable";
+import { deserializedObject } from "./TLObjectDeserializer";
+import { TLInt } from "./Types/TLInt";
+import { TLLong } from "./Types/TLLong";
 
 export class TLMessage implements TLSerializable {
     static deserialized(data: ByteStream): TLMessage | undefined {

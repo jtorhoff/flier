@@ -1,7 +1,7 @@
 import * as Long from "long";
-import {TLSerializable} from "../Interfaces/TLSerializable";
-import {ByteStream} from "../../DataStructures/ByteStream";
-import {Hashable} from "../../DataStructures/HashMap/Hashable";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { Hashable } from "../../DataStructures/HashMap/Hashable";
+import { TLSerializable } from "../Interfaces/TLSerializable";
 
 export class TLLong implements TLSerializable, Hashable {
     static deserialized(data: ByteStream): TLLong | undefined {

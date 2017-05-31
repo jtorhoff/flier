@@ -1,6 +1,6 @@
-import {expect} from "chai";
-import {aesVectors} from "./aesVectors";
-import {AES} from "../../src/tg/AES/AES";
+import { expect } from "chai";
+import { AES } from "../../src/tg/AES/AES";
+import { aesVectors } from "./aesVectors";
 
 describe("AES official known-answer tests", () => {
     it("should pass", () => {

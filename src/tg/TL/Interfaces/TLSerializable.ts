@@ -1,4 +1,4 @@
-import {ByteStream} from "../../DataStructures/ByteStream";
+import { ByteStream } from "../../DataStructures/ByteStream";
 
 export abstract class TLSerializable {
     static deserialized<T>(

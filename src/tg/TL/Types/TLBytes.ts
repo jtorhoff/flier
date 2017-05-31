@@ -1,6 +1,6 @@
-import {TLSerializable} from "../Interfaces/TLSerializable";
-import {ByteStream} from "../../DataStructures/ByteStream";
-import {concat} from "../../Utils/BytesConcat";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { concat } from "../../Utils/BytesConcat";
+import { TLSerializable } from "../Interfaces/TLSerializable";
 
 export class TLBytes implements TLSerializable {
     static deserialized(data: ByteStream): TLBytes | undefined {
@@ -35,9 +35,9 @@ export class TLBytes implements TLSerializable {
         if (this.bytes.length >= 254) {
             len = new Uint8Array([
                 254,
-                (this.bytes.length & 0xFF),
-                (this.bytes.length & 0xFF00) >> 8,
-                (this.bytes.length & 0xFF0000) >> 16,
+                (this.bytes.length & 0xff),
+                (this.bytes.length & 0xff00) >> 8,
+                (this.bytes.length & 0xff0000) >> 16,
             ]);
         } else {
             len = new Uint8Array([

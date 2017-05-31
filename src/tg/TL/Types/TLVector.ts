@@ -1,9 +1,9 @@
-import {TLSerializable} from "../Interfaces/TLSerializable";
-import {TLObject} from "../Interfaces/TLObject";
-import {TLInt} from "./TLInt";
-import {ByteStream} from "../../DataStructures/ByteStream";
-import {concat} from "../../Utils/BytesConcat";
-import {deserializedObject} from "../TLObjectDeserializer";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { concat } from "../../Utils/BytesConcat";
+import { TLObject } from "../Interfaces/TLObject";
+import { TLSerializable } from "../Interfaces/TLSerializable";
+import { deserializedObject } from "../TLObjectDeserializer";
+import { TLInt } from "./TLInt";
 
 export class TLVector<T extends TLSerializable> implements TLObject {
     static readonly cons = new TLInt(0x1cb5c415);

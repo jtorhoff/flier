@@ -1,6 +1,6 @@
-import {TLSerializable} from "../Interfaces/TLSerializable";
-import {ByteStream} from "../../DataStructures/ByteStream";
-import {TLBytes} from "./TLBytes";
+import { ByteStream } from "../../DataStructures/ByteStream";
+import { TLSerializable } from "../Interfaces/TLSerializable";
+import { TLBytes } from "./TLBytes";
 
 export class TLString implements TLSerializable {
     static deserialized(data: ByteStream): TLString | undefined {

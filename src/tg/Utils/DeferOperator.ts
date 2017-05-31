@@ -1,8 +1,7 @@
-
-import {Operator} from "rxjs/Operator";
-import {TeardownLogic} from "rxjs/Subscription";
-import {Subscriber} from "rxjs/Subscriber";
-import {Observable} from "rxjs/Observable";
+import { Observable } from "rxjs/Observable";
+import { Operator } from "rxjs/Operator";
+import { Subscriber } from "rxjs/Subscriber";
+import { TeardownLogic } from "rxjs/Subscription";
 
 export function defer<T>(this: Observable<T>,
                          trigger: Observable<boolean>): Observable<T> {
