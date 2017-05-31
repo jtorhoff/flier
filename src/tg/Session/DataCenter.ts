@@ -1,130 +1,167 @@
-import {TLInt} from "../TL/Types/TLInt";
-import {RSAPublicKeyStore} from "../RSA/RSAPublicKeyStore";
-import {Session, SessionDelegate, SessionLegacy} from "./Session";
-import {Observable} from "rxjs/Observable";
-import {defer} from "../Utils/DeferOperator";
-import {Subject} from "rxjs/Subject";
-import {TLObject} from "../TL/Interfaces/TLObject";
-import {AuthKeyGenerator} from "./AuthKeyGenerator";
-import {API} from "../Codegen/API/APISchema";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import * as platform from "platform";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import * as SessionWorker from "worker-loader!./SessionWorker";
+import { API } from "../Codegen/API/APISchema";
+import { MTProto } from "../Codegen/MTProto/MTProtoSchema";
+import { ByteStream } from "../DataStructures/ByteStream";
+import { HashMap } from "../DataStructures/HashMap/HashMap";
+import { SecureRandom } from "../SecureRandom/SecureRandom";
+import { TLFunction } from "../TL/Interfaces/TLFunction";
+import { TLObject } from "../TL/Interfaces/TLObject";
+import { deserializedObject } from "../TL/TLObjectDeserializer";
+import { TLInt } from "../TL/Types/TLInt";
+import { TLLong } from "../TL/Types/TLLong";
+import { TLString } from "../TL/Types/TLString";
+import { defer } from "../Utils/DeferOperator";
 
-export class DataCenter implements SessionDelegate {
+export class DataCenter {
+    private readonly worker: Worker;
     private readonly requests = new Subject<Request>();
+    private readonly onResults = new HashMap<TLLong, (_: TLObject) => void>();
     private readonly sessionInitialized = new BehaviorSubject(false);
-
-    session: Session;
-    sessionLegacy?: SessionLegacy;
 
     dcId?: number;
     dcOptions: API.DcOption[] = [];
-    /**
-     * Permanent authorization key.
-     */
-    authKey?: Uint8Array;
 
-    constructor(readonly host: string,
-                readonly apiId: TLInt,
-                readonly rsaKeyStore: RSAPublicKeyStore,
+    constructor(readonly apiId: number,
+                readonly rsaKeys: string[],
+                readonly host: string,
                 authKey?: Uint8Array) {
-        this.authKey = authKey;
+        this.worker = new SessionWorker();
+        this.worker.postMessage({
+            type: "init",
+            obj: {
+                host: this.host,
+                keys: rsaKeys,
+                authKey: authKey,
+            },
+        });
+        this.worker.addEventListener("message", event => {
+            switch (event.data.type) {
+                case "keyGenCompleted": {
+                    this.initConnection();
+                } break;
 
-        window.ononline = () => {
-            this.openSession();
-        };
+                case "closed": {
+                    this.sessionInitialized.next(false);
+                } break;
 
-        window.onoffline = () => {
-            this.session.close();
-        };
+                case "result": {
+                    const reqId = TLLong.deserialized(
+                        new ByteStream(event.data.obj.reqId));
+                    const result = deserializedObject(
+                        new ByteStream(event.data.obj.result));
 
-        this.openSession();
+                    if (!reqId) {
+                        console.error("Couldn't deserialize reqId");
+                        return;
+                    }
+                    if (!result) {
+                        console.error("Couldn't deserialize result");
+                        return;
+                    }
+
+                    const onResult = this.onResults.get(reqId);
+                    if (onResult) {
+                        onResult(result);
+                    }
+                    this.onResults.remove(reqId);
+                } break;
+            }
+        });
+
+        addEventListener("online", () => {
+            this.worker.postMessage({
+                type: "open",
+            });
+        });
+
+        addEventListener("offline", () => {
+            this.worker.postMessage({
+                type: "close",
+            });
+        });
+
         this.requests
             .defer(this.sessionInitialized)
             .subscribe(request => {
-                this.session.send(request.content, request.onResult);
+                this.send(request.content, request.onResult);
             });
     }
 
-    openSession() {
-        this.session = new Session(this.host);
-        this.session.delegate = this;
-        this.generateKey(!!this.authKey);
+    close() {
+        this.worker.postMessage({
+            type: "close",
+        });
     }
 
-    sessionClosed(legacy: SessionLegacy) {
-        // We only are interested in the legacy if the session has been
-        // initialized.
-        if (this.sessionInitialized.value) {
-            this.sessionLegacy = legacy;
-        }
-        this.sessionInitialized.next(false);
-
-        if (navigator.onLine) {
-            this.openSession();
-        }
-    }
-
-    newServerSessionCreated() {
-
-    }
-
-    receivedUpdates(updates: API.UpdatesType) {
-
-    }
-
-    private generateKey(temporary: boolean) {
-        const keyGenerator = new AuthKeyGenerator(
-            this.session, this.rsaKeyStore, temporary);
-        keyGenerator.generate().subscribe(({key, salt, timeDiff}) => {
-            if (temporary) {
-                this.session.authKey = key;
-                this.session.serverSalt = salt;
-                this.session.timeDifference = timeDiff;
-
-                this.bindTempKey();
-            } else {
-                this.authKey = key;
-                this.generateKey(true);
-            }
-        }, error => {
-            this.session.close();
-        })
-    }
-
-    private bindTempKey() {
-        this.session.bindTo(this.authKey!)
-            .subscribe(
-                _ => {
-                    console.log("binded");
-                    this.initialize();
-                },
-                error => {
-                    this.session.close();
-                });
-    }
-
-    private initialize() {
-        this.session.initialize(this.apiId)
-            .subscribe(
-                config => {
-                    this.dcId = config.thisDc.value;
-                    this.dcOptions = config.dcOptions.items;
-                    if (this.sessionLegacy) {
-                        this.session.acceptLegacy(this.sessionLegacy);
+    call<ResultType extends TLObject>(fun: TLFunction<ResultType>): Observable<ResultType> {
+        return new Observable<ResultType>(observer => {
+            this.requests.next({
+                content: fun,
+                onResult: (result) => {
+                    if (result instanceof MTProto.RpcError) {
+                        observer.error(result);
+                    } else {
+                        observer.next(result as ResultType);
                     }
-                    console.log("inited");
-                    this.sessionInitialized.next(true);
+                    observer.complete();
                 },
-                error => {
-                    this.session.close();
+            });
+        });
+    }
+
+    private send(content: TLObject, onResult: (result: TLObject) => void) {
+        let reqId: TLLong;
+        do {
+            reqId = TLLong.deserialized(
+                new ByteStream(SecureRandom.bytes(8)))!;
+        } while (this.onResults.get(reqId) !== undefined);
+
+        this.onResults.put(reqId, onResult);
+        this.worker.postMessage({
+            type: "send",
+            obj: {
+                "content": content.serialized(),
+                "reqId": reqId.serialized(),
+            },
+        });
+    }
+
+    private initConnection() {
+        const getConfig = new API.help.GetConfig();
+        const initConnection = new API.InitConnection(
+            new TLInt(this.apiId),
+            new TLString(platform.name || "Web"),
+            new TLString(platform.description || ""),
+            new TLString(VERSION),
+            new TLString(navigator.language),
+            getConfig,
+        );
+        const invokeWithLayer = new API.InvokeWithLayer(
+            new TLInt(API.layer),
+            initConnection);
+
+        this.send(invokeWithLayer, result => {
+            if (result instanceof API.Config) {
+                this.dcId = result.thisDc.value;
+                this.dcOptions = result.dcOptions.items;
+                this.worker.postMessage({
+                    type: "acceptLegacy",
                 });
+                this.sessionInitialized.next(true);
+            } else {
+                this.close();
+            }
+        });
     }
 }
 
 interface Request {
     content: TLObject,
     onResult: (_: TLObject) => void,
-    resultTypePrototype?: any,
 }
 
 // Add custom defer operator to the observable.

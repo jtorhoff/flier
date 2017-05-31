@@ -1,6 +1,6 @@
 export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<{{ result_type }}>{% else %}{{ base_type }}{% endif %} {
     static readonly cons = new TLInt({{ constructor }});
-{% if not is_func %}
+{# {% if not is_func %} #}
     static deserialized(data: ByteStream): {{ name }} | undefined {
     {%- if name != "Message" %}
         const constructor = TLInt.deserialized(data);
@@ -49,7 +49,7 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<{
         {%- endif %}
         {%- endfor %})
     }
-{% endif %}
+{# {% endif %} #}
     serialized(): Uint8Array {
 {%- if name == "Message" -%}
         const msgId = this.msgId.serialized();

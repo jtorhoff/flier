@@ -1,8 +1,6 @@
 import * as React from "react";
-import {RSAPublicKeyStore} from "../tg/RSA/RSAPublicKeyStore";
-import {RSAPublicKey} from "../tg/RSA/RSAPublicKey";
-import {DataCenter} from "../tg/Session/DataCenter";
-import {TLInt} from "../tg/TL/Types/TLInt";
+import { API } from "../tg/Codegen/API/APISchema";
+import { DataCenter } from "../tg/Session/DataCenter";
 
 export interface AppProps { compiler: string; framework: string; }
 
@@ -18,10 +16,15 @@ export class App extends React.Component<AppProps, undefined> {
         "8hdlLmAjbCVfaigxX0CDqWeR1yFL9kwd9P0NsZRPsmoqVwMbMu7mStFai6aIhc3n" +
         "Slv8kg9qv1m6XHVQY3PnEw+QQtqSIXklHwIDAQAB" +
         "-----END RSA PUBLIC KEY-----";
+        const keys: string[] = [];
+        keys.push(key);
 
-        let keyStore = new RSAPublicKeyStore();
-        keyStore.addKey(RSAPublicKey.fromString(key));
-        let dc = new DataCenter("149.154.167.51:80", new TLInt(17622), keyStore);
+        const dc = new DataCenter(17622, keys, "149.154.167.51:443");
+        dc.call(new API.help.GetNearestDc())
+            .subscribe(nearestDc => {
+                console.log(nearestDc);
+            });
+
 
         return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
     }

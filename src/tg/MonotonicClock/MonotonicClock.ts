@@ -1,25 +1,14 @@
 
-import {BN} from "bn.js";
-
 export class MonotonicClock {
-    // private timeDifference: number = 0;
-    private lastTimestamp = new BN(0);
+    private lastTimestamp = 0;
 
-    /**
-     * @returns {number} Current unix timestamp in milliseconds.
-     */
-    get timestamp(): BN {
-        let now: BN;
+    get timestamp(): number {
+        let now: number;
         do {
-            now = new BN(performance.timing.navigationStart + performance.now());
-        } while (now.lte(this.lastTimestamp));
+            now = Date.now();
+        } while (now <= this.lastTimestamp);
         this.lastTimestamp = now;
 
-        return now.clone();
+        return now;
     }
-
-    // applyDifference(diff: number) {
-    //     this.timeDifference = diff;
-    //     this.lastTimestamp = 0;
-    // }
 }

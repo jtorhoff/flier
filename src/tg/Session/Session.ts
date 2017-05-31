@@ -1,37 +1,36 @@
-import {TLLong} from "../TL/Types/TLLong";
+import { BN } from "bn.js";
 import * as Long from "long";
-import * as platform from "platform";
-import {MonotonicClock} from "../MonotonicClock/MonotonicClock";
-import {TLObject} from "../TL/Interfaces/TLObject";
-import {HashMap} from "../DataStructures/HashMap/HashMap";
-import {TLEncryptedMessage} from "../TL/TLEncryptedMessage";
-import {Queue} from "../DataStructures/Queue";
-import {EvictingQueue} from "../DataStructures/EvictingQueue";
-import {MTProto} from "../Codegen/MTProto/MTProtoSchema";
-import {TLMessage} from "../TL/TLMessage";
-import {ByteStream} from "../DataStructures/ByteStream";
-import {SecureRandom} from "../SecureRandom/SecureRandom";
-import {Observable} from "rxjs/Observable";
-import {sha1} from "../SHA/SHA";
-import {TLInt} from "../TL/Types/TLInt";
-import {AuthKeyGenerator} from "./AuthKeyGenerator";
-import {concat} from "../Utils/BytesConcat";
-import {API} from "../Codegen/API/APISchema";
-import {TLBytes} from "../TL/Types/TLBytes";
-import {BN} from "bn.js";
-import {Gzip} from "../Gzip/Gzip";
-import {deserializedObject} from "../TL/TLObjectDeserializer";
-import {TLVector} from "../TL/Types/TLVector";
-import {TLString} from "../TL/Types/TLString";
+import { Observable } from "rxjs/Observable";
+import { API } from "../Codegen/API/APISchema";
+import { MTProto } from "../Codegen/MTProto/MTProtoSchema";
+import { ByteStream } from "../DataStructures/ByteStream";
+import { EvictingQueue } from "../DataStructures/EvictingQueue";
+import { HashMap } from "../DataStructures/HashMap/HashMap";
+import { Queue } from "../DataStructures/Queue";
+import { Gzip } from "../Gzip/Gzip";
+import { MonotonicClock } from "../MonotonicClock/MonotonicClock";
+import { SecureRandom } from "../SecureRandom/SecureRandom";
+import { sha1 } from "../SHA/SHA";
+import { TLObject } from "../TL/Interfaces/TLObject";
+import { TLEncryptedMessage } from "../TL/TLEncryptedMessage";
+import { TLMessage } from "../TL/TLMessage";
+import { deserializedObject } from "../TL/TLObjectDeserializer";
+import { TLBytes } from "../TL/Types/TLBytes";
+import { TLInt } from "../TL/Types/TLInt";
+import { TLLong } from "../TL/Types/TLLong";
+import { TLVector } from "../TL/Types/TLVector";
+import { concat } from "../Utils/BytesConcat";
+import { AuthKeyGenerator } from "./AuthKeyGenerator";
 
 export class Session {
     private readonly sessionId = SecureRandom.bytes(8);
     private readonly clock = new MonotonicClock();
 
+    private readonly pendingRequests = new HashMap<TLLong, XMLHttpRequest>();
     private readonly requests = new Queue<Request>();
     private readonly acknowledgments = new Queue<TLLong>();
     private readonly onResults
-        = new HashMap<TLLong, {deserializedPrototype: Function, closure: (_: TLObject) => void}>();
+        = new HashMap<TLLong, (_: TLObject | Uint8Array) => void>();
     private readonly messagesAwaitingResponse
         = new HashMap<TLLong, TLEncryptedMessage>();
     private readonly messagesStateRequests = new HashMap<TLLong, TLLong>();
@@ -39,8 +38,8 @@ export class Session {
     private readonly monitoringIntervalId: number;
 
     private messageSequenceNumber = 0;
-    private pendingRequest?: XMLHttpRequest;
-    private closed = false;
+    private lastMessageProcessedAt = this.serverTime();
+    closed = false;
 
     delegate?: SessionDelegate;
 
@@ -55,7 +54,7 @@ export class Session {
             `[${this.host}]`,
             "Created session",
             Array.from(this.sessionId)
-                .map(x => (x & 0xff).toString(16).slice(-2))
+                .map(x => x.toString(16).slice(-2))
                 .join(""));
     }
 
@@ -64,17 +63,14 @@ export class Session {
      * once the result is received.
      * @param content
      * @param onResult
-     * @param deserializedPrototype
      */
     send(content: TLObject,
-         onResult?: (result: TLObject) => void,
-         deserializedPrototype?: Function) {
+         onResult?: (result: TLObject | Uint8Array) => void) {
         const reqMsgId = this.newMessageId();
         this.requests.enqueue({
             reqMsgId: reqMsgId,
             content: content,
             onResult: onResult,
-            deserializedPrototype: deserializedPrototype
         });
         this.dispatchOutput();
     }
@@ -90,12 +86,13 @@ export class Session {
             `[${this.host}]`,
             "Closing session",
             Array.from(this.sessionId)
-                .map(x => (x & 0xff).toString(16).slice(-2))
+                .map(x => x.toString(16).slice(-2))
                 .join(""));
 
-        if (this.pendingRequest) {
-            this.pendingRequest.abort();
-        }
+        this.pendingRequests.forEach((_, value) => {
+            value.abort();
+        });
+
         clearInterval(this.monitoringIntervalId);
 
         const legacy: SessionLegacy = {
@@ -124,8 +121,7 @@ export class Session {
         for (let request of requests) {
             this.send(
                 request.content,
-                request.onResult,
-                request.deserializedPrototype);
+                request.onResult);
         }
         for (let ack of legacy.acknowledgments.entries) {
             this.acknowledgments.enqueue(ack);
@@ -146,7 +142,7 @@ export class Session {
                 this.sessionId,
                 this.authKey!,
                 key,
-                this.serverTime().idivn(1000).toNumber());
+                this.serverTime() / 1000);
             const closure = (result: TLObject) => {
                 if (result instanceof API.BoolTrue) {
                     observer.next();
@@ -164,36 +160,15 @@ export class Session {
         });
     }
 
-    initialize(apiId: TLInt): Observable<API.Config> {
-        return new Observable<API.Config>(observer => {
-            const getConfig = new API.help.GetConfig();
-            const initConnection = new API.InitConnection(
-                apiId,
-                new TLString(platform.name || "Web"),
-                new TLString(platform.description || ""),
-                new TLString(VERSION),
-                new TLString(navigator.language),
-                getConfig,
-            );
-            const invokeWithLayer = new API.InvokeWithLayer(
-                new TLInt(API.layer),
-                initConnection);
-
-            this.send(invokeWithLayer, result => {
-                if (result instanceof API.Config) {
-                    observer.next(result);
-                } else {
-                    observer.error();
-                }
-                observer.complete();
-            });
-        });
-    }
-
     private monitor() {
+        if (this.lastMessageProcessedAt + 32000 < this.serverTime()) {
+            this.close();
+            return;
+        }
+
         const lostResponses = this.onResults.keys.filter(msgId => {
             // No response in >5 seconds?
-            return this.serverTime().isub(Session.timestampForMessageId(msgId)).gtn(5000)
+            return this.serverTime() - Session.timestampForMessageId(msgId) > 5000
                 && !this.requests.entries.find(({reqMsgId}) => reqMsgId.equals(msgId))
                 && !this.messagesStateRequests.keys.find(reqMsgId => reqMsgId.equals(msgId));
         });
@@ -220,41 +195,43 @@ export class Session {
     }
 
     private dispatchOutput() {
+        if (this.closed) {
+            return;
+        }
+
         const request = this.requests.dequeue();
         if (!request) return;
 
         const message = this.messageForContent(
             request.reqMsgId, request.content);
         if (request.onResult) {
-            this.onResults.put(request.reqMsgId, {
-                deserializedPrototype: request.deserializedPrototype,
-                closure: request.onResult
-            });
+            this.onResults.put(request.reqMsgId, request.onResult);
             if (message instanceof TLEncryptedMessage) {
                 this.messagesAwaitingResponse.put(request.reqMsgId, message);
             }
         }
 
         const xhr = new XMLHttpRequest();
-        this.pendingRequest = xhr;
+        this.pendingRequests.put(request.reqMsgId, xhr);
         xhr.onload = () => {
-            this.pendingRequest = undefined;
             const buffer: ArrayBuffer = xhr.response;
             this.dispatchInput(new Uint8Array(buffer));
         };
         xhr.onerror = () => {
             this.close();
-            this.pendingRequest = undefined;
         };
         xhr.onabort = () => {
             this.close();
-            this.pendingRequest = undefined;
+        };
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                this.pendingRequests.remove(request.reqMsgId);
+            }
         };
 
         xhr.responseType = "arraybuffer";
-        xhr.timeout = 27000;
         xhr.open("POST", `http://${ this.host }/apiw1`, true);
-        xhr.send(message.serialized());
+        xhr.send(message.serialized().buffer);
 
         console.debug(
             `[${this.host}]`,
@@ -264,6 +241,10 @@ export class Session {
     }
 
     private dispatchInput(bytes: Uint8Array) {
+        if (this.closed) {
+            return;
+        }
+
         const byteStream = new ByteStream(bytes);
         if (this.authKey && this.serverSalt) {
             const message = TLEncryptedMessage.deserialized(
@@ -279,7 +260,7 @@ export class Session {
                     message.content);
                 this.processIncomingEncryptedMessage(message);
             }
-            if (!this.pendingRequest) {
+            if (this.pendingRequests.size === 0) {
                 this.send(new MTProto.HttpWait(
                     new TLInt(500), new TLInt(150), new TLInt(25000)));
             }
@@ -301,7 +282,7 @@ export class Session {
             const onResult = this.onResults.remove(reqMsgId);
             if (!onResult) return;
 
-            onResult.closure(message.content);
+            onResult(message.content);
         }
     }
 
@@ -348,6 +329,7 @@ export class Session {
         } else {
             this.processServiceMessage(message.content, message.messageId);
         }
+        this.lastMessageProcessedAt = this.serverTime();
     }
 
     private processRPCResult(rpc: MTProto.RpcResult) {
@@ -361,48 +343,36 @@ export class Session {
             return;
         }
         const packed = MTProto.GzipPacked.deserialized(rpc.result);
-        let result: TLObject | undefined;
+        let result: TLObject | Uint8Array;
         if (packed) {
             const bytes = Gzip.decompress(packed.packedData.bytes);
             if (!bytes) {
                 defer();
                 return;
             }
-            result = Session.deserializedResult(
-                new ByteStream(bytes), onResult.deserializedPrototype);
+            result = deserializedObject(new ByteStream(bytes)) || bytes;
         } else {
             // Rewind 4 bytes when the deserialization as gzip fails since
             // the cursor was moved forth to check the constructor.
             rpc.result.moveCursorBy(-4);
-            result = Session.deserializedResult(
-                rpc.result, onResult.deserializedPrototype);
+            const cursorBefore = rpc.result.cursor;
+            result = deserializedObject(rpc.result)
+                || rpc.result.bytes.slice(cursorBefore);
         }
 
-        if (result) {
-            onResult.closure(result);
-        }
+        onResult(result);
 
         defer();
     }
 
-    private static deserializedResult(
-        data: ByteStream,
-        deserializedPrototype?: Function): TLObject | undefined {
-        if (deserializedPrototype) {
-            return deserializedPrototype(data);
-        } else {
-            return deserializedObject(data);
-        }
-    }
-
     private processServiceMessage(message: TLObject, messageId: TLLong) {
         switch (message.constructor) {
-            case MTProto.NewSessionCreated:
+            case MTProto.NewSessionCreated: {
                 this.acknowledgments.enqueue(messageId);
                 if (this.delegate) {
                     this.delegate.newServerSessionCreated();
                 }
-                break;
+            } break;
 
             case MTProto.BadMsgNotification: {
                 const badMsgNotification = message as MTProto.BadMsgNotification;
@@ -411,20 +381,23 @@ export class Session {
                         return entry.value.messageId.equals(
                             badMsgNotification.badMsgId);
                     });
-                if (!entry) break;
+                if (!entry) {
+                    this.close();
+                    break;
+                }
 
                 const onResult = this.onResults.get(entry.key);
-                if (!onResult) break;
+                if (!onResult) {
+                    this.close();
+                    break;
+                }
 
                 this.timeDifference = Date.now()
-                    - Session.timestampForMessageId(messageId).toNumber();
-                this.send(
-                    entry.value.content,
-                    onResult.closure,
-                    onResult.deserializedPrototype);
+                    - Session.timestampForMessageId(messageId);
+                this.send(entry.value.content, onResult);
                 this.onResults.remove(entry.key);
                 this.messagesAwaitingResponse.remove(entry.key);
-            }   break;
+            } break;
 
             case MTProto.BadServerSalt: {
                 const badServerSalt = message as MTProto.BadServerSalt;
@@ -433,19 +406,22 @@ export class Session {
                         return entry.value.messageId.equals(
                             badServerSalt.badMsgId);
                     });
-                if (!entry) break;
+                if (!entry) {
+                    this.close();
+                    break;
+                }
 
                 const onResult = this.onResults.get(entry.key);
-                if (!onResult) break;
+                if (!onResult) {
+                    this.close();
+                    break;
+                }
 
                 this.serverSalt = badServerSalt.newServerSalt.serialized();
-                this.send(
-                    entry.value,
-                    onResult.closure,
-                    onResult.deserializedPrototype);
+                this.send(entry.value, onResult);
                 this.onResults.remove(entry.key);
                 this.messagesAwaitingResponse.remove(entry.key);
-            }   break;
+            } break;
 
             case MTProto.MsgsStateInfo: {
                 const reqMsgId = (message as MTProto.MsgsStateInfo).reqMsgId;
@@ -478,15 +454,12 @@ export class Session {
                         break;
                     }
 
-                    this.send(
-                        msg.content,
-                        onResult.closure,
-                        onResult.deserializedPrototype);
+                    this.send(msg.content, onResult);
                     this.messagesAwaitingResponse.remove(origReqMsgId);
                     this.onResults.remove(origReqMsgId);
                 }
 
-            }   break;
+            } break;
 
             case MTProto.MsgDetailedInfo: {
                 const msg = message as MTProto.MsgDetailedInfo;
@@ -494,14 +467,14 @@ export class Session {
                 this.send(new MTProto.MsgResendReq(
                     new TLVector<TLLong>(msg.answerMsgId)));
                 this.messagesStateRequests.remove(msg.msgId);
-            }   break;
+            } break;
 
             case MTProto.MsgNewDetailedInfo: {
                 const msg = message as MTProto.MsgNewDetailedInfo;
 
                 this.send(new MTProto.MsgResendReq(
                     new TLVector<TLLong>(msg.answerMsgId)));
-            }   break;
+            } break;
 
             case MTProto.GzipPacked: {
                 const gzipped = message as MTProto.GzipPacked;
@@ -513,18 +486,18 @@ export class Session {
 
                 this.processServiceMessage(object, messageId);
 
-            }   break;
+            } break;
 
             case API.Updates: {
                 if (this.delegate) {
                     this.delegate.receivedUpdates(message);
                 }
 
-            }   break;
+            } break;
 
-            default:
+            default: {
                 console.debug(`[${this.host}]`, "Ignored message", message);
-                break;
+            } break;
         }
     }
 
@@ -616,43 +589,42 @@ export class Session {
         }
 
         const timestamp = Session.timestampForMessageId(messageId);
-        const diff = this.serverTime().isub(timestamp);
+        const diff = this.serverTime() - timestamp;
 
         // Message ids that belong over 30 seconds in the future or
         // over 300 in the past are not valid
-        return diff.lten(30 * 1000) && diff.gten(-300 * 1000);
+        return diff <= (30 * 1000) && diff >= (-300 * 1000);
     }
 
-    private serverTime(): BN {
+    private serverTime(): number {
         if (this.timeDifference) {
-            return this.clock.timestamp.subn(this.timeDifference);
+            return this.clock.timestamp - this.timeDifference;
         }
         return this.clock.timestamp;
     }
 
-    private static messageIdForTimestamp(timestamp: BN): TLLong {
+     static messageIdForTimestamp(timestamp: number): TLLong {
         // Timestamp * 2^32 as per the MTProto spec
-        let now = timestamp.iushln(30).idivn(1000).imuln(4).toString();
-        return new TLLong(Long.fromString(now, true));
+        const now = new BN(timestamp).iushln(30).idivn(1000).imuln(4);
+        return new TLLong(Long.fromString(now.toString()));
     }
 
-    private static timestampForMessageId(messageId: TLLong): BN {
+     static timestampForMessageId(messageId: TLLong): number {
         return new BN(messageId.value.toString())
-            .idivn(4).imuln(1000).iushrn(30);
+            .idivn(4).imuln(1000).iushrn(30).toNumber();
     }
 }
 
 export interface Request {
     reqMsgId: TLLong,
     content: TLObject,
-    onResult?: (_: TLObject) => void,
-    deserializedPrototype?: any,
+    onResult?: (_: TLObject | Uint8Array) => void,
 }
 
 export interface SessionLegacy {
     requests: Queue<Request>,
     acknowledgments: Queue<TLLong>,
-    onResults: HashMap<TLLong, {deserializedPrototype: Function, closure: (_: TLObject) => void}>,
+    onResults: HashMap<TLLong, (_: TLObject | Uint8Array) => void>,
     messagesAwaitingResponse: HashMap<TLLong, TLEncryptedMessage>,
 }
 

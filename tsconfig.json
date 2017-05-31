@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "sourceMap": true,
+    "alwaysStrict": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,

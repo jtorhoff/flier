@@ -6,7 +6,6 @@ export namespace {{ namespace }} {
 export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<
 {%- if result_type is iterable and result_type is not string %}{{ result_type[0] }}<{{ result_type[1] }}>{% else %}{{ result_type }}{% endif %}>{% else %}{{ base_type }}{% endif %} {
     static readonly cons = new TLInt({{ constructor }});
-{% if not is_func %}
     static deserialized(_data: ByteStream): {{ name }} | undefined {
         const constructor = TLInt.deserialized(_data);
         if (!constructor || !constructor.equals({{ name }}.cons)) return undefined;
@@ -39,7 +38,6 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<
     {%- elif arg.cons %}
         const {{ arg.name }} = deserializedObject(_data) as {{ arg.type }};
         if (!{{ arg.name }}) return undefined;
-        {# if (!({{ arg.name }} instanceof {{ arg.type }})) return undefined;         #}
     {%- elif arg.type is iterable and arg.type is not string %}
         const {{ arg.name }} = {{ arg.type[0] }}.deserialized(_data, {% if not is_aggr(arg.type[1]) %}{{ arg.type[1] }}{% endif %}) as {{ arg.type[0] }}<{{ arg.type[1] }}>;
         if (!{{ arg.name }}) return undefined;
@@ -53,7 +51,7 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<
             {{ arg.name }}{% if not loop.last %},{% endif %}
           {%- endfor %})
     }
-{% endif %}
+    
     serialized(): Uint8Array {
         const constructor = {{ name }}.cons.serialized();
         const data: Uint8Array[] = [constructor]; 
@@ -64,13 +62,7 @@ export class {{ name }} implements {%if base_type == "TLFunction" %}TLFunction<
     {%- elif arg.type == "#" %}
         let {{ arg.name }} = 0;
       {%- for opt_arg in args if opt_arg.type is mapping %}
-        {{ arg.name }} = (
-          {%- if opt_arg.type.value == "boolean" -%}
-            this.{{ opt_arg.name }}
-          {%- else -%}
-            !this.{{ opt_arg.name }}
-          {%- endif -%}
-          ) ? (
+        {{ arg.name }} = (this.{{ opt_arg.name }}) ? (
           {{- arg.name }} | {{ opt_arg.type.condition.const }}) : (
           {{- arg.name }} & ~{{ opt_arg.type.condition.const }});
       {%- endfor %}

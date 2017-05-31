@@ -109,6 +109,10 @@ export class HashMap<K extends Hashable, V> {
         return undefined;
     }
 
+    get size(): number {
+        return this.count;
+    }
+
     /**
      * @returns {Array} An array of all entries of the hash table.
      */

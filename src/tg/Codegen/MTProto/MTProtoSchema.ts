@@ -1150,6 +1150,17 @@ export namespace MTProto {
     export class ReqPq implements TLFunction<ResPQ> {
         static readonly cons = new TLInt(0x60469778);
     
+        static deserialized(data: ByteStream): ReqPq | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(ReqPq.cons)) return undefined;
+    
+            const nonce = TLInt128.deserialized(data);
+            if (!nonce) return undefined;
+    
+            return new ReqPq(
+                nonce)
+        }
+    
         serialized(): Uint8Array {
             const constructor = ReqPq.cons.serialized();
             const nonce = this.nonce.serialized();
@@ -1163,6 +1174,37 @@ export namespace MTProto {
 
     export class ReqDHParams implements TLFunction<ServerDHParamsType> {
         static readonly cons = new TLInt(0xd712e4be);
+    
+        static deserialized(data: ByteStream): ReqDHParams | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(ReqDHParams.cons)) return undefined;
+    
+            const nonce = TLInt128.deserialized(data);
+            if (!nonce) return undefined;
+    
+            const serverNonce = TLInt128.deserialized(data);
+            if (!serverNonce) return undefined;
+    
+            const p = TLBytes.deserialized(data);
+            if (!p) return undefined;
+    
+            const q = TLBytes.deserialized(data);
+            if (!q) return undefined;
+    
+            const publicKeyFingerprint = TLLong.deserialized(data);
+            if (!publicKeyFingerprint) return undefined;
+    
+            const encryptedData = TLBytes.deserialized(data);
+            if (!encryptedData) return undefined;
+    
+            return new ReqDHParams(
+                nonce,
+                serverNonce,
+                p,
+                q,
+                publicKeyFingerprint,
+                encryptedData)
+        }
     
         serialized(): Uint8Array {
             const constructor = ReqDHParams.cons.serialized();
@@ -1188,6 +1230,25 @@ export namespace MTProto {
     export class SetClientDHParams implements TLFunction<SetClientDHParamsAnswerType> {
         static readonly cons = new TLInt(0xf5045f1f);
     
+        static deserialized(data: ByteStream): SetClientDHParams | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(SetClientDHParams.cons)) return undefined;
+    
+            const nonce = TLInt128.deserialized(data);
+            if (!nonce) return undefined;
+    
+            const serverNonce = TLInt128.deserialized(data);
+            if (!serverNonce) return undefined;
+    
+            const encryptedData = TLBytes.deserialized(data);
+            if (!encryptedData) return undefined;
+    
+            return new SetClientDHParams(
+                nonce,
+                serverNonce,
+                encryptedData)
+        }
+    
         serialized(): Uint8Array {
             const constructor = SetClientDHParams.cons.serialized();
             const nonce = this.nonce.serialized();
@@ -1206,6 +1267,17 @@ export namespace MTProto {
     export class RpcDropAnswer implements TLFunction<RpcDropAnswerType> {
         static readonly cons = new TLInt(0x58e4a740);
     
+        static deserialized(data: ByteStream): RpcDropAnswer | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(RpcDropAnswer.cons)) return undefined;
+    
+            const reqMsgId = TLLong.deserialized(data);
+            if (!reqMsgId) return undefined;
+    
+            return new RpcDropAnswer(
+                reqMsgId)
+        }
+    
         serialized(): Uint8Array {
             const constructor = RpcDropAnswer.cons.serialized();
             const reqMsgId = this.reqMsgId.serialized();
@@ -1220,6 +1292,17 @@ export namespace MTProto {
     export class Ping implements TLFunction<Pong> {
         static readonly cons = new TLInt(0x7abe77ec);
     
+        static deserialized(data: ByteStream): Ping | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(Ping.cons)) return undefined;
+    
+            const pingId = TLLong.deserialized(data);
+            if (!pingId) return undefined;
+    
+            return new Ping(
+                pingId)
+        }
+    
         serialized(): Uint8Array {
             const constructor = Ping.cons.serialized();
             const pingId = this.pingId.serialized();
@@ -1233,6 +1316,21 @@ export namespace MTProto {
 
     export class PingDelayDisconnect implements TLFunction<Pong> {
         static readonly cons = new TLInt(0xf3427b8c);
+    
+        static deserialized(data: ByteStream): PingDelayDisconnect | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(PingDelayDisconnect.cons)) return undefined;
+    
+            const pingId = TLLong.deserialized(data);
+            if (!pingId) return undefined;
+    
+            const disconnectDelay = TLInt.deserialized(data);
+            if (!disconnectDelay) return undefined;
+    
+            return new PingDelayDisconnect(
+                pingId,
+                disconnectDelay)
+        }
     
         serialized(): Uint8Array {
             const constructor = PingDelayDisconnect.cons.serialized();
@@ -1250,6 +1348,17 @@ export namespace MTProto {
     export class DestroySession implements TLFunction<DestroySessionResType> {
         static readonly cons = new TLInt(0xe7512126);
     
+        static deserialized(data: ByteStream): DestroySession | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(DestroySession.cons)) return undefined;
+    
+            const sessionId = TLLong.deserialized(data);
+            if (!sessionId) return undefined;
+    
+            return new DestroySession(
+                sessionId)
+        }
+    
         serialized(): Uint8Array {
             const constructor = DestroySession.cons.serialized();
             const sessionId = this.sessionId.serialized();
@@ -1263,6 +1372,25 @@ export namespace MTProto {
 
     export class HttpWait implements TLFunction<HttpWait> {
         static readonly cons = new TLInt(0x9299359f);
+    
+        static deserialized(data: ByteStream): HttpWait | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(HttpWait.cons)) return undefined;
+    
+            const maxDelay = TLInt.deserialized(data);
+            if (!maxDelay) return undefined;
+    
+            const waitAfter = TLInt.deserialized(data);
+            if (!waitAfter) return undefined;
+    
+            const maxWait = TLInt.deserialized(data);
+            if (!maxWait) return undefined;
+    
+            return new HttpWait(
+                maxDelay,
+                waitAfter,
+                maxWait)
+        }
     
         serialized(): Uint8Array {
             const constructor = HttpWait.cons.serialized();
@@ -1314,6 +1442,14 @@ export namespace MTProto {
         map.put(MsgsAllInfo.cons, MsgsAllInfo);
         map.put(MsgDetailedInfo.cons, MsgDetailedInfo);
         map.put(MsgNewDetailedInfo.cons, MsgNewDetailedInfo);
+        map.put(ReqPq.cons, ReqPq);
+        map.put(ReqDHParams.cons, ReqDHParams);
+        map.put(SetClientDHParams.cons, SetClientDHParams);
+        map.put(RpcDropAnswer.cons, RpcDropAnswer);
+        map.put(Ping.cons, Ping);
+        map.put(PingDelayDisconnect.cons, PingDelayDisconnect);
+        map.put(DestroySession.cons, DestroySession);
+        map.put(HttpWait.cons, HttpWait);
     
         return map;
     })();

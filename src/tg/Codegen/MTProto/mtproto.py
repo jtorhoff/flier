@@ -143,6 +143,7 @@ for line in schema_functions.split("\n"):
         is_func=True,
         result_type=result_type)
     ts_functions.append(obj)
+    constructables.append(name)
 
 
 # Render union types

@@ -158,13 +158,12 @@ export namespace API {
 
     export class BoolFalse implements TLObject {
         static readonly cons = new TLInt(0xbc799737);
-    
         static deserialized(_data: ByteStream): BoolFalse | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BoolFalse.cons)) return undefined;
             return new BoolFalse()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BoolFalse.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -177,13 +176,12 @@ export namespace API {
 
     export class BoolTrue implements TLObject {
         static readonly cons = new TLInt(0x997275b5);
-    
         static deserialized(_data: ByteStream): BoolTrue | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BoolTrue.cons)) return undefined;
             return new BoolTrue()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BoolTrue.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -196,13 +194,12 @@ export namespace API {
 
     export class InputPeerEmpty implements TLObject {
         static readonly cons = new TLInt(0x7f3b18ea);
-    
         static deserialized(_data: ByteStream): InputPeerEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerEmpty.cons)) return undefined;
             return new InputPeerEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -215,13 +212,12 @@ export namespace API {
 
     export class InputPeerSelf implements TLObject {
         static readonly cons = new TLInt(0x7da07ec9);
-    
         static deserialized(_data: ByteStream): InputPeerSelf | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerSelf.cons)) return undefined;
             return new InputPeerSelf()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerSelf.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -234,7 +230,6 @@ export namespace API {
 
     export class InputPeerChat implements TLObject {
         static readonly cons = new TLInt(0x179be863);
-    
         static deserialized(_data: ByteStream): InputPeerChat | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerChat.cons)) return undefined;
@@ -243,7 +238,7 @@ export namespace API {
             return new InputPeerChat(
                 chatId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerChat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -260,7 +255,6 @@ export namespace API {
 
     export class InputPeerUser implements TLObject {
         static readonly cons = new TLInt(0x7b8e7de6);
-    
         static deserialized(_data: ByteStream): InputPeerUser | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerUser.cons)) return undefined;
@@ -272,7 +266,7 @@ export namespace API {
                 userId,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -291,7 +285,6 @@ export namespace API {
 
     export class InputPeerChannel implements TLObject {
         static readonly cons = new TLInt(0x20adaef8);
-    
         static deserialized(_data: ByteStream): InputPeerChannel | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerChannel.cons)) return undefined;
@@ -303,7 +296,7 @@ export namespace API {
                 channelId,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -322,13 +315,12 @@ export namespace API {
 
     export class InputUserEmpty implements TLObject {
         static readonly cons = new TLInt(0xb98886cf);
-    
         static deserialized(_data: ByteStream): InputUserEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputUserEmpty.cons)) return undefined;
             return new InputUserEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputUserEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -341,13 +333,12 @@ export namespace API {
 
     export class InputUserSelf implements TLObject {
         static readonly cons = new TLInt(0xf7c1b13f);
-    
         static deserialized(_data: ByteStream): InputUserSelf | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputUserSelf.cons)) return undefined;
             return new InputUserSelf()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputUserSelf.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -360,7 +351,6 @@ export namespace API {
 
     export class InputUser implements TLObject {
         static readonly cons = new TLInt(0xd8292816);
-    
         static deserialized(_data: ByteStream): InputUser | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputUser.cons)) return undefined;
@@ -372,7 +362,7 @@ export namespace API {
                 userId,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -391,7 +381,6 @@ export namespace API {
 
     export class InputPhoneContact implements TLObject {
         static readonly cons = new TLInt(0xf392b7f4);
-    
         static deserialized(_data: ByteStream): InputPhoneContact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPhoneContact.cons)) return undefined;
@@ -409,7 +398,7 @@ export namespace API {
                 firstName,
                 lastName)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPhoneContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -432,7 +421,6 @@ export namespace API {
 
     export class InputFile implements TLObject {
         static readonly cons = new TLInt(0xf52ff27f);
-    
         static deserialized(_data: ByteStream): InputFile | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputFile.cons)) return undefined;
@@ -450,7 +438,7 @@ export namespace API {
                 name,
                 md5Checksum)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputFile.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -473,7 +461,6 @@ export namespace API {
 
     export class InputFileBig implements TLObject {
         static readonly cons = new TLInt(0xfa4f0bb5);
-    
         static deserialized(_data: ByteStream): InputFileBig | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputFileBig.cons)) return undefined;
@@ -488,7 +475,7 @@ export namespace API {
                 parts,
                 name)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputFileBig.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -509,13 +496,12 @@ export namespace API {
 
     export class InputMediaEmpty implements TLObject {
         static readonly cons = new TLInt(0x9664f57f);
-    
         static deserialized(_data: ByteStream): InputMediaEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaEmpty.cons)) return undefined;
             return new InputMediaEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -528,7 +514,6 @@ export namespace API {
 
     export class InputMediaUploadedPhoto implements TLObject {
         static readonly cons = new TLInt(0x630c9af1);
-    
         static deserialized(_data: ByteStream): InputMediaUploadedPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaUploadedPhoto.cons)) return undefined;
@@ -536,7 +521,6 @@ export namespace API {
             if (!flags) return undefined;
             const file = deserializedObject(_data) as InputFileType;
             if (!file) return undefined;
-            
             const caption = TLString.deserialized(_data);
             if (!caption) return undefined;
             let stickers: TLVector<InputDocumentType> | undefined;
@@ -550,12 +534,12 @@ export namespace API {
                 caption,
                 stickers)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaUploadedPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.stickers) ? (flags | 1) : (flags & ~1);
+            flags = (this.stickers) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.file.serialized());
             data.push(this.caption.serialized());
@@ -574,20 +558,18 @@ export namespace API {
 
     export class InputMediaPhoto implements TLObject {
         static readonly cons = new TLInt(0xe9bfb4f3);
-    
         static deserialized(_data: ByteStream): InputMediaPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaPhoto.cons)) return undefined;
             const id = deserializedObject(_data) as InputPhotoType;
             if (!id) return undefined;
-            
             const caption = TLString.deserialized(_data);
             if (!caption) return undefined;
             return new InputMediaPhoto(
                 id,
                 caption)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -606,17 +588,15 @@ export namespace API {
 
     export class InputMediaGeoPoint implements TLObject {
         static readonly cons = new TLInt(0xf9c44144);
-    
         static deserialized(_data: ByteStream): InputMediaGeoPoint | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaGeoPoint.cons)) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
             if (!geoPoint) return undefined;
-            
             return new InputMediaGeoPoint(
                 geoPoint)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaGeoPoint.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -633,7 +613,6 @@ export namespace API {
 
     export class InputMediaContact implements TLObject {
         static readonly cons = new TLInt(0xa6e45987);
-    
         static deserialized(_data: ByteStream): InputMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaContact.cons)) return undefined;
@@ -648,7 +627,7 @@ export namespace API {
                 firstName,
                 lastName)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -669,7 +648,6 @@ export namespace API {
 
     export class InputMediaUploadedDocument implements TLObject {
         static readonly cons = new TLInt(0xd070f1e9);
-    
         static deserialized(_data: ByteStream): InputMediaUploadedDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaUploadedDocument.cons)) return undefined;
@@ -677,7 +655,6 @@ export namespace API {
             if (!flags) return undefined;
             const file = deserializedObject(_data) as InputFileType;
             if (!file) return undefined;
-            
             const mimeType = TLString.deserialized(_data);
             if (!mimeType) return undefined;
             const attributes = TLVector.deserialized(_data, ) as TLVector<DocumentAttributeType>;
@@ -697,12 +674,12 @@ export namespace API {
                 caption,
                 stickers)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaUploadedDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.stickers) ? (flags | 1) : (flags & ~1);
+            flags = (this.stickers) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.file.serialized());
             data.push(this.mimeType.serialized());
@@ -725,7 +702,6 @@ export namespace API {
 
     export class InputMediaUploadedThumbDocument implements TLObject {
         static readonly cons = new TLInt(0x50d88cae);
-    
         static deserialized(_data: ByteStream): InputMediaUploadedThumbDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaUploadedThumbDocument.cons)) return undefined;
@@ -733,10 +709,8 @@ export namespace API {
             if (!flags) return undefined;
             const file = deserializedObject(_data) as InputFileType;
             if (!file) return undefined;
-            
             const thumb = deserializedObject(_data) as InputFileType;
             if (!thumb) return undefined;
-            
             const mimeType = TLString.deserialized(_data);
             if (!mimeType) return undefined;
             const attributes = TLVector.deserialized(_data, ) as TLVector<DocumentAttributeType>;
@@ -757,12 +731,12 @@ export namespace API {
                 caption,
                 stickers)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaUploadedThumbDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.stickers) ? (flags | 1) : (flags & ~1);
+            flags = (this.stickers) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.file.serialized());
             data.push(this.thumb.serialized());
@@ -787,20 +761,18 @@ export namespace API {
 
     export class InputMediaDocument implements TLObject {
         static readonly cons = new TLInt(0x1a77f29c);
-    
         static deserialized(_data: ByteStream): InputMediaDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaDocument.cons)) return undefined;
             const id = deserializedObject(_data) as InputDocumentType;
             if (!id) return undefined;
-            
             const caption = TLString.deserialized(_data);
             if (!caption) return undefined;
             return new InputMediaDocument(
                 id,
                 caption)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -819,13 +791,11 @@ export namespace API {
 
     export class InputMediaVenue implements TLObject {
         static readonly cons = new TLInt(0x2827a81a);
-    
         static deserialized(_data: ByteStream): InputMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaVenue.cons)) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
             if (!geoPoint) return undefined;
-            
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             const address = TLString.deserialized(_data);
@@ -841,7 +811,7 @@ export namespace API {
                 provider,
                 venueId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaVenue.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -866,7 +836,6 @@ export namespace API {
 
     export class InputMediaGifExternal implements TLObject {
         static readonly cons = new TLInt(0x4843b0fd);
-    
         static deserialized(_data: ByteStream): InputMediaGifExternal | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaGifExternal.cons)) return undefined;
@@ -878,7 +847,7 @@ export namespace API {
                 url,
                 q)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaGifExternal.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -897,7 +866,6 @@ export namespace API {
 
     export class InputMediaPhotoExternal implements TLObject {
         static readonly cons = new TLInt(0xb55f4f18);
-    
         static deserialized(_data: ByteStream): InputMediaPhotoExternal | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaPhotoExternal.cons)) return undefined;
@@ -909,7 +877,7 @@ export namespace API {
                 url,
                 caption)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaPhotoExternal.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -928,7 +896,6 @@ export namespace API {
 
     export class InputMediaDocumentExternal implements TLObject {
         static readonly cons = new TLInt(0xe5e9607c);
-    
         static deserialized(_data: ByteStream): InputMediaDocumentExternal | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaDocumentExternal.cons)) return undefined;
@@ -940,7 +907,7 @@ export namespace API {
                 url,
                 caption)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaDocumentExternal.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -959,17 +926,15 @@ export namespace API {
 
     export class InputMediaGame implements TLObject {
         static readonly cons = new TLInt(0xd33f43f3);
-    
         static deserialized(_data: ByteStream): InputMediaGame | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMediaGame.cons)) return undefined;
             const id = deserializedObject(_data) as InputGameType;
             if (!id) return undefined;
-            
             return new InputMediaGame(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMediaGame.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -986,13 +951,12 @@ export namespace API {
 
     export class InputChatPhotoEmpty implements TLObject {
         static readonly cons = new TLInt(0x1ca48f57);
-    
         static deserialized(_data: ByteStream): InputChatPhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputChatPhotoEmpty.cons)) return undefined;
             return new InputChatPhotoEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputChatPhotoEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1005,17 +969,15 @@ export namespace API {
 
     export class InputChatUploadedPhoto implements TLObject {
         static readonly cons = new TLInt(0x927c55b4);
-    
         static deserialized(_data: ByteStream): InputChatUploadedPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputChatUploadedPhoto.cons)) return undefined;
             const file = deserializedObject(_data) as InputFileType;
             if (!file) return undefined;
-            
             return new InputChatUploadedPhoto(
                 file)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputChatUploadedPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1032,17 +994,15 @@ export namespace API {
 
     export class InputChatPhoto implements TLObject {
         static readonly cons = new TLInt(0x8953ad37);
-    
         static deserialized(_data: ByteStream): InputChatPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputChatPhoto.cons)) return undefined;
             const id = deserializedObject(_data) as InputPhotoType;
             if (!id) return undefined;
-            
             return new InputChatPhoto(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputChatPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1059,13 +1019,12 @@ export namespace API {
 
     export class InputGeoPointEmpty implements TLObject {
         static readonly cons = new TLInt(0xe4c123d6);
-    
         static deserialized(_data: ByteStream): InputGeoPointEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputGeoPointEmpty.cons)) return undefined;
             return new InputGeoPointEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputGeoPointEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1078,7 +1037,6 @@ export namespace API {
 
     export class InputGeoPoint implements TLObject {
         static readonly cons = new TLInt(0xf3b7acc9);
-    
         static deserialized(_data: ByteStream): InputGeoPoint | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputGeoPoint.cons)) return undefined;
@@ -1090,7 +1048,7 @@ export namespace API {
                 lat,
                 long)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputGeoPoint.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1109,13 +1067,12 @@ export namespace API {
 
     export class InputPhotoEmpty implements TLObject {
         static readonly cons = new TLInt(0x1cd7bf0d);
-    
         static deserialized(_data: ByteStream): InputPhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPhotoEmpty.cons)) return undefined;
             return new InputPhotoEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPhotoEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1128,7 +1085,6 @@ export namespace API {
 
     export class InputPhoto implements TLObject {
         static readonly cons = new TLInt(0xfb95c6c4);
-    
         static deserialized(_data: ByteStream): InputPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPhoto.cons)) return undefined;
@@ -1140,7 +1096,7 @@ export namespace API {
                 id,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1159,7 +1115,6 @@ export namespace API {
 
     export class InputFileLocation implements TLObject {
         static readonly cons = new TLInt(0x14637196);
-    
         static deserialized(_data: ByteStream): InputFileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputFileLocation.cons)) return undefined;
@@ -1174,7 +1129,7 @@ export namespace API {
                 localId,
                 secret)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputFileLocation.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1195,7 +1150,6 @@ export namespace API {
 
     export class InputEncryptedFileLocation implements TLObject {
         static readonly cons = new TLInt(0xf5235d55);
-    
         static deserialized(_data: ByteStream): InputEncryptedFileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputEncryptedFileLocation.cons)) return undefined;
@@ -1207,7 +1161,7 @@ export namespace API {
                 id,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputEncryptedFileLocation.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1226,7 +1180,6 @@ export namespace API {
 
     export class InputDocumentFileLocation implements TLObject {
         static readonly cons = new TLInt(0x430f0724);
-    
         static deserialized(_data: ByteStream): InputDocumentFileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputDocumentFileLocation.cons)) return undefined;
@@ -1241,7 +1194,7 @@ export namespace API {
                 accessHash,
                 version)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputDocumentFileLocation.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1262,7 +1215,6 @@ export namespace API {
 
     export class InputAppEvent implements TLObject {
         static readonly cons = new TLInt(0x770656a8);
-    
         static deserialized(_data: ByteStream): InputAppEvent | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputAppEvent.cons)) return undefined;
@@ -1280,7 +1232,7 @@ export namespace API {
                 peer,
                 data)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputAppEvent.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1303,7 +1255,6 @@ export namespace API {
 
     export class PeerUser implements TLObject {
         static readonly cons = new TLInt(0x9db1bc6d);
-    
         static deserialized(_data: ByteStream): PeerUser | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerUser.cons)) return undefined;
@@ -1312,7 +1263,7 @@ export namespace API {
             return new PeerUser(
                 userId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1329,7 +1280,6 @@ export namespace API {
 
     export class PeerChat implements TLObject {
         static readonly cons = new TLInt(0xbad0e5bb);
-    
         static deserialized(_data: ByteStream): PeerChat | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerChat.cons)) return undefined;
@@ -1338,7 +1288,7 @@ export namespace API {
             return new PeerChat(
                 chatId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerChat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1355,7 +1305,6 @@ export namespace API {
 
     export class PeerChannel implements TLObject {
         static readonly cons = new TLInt(0xbddde532);
-    
         static deserialized(_data: ByteStream): PeerChannel | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerChannel.cons)) return undefined;
@@ -1364,7 +1313,7 @@ export namespace API {
             return new PeerChannel(
                 channelId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1382,13 +1331,12 @@ export namespace API {
     export namespace storage {
     export class FileUnknown implements TLObject {
         static readonly cons = new TLInt(0xaa963b05);
-    
         static deserialized(_data: ByteStream): FileUnknown | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileUnknown.cons)) return undefined;
             return new FileUnknown()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileUnknown.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1402,13 +1350,12 @@ export namespace API {
     export namespace storage {
     export class FileJpeg implements TLObject {
         static readonly cons = new TLInt(0x7efe0e);
-    
         static deserialized(_data: ByteStream): FileJpeg | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileJpeg.cons)) return undefined;
             return new FileJpeg()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileJpeg.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1422,13 +1369,12 @@ export namespace API {
     export namespace storage {
     export class FileGif implements TLObject {
         static readonly cons = new TLInt(0xcae1aadf);
-    
         static deserialized(_data: ByteStream): FileGif | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileGif.cons)) return undefined;
             return new FileGif()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileGif.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1442,13 +1388,12 @@ export namespace API {
     export namespace storage {
     export class FilePng implements TLObject {
         static readonly cons = new TLInt(0xa4f63c0);
-    
         static deserialized(_data: ByteStream): FilePng | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FilePng.cons)) return undefined;
             return new FilePng()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FilePng.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1462,13 +1407,12 @@ export namespace API {
     export namespace storage {
     export class FilePdf implements TLObject {
         static readonly cons = new TLInt(0xae1e508d);
-    
         static deserialized(_data: ByteStream): FilePdf | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FilePdf.cons)) return undefined;
             return new FilePdf()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FilePdf.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1482,13 +1426,12 @@ export namespace API {
     export namespace storage {
     export class FileMp3 implements TLObject {
         static readonly cons = new TLInt(0x528a0677);
-    
         static deserialized(_data: ByteStream): FileMp3 | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileMp3.cons)) return undefined;
             return new FileMp3()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileMp3.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1502,13 +1445,12 @@ export namespace API {
     export namespace storage {
     export class FileMov implements TLObject {
         static readonly cons = new TLInt(0x4b09ebbc);
-    
         static deserialized(_data: ByteStream): FileMov | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileMov.cons)) return undefined;
             return new FileMov()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileMov.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1522,13 +1464,12 @@ export namespace API {
     export namespace storage {
     export class FilePartial implements TLObject {
         static readonly cons = new TLInt(0x40bc6f52);
-    
         static deserialized(_data: ByteStream): FilePartial | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FilePartial.cons)) return undefined;
             return new FilePartial()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FilePartial.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1542,13 +1483,12 @@ export namespace API {
     export namespace storage {
     export class FileMp4 implements TLObject {
         static readonly cons = new TLInt(0xb3cea0e4);
-    
         static deserialized(_data: ByteStream): FileMp4 | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileMp4.cons)) return undefined;
             return new FileMp4()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileMp4.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1562,13 +1502,12 @@ export namespace API {
     export namespace storage {
     export class FileWebp implements TLObject {
         static readonly cons = new TLInt(0x1081464c);
-    
         static deserialized(_data: ByteStream): FileWebp | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileWebp.cons)) return undefined;
             return new FileWebp()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileWebp.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1581,7 +1520,6 @@ export namespace API {
 
     export class FileLocationUnavailable implements TLObject {
         static readonly cons = new TLInt(0x7c596b46);
-    
         static deserialized(_data: ByteStream): FileLocationUnavailable | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileLocationUnavailable.cons)) return undefined;
@@ -1596,7 +1534,7 @@ export namespace API {
                 localId,
                 secret)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileLocationUnavailable.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1617,7 +1555,6 @@ export namespace API {
 
     export class FileLocation implements TLObject {
         static readonly cons = new TLInt(0x53d69076);
-    
         static deserialized(_data: ByteStream): FileLocation | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FileLocation.cons)) return undefined;
@@ -1635,7 +1572,7 @@ export namespace API {
                 localId,
                 secret)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FileLocation.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1658,7 +1595,6 @@ export namespace API {
 
     export class UserEmpty implements TLObject {
         static readonly cons = new TLInt(0x200250ba);
-    
         static deserialized(_data: ByteStream): UserEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserEmpty.cons)) return undefined;
@@ -1667,7 +1603,7 @@ export namespace API {
             return new UserEmpty(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1684,7 +1620,6 @@ export namespace API {
 
     export class User implements TLObject {
         static readonly cons = new TLInt(0xd10d979a);
-    
         static deserialized(_data: ByteStream): User | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(User.cons)) return undefined;
@@ -1787,7 +1722,7 @@ export namespace API {
                 restrictionReason,
                 botInlinePlaceholder)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = User.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1803,16 +1738,16 @@ export namespace API {
             flags = (this.restricted) ? (flags | 262144) : (flags & ~262144);
             flags = (this.min) ? (flags | 1048576) : (flags & ~1048576);
             flags = (this.botInlineGeo) ? (flags | 2097152) : (flags & ~2097152);
-            flags = (!this.accessHash) ? (flags | 1) : (flags & ~1);
-            flags = (!this.firstName) ? (flags | 2) : (flags & ~2);
-            flags = (!this.lastName) ? (flags | 4) : (flags & ~4);
-            flags = (!this.username) ? (flags | 8) : (flags & ~8);
-            flags = (!this.phone) ? (flags | 16) : (flags & ~16);
-            flags = (!this.photo) ? (flags | 32) : (flags & ~32);
-            flags = (!this.status) ? (flags | 64) : (flags & ~64);
-            flags = (!this.botInfoVersion) ? (flags | 16384) : (flags & ~16384);
-            flags = (!this.restrictionReason) ? (flags | 262144) : (flags & ~262144);
-            flags = (!this.botInlinePlaceholder) ? (flags | 524288) : (flags & ~524288);
+            flags = (this.accessHash) ? (flags | 1) : (flags & ~1);
+            flags = (this.firstName) ? (flags | 2) : (flags & ~2);
+            flags = (this.lastName) ? (flags | 4) : (flags & ~4);
+            flags = (this.username) ? (flags | 8) : (flags & ~8);
+            flags = (this.phone) ? (flags | 16) : (flags & ~16);
+            flags = (this.photo) ? (flags | 32) : (flags & ~32);
+            flags = (this.status) ? (flags | 64) : (flags & ~64);
+            flags = (this.botInfoVersion) ? (flags | 16384) : (flags & ~16384);
+            flags = (this.restrictionReason) ? (flags | 262144) : (flags & ~262144);
+            flags = (this.botInlinePlaceholder) ? (flags | 524288) : (flags & ~524288);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             if (this.accessHash) data.push(this.accessHash.serialized());
@@ -1858,13 +1793,12 @@ export namespace API {
 
     export class UserProfilePhotoEmpty implements TLObject {
         static readonly cons = new TLInt(0x4f11bae1);
-    
         static deserialized(_data: ByteStream): UserProfilePhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserProfilePhotoEmpty.cons)) return undefined;
             return new UserProfilePhotoEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserProfilePhotoEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1877,7 +1811,6 @@ export namespace API {
 
     export class UserProfilePhoto implements TLObject {
         static readonly cons = new TLInt(0xd559d8c8);
-    
         static deserialized(_data: ByteStream): UserProfilePhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserProfilePhoto.cons)) return undefined;
@@ -1885,16 +1818,14 @@ export namespace API {
             if (!photoId) return undefined;
             const photoSmall = deserializedObject(_data) as FileLocationType;
             if (!photoSmall) return undefined;
-            
             const photoBig = deserializedObject(_data) as FileLocationType;
             if (!photoBig) return undefined;
-            
             return new UserProfilePhoto(
                 photoId,
                 photoSmall,
                 photoBig)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserProfilePhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1915,13 +1846,12 @@ export namespace API {
 
     export class UserStatusEmpty implements TLObject {
         static readonly cons = new TLInt(0x9d05049);
-    
         static deserialized(_data: ByteStream): UserStatusEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserStatusEmpty.cons)) return undefined;
             return new UserStatusEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserStatusEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1934,7 +1864,6 @@ export namespace API {
 
     export class UserStatusOnline implements TLObject {
         static readonly cons = new TLInt(0xedb93949);
-    
         static deserialized(_data: ByteStream): UserStatusOnline | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserStatusOnline.cons)) return undefined;
@@ -1943,7 +1872,7 @@ export namespace API {
             return new UserStatusOnline(
                 expires)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserStatusOnline.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1960,7 +1889,6 @@ export namespace API {
 
     export class UserStatusOffline implements TLObject {
         static readonly cons = new TLInt(0x8c703f);
-    
         static deserialized(_data: ByteStream): UserStatusOffline | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserStatusOffline.cons)) return undefined;
@@ -1969,7 +1897,7 @@ export namespace API {
             return new UserStatusOffline(
                 wasOnline)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserStatusOffline.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -1986,13 +1914,12 @@ export namespace API {
 
     export class UserStatusRecently implements TLObject {
         static readonly cons = new TLInt(0xe26f42f1);
-    
         static deserialized(_data: ByteStream): UserStatusRecently | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserStatusRecently.cons)) return undefined;
             return new UserStatusRecently()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserStatusRecently.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2005,13 +1932,12 @@ export namespace API {
 
     export class UserStatusLastWeek implements TLObject {
         static readonly cons = new TLInt(0x7bf09fc);
-    
         static deserialized(_data: ByteStream): UserStatusLastWeek | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserStatusLastWeek.cons)) return undefined;
             return new UserStatusLastWeek()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserStatusLastWeek.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2024,13 +1950,12 @@ export namespace API {
 
     export class UserStatusLastMonth implements TLObject {
         static readonly cons = new TLInt(0x77ebc742);
-    
         static deserialized(_data: ByteStream): UserStatusLastMonth | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserStatusLastMonth.cons)) return undefined;
             return new UserStatusLastMonth()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserStatusLastMonth.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2043,7 +1968,6 @@ export namespace API {
 
     export class ChatEmpty implements TLObject {
         static readonly cons = new TLInt(0x9ba2d800);
-    
         static deserialized(_data: ByteStream): ChatEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatEmpty.cons)) return undefined;
@@ -2052,7 +1976,7 @@ export namespace API {
             return new ChatEmpty(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2069,7 +1993,6 @@ export namespace API {
 
     export class Chat implements TLObject {
         static readonly cons = new TLInt(0xd91cdd54);
-    
         static deserialized(_data: ByteStream): Chat | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Chat.cons)) return undefined;
@@ -2087,7 +2010,6 @@ export namespace API {
             if (!title) return undefined;
             const photo = deserializedObject(_data) as ChatPhotoType;
             if (!photo) return undefined;
-            
             const participantsCount = TLInt.deserialized(_data);
             if (!participantsCount) return undefined;
             const date = TLInt.deserialized(_data);
@@ -2115,7 +2037,7 @@ export namespace API {
                 version,
                 migratedTo)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Chat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2126,7 +2048,7 @@ export namespace API {
             flags = (this.adminsEnabled) ? (flags | 8) : (flags & ~8);
             flags = (this.admin) ? (flags | 16) : (flags & ~16);
             flags = (this.deactivated) ? (flags | 32) : (flags & ~32);
-            flags = (!this.migratedTo) ? (flags | 64) : (flags & ~64);
+            flags = (this.migratedTo) ? (flags | 64) : (flags & ~64);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.title.serialized());
@@ -2159,7 +2081,6 @@ export namespace API {
 
     export class ChatForbidden implements TLObject {
         static readonly cons = new TLInt(0x7328bdb);
-    
         static deserialized(_data: ByteStream): ChatForbidden | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatForbidden.cons)) return undefined;
@@ -2171,7 +2092,7 @@ export namespace API {
                 id,
                 title)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatForbidden.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2190,7 +2111,6 @@ export namespace API {
 
     export class Channel implements TLObject {
         static readonly cons = new TLInt(0xa14dca52);
-    
         static deserialized(_data: ByteStream): Channel | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Channel.cons)) return undefined;
@@ -2226,7 +2146,6 @@ export namespace API {
             }
             const photo = deserializedObject(_data) as ChatPhotoType;
             if (!photo) return undefined;
-            
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             const version = TLInt.deserialized(_data);
@@ -2259,7 +2178,7 @@ export namespace API {
                 version,
                 restrictionReason)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Channel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2276,9 +2195,9 @@ export namespace API {
             flags = (this.democracy) ? (flags | 1024) : (flags & ~1024);
             flags = (this.signatures) ? (flags | 2048) : (flags & ~2048);
             flags = (this.min) ? (flags | 4096) : (flags & ~4096);
-            flags = (!this.accessHash) ? (flags | 8192) : (flags & ~8192);
-            flags = (!this.username) ? (flags | 64) : (flags & ~64);
-            flags = (!this.restrictionReason) ? (flags | 512) : (flags & ~512);
+            flags = (this.accessHash) ? (flags | 8192) : (flags & ~8192);
+            flags = (this.username) ? (flags | 64) : (flags & ~64);
+            flags = (this.restrictionReason) ? (flags | 512) : (flags & ~512);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             if (this.accessHash) data.push(this.accessHash.serialized());
@@ -2319,7 +2238,6 @@ export namespace API {
 
     export class ChannelForbidden implements TLObject {
         static readonly cons = new TLInt(0x8537784f);
-    
         static deserialized(_data: ByteStream): ChannelForbidden | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelForbidden.cons)) return undefined;
@@ -2340,7 +2258,7 @@ export namespace API {
                 accessHash,
                 title)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelForbidden.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2367,7 +2285,6 @@ export namespace API {
 
     export class ChatFull implements TLObject {
         static readonly cons = new TLInt(0x2e02a614);
-    
         static deserialized(_data: ByteStream): ChatFull | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatFull.cons)) return undefined;
@@ -2375,16 +2292,12 @@ export namespace API {
             if (!id) return undefined;
             const participants = deserializedObject(_data) as ChatParticipantsType;
             if (!participants) return undefined;
-            
             const chatPhoto = deserializedObject(_data) as PhotoType;
             if (!chatPhoto) return undefined;
-            
             const notifySettings = deserializedObject(_data) as PeerNotifySettingsType;
             if (!notifySettings) return undefined;
-            
             const exportedInvite = deserializedObject(_data) as ExportedChatInviteType;
             if (!exportedInvite) return undefined;
-            
             const botInfo = TLVector.deserialized(_data, BotInfo) as TLVector<BotInfo>;
             if (!botInfo) return undefined;
             return new ChatFull(
@@ -2395,7 +2308,7 @@ export namespace API {
                 exportedInvite,
                 botInfo)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatFull.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2422,7 +2335,6 @@ export namespace API {
 
     export class ChannelFull implements TLObject {
         static readonly cons = new TLInt(0xc3d5512f);
-    
         static deserialized(_data: ByteStream): ChannelFull | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelFull.cons)) return undefined;
@@ -2460,13 +2372,10 @@ export namespace API {
             if (!unreadCount) return undefined;
             const chatPhoto = deserializedObject(_data) as PhotoType;
             if (!chatPhoto) return undefined;
-            
             const notifySettings = deserializedObject(_data) as PeerNotifySettingsType;
             if (!notifySettings) return undefined;
-            
             const exportedInvite = deserializedObject(_data) as ExportedChatInviteType;
             if (!exportedInvite) return undefined;
-            
             const botInfo = TLVector.deserialized(_data, BotInfo) as TLVector<BotInfo>;
             if (!botInfo) return undefined;
             let migratedFromChatId: TLInt | undefined;
@@ -2506,19 +2415,19 @@ export namespace API {
                 migratedFromMaxId,
                 pinnedMsgId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelFull.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.canViewParticipants) ? (flags | 8) : (flags & ~8);
             flags = (this.canSetUsername) ? (flags | 64) : (flags & ~64);
-            flags = (!this.participantsCount) ? (flags | 1) : (flags & ~1);
-            flags = (!this.adminsCount) ? (flags | 2) : (flags & ~2);
-            flags = (!this.kickedCount) ? (flags | 4) : (flags & ~4);
-            flags = (!this.migratedFromChatId) ? (flags | 16) : (flags & ~16);
-            flags = (!this.migratedFromMaxId) ? (flags | 16) : (flags & ~16);
-            flags = (!this.pinnedMsgId) ? (flags | 32) : (flags & ~32);
+            flags = (this.participantsCount) ? (flags | 1) : (flags & ~1);
+            flags = (this.adminsCount) ? (flags | 2) : (flags & ~2);
+            flags = (this.kickedCount) ? (flags | 4) : (flags & ~4);
+            flags = (this.migratedFromChatId) ? (flags | 16) : (flags & ~16);
+            flags = (this.migratedFromMaxId) ? (flags | 16) : (flags & ~16);
+            flags = (this.pinnedMsgId) ? (flags | 32) : (flags & ~32);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.about.serialized());
@@ -2563,7 +2472,6 @@ export namespace API {
 
     export class ChatParticipant implements TLObject {
         static readonly cons = new TLInt(0xc8d7493e);
-    
         static deserialized(_data: ByteStream): ChatParticipant | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatParticipant.cons)) return undefined;
@@ -2578,7 +2486,7 @@ export namespace API {
                 inviterId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatParticipant.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2599,7 +2507,6 @@ export namespace API {
 
     export class ChatParticipantCreator implements TLObject {
         static readonly cons = new TLInt(0xda13538a);
-    
         static deserialized(_data: ByteStream): ChatParticipantCreator | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatParticipantCreator.cons)) return undefined;
@@ -2608,7 +2515,7 @@ export namespace API {
             return new ChatParticipantCreator(
                 userId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatParticipantCreator.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2625,7 +2532,6 @@ export namespace API {
 
     export class ChatParticipantAdmin implements TLObject {
         static readonly cons = new TLInt(0xe2d6e436);
-    
         static deserialized(_data: ByteStream): ChatParticipantAdmin | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatParticipantAdmin.cons)) return undefined;
@@ -2640,7 +2546,7 @@ export namespace API {
                 inviterId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatParticipantAdmin.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2661,7 +2567,6 @@ export namespace API {
 
     export class ChatParticipantsForbidden implements TLObject {
         static readonly cons = new TLInt(0xfc900c2b);
-    
         static deserialized(_data: ByteStream): ChatParticipantsForbidden | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatParticipantsForbidden.cons)) return undefined;
@@ -2679,12 +2584,12 @@ export namespace API {
                 chatId,
                 selfParticipant)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatParticipantsForbidden.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.selfParticipant) ? (flags | 1) : (flags & ~1);
+            flags = (this.selfParticipant) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.chatId.serialized());
             if (this.selfParticipant) data.push(this.selfParticipant.serialized());
@@ -2701,7 +2606,6 @@ export namespace API {
 
     export class ChatParticipants implements TLObject {
         static readonly cons = new TLInt(0x3f460fed);
-    
         static deserialized(_data: ByteStream): ChatParticipants | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatParticipants.cons)) return undefined;
@@ -2716,7 +2620,7 @@ export namespace API {
                 participants,
                 version)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatParticipants.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2737,13 +2641,12 @@ export namespace API {
 
     export class ChatPhotoEmpty implements TLObject {
         static readonly cons = new TLInt(0x37c1011c);
-    
         static deserialized(_data: ByteStream): ChatPhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatPhotoEmpty.cons)) return undefined;
             return new ChatPhotoEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatPhotoEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2756,21 +2659,18 @@ export namespace API {
 
     export class ChatPhoto implements TLObject {
         static readonly cons = new TLInt(0x6153276a);
-    
         static deserialized(_data: ByteStream): ChatPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatPhoto.cons)) return undefined;
             const photoSmall = deserializedObject(_data) as FileLocationType;
             if (!photoSmall) return undefined;
-            
             const photoBig = deserializedObject(_data) as FileLocationType;
             if (!photoBig) return undefined;
-            
             return new ChatPhoto(
                 photoSmall,
                 photoBig)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2789,7 +2689,6 @@ export namespace API {
 
     export class MessageEmpty implements TLObject {
         static readonly cons = new TLInt(0x83e5de54);
-    
         static deserialized(_data: ByteStream): MessageEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEmpty.cons)) return undefined;
@@ -2798,7 +2697,7 @@ export namespace API {
             return new MessageEmpty(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2815,7 +2714,6 @@ export namespace API {
 
     export class Message implements TLObject {
         static readonly cons = new TLInt(0xc09be45f);
-    
         static deserialized(_data: ByteStream): Message | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Message.cons)) return undefined;
@@ -2836,7 +2734,6 @@ export namespace API {
             }
             const toId = deserializedObject(_data) as PeerType;
             if (!toId) return undefined;
-            
             let fwdFrom: MessageFwdHeader | undefined;
             if ((flags.value & 4) !== 0) {
                 const obj = deserializedObject(_data) as MessageFwdHeader;
@@ -2909,7 +2806,7 @@ export namespace API {
                 views,
                 editDate)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Message.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -2919,15 +2816,15 @@ export namespace API {
             flags = (this.mediaUnread) ? (flags | 32) : (flags & ~32);
             flags = (this.silent) ? (flags | 8192) : (flags & ~8192);
             flags = (this.post) ? (flags | 16384) : (flags & ~16384);
-            flags = (!this.fromId) ? (flags | 256) : (flags & ~256);
-            flags = (!this.fwdFrom) ? (flags | 4) : (flags & ~4);
-            flags = (!this.viaBotId) ? (flags | 2048) : (flags & ~2048);
-            flags = (!this.replyToMsgId) ? (flags | 8) : (flags & ~8);
-            flags = (!this.media) ? (flags | 512) : (flags & ~512);
-            flags = (!this.replyMarkup) ? (flags | 64) : (flags & ~64);
-            flags = (!this.entities) ? (flags | 128) : (flags & ~128);
-            flags = (!this.views) ? (flags | 1024) : (flags & ~1024);
-            flags = (!this.editDate) ? (flags | 32768) : (flags & ~32768);
+            flags = (this.fromId) ? (flags | 256) : (flags & ~256);
+            flags = (this.fwdFrom) ? (flags | 4) : (flags & ~4);
+            flags = (this.viaBotId) ? (flags | 2048) : (flags & ~2048);
+            flags = (this.replyToMsgId) ? (flags | 8) : (flags & ~8);
+            flags = (this.media) ? (flags | 512) : (flags & ~512);
+            flags = (this.replyMarkup) ? (flags | 64) : (flags & ~64);
+            flags = (this.entities) ? (flags | 128) : (flags & ~128);
+            flags = (this.views) ? (flags | 1024) : (flags & ~1024);
+            flags = (this.editDate) ? (flags | 32768) : (flags & ~32768);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             if (this.fromId) data.push(this.fromId.serialized());
@@ -2971,7 +2868,6 @@ export namespace API {
 
     export class MessageService implements TLObject {
         static readonly cons = new TLInt(0x9e19a1f6);
-    
         static deserialized(_data: ByteStream): MessageService | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageService.cons)) return undefined;
@@ -2992,7 +2888,6 @@ export namespace API {
             }
             const toId = deserializedObject(_data) as PeerType;
             if (!toId) return undefined;
-            
             let replyToMsgId: TLInt | undefined;
             if ((flags.value & 8) !== 0) {
                 const obj = TLInt.deserialized(_data);
@@ -3003,7 +2898,6 @@ export namespace API {
             if (!date) return undefined;
             const action = deserializedObject(_data) as MessageActionType;
             if (!action) return undefined;
-            
             return new MessageService(
                 out,
                 mentioned,
@@ -3017,7 +2911,7 @@ export namespace API {
                 date,
                 action)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageService.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3027,8 +2921,8 @@ export namespace API {
             flags = (this.mediaUnread) ? (flags | 32) : (flags & ~32);
             flags = (this.silent) ? (flags | 8192) : (flags & ~8192);
             flags = (this.post) ? (flags | 16384) : (flags & ~16384);
-            flags = (!this.fromId) ? (flags | 256) : (flags & ~256);
-            flags = (!this.replyToMsgId) ? (flags | 8) : (flags & ~8);
+            flags = (this.fromId) ? (flags | 256) : (flags & ~256);
+            flags = (this.replyToMsgId) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             if (this.fromId) data.push(this.fromId.serialized());
@@ -3058,13 +2952,12 @@ export namespace API {
 
     export class MessageMediaEmpty implements TLObject {
         static readonly cons = new TLInt(0x3ded6320);
-    
         static deserialized(_data: ByteStream): MessageMediaEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaEmpty.cons)) return undefined;
             return new MessageMediaEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3077,20 +2970,18 @@ export namespace API {
 
     export class MessageMediaPhoto implements TLObject {
         static readonly cons = new TLInt(0x3d8ce53d);
-    
         static deserialized(_data: ByteStream): MessageMediaPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaPhoto.cons)) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
-            
             const caption = TLString.deserialized(_data);
             if (!caption) return undefined;
             return new MessageMediaPhoto(
                 photo,
                 caption)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3109,17 +3000,15 @@ export namespace API {
 
     export class MessageMediaGeo implements TLObject {
         static readonly cons = new TLInt(0x56e0d474);
-    
         static deserialized(_data: ByteStream): MessageMediaGeo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaGeo.cons)) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
             if (!geo) return undefined;
-            
             return new MessageMediaGeo(
                 geo)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaGeo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3136,7 +3025,6 @@ export namespace API {
 
     export class MessageMediaContact implements TLObject {
         static readonly cons = new TLInt(0x5e7d2f39);
-    
         static deserialized(_data: ByteStream): MessageMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaContact.cons)) return undefined;
@@ -3154,7 +3042,7 @@ export namespace API {
                 lastName,
                 userId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3177,13 +3065,12 @@ export namespace API {
 
     export class MessageMediaUnsupported implements TLObject {
         static readonly cons = new TLInt(0x9f84f49e);
-    
         static deserialized(_data: ByteStream): MessageMediaUnsupported | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaUnsupported.cons)) return undefined;
             return new MessageMediaUnsupported()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaUnsupported.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3196,20 +3083,18 @@ export namespace API {
 
     export class MessageMediaDocument implements TLObject {
         static readonly cons = new TLInt(0xf3e02ea8);
-    
         static deserialized(_data: ByteStream): MessageMediaDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaDocument.cons)) return undefined;
             const document = deserializedObject(_data) as DocumentType;
             if (!document) return undefined;
-            
             const caption = TLString.deserialized(_data);
             if (!caption) return undefined;
             return new MessageMediaDocument(
                 document,
                 caption)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3228,17 +3113,15 @@ export namespace API {
 
     export class MessageMediaWebPage implements TLObject {
         static readonly cons = new TLInt(0xa32dd600);
-    
         static deserialized(_data: ByteStream): MessageMediaWebPage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaWebPage.cons)) return undefined;
             const webpage = deserializedObject(_data) as WebPageType;
             if (!webpage) return undefined;
-            
             return new MessageMediaWebPage(
                 webpage)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaWebPage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3255,13 +3138,11 @@ export namespace API {
 
     export class MessageMediaVenue implements TLObject {
         static readonly cons = new TLInt(0x7912b71f);
-    
         static deserialized(_data: ByteStream): MessageMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaVenue.cons)) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
             if (!geo) return undefined;
-            
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             const address = TLString.deserialized(_data);
@@ -3277,7 +3158,7 @@ export namespace API {
                 provider,
                 venueId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaVenue.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3302,17 +3183,15 @@ export namespace API {
 
     export class MessageMediaGame implements TLObject {
         static readonly cons = new TLInt(0xfdb19008);
-    
         static deserialized(_data: ByteStream): MessageMediaGame | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaGame.cons)) return undefined;
             const game = deserializedObject(_data) as Game;
             if (!game) return undefined;
-            
             return new MessageMediaGame(
                 game)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageMediaGame.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3329,13 +3208,12 @@ export namespace API {
 
     export class MessageActionEmpty implements TLObject {
         static readonly cons = new TLInt(0xb6aef7b0);
-    
         static deserialized(_data: ByteStream): MessageActionEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionEmpty.cons)) return undefined;
             return new MessageActionEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3348,7 +3226,6 @@ export namespace API {
 
     export class MessageActionChatCreate implements TLObject {
         static readonly cons = new TLInt(0xa6638b9a);
-    
         static deserialized(_data: ByteStream): MessageActionChatCreate | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatCreate.cons)) return undefined;
@@ -3360,7 +3237,7 @@ export namespace API {
                 title,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatCreate.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3379,7 +3256,6 @@ export namespace API {
 
     export class MessageActionChatEditTitle implements TLObject {
         static readonly cons = new TLInt(0xb5a1ce5a);
-    
         static deserialized(_data: ByteStream): MessageActionChatEditTitle | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatEditTitle.cons)) return undefined;
@@ -3388,7 +3264,7 @@ export namespace API {
             return new MessageActionChatEditTitle(
                 title)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatEditTitle.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3405,17 +3281,15 @@ export namespace API {
 
     export class MessageActionChatEditPhoto implements TLObject {
         static readonly cons = new TLInt(0x7fcb13a8);
-    
         static deserialized(_data: ByteStream): MessageActionChatEditPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatEditPhoto.cons)) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
-            
             return new MessageActionChatEditPhoto(
                 photo)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatEditPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3432,13 +3306,12 @@ export namespace API {
 
     export class MessageActionChatDeletePhoto implements TLObject {
         static readonly cons = new TLInt(0x95e3fbef);
-    
         static deserialized(_data: ByteStream): MessageActionChatDeletePhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatDeletePhoto.cons)) return undefined;
             return new MessageActionChatDeletePhoto()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatDeletePhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3451,7 +3324,6 @@ export namespace API {
 
     export class MessageActionChatAddUser implements TLObject {
         static readonly cons = new TLInt(0x488a7337);
-    
         static deserialized(_data: ByteStream): MessageActionChatAddUser | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatAddUser.cons)) return undefined;
@@ -3460,7 +3332,7 @@ export namespace API {
             return new MessageActionChatAddUser(
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatAddUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3477,7 +3349,6 @@ export namespace API {
 
     export class MessageActionChatDeleteUser implements TLObject {
         static readonly cons = new TLInt(0xb2ae9b0c);
-    
         static deserialized(_data: ByteStream): MessageActionChatDeleteUser | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatDeleteUser.cons)) return undefined;
@@ -3486,7 +3357,7 @@ export namespace API {
             return new MessageActionChatDeleteUser(
                 userId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatDeleteUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3503,7 +3374,6 @@ export namespace API {
 
     export class MessageActionChatJoinedByLink implements TLObject {
         static readonly cons = new TLInt(0xf89cf5e8);
-    
         static deserialized(_data: ByteStream): MessageActionChatJoinedByLink | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatJoinedByLink.cons)) return undefined;
@@ -3512,7 +3382,7 @@ export namespace API {
             return new MessageActionChatJoinedByLink(
                 inviterId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatJoinedByLink.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3529,7 +3399,6 @@ export namespace API {
 
     export class MessageActionChannelCreate implements TLObject {
         static readonly cons = new TLInt(0x95d2ac92);
-    
         static deserialized(_data: ByteStream): MessageActionChannelCreate | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChannelCreate.cons)) return undefined;
@@ -3538,7 +3407,7 @@ export namespace API {
             return new MessageActionChannelCreate(
                 title)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChannelCreate.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3555,7 +3424,6 @@ export namespace API {
 
     export class MessageActionChatMigrateTo implements TLObject {
         static readonly cons = new TLInt(0x51bdb021);
-    
         static deserialized(_data: ByteStream): MessageActionChatMigrateTo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChatMigrateTo.cons)) return undefined;
@@ -3564,7 +3432,7 @@ export namespace API {
             return new MessageActionChatMigrateTo(
                 channelId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChatMigrateTo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3581,7 +3449,6 @@ export namespace API {
 
     export class MessageActionChannelMigrateFrom implements TLObject {
         static readonly cons = new TLInt(0xb055eaee);
-    
         static deserialized(_data: ByteStream): MessageActionChannelMigrateFrom | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionChannelMigrateFrom.cons)) return undefined;
@@ -3593,7 +3460,7 @@ export namespace API {
                 title,
                 chatId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionChannelMigrateFrom.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3612,13 +3479,12 @@ export namespace API {
 
     export class MessageActionPinMessage implements TLObject {
         static readonly cons = new TLInt(0x94bd38ed);
-    
         static deserialized(_data: ByteStream): MessageActionPinMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionPinMessage.cons)) return undefined;
             return new MessageActionPinMessage()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionPinMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3631,13 +3497,12 @@ export namespace API {
 
     export class MessageActionHistoryClear implements TLObject {
         static readonly cons = new TLInt(0x9fbab604);
-    
         static deserialized(_data: ByteStream): MessageActionHistoryClear | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionHistoryClear.cons)) return undefined;
             return new MessageActionHistoryClear()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionHistoryClear.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3650,7 +3515,6 @@ export namespace API {
 
     export class MessageActionGameScore implements TLObject {
         static readonly cons = new TLInt(0x92a72876);
-    
         static deserialized(_data: ByteStream): MessageActionGameScore | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageActionGameScore.cons)) return undefined;
@@ -3662,7 +3526,7 @@ export namespace API {
                 gameId,
                 score)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageActionGameScore.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3681,7 +3545,6 @@ export namespace API {
 
     export class Dialog implements TLObject {
         static readonly cons = new TLInt(0x66ffba14);
-    
         static deserialized(_data: ByteStream): Dialog | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Dialog.cons)) return undefined;
@@ -3689,7 +3552,6 @@ export namespace API {
             if (!flags) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             const topMessage = TLInt.deserialized(_data);
             if (!topMessage) return undefined;
             const readInboxMaxId = TLInt.deserialized(_data);
@@ -3700,7 +3562,6 @@ export namespace API {
             if (!unreadCount) return undefined;
             const notifySettings = deserializedObject(_data) as PeerNotifySettingsType;
             if (!notifySettings) return undefined;
-            
             let pts: TLInt | undefined;
             if ((flags.value & 1) !== 0) {
                 const obj = TLInt.deserialized(_data);
@@ -3723,13 +3584,13 @@ export namespace API {
                 pts,
                 draft)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Dialog.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.pts) ? (flags | 1) : (flags & ~1);
-            flags = (!this.draft) ? (flags | 2) : (flags & ~2);
+            flags = (this.pts) ? (flags | 1) : (flags & ~1);
+            flags = (this.draft) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.peer.serialized());
             data.push(this.topMessage.serialized());
@@ -3758,7 +3619,6 @@ export namespace API {
 
     export class PhotoEmpty implements TLObject {
         static readonly cons = new TLInt(0x2331b22d);
-    
         static deserialized(_data: ByteStream): PhotoEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PhotoEmpty.cons)) return undefined;
@@ -3767,7 +3627,7 @@ export namespace API {
             return new PhotoEmpty(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PhotoEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3784,7 +3644,6 @@ export namespace API {
 
     export class Photo implements TLObject {
         static readonly cons = new TLInt(0x9288dd29);
-    
         static deserialized(_data: ByteStream): Photo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Photo.cons)) return undefined;
@@ -3806,7 +3665,7 @@ export namespace API {
                 date,
                 sizes)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Photo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3833,7 +3692,6 @@ export namespace API {
 
     export class PhotoSizeEmpty implements TLObject {
         static readonly cons = new TLInt(0xe17e23c);
-    
         static deserialized(_data: ByteStream): PhotoSizeEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PhotoSizeEmpty.cons)) return undefined;
@@ -3842,7 +3700,7 @@ export namespace API {
             return new PhotoSizeEmpty(
                 type)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PhotoSizeEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3859,7 +3717,6 @@ export namespace API {
 
     export class PhotoSize implements TLObject {
         static readonly cons = new TLInt(0x77bfb61b);
-    
         static deserialized(_data: ByteStream): PhotoSize | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PhotoSize.cons)) return undefined;
@@ -3867,7 +3724,6 @@ export namespace API {
             if (!type) return undefined;
             const location = deserializedObject(_data) as FileLocationType;
             if (!location) return undefined;
-            
             const w = TLInt.deserialized(_data);
             if (!w) return undefined;
             const h = TLInt.deserialized(_data);
@@ -3881,7 +3737,7 @@ export namespace API {
                 h,
                 size)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PhotoSize.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3906,7 +3762,6 @@ export namespace API {
 
     export class PhotoCachedSize implements TLObject {
         static readonly cons = new TLInt(0xe9a734fa);
-    
         static deserialized(_data: ByteStream): PhotoCachedSize | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PhotoCachedSize.cons)) return undefined;
@@ -3914,7 +3769,6 @@ export namespace API {
             if (!type) return undefined;
             const location = deserializedObject(_data) as FileLocationType;
             if (!location) return undefined;
-            
             const w = TLInt.deserialized(_data);
             if (!w) return undefined;
             const h = TLInt.deserialized(_data);
@@ -3928,7 +3782,7 @@ export namespace API {
                 h,
                 bytes)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PhotoCachedSize.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3953,13 +3807,12 @@ export namespace API {
 
     export class GeoPointEmpty implements TLObject {
         static readonly cons = new TLInt(0x1117dd5f);
-    
         static deserialized(_data: ByteStream): GeoPointEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(GeoPointEmpty.cons)) return undefined;
             return new GeoPointEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = GeoPointEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -3972,7 +3825,6 @@ export namespace API {
 
     export class GeoPoint implements TLObject {
         static readonly cons = new TLInt(0x2049d70c);
-    
         static deserialized(_data: ByteStream): GeoPoint | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(GeoPoint.cons)) return undefined;
@@ -3984,7 +3836,7 @@ export namespace API {
                 long,
                 lat)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = GeoPoint.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4004,17 +3856,15 @@ export namespace API {
     export namespace auth {
     export class CheckedPhone implements TLObject {
         static readonly cons = new TLInt(0x811ea28e);
-    
         static deserialized(_data: ByteStream): CheckedPhone | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(CheckedPhone.cons)) return undefined;
             const phoneRegistered = deserializedObject(_data) as BoolType;
             if (!phoneRegistered) return undefined;
-            
             return new CheckedPhone(
                 phoneRegistered)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = CheckedPhone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4032,7 +3882,6 @@ export namespace API {
     export namespace auth {
     export class SentCode implements TLObject {
         static readonly cons = new TLInt(0x5e002502);
-    
         static deserialized(_data: ByteStream): SentCode | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SentCode.cons)) return undefined;
@@ -4041,7 +3890,6 @@ export namespace API {
             const phoneRegistered = (flags.value & 1) !== 0;
             const type = deserializedObject(_data) as auth.SentCodeTypeType;
             if (!type) return undefined;
-            
             const phoneCodeHash = TLString.deserialized(_data);
             if (!phoneCodeHash) return undefined;
             let nextType: auth.CodeTypeType | undefined;
@@ -4063,14 +3911,14 @@ export namespace API {
                 nextType,
                 timeout)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SentCode.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.phoneRegistered) ? (flags | 1) : (flags & ~1);
-            flags = (!this.nextType) ? (flags | 2) : (flags & ~2);
-            flags = (!this.timeout) ? (flags | 4) : (flags & ~4);
+            flags = (this.nextType) ? (flags | 2) : (flags & ~2);
+            flags = (this.timeout) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.type.serialized());
             data.push(this.phoneCodeHash.serialized());
@@ -4093,7 +3941,6 @@ export namespace API {
     export namespace auth {
     export class Authorization implements TLObject {
         static readonly cons = new TLInt(0xcd050916);
-    
         static deserialized(_data: ByteStream): Authorization | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Authorization.cons)) return undefined;
@@ -4107,17 +3954,16 @@ export namespace API {
             }
             const user = deserializedObject(_data) as UserType;
             if (!user) return undefined;
-            
             return new Authorization(
                 tmpSessions,
                 user)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Authorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.tmpSessions) ? (flags | 1) : (flags & ~1);
+            flags = (this.tmpSessions) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             if (this.tmpSessions) data.push(this.tmpSessions.serialized());
             data.push(this.user.serialized());
@@ -4135,7 +3981,6 @@ export namespace API {
     export namespace auth {
     export class ExportedAuthorization implements TLObject {
         static readonly cons = new TLInt(0xdf969c2d);
-    
         static deserialized(_data: ByteStream): ExportedAuthorization | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ExportedAuthorization.cons)) return undefined;
@@ -4147,7 +3992,7 @@ export namespace API {
                 id,
                 bytes)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ExportedAuthorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4166,17 +4011,15 @@ export namespace API {
 
     export class InputNotifyPeer implements TLObject {
         static readonly cons = new TLInt(0xb8bc5b0c);
-    
         static deserialized(_data: ByteStream): InputNotifyPeer | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputNotifyPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as InputPeerType;
             if (!peer) return undefined;
-            
             return new InputNotifyPeer(
                 peer)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputNotifyPeer.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4193,13 +4036,12 @@ export namespace API {
 
     export class InputNotifyUsers implements TLObject {
         static readonly cons = new TLInt(0x193b4417);
-    
         static deserialized(_data: ByteStream): InputNotifyUsers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputNotifyUsers.cons)) return undefined;
             return new InputNotifyUsers()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputNotifyUsers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4212,13 +4054,12 @@ export namespace API {
 
     export class InputNotifyChats implements TLObject {
         static readonly cons = new TLInt(0x4a95e84e);
-    
         static deserialized(_data: ByteStream): InputNotifyChats | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputNotifyChats.cons)) return undefined;
             return new InputNotifyChats()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputNotifyChats.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4231,13 +4072,12 @@ export namespace API {
 
     export class InputNotifyAll implements TLObject {
         static readonly cons = new TLInt(0xa429b886);
-    
         static deserialized(_data: ByteStream): InputNotifyAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputNotifyAll.cons)) return undefined;
             return new InputNotifyAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputNotifyAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4250,13 +4090,12 @@ export namespace API {
 
     export class InputPeerNotifyEventsEmpty implements TLObject {
         static readonly cons = new TLInt(0xf03064d8);
-    
         static deserialized(_data: ByteStream): InputPeerNotifyEventsEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerNotifyEventsEmpty.cons)) return undefined;
             return new InputPeerNotifyEventsEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerNotifyEventsEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4269,13 +4108,12 @@ export namespace API {
 
     export class InputPeerNotifyEventsAll implements TLObject {
         static readonly cons = new TLInt(0xe86a2c74);
-    
         static deserialized(_data: ByteStream): InputPeerNotifyEventsAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerNotifyEventsAll.cons)) return undefined;
             return new InputPeerNotifyEventsAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerNotifyEventsAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4288,7 +4126,6 @@ export namespace API {
 
     export class InputPeerNotifySettings implements TLObject {
         static readonly cons = new TLInt(0x38935eb2);
-    
         static deserialized(_data: ByteStream): InputPeerNotifySettings | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPeerNotifySettings.cons)) return undefined;
@@ -4306,7 +4143,7 @@ export namespace API {
                 muteUntil,
                 sound)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPeerNotifySettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4331,13 +4168,12 @@ export namespace API {
 
     export class PeerNotifyEventsEmpty implements TLObject {
         static readonly cons = new TLInt(0xadd53cb3);
-    
         static deserialized(_data: ByteStream): PeerNotifyEventsEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerNotifyEventsEmpty.cons)) return undefined;
             return new PeerNotifyEventsEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerNotifyEventsEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4350,13 +4186,12 @@ export namespace API {
 
     export class PeerNotifyEventsAll implements TLObject {
         static readonly cons = new TLInt(0x6d1ded88);
-    
         static deserialized(_data: ByteStream): PeerNotifyEventsAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerNotifyEventsAll.cons)) return undefined;
             return new PeerNotifyEventsAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerNotifyEventsAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4369,13 +4204,12 @@ export namespace API {
 
     export class PeerNotifySettingsEmpty implements TLObject {
         static readonly cons = new TLInt(0x70a68512);
-    
         static deserialized(_data: ByteStream): PeerNotifySettingsEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerNotifySettingsEmpty.cons)) return undefined;
             return new PeerNotifySettingsEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerNotifySettingsEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4388,7 +4222,6 @@ export namespace API {
 
     export class PeerNotifySettings implements TLObject {
         static readonly cons = new TLInt(0x9acda4c0);
-    
         static deserialized(_data: ByteStream): PeerNotifySettings | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerNotifySettings.cons)) return undefined;
@@ -4406,7 +4239,7 @@ export namespace API {
                 muteUntil,
                 sound)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerNotifySettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4431,7 +4264,6 @@ export namespace API {
 
     export class PeerSettings implements TLObject {
         static readonly cons = new TLInt(0x818426cd);
-    
         static deserialized(_data: ByteStream): PeerSettings | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerSettings.cons)) return undefined;
@@ -4441,7 +4273,7 @@ export namespace API {
             return new PeerSettings(
                 reportSpam)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerSettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4460,7 +4292,6 @@ export namespace API {
 
     export class WallPaper implements TLObject {
         static readonly cons = new TLInt(0xccb03657);
-    
         static deserialized(_data: ByteStream): WallPaper | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(WallPaper.cons)) return undefined;
@@ -4478,7 +4309,7 @@ export namespace API {
                 sizes,
                 color)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = WallPaper.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4501,7 +4332,6 @@ export namespace API {
 
     export class WallPaperSolid implements TLObject {
         static readonly cons = new TLInt(0x63117f24);
-    
         static deserialized(_data: ByteStream): WallPaperSolid | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(WallPaperSolid.cons)) return undefined;
@@ -4519,7 +4349,7 @@ export namespace API {
                 bgColor,
                 color)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = WallPaperSolid.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4542,13 +4372,12 @@ export namespace API {
 
     export class InputReportReasonSpam implements TLObject {
         static readonly cons = new TLInt(0x58dbcab8);
-    
         static deserialized(_data: ByteStream): InputReportReasonSpam | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputReportReasonSpam.cons)) return undefined;
             return new InputReportReasonSpam()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputReportReasonSpam.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4561,13 +4390,12 @@ export namespace API {
 
     export class InputReportReasonViolence implements TLObject {
         static readonly cons = new TLInt(0x1e22c78d);
-    
         static deserialized(_data: ByteStream): InputReportReasonViolence | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputReportReasonViolence.cons)) return undefined;
             return new InputReportReasonViolence()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputReportReasonViolence.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4580,13 +4408,12 @@ export namespace API {
 
     export class InputReportReasonPornography implements TLObject {
         static readonly cons = new TLInt(0x2e59d922);
-    
         static deserialized(_data: ByteStream): InputReportReasonPornography | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputReportReasonPornography.cons)) return undefined;
             return new InputReportReasonPornography()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputReportReasonPornography.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4599,7 +4426,6 @@ export namespace API {
 
     export class InputReportReasonOther implements TLObject {
         static readonly cons = new TLInt(0xe1746d0a);
-    
         static deserialized(_data: ByteStream): InputReportReasonOther | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputReportReasonOther.cons)) return undefined;
@@ -4608,7 +4434,7 @@ export namespace API {
             return new InputReportReasonOther(
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputReportReasonOther.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4625,7 +4451,6 @@ export namespace API {
 
     export class UserFull implements TLObject {
         static readonly cons = new TLInt(0x5932fc03);
-    
         static deserialized(_data: ByteStream): UserFull | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserFull.cons)) return undefined;
@@ -4634,7 +4459,6 @@ export namespace API {
             const blocked = (flags.value & 1) !== 0;
             const user = deserializedObject(_data) as UserType;
             if (!user) return undefined;
-            
             let about: TLString | undefined;
             if ((flags.value & 2) !== 0) {
                 const obj = TLString.deserialized(_data);
@@ -4643,7 +4467,6 @@ export namespace API {
             }
             const link = deserializedObject(_data) as contacts.Link;
             if (!link) return undefined;
-            
             let profilePhoto: PhotoType | undefined;
             if ((flags.value & 4) !== 0) {
                 const obj = deserializedObject(_data) as PhotoType;
@@ -4652,7 +4475,6 @@ export namespace API {
             }
             const notifySettings = deserializedObject(_data) as PeerNotifySettingsType;
             if (!notifySettings) return undefined;
-            
             let botInfo: BotInfo | undefined;
             if ((flags.value & 8) !== 0) {
                 const obj = deserializedObject(_data) as BotInfo;
@@ -4668,15 +4490,15 @@ export namespace API {
                 notifySettings,
                 botInfo)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UserFull.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.blocked) ? (flags | 1) : (flags & ~1);
-            flags = (!this.about) ? (flags | 2) : (flags & ~2);
-            flags = (!this.profilePhoto) ? (flags | 4) : (flags & ~4);
-            flags = (!this.botInfo) ? (flags | 8) : (flags & ~8);
+            flags = (this.about) ? (flags | 2) : (flags & ~2);
+            flags = (this.profilePhoto) ? (flags | 4) : (flags & ~4);
+            flags = (this.botInfo) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.user.serialized());
             if (this.about) data.push(this.about.serialized());
@@ -4702,7 +4524,6 @@ export namespace API {
 
     export class Contact implements TLObject {
         static readonly cons = new TLInt(0xf911c994);
-    
         static deserialized(_data: ByteStream): Contact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Contact.cons)) return undefined;
@@ -4710,12 +4531,11 @@ export namespace API {
             if (!userId) return undefined;
             const mutual = deserializedObject(_data) as BoolType;
             if (!mutual) return undefined;
-            
             return new Contact(
                 userId,
                 mutual)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Contact.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4734,7 +4554,6 @@ export namespace API {
 
     export class ImportedContact implements TLObject {
         static readonly cons = new TLInt(0xd0028438);
-    
         static deserialized(_data: ByteStream): ImportedContact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ImportedContact.cons)) return undefined;
@@ -4746,7 +4565,7 @@ export namespace API {
                 userId,
                 clientId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ImportedContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4765,7 +4584,6 @@ export namespace API {
 
     export class ContactBlocked implements TLObject {
         static readonly cons = new TLInt(0x561bc879);
-    
         static deserialized(_data: ByteStream): ContactBlocked | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ContactBlocked.cons)) return undefined;
@@ -4777,7 +4595,7 @@ export namespace API {
                 userId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ContactBlocked.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4796,7 +4614,6 @@ export namespace API {
 
     export class ContactStatus implements TLObject {
         static readonly cons = new TLInt(0xd3680c61);
-    
         static deserialized(_data: ByteStream): ContactStatus | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ContactStatus.cons)) return undefined;
@@ -4804,12 +4621,11 @@ export namespace API {
             if (!userId) return undefined;
             const status = deserializedObject(_data) as UserStatusType;
             if (!status) return undefined;
-            
             return new ContactStatus(
                 userId,
                 status)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ContactStatus.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4829,25 +4645,21 @@ export namespace API {
     export namespace contacts {
     export class Link implements TLObject {
         static readonly cons = new TLInt(0x3ace484c);
-    
         static deserialized(_data: ByteStream): Link | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Link.cons)) return undefined;
             const myLink = deserializedObject(_data) as ContactLinkType;
             if (!myLink) return undefined;
-            
             const foreignLink = deserializedObject(_data) as ContactLinkType;
             if (!foreignLink) return undefined;
-            
             const user = deserializedObject(_data) as UserType;
             if (!user) return undefined;
-            
             return new Link(
                 myLink,
                 foreignLink,
                 user)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Link.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4869,13 +4681,12 @@ export namespace API {
     export namespace contacts {
     export class ContactsNotModified implements TLObject {
         static readonly cons = new TLInt(0xb74ba9d2);
-    
         static deserialized(_data: ByteStream): ContactsNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ContactsNotModified.cons)) return undefined;
             return new ContactsNotModified()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ContactsNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4889,7 +4700,6 @@ export namespace API {
     export namespace contacts {
     export class Contacts implements TLObject {
         static readonly cons = new TLInt(0x6f8b8cb2);
-    
         static deserialized(_data: ByteStream): Contacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Contacts.cons)) return undefined;
@@ -4901,7 +4711,7 @@ export namespace API {
                 contacts,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Contacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4921,7 +4731,6 @@ export namespace API {
     export namespace contacts {
     export class ImportedContacts implements TLObject {
         static readonly cons = new TLInt(0xad524315);
-    
         static deserialized(_data: ByteStream): ImportedContacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ImportedContacts.cons)) return undefined;
@@ -4936,7 +4745,7 @@ export namespace API {
                 retryContacts,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ImportedContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4958,7 +4767,6 @@ export namespace API {
     export namespace contacts {
     export class Blocked implements TLObject {
         static readonly cons = new TLInt(0x1c138d15);
-    
         static deserialized(_data: ByteStream): Blocked | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Blocked.cons)) return undefined;
@@ -4970,7 +4778,7 @@ export namespace API {
                 blocked,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Blocked.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -4990,7 +4798,6 @@ export namespace API {
     export namespace contacts {
     export class BlockedSlice implements TLObject {
         static readonly cons = new TLInt(0x900802a1);
-    
         static deserialized(_data: ByteStream): BlockedSlice | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BlockedSlice.cons)) return undefined;
@@ -5005,7 +4812,7 @@ export namespace API {
                 blocked,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BlockedSlice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5027,7 +4834,6 @@ export namespace API {
     export namespace messages {
     export class Dialogs implements TLObject {
         static readonly cons = new TLInt(0x15ba6c40);
-    
         static deserialized(_data: ByteStream): Dialogs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Dialogs.cons)) return undefined;
@@ -5045,7 +4851,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Dialogs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5069,7 +4875,6 @@ export namespace API {
     export namespace messages {
     export class DialogsSlice implements TLObject {
         static readonly cons = new TLInt(0x71e094f3);
-    
         static deserialized(_data: ByteStream): DialogsSlice | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DialogsSlice.cons)) return undefined;
@@ -5090,7 +4895,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DialogsSlice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5116,7 +4921,6 @@ export namespace API {
     export namespace messages {
     export class Messages implements TLObject {
         static readonly cons = new TLInt(0x8c718e87);
-    
         static deserialized(_data: ByteStream): Messages | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Messages.cons)) return undefined;
@@ -5131,7 +4935,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Messages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5153,7 +4957,6 @@ export namespace API {
     export namespace messages {
     export class MessagesSlice implements TLObject {
         static readonly cons = new TLInt(0xb446ae3);
-    
         static deserialized(_data: ByteStream): MessagesSlice | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessagesSlice.cons)) return undefined;
@@ -5171,7 +4974,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessagesSlice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5195,7 +4998,6 @@ export namespace API {
     export namespace messages {
     export class ChannelMessages implements TLObject {
         static readonly cons = new TLInt(0x99262e37);
-    
         static deserialized(_data: ByteStream): ChannelMessages | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelMessages.cons)) return undefined;
@@ -5218,7 +5020,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5246,7 +5048,6 @@ export namespace API {
     export namespace messages {
     export class Chats implements TLObject {
         static readonly cons = new TLInt(0x64ff9fd5);
-    
         static deserialized(_data: ByteStream): Chats | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Chats.cons)) return undefined;
@@ -5255,7 +5056,7 @@ export namespace API {
             return new Chats(
                 chats)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Chats.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5273,13 +5074,11 @@ export namespace API {
     export namespace messages {
     export class ChatFull implements TLObject {
         static readonly cons = new TLInt(0xe5d7d19c);
-    
         static deserialized(_data: ByteStream): ChatFull | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatFull.cons)) return undefined;
             const fullChat = deserializedObject(_data) as ChatFullType;
             if (!fullChat) return undefined;
-            
             const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
             if (!chats) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -5289,7 +5088,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatFull.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5311,7 +5110,6 @@ export namespace API {
     export namespace messages {
     export class AffectedHistory implements TLObject {
         static readonly cons = new TLInt(0xb45c69d1);
-    
         static deserialized(_data: ByteStream): AffectedHistory | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AffectedHistory.cons)) return undefined;
@@ -5326,7 +5124,7 @@ export namespace API {
                 ptsCount,
                 offset)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AffectedHistory.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5347,13 +5145,12 @@ export namespace API {
 
     export class InputMessagesFilterEmpty implements TLObject {
         static readonly cons = new TLInt(0x57e2f66c);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterEmpty.cons)) return undefined;
             return new InputMessagesFilterEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5366,13 +5163,12 @@ export namespace API {
 
     export class InputMessagesFilterPhotos implements TLObject {
         static readonly cons = new TLInt(0x9609a51c);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterPhotos | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterPhotos.cons)) return undefined;
             return new InputMessagesFilterPhotos()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterPhotos.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5385,13 +5181,12 @@ export namespace API {
 
     export class InputMessagesFilterVideo implements TLObject {
         static readonly cons = new TLInt(0x9fc00e65);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterVideo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterVideo.cons)) return undefined;
             return new InputMessagesFilterVideo()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterVideo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5404,13 +5199,12 @@ export namespace API {
 
     export class InputMessagesFilterPhotoVideo implements TLObject {
         static readonly cons = new TLInt(0x56e9f0e4);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterPhotoVideo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterPhotoVideo.cons)) return undefined;
             return new InputMessagesFilterPhotoVideo()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterPhotoVideo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5423,13 +5217,12 @@ export namespace API {
 
     export class InputMessagesFilterPhotoVideoDocuments implements TLObject {
         static readonly cons = new TLInt(0xd95e73bb);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterPhotoVideoDocuments | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterPhotoVideoDocuments.cons)) return undefined;
             return new InputMessagesFilterPhotoVideoDocuments()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterPhotoVideoDocuments.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5442,13 +5235,12 @@ export namespace API {
 
     export class InputMessagesFilterDocument implements TLObject {
         static readonly cons = new TLInt(0x9eddf188);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterDocument.cons)) return undefined;
             return new InputMessagesFilterDocument()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5461,13 +5253,12 @@ export namespace API {
 
     export class InputMessagesFilterUrl implements TLObject {
         static readonly cons = new TLInt(0x7ef0dd87);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterUrl | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterUrl.cons)) return undefined;
             return new InputMessagesFilterUrl()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterUrl.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5480,13 +5271,12 @@ export namespace API {
 
     export class InputMessagesFilterGif implements TLObject {
         static readonly cons = new TLInt(0xffc86587);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterGif | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterGif.cons)) return undefined;
             return new InputMessagesFilterGif()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterGif.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5499,13 +5289,12 @@ export namespace API {
 
     export class InputMessagesFilterVoice implements TLObject {
         static readonly cons = new TLInt(0x50f5c392);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterVoice | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterVoice.cons)) return undefined;
             return new InputMessagesFilterVoice()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterVoice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5518,13 +5307,12 @@ export namespace API {
 
     export class InputMessagesFilterMusic implements TLObject {
         static readonly cons = new TLInt(0x3751b49e);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterMusic | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterMusic.cons)) return undefined;
             return new InputMessagesFilterMusic()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterMusic.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5537,13 +5325,12 @@ export namespace API {
 
     export class InputMessagesFilterChatPhotos implements TLObject {
         static readonly cons = new TLInt(0x3a20ecb8);
-    
         static deserialized(_data: ByteStream): InputMessagesFilterChatPhotos | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessagesFilterChatPhotos.cons)) return undefined;
             return new InputMessagesFilterChatPhotos()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessagesFilterChatPhotos.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5556,13 +5343,11 @@ export namespace API {
 
     export class UpdateNewMessage implements TLObject {
         static readonly cons = new TLInt(0x1f2b0afd);
-    
         static deserialized(_data: ByteStream): UpdateNewMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateNewMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
-            
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const ptsCount = TLInt.deserialized(_data);
@@ -5572,7 +5357,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateNewMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5593,7 +5378,6 @@ export namespace API {
 
     export class UpdateMessageID implements TLObject {
         static readonly cons = new TLInt(0x4e90bfd6);
-    
         static deserialized(_data: ByteStream): UpdateMessageID | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateMessageID.cons)) return undefined;
@@ -5605,7 +5389,7 @@ export namespace API {
                 id,
                 randomId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateMessageID.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5624,7 +5408,6 @@ export namespace API {
 
     export class UpdateDeleteMessages implements TLObject {
         static readonly cons = new TLInt(0xa20db0e5);
-    
         static deserialized(_data: ByteStream): UpdateDeleteMessages | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateDeleteMessages.cons)) return undefined;
@@ -5639,7 +5422,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateDeleteMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5660,7 +5443,6 @@ export namespace API {
 
     export class UpdateUserTyping implements TLObject {
         static readonly cons = new TLInt(0x5c486927);
-    
         static deserialized(_data: ByteStream): UpdateUserTyping | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateUserTyping.cons)) return undefined;
@@ -5668,12 +5450,11 @@ export namespace API {
             if (!userId) return undefined;
             const action = deserializedObject(_data) as SendMessageActionType;
             if (!action) return undefined;
-            
             return new UpdateUserTyping(
                 userId,
                 action)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateUserTyping.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5692,7 +5473,6 @@ export namespace API {
 
     export class UpdateChatUserTyping implements TLObject {
         static readonly cons = new TLInt(0x9a65ea1f);
-    
         static deserialized(_data: ByteStream): UpdateChatUserTyping | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChatUserTyping.cons)) return undefined;
@@ -5702,13 +5482,12 @@ export namespace API {
             if (!userId) return undefined;
             const action = deserializedObject(_data) as SendMessageActionType;
             if (!action) return undefined;
-            
             return new UpdateChatUserTyping(
                 chatId,
                 userId,
                 action)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChatUserTyping.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5729,17 +5508,15 @@ export namespace API {
 
     export class UpdateChatParticipants implements TLObject {
         static readonly cons = new TLInt(0x7761198);
-    
         static deserialized(_data: ByteStream): UpdateChatParticipants | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChatParticipants.cons)) return undefined;
             const participants = deserializedObject(_data) as ChatParticipantsType;
             if (!participants) return undefined;
-            
             return new UpdateChatParticipants(
                 participants)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChatParticipants.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5756,7 +5533,6 @@ export namespace API {
 
     export class UpdateUserStatus implements TLObject {
         static readonly cons = new TLInt(0x1bfbd823);
-    
         static deserialized(_data: ByteStream): UpdateUserStatus | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateUserStatus.cons)) return undefined;
@@ -5764,12 +5540,11 @@ export namespace API {
             if (!userId) return undefined;
             const status = deserializedObject(_data) as UserStatusType;
             if (!status) return undefined;
-            
             return new UpdateUserStatus(
                 userId,
                 status)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateUserStatus.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5788,7 +5563,6 @@ export namespace API {
 
     export class UpdateUserName implements TLObject {
         static readonly cons = new TLInt(0xa7332b73);
-    
         static deserialized(_data: ByteStream): UpdateUserName | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateUserName.cons)) return undefined;
@@ -5806,7 +5580,7 @@ export namespace API {
                 lastName,
                 username)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateUserName.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5829,7 +5603,6 @@ export namespace API {
 
     export class UpdateUserPhoto implements TLObject {
         static readonly cons = new TLInt(0x95313b0c);
-    
         static deserialized(_data: ByteStream): UpdateUserPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateUserPhoto.cons)) return undefined;
@@ -5839,17 +5612,15 @@ export namespace API {
             if (!date) return undefined;
             const photo = deserializedObject(_data) as UserProfilePhotoType;
             if (!photo) return undefined;
-            
             const previous = deserializedObject(_data) as BoolType;
             if (!previous) return undefined;
-            
             return new UpdateUserPhoto(
                 userId,
                 date,
                 photo,
                 previous)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateUserPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5872,7 +5643,6 @@ export namespace API {
 
     export class UpdateContactRegistered implements TLObject {
         static readonly cons = new TLInt(0x2575bbb9);
-    
         static deserialized(_data: ByteStream): UpdateContactRegistered | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateContactRegistered.cons)) return undefined;
@@ -5884,7 +5654,7 @@ export namespace API {
                 userId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateContactRegistered.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5903,7 +5673,6 @@ export namespace API {
 
     export class UpdateContactLink implements TLObject {
         static readonly cons = new TLInt(0x9d2e67c5);
-    
         static deserialized(_data: ByteStream): UpdateContactLink | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateContactLink.cons)) return undefined;
@@ -5911,16 +5680,14 @@ export namespace API {
             if (!userId) return undefined;
             const myLink = deserializedObject(_data) as ContactLinkType;
             if (!myLink) return undefined;
-            
             const foreignLink = deserializedObject(_data) as ContactLinkType;
             if (!foreignLink) return undefined;
-            
             return new UpdateContactLink(
                 userId,
                 myLink,
                 foreignLink)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateContactLink.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5941,7 +5708,6 @@ export namespace API {
 
     export class UpdateNewAuthorization implements TLObject {
         static readonly cons = new TLInt(0x8f06529a);
-    
         static deserialized(_data: ByteStream): UpdateNewAuthorization | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateNewAuthorization.cons)) return undefined;
@@ -5959,7 +5725,7 @@ export namespace API {
                 device,
                 location)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateNewAuthorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -5982,20 +5748,18 @@ export namespace API {
 
     export class UpdateNewEncryptedMessage implements TLObject {
         static readonly cons = new TLInt(0x12bcbd9a);
-    
         static deserialized(_data: ByteStream): UpdateNewEncryptedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateNewEncryptedMessage.cons)) return undefined;
             const message = deserializedObject(_data) as EncryptedMessageType;
             if (!message) return undefined;
-            
             const qts = TLInt.deserialized(_data);
             if (!qts) return undefined;
             return new UpdateNewEncryptedMessage(
                 message,
                 qts)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateNewEncryptedMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6014,7 +5778,6 @@ export namespace API {
 
     export class UpdateEncryptedChatTyping implements TLObject {
         static readonly cons = new TLInt(0x1710f156);
-    
         static deserialized(_data: ByteStream): UpdateEncryptedChatTyping | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateEncryptedChatTyping.cons)) return undefined;
@@ -6023,7 +5786,7 @@ export namespace API {
             return new UpdateEncryptedChatTyping(
                 chatId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateEncryptedChatTyping.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6040,20 +5803,18 @@ export namespace API {
 
     export class UpdateEncryption implements TLObject {
         static readonly cons = new TLInt(0xb4a2e88d);
-    
         static deserialized(_data: ByteStream): UpdateEncryption | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateEncryption.cons)) return undefined;
             const chat = deserializedObject(_data) as EncryptedChatType;
             if (!chat) return undefined;
-            
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             return new UpdateEncryption(
                 chat,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateEncryption.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6072,7 +5833,6 @@ export namespace API {
 
     export class UpdateEncryptedMessagesRead implements TLObject {
         static readonly cons = new TLInt(0x38fe25b7);
-    
         static deserialized(_data: ByteStream): UpdateEncryptedMessagesRead | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateEncryptedMessagesRead.cons)) return undefined;
@@ -6087,7 +5847,7 @@ export namespace API {
                 maxDate,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateEncryptedMessagesRead.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6108,7 +5868,6 @@ export namespace API {
 
     export class UpdateChatParticipantAdd implements TLObject {
         static readonly cons = new TLInt(0xea4b0e5c);
-    
         static deserialized(_data: ByteStream): UpdateChatParticipantAdd | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChatParticipantAdd.cons)) return undefined;
@@ -6129,7 +5888,7 @@ export namespace API {
                 date,
                 version)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChatParticipantAdd.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6154,7 +5913,6 @@ export namespace API {
 
     export class UpdateChatParticipantDelete implements TLObject {
         static readonly cons = new TLInt(0x6e5f8c22);
-    
         static deserialized(_data: ByteStream): UpdateChatParticipantDelete | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChatParticipantDelete.cons)) return undefined;
@@ -6169,7 +5927,7 @@ export namespace API {
                 userId,
                 version)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChatParticipantDelete.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6190,7 +5948,6 @@ export namespace API {
 
     export class UpdateDcOptions implements TLObject {
         static readonly cons = new TLInt(0x8e5e9873);
-    
         static deserialized(_data: ByteStream): UpdateDcOptions | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateDcOptions.cons)) return undefined;
@@ -6199,7 +5956,7 @@ export namespace API {
             return new UpdateDcOptions(
                 dcOptions)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateDcOptions.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6216,7 +5973,6 @@ export namespace API {
 
     export class UpdateUserBlocked implements TLObject {
         static readonly cons = new TLInt(0x80ece81a);
-    
         static deserialized(_data: ByteStream): UpdateUserBlocked | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateUserBlocked.cons)) return undefined;
@@ -6224,12 +5980,11 @@ export namespace API {
             if (!userId) return undefined;
             const blocked = deserializedObject(_data) as BoolType;
             if (!blocked) return undefined;
-            
             return new UpdateUserBlocked(
                 userId,
                 blocked)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateUserBlocked.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6248,21 +6003,18 @@ export namespace API {
 
     export class UpdateNotifySettings implements TLObject {
         static readonly cons = new TLInt(0xbec268ef);
-    
         static deserialized(_data: ByteStream): UpdateNotifySettings | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateNotifySettings.cons)) return undefined;
             const peer = deserializedObject(_data) as NotifyPeerType;
             if (!peer) return undefined;
-            
             const notifySettings = deserializedObject(_data) as PeerNotifySettingsType;
             if (!notifySettings) return undefined;
-            
             return new UpdateNotifySettings(
                 peer,
                 notifySettings)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateNotifySettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6281,7 +6033,6 @@ export namespace API {
 
     export class UpdateServiceNotification implements TLObject {
         static readonly cons = new TLInt(0x382dd3e4);
-    
         static deserialized(_data: ByteStream): UpdateServiceNotification | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateServiceNotification.cons)) return undefined;
@@ -6291,17 +6042,15 @@ export namespace API {
             if (!message) return undefined;
             const media = deserializedObject(_data) as MessageMediaType;
             if (!media) return undefined;
-            
             const popup = deserializedObject(_data) as BoolType;
             if (!popup) return undefined;
-            
             return new UpdateServiceNotification(
                 type,
                 message,
                 media,
                 popup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateServiceNotification.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6324,20 +6073,18 @@ export namespace API {
 
     export class UpdatePrivacy implements TLObject {
         static readonly cons = new TLInt(0xee3b272a);
-    
         static deserialized(_data: ByteStream): UpdatePrivacy | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdatePrivacy.cons)) return undefined;
             const key = deserializedObject(_data) as PrivacyKeyType;
             if (!key) return undefined;
-            
             const rules = TLVector.deserialized(_data, ) as TLVector<PrivacyRuleType>;
             if (!rules) return undefined;
             return new UpdatePrivacy(
                 key,
                 rules)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdatePrivacy.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6356,7 +6103,6 @@ export namespace API {
 
     export class UpdateUserPhone implements TLObject {
         static readonly cons = new TLInt(0x12b9417b);
-    
         static deserialized(_data: ByteStream): UpdateUserPhone | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateUserPhone.cons)) return undefined;
@@ -6368,7 +6114,7 @@ export namespace API {
                 userId,
                 phone)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateUserPhone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6387,13 +6133,11 @@ export namespace API {
 
     export class UpdateReadHistoryInbox implements TLObject {
         static readonly cons = new TLInt(0x9961fd5c);
-    
         static deserialized(_data: ByteStream): UpdateReadHistoryInbox | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateReadHistoryInbox.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             const maxId = TLInt.deserialized(_data);
             if (!maxId) return undefined;
             const pts = TLInt.deserialized(_data);
@@ -6406,7 +6150,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateReadHistoryInbox.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6429,13 +6173,11 @@ export namespace API {
 
     export class UpdateReadHistoryOutbox implements TLObject {
         static readonly cons = new TLInt(0x2f2f21bf);
-    
         static deserialized(_data: ByteStream): UpdateReadHistoryOutbox | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateReadHistoryOutbox.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             const maxId = TLInt.deserialized(_data);
             if (!maxId) return undefined;
             const pts = TLInt.deserialized(_data);
@@ -6448,7 +6190,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateReadHistoryOutbox.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6471,13 +6213,11 @@ export namespace API {
 
     export class UpdateWebPage implements TLObject {
         static readonly cons = new TLInt(0x7f891213);
-    
         static deserialized(_data: ByteStream): UpdateWebPage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateWebPage.cons)) return undefined;
             const webpage = deserializedObject(_data) as WebPageType;
             if (!webpage) return undefined;
-            
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const ptsCount = TLInt.deserialized(_data);
@@ -6487,7 +6227,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateWebPage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6508,7 +6248,6 @@ export namespace API {
 
     export class UpdateReadMessagesContents implements TLObject {
         static readonly cons = new TLInt(0x68c13933);
-    
         static deserialized(_data: ByteStream): UpdateReadMessagesContents | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateReadMessagesContents.cons)) return undefined;
@@ -6523,7 +6262,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateReadMessagesContents.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6544,7 +6283,6 @@ export namespace API {
 
     export class UpdateChannelTooLong implements TLObject {
         static readonly cons = new TLInt(0xeb0467fb);
-    
         static deserialized(_data: ByteStream): UpdateChannelTooLong | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChannelTooLong.cons)) return undefined;
@@ -6562,12 +6300,12 @@ export namespace API {
                 channelId,
                 pts)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChannelTooLong.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.pts) ? (flags | 1) : (flags & ~1);
+            flags = (this.pts) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.channelId.serialized());
             if (this.pts) data.push(this.pts.serialized());
@@ -6584,7 +6322,6 @@ export namespace API {
 
     export class UpdateChannel implements TLObject {
         static readonly cons = new TLInt(0xb6d45656);
-    
         static deserialized(_data: ByteStream): UpdateChannel | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChannel.cons)) return undefined;
@@ -6593,7 +6330,7 @@ export namespace API {
             return new UpdateChannel(
                 channelId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6610,13 +6347,11 @@ export namespace API {
 
     export class UpdateNewChannelMessage implements TLObject {
         static readonly cons = new TLInt(0x62ba04d9);
-    
         static deserialized(_data: ByteStream): UpdateNewChannelMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateNewChannelMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
-            
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const ptsCount = TLInt.deserialized(_data);
@@ -6626,7 +6361,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateNewChannelMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6647,7 +6382,6 @@ export namespace API {
 
     export class UpdateReadChannelInbox implements TLObject {
         static readonly cons = new TLInt(0x4214f37f);
-    
         static deserialized(_data: ByteStream): UpdateReadChannelInbox | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateReadChannelInbox.cons)) return undefined;
@@ -6659,7 +6393,7 @@ export namespace API {
                 channelId,
                 maxId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateReadChannelInbox.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6678,7 +6412,6 @@ export namespace API {
 
     export class UpdateDeleteChannelMessages implements TLObject {
         static readonly cons = new TLInt(0xc37521c9);
-    
         static deserialized(_data: ByteStream): UpdateDeleteChannelMessages | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateDeleteChannelMessages.cons)) return undefined;
@@ -6696,7 +6429,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateDeleteChannelMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6719,7 +6452,6 @@ export namespace API {
 
     export class UpdateChannelMessageViews implements TLObject {
         static readonly cons = new TLInt(0x98a12b4b);
-    
         static deserialized(_data: ByteStream): UpdateChannelMessageViews | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChannelMessageViews.cons)) return undefined;
@@ -6734,7 +6466,7 @@ export namespace API {
                 id,
                 views)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChannelMessageViews.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6755,7 +6487,6 @@ export namespace API {
 
     export class UpdateChatAdmins implements TLObject {
         static readonly cons = new TLInt(0x6e947941);
-    
         static deserialized(_data: ByteStream): UpdateChatAdmins | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChatAdmins.cons)) return undefined;
@@ -6763,7 +6494,6 @@ export namespace API {
             if (!chatId) return undefined;
             const enabled = deserializedObject(_data) as BoolType;
             if (!enabled) return undefined;
-            
             const version = TLInt.deserialized(_data);
             if (!version) return undefined;
             return new UpdateChatAdmins(
@@ -6771,7 +6501,7 @@ export namespace API {
                 enabled,
                 version)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChatAdmins.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6792,7 +6522,6 @@ export namespace API {
 
     export class UpdateChatParticipantAdmin implements TLObject {
         static readonly cons = new TLInt(0xb6901959);
-    
         static deserialized(_data: ByteStream): UpdateChatParticipantAdmin | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChatParticipantAdmin.cons)) return undefined;
@@ -6802,7 +6531,6 @@ export namespace API {
             if (!userId) return undefined;
             const isAdmin = deserializedObject(_data) as BoolType;
             if (!isAdmin) return undefined;
-            
             const version = TLInt.deserialized(_data);
             if (!version) return undefined;
             return new UpdateChatParticipantAdmin(
@@ -6811,7 +6539,7 @@ export namespace API {
                 isAdmin,
                 version)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChatParticipantAdmin.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6834,17 +6562,15 @@ export namespace API {
 
     export class UpdateNewStickerSet implements TLObject {
         static readonly cons = new TLInt(0x688a30aa);
-    
         static deserialized(_data: ByteStream): UpdateNewStickerSet | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateNewStickerSet.cons)) return undefined;
             const stickerset = deserializedObject(_data) as messages.StickerSet;
             if (!stickerset) return undefined;
-            
             return new UpdateNewStickerSet(
                 stickerset)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateNewStickerSet.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6861,7 +6587,6 @@ export namespace API {
 
     export class UpdateStickerSetsOrder implements TLObject {
         static readonly cons = new TLInt(0xbb2d201);
-    
         static deserialized(_data: ByteStream): UpdateStickerSetsOrder | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateStickerSetsOrder.cons)) return undefined;
@@ -6874,7 +6599,7 @@ export namespace API {
                 masks,
                 order)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateStickerSetsOrder.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6895,13 +6620,12 @@ export namespace API {
 
     export class UpdateStickerSets implements TLObject {
         static readonly cons = new TLInt(0x43ae3dec);
-    
         static deserialized(_data: ByteStream): UpdateStickerSets | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateStickerSets.cons)) return undefined;
             return new UpdateStickerSets()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateStickerSets.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6914,13 +6638,12 @@ export namespace API {
 
     export class UpdateSavedGifs implements TLObject {
         static readonly cons = new TLInt(0x9375341e);
-    
         static deserialized(_data: ByteStream): UpdateSavedGifs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateSavedGifs.cons)) return undefined;
             return new UpdateSavedGifs()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateSavedGifs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -6933,7 +6656,6 @@ export namespace API {
 
     export class UpdateBotInlineQuery implements TLObject {
         static readonly cons = new TLInt(0x54826690);
-    
         static deserialized(_data: ByteStream): UpdateBotInlineQuery | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateBotInlineQuery.cons)) return undefined;
@@ -6960,12 +6682,12 @@ export namespace API {
                 geo,
                 offset)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateBotInlineQuery.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.geo) ? (flags | 1) : (flags & ~1);
+            flags = (this.geo) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.queryId.serialized());
             data.push(this.userId.serialized());
@@ -6988,7 +6710,6 @@ export namespace API {
 
     export class UpdateBotInlineSend implements TLObject {
         static readonly cons = new TLInt(0xe48f964);
-    
         static deserialized(_data: ByteStream): UpdateBotInlineSend | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateBotInlineSend.cons)) return undefined;
@@ -7019,13 +6740,13 @@ export namespace API {
                 id,
                 msgId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateBotInlineSend.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.geo) ? (flags | 1) : (flags & ~1);
-            flags = (!this.msgId) ? (flags | 2) : (flags & ~2);
+            flags = (this.geo) ? (flags | 1) : (flags & ~1);
+            flags = (this.msgId) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.userId.serialized());
             data.push(this.query.serialized());
@@ -7048,13 +6769,11 @@ export namespace API {
 
     export class UpdateEditChannelMessage implements TLObject {
         static readonly cons = new TLInt(0x1b3f4df7);
-    
         static deserialized(_data: ByteStream): UpdateEditChannelMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateEditChannelMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
-            
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const ptsCount = TLInt.deserialized(_data);
@@ -7064,7 +6783,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateEditChannelMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7085,7 +6804,6 @@ export namespace API {
 
     export class UpdateChannelPinnedMessage implements TLObject {
         static readonly cons = new TLInt(0x98592475);
-    
         static deserialized(_data: ByteStream): UpdateChannelPinnedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateChannelPinnedMessage.cons)) return undefined;
@@ -7097,7 +6815,7 @@ export namespace API {
                 channelId,
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateChannelPinnedMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7116,7 +6834,6 @@ export namespace API {
 
     export class UpdateBotCallbackQuery implements TLObject {
         static readonly cons = new TLInt(0xe73547e1);
-    
         static deserialized(_data: ByteStream): UpdateBotCallbackQuery | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateBotCallbackQuery.cons)) return undefined;
@@ -7128,7 +6845,6 @@ export namespace API {
             if (!userId) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             const msgId = TLInt.deserialized(_data);
             if (!msgId) return undefined;
             const chatInstance = TLLong.deserialized(_data);
@@ -7154,13 +6870,13 @@ export namespace API {
                 data,
                 gameShortName)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateBotCallbackQuery.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.data) ? (flags | 1) : (flags & ~1);
-            flags = (!this.gameShortName) ? (flags | 2) : (flags & ~2);
+            flags = (this.data) ? (flags | 1) : (flags & ~1);
+            flags = (this.gameShortName) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.queryId.serialized());
             data.push(this.userId.serialized());
@@ -7187,13 +6903,11 @@ export namespace API {
 
     export class UpdateEditMessage implements TLObject {
         static readonly cons = new TLInt(0xe40370a3);
-    
         static deserialized(_data: ByteStream): UpdateEditMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateEditMessage.cons)) return undefined;
             const message = deserializedObject(_data) as MessageType;
             if (!message) return undefined;
-            
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
             const ptsCount = TLInt.deserialized(_data);
@@ -7203,7 +6917,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateEditMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7224,7 +6938,6 @@ export namespace API {
 
     export class UpdateInlineBotCallbackQuery implements TLObject {
         static readonly cons = new TLInt(0xf9d27a5a);
-    
         static deserialized(_data: ByteStream): UpdateInlineBotCallbackQuery | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateInlineBotCallbackQuery.cons)) return undefined;
@@ -7236,7 +6949,6 @@ export namespace API {
             if (!userId) return undefined;
             const msgId = deserializedObject(_data) as InputBotInlineMessageID;
             if (!msgId) return undefined;
-            
             const chatInstance = TLLong.deserialized(_data);
             if (!chatInstance) return undefined;
             let data: TLBytes | undefined;
@@ -7259,13 +6971,13 @@ export namespace API {
                 data,
                 gameShortName)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateInlineBotCallbackQuery.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.data) ? (flags | 1) : (flags & ~1);
-            flags = (!this.gameShortName) ? (flags | 2) : (flags & ~2);
+            flags = (this.data) ? (flags | 1) : (flags & ~1);
+            flags = (this.gameShortName) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.queryId.serialized());
             data.push(this.userId.serialized());
@@ -7290,7 +7002,6 @@ export namespace API {
 
     export class UpdateReadChannelOutbox implements TLObject {
         static readonly cons = new TLInt(0x25d6c9c7);
-    
         static deserialized(_data: ByteStream): UpdateReadChannelOutbox | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateReadChannelOutbox.cons)) return undefined;
@@ -7302,7 +7013,7 @@ export namespace API {
                 channelId,
                 maxId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateReadChannelOutbox.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7321,21 +7032,18 @@ export namespace API {
 
     export class UpdateDraftMessage implements TLObject {
         static readonly cons = new TLInt(0xee2bb969);
-    
         static deserialized(_data: ByteStream): UpdateDraftMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateDraftMessage.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             const draft = deserializedObject(_data) as DraftMessageType;
             if (!draft) return undefined;
-            
             return new UpdateDraftMessage(
                 peer,
                 draft)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateDraftMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7354,13 +7062,12 @@ export namespace API {
 
     export class UpdateReadFeaturedStickers implements TLObject {
         static readonly cons = new TLInt(0x571d2742);
-    
         static deserialized(_data: ByteStream): UpdateReadFeaturedStickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateReadFeaturedStickers.cons)) return undefined;
             return new UpdateReadFeaturedStickers()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateReadFeaturedStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7373,13 +7080,12 @@ export namespace API {
 
     export class UpdateRecentStickers implements TLObject {
         static readonly cons = new TLInt(0x9a422c20);
-    
         static deserialized(_data: ByteStream): UpdateRecentStickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateRecentStickers.cons)) return undefined;
             return new UpdateRecentStickers()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateRecentStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7392,13 +7098,12 @@ export namespace API {
 
     export class UpdateConfig implements TLObject {
         static readonly cons = new TLInt(0xa229dd06);
-    
         static deserialized(_data: ByteStream): UpdateConfig | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateConfig.cons)) return undefined;
             return new UpdateConfig()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateConfig.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7411,13 +7116,12 @@ export namespace API {
 
     export class UpdatePtsChanged implements TLObject {
         static readonly cons = new TLInt(0x3354678f);
-    
         static deserialized(_data: ByteStream): UpdatePtsChanged | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdatePtsChanged.cons)) return undefined;
             return new UpdatePtsChanged()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdatePtsChanged.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7431,7 +7135,6 @@ export namespace API {
     export namespace updates {
     export class State implements TLObject {
         static readonly cons = new TLInt(0xa56c2a3e);
-    
         static deserialized(_data: ByteStream): State | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(State.cons)) return undefined;
@@ -7452,7 +7155,7 @@ export namespace API {
                 seq,
                 unreadCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = State.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7478,7 +7181,6 @@ export namespace API {
     export namespace updates {
     export class DifferenceEmpty implements TLObject {
         static readonly cons = new TLInt(0x5d75a138);
-    
         static deserialized(_data: ByteStream): DifferenceEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DifferenceEmpty.cons)) return undefined;
@@ -7490,7 +7192,7 @@ export namespace API {
                 date,
                 seq)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DifferenceEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7510,7 +7212,6 @@ export namespace API {
     export namespace updates {
     export class Difference implements TLObject {
         static readonly cons = new TLInt(0xf49ca0);
-    
         static deserialized(_data: ByteStream): Difference | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Difference.cons)) return undefined;
@@ -7526,7 +7227,6 @@ export namespace API {
             if (!users) return undefined;
             const state = deserializedObject(_data) as updates.State;
             if (!state) return undefined;
-            
             return new Difference(
                 newMessages,
                 newEncryptedMessages,
@@ -7535,7 +7235,7 @@ export namespace API {
                 users,
                 state)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Difference.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7563,7 +7263,6 @@ export namespace API {
     export namespace updates {
     export class DifferenceSlice implements TLObject {
         static readonly cons = new TLInt(0xa8fb1981);
-    
         static deserialized(_data: ByteStream): DifferenceSlice | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DifferenceSlice.cons)) return undefined;
@@ -7579,7 +7278,6 @@ export namespace API {
             if (!users) return undefined;
             const intermediateState = deserializedObject(_data) as updates.State;
             if (!intermediateState) return undefined;
-            
             return new DifferenceSlice(
                 newMessages,
                 newEncryptedMessages,
@@ -7588,7 +7286,7 @@ export namespace API {
                 users,
                 intermediateState)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DifferenceSlice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7615,13 +7313,12 @@ export namespace API {
 
     export class UpdatesTooLong implements TLObject {
         static readonly cons = new TLInt(0xe317af7e);
-    
         static deserialized(_data: ByteStream): UpdatesTooLong | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdatesTooLong.cons)) return undefined;
             return new UpdatesTooLong()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdatesTooLong.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7634,7 +7331,6 @@ export namespace API {
 
     export class UpdateShortMessage implements TLObject {
         static readonly cons = new TLInt(0x914fbf11);
-    
         static deserialized(_data: ByteStream): UpdateShortMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateShortMessage.cons)) return undefined;
@@ -7696,7 +7392,7 @@ export namespace API {
                 replyToMsgId,
                 entities)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateShortMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7705,10 +7401,10 @@ export namespace API {
             flags = (this.mentioned) ? (flags | 16) : (flags & ~16);
             flags = (this.mediaUnread) ? (flags | 32) : (flags & ~32);
             flags = (this.silent) ? (flags | 8192) : (flags & ~8192);
-            flags = (!this.fwdFrom) ? (flags | 4) : (flags & ~4);
-            flags = (!this.viaBotId) ? (flags | 2048) : (flags & ~2048);
-            flags = (!this.replyToMsgId) ? (flags | 8) : (flags & ~8);
-            flags = (!this.entities) ? (flags | 128) : (flags & ~128);
+            flags = (this.fwdFrom) ? (flags | 4) : (flags & ~4);
+            flags = (this.viaBotId) ? (flags | 2048) : (flags & ~2048);
+            flags = (this.replyToMsgId) ? (flags | 8) : (flags & ~8);
+            flags = (this.entities) ? (flags | 128) : (flags & ~128);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.userId.serialized());
@@ -7745,7 +7441,6 @@ export namespace API {
 
     export class UpdateShortChatMessage implements TLObject {
         static readonly cons = new TLInt(0x16812688);
-    
         static deserialized(_data: ByteStream): UpdateShortChatMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateShortChatMessage.cons)) return undefined;
@@ -7810,7 +7505,7 @@ export namespace API {
                 replyToMsgId,
                 entities)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateShortChatMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7819,10 +7514,10 @@ export namespace API {
             flags = (this.mentioned) ? (flags | 16) : (flags & ~16);
             flags = (this.mediaUnread) ? (flags | 32) : (flags & ~32);
             flags = (this.silent) ? (flags | 8192) : (flags & ~8192);
-            flags = (!this.fwdFrom) ? (flags | 4) : (flags & ~4);
-            flags = (!this.viaBotId) ? (flags | 2048) : (flags & ~2048);
-            flags = (!this.replyToMsgId) ? (flags | 8) : (flags & ~8);
-            flags = (!this.entities) ? (flags | 128) : (flags & ~128);
+            flags = (this.fwdFrom) ? (flags | 4) : (flags & ~4);
+            flags = (this.viaBotId) ? (flags | 2048) : (flags & ~2048);
+            flags = (this.replyToMsgId) ? (flags | 8) : (flags & ~8);
+            flags = (this.entities) ? (flags | 128) : (flags & ~128);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.fromId.serialized());
@@ -7861,20 +7556,18 @@ export namespace API {
 
     export class UpdateShort implements TLObject {
         static readonly cons = new TLInt(0x78d4dec1);
-    
         static deserialized(_data: ByteStream): UpdateShort | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateShort.cons)) return undefined;
             const update = deserializedObject(_data) as UpdateType;
             if (!update) return undefined;
-            
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             return new UpdateShort(
                 update,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateShort.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7893,7 +7586,6 @@ export namespace API {
 
     export class UpdatesCombined implements TLObject {
         static readonly cons = new TLInt(0x725b04c3);
-    
         static deserialized(_data: ByteStream): UpdatesCombined | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdatesCombined.cons)) return undefined;
@@ -7917,7 +7609,7 @@ export namespace API {
                 seqStart,
                 seq)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdatesCombined.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7944,7 +7636,6 @@ export namespace API {
 
     export class Updates implements TLObject {
         static readonly cons = new TLInt(0x74ae4240);
-    
         static deserialized(_data: ByteStream): Updates | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Updates.cons)) return undefined;
@@ -7965,7 +7656,7 @@ export namespace API {
                 date,
                 seq)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Updates.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -7990,7 +7681,6 @@ export namespace API {
 
     export class UpdateShortSentMessage implements TLObject {
         static readonly cons = new TLInt(0x11f1331c);
-    
         static deserialized(_data: ByteStream): UpdateShortSentMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateShortSentMessage.cons)) return undefined;
@@ -8026,14 +7716,14 @@ export namespace API {
                 media,
                 entities)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = UpdateShortSentMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.out) ? (flags | 2) : (flags & ~2);
-            flags = (!this.media) ? (flags | 512) : (flags & ~512);
-            flags = (!this.entities) ? (flags | 128) : (flags & ~128);
+            flags = (this.media) ? (flags | 512) : (flags & ~512);
+            flags = (this.entities) ? (flags | 128) : (flags & ~128);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.pts.serialized());
@@ -8060,7 +7750,6 @@ export namespace API {
     export namespace photos {
     export class Photos implements TLObject {
         static readonly cons = new TLInt(0x8dca6aa5);
-    
         static deserialized(_data: ByteStream): Photos | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Photos.cons)) return undefined;
@@ -8072,7 +7761,7 @@ export namespace API {
                 photos,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Photos.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8092,7 +7781,6 @@ export namespace API {
     export namespace photos {
     export class PhotosSlice implements TLObject {
         static readonly cons = new TLInt(0x15051f54);
-    
         static deserialized(_data: ByteStream): PhotosSlice | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PhotosSlice.cons)) return undefined;
@@ -8107,7 +7795,7 @@ export namespace API {
                 photos,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PhotosSlice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8129,20 +7817,18 @@ export namespace API {
     export namespace photos {
     export class Photo implements TLObject {
         static readonly cons = new TLInt(0x20212ca8);
-    
         static deserialized(_data: ByteStream): Photo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Photo.cons)) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
-            
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
             if (!users) return undefined;
             return new Photo(
                 photo,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Photo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8162,13 +7848,11 @@ export namespace API {
     export namespace upload {
     export class File implements TLObject {
         static readonly cons = new TLInt(0x96a18d5);
-    
         static deserialized(_data: ByteStream): File | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(File.cons)) return undefined;
             const type = deserializedObject(_data) as storage.FileTypeType;
             if (!type) return undefined;
-            
             const mtime = TLInt.deserialized(_data);
             if (!mtime) return undefined;
             const bytes = TLBytes.deserialized(_data);
@@ -8178,7 +7862,7 @@ export namespace API {
                 mtime,
                 bytes)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = File.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8199,7 +7883,6 @@ export namespace API {
 
     export class DcOption implements TLObject {
         static readonly cons = new TLInt(0x5d8c6cc);
-    
         static deserialized(_data: ByteStream): DcOption | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DcOption.cons)) return undefined;
@@ -8222,7 +7905,7 @@ export namespace API {
                 ipAddress,
                 port)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DcOption.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8251,7 +7934,6 @@ export namespace API {
 
     export class Config implements TLObject {
         static readonly cons = new TLInt(0x9a6b2e2a);
-    
         static deserialized(_data: ByteStream): Config | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Config.cons)) return undefined;
@@ -8263,7 +7945,6 @@ export namespace API {
             if (!expires) return undefined;
             const testMode = deserializedObject(_data) as BoolType;
             if (!testMode) return undefined;
-            
             const thisDc = TLInt.deserialized(_data);
             if (!thisDc) return undefined;
             const dcOptions = TLVector.deserialized(_data, DcOption) as TLVector<DcOption>;
@@ -8333,12 +8014,12 @@ export namespace API {
                 tmpSessions,
                 disabledFeatures)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Config.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.tmpSessions) ? (flags | 1) : (flags & ~1);
+            flags = (this.tmpSessions) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.date.serialized());
             data.push(this.expires.serialized());
@@ -8397,7 +8078,6 @@ export namespace API {
 
     export class NearestDc implements TLObject {
         static readonly cons = new TLInt(0x8e1a1775);
-    
         static deserialized(_data: ByteStream): NearestDc | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(NearestDc.cons)) return undefined;
@@ -8412,7 +8092,7 @@ export namespace API {
                 thisDc,
                 nearestDc)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = NearestDc.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8434,7 +8114,6 @@ export namespace API {
     export namespace help {
     export class AppUpdate implements TLObject {
         static readonly cons = new TLInt(0x8987f311);
-    
         static deserialized(_data: ByteStream): AppUpdate | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AppUpdate.cons)) return undefined;
@@ -8442,7 +8121,6 @@ export namespace API {
             if (!id) return undefined;
             const critical = deserializedObject(_data) as BoolType;
             if (!critical) return undefined;
-            
             const url = TLString.deserialized(_data);
             if (!url) return undefined;
             const text = TLString.deserialized(_data);
@@ -8453,7 +8131,7 @@ export namespace API {
                 url,
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AppUpdate.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8477,13 +8155,12 @@ export namespace API {
     export namespace help {
     export class NoAppUpdate implements TLObject {
         static readonly cons = new TLInt(0xc45a6536);
-    
         static deserialized(_data: ByteStream): NoAppUpdate | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(NoAppUpdate.cons)) return undefined;
             return new NoAppUpdate()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = NoAppUpdate.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8497,7 +8174,6 @@ export namespace API {
     export namespace help {
     export class InviteText implements TLObject {
         static readonly cons = new TLInt(0x18cb9f78);
-    
         static deserialized(_data: ByteStream): InviteText | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InviteText.cons)) return undefined;
@@ -8506,7 +8182,7 @@ export namespace API {
             return new InviteText(
                 message)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InviteText.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8523,7 +8199,6 @@ export namespace API {
 
     export class EncryptedChatEmpty implements TLObject {
         static readonly cons = new TLInt(0xab7ec0a0);
-    
         static deserialized(_data: ByteStream): EncryptedChatEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedChatEmpty.cons)) return undefined;
@@ -8532,7 +8207,7 @@ export namespace API {
             return new EncryptedChatEmpty(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedChatEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8549,7 +8224,6 @@ export namespace API {
 
     export class EncryptedChatWaiting implements TLObject {
         static readonly cons = new TLInt(0x3bf703dc);
-    
         static deserialized(_data: ByteStream): EncryptedChatWaiting | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedChatWaiting.cons)) return undefined;
@@ -8570,7 +8244,7 @@ export namespace API {
                 adminId,
                 participantId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedChatWaiting.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8595,7 +8269,6 @@ export namespace API {
 
     export class EncryptedChatRequested implements TLObject {
         static readonly cons = new TLInt(0xc878527e);
-    
         static deserialized(_data: ByteStream): EncryptedChatRequested | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedChatRequested.cons)) return undefined;
@@ -8619,7 +8292,7 @@ export namespace API {
                 participantId,
                 gA)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedChatRequested.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8646,7 +8319,6 @@ export namespace API {
 
     export class EncryptedChat implements TLObject {
         static readonly cons = new TLInt(0xfa56ce36);
-    
         static deserialized(_data: ByteStream): EncryptedChat | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedChat.cons)) return undefined;
@@ -8673,7 +8345,7 @@ export namespace API {
                 gAOrB,
                 keyFingerprint)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedChat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8702,7 +8374,6 @@ export namespace API {
 
     export class EncryptedChatDiscarded implements TLObject {
         static readonly cons = new TLInt(0x13d6dd27);
-    
         static deserialized(_data: ByteStream): EncryptedChatDiscarded | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedChatDiscarded.cons)) return undefined;
@@ -8711,7 +8382,7 @@ export namespace API {
             return new EncryptedChatDiscarded(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedChatDiscarded.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8728,7 +8399,6 @@ export namespace API {
 
     export class InputEncryptedChat implements TLObject {
         static readonly cons = new TLInt(0xf141b5e1);
-    
         static deserialized(_data: ByteStream): InputEncryptedChat | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputEncryptedChat.cons)) return undefined;
@@ -8740,7 +8410,7 @@ export namespace API {
                 chatId,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputEncryptedChat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8759,13 +8429,12 @@ export namespace API {
 
     export class EncryptedFileEmpty implements TLObject {
         static readonly cons = new TLInt(0xc21f497e);
-    
         static deserialized(_data: ByteStream): EncryptedFileEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedFileEmpty.cons)) return undefined;
             return new EncryptedFileEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedFileEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8778,7 +8447,6 @@ export namespace API {
 
     export class EncryptedFile implements TLObject {
         static readonly cons = new TLInt(0x4a70994c);
-    
         static deserialized(_data: ByteStream): EncryptedFile | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedFile.cons)) return undefined;
@@ -8799,7 +8467,7 @@ export namespace API {
                 dcId,
                 keyFingerprint)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedFile.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8824,13 +8492,12 @@ export namespace API {
 
     export class InputEncryptedFileEmpty implements TLObject {
         static readonly cons = new TLInt(0x1837c364);
-    
         static deserialized(_data: ByteStream): InputEncryptedFileEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputEncryptedFileEmpty.cons)) return undefined;
             return new InputEncryptedFileEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputEncryptedFileEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8843,7 +8510,6 @@ export namespace API {
 
     export class InputEncryptedFileUploaded implements TLObject {
         static readonly cons = new TLInt(0x64bd0306);
-    
         static deserialized(_data: ByteStream): InputEncryptedFileUploaded | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputEncryptedFileUploaded.cons)) return undefined;
@@ -8861,7 +8527,7 @@ export namespace API {
                 md5Checksum,
                 keyFingerprint)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputEncryptedFileUploaded.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8884,7 +8550,6 @@ export namespace API {
 
     export class InputEncryptedFile implements TLObject {
         static readonly cons = new TLInt(0x5a17b5e5);
-    
         static deserialized(_data: ByteStream): InputEncryptedFile | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputEncryptedFile.cons)) return undefined;
@@ -8896,7 +8561,7 @@ export namespace API {
                 id,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputEncryptedFile.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8915,7 +8580,6 @@ export namespace API {
 
     export class InputEncryptedFileBigUploaded implements TLObject {
         static readonly cons = new TLInt(0x2dc173c8);
-    
         static deserialized(_data: ByteStream): InputEncryptedFileBigUploaded | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputEncryptedFileBigUploaded.cons)) return undefined;
@@ -8930,7 +8594,7 @@ export namespace API {
                 parts,
                 keyFingerprint)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputEncryptedFileBigUploaded.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8951,7 +8615,6 @@ export namespace API {
 
     export class EncryptedMessage implements TLObject {
         static readonly cons = new TLInt(0xed18c118);
-    
         static deserialized(_data: ByteStream): EncryptedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedMessage.cons)) return undefined;
@@ -8965,7 +8628,6 @@ export namespace API {
             if (!bytes) return undefined;
             const file = deserializedObject(_data) as EncryptedFileType;
             if (!file) return undefined;
-            
             return new EncryptedMessage(
                 randomId,
                 chatId,
@@ -8973,7 +8635,7 @@ export namespace API {
                 bytes,
                 file)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -8998,7 +8660,6 @@ export namespace API {
 
     export class EncryptedMessageService implements TLObject {
         static readonly cons = new TLInt(0x23734b06);
-    
         static deserialized(_data: ByteStream): EncryptedMessageService | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(EncryptedMessageService.cons)) return undefined;
@@ -9016,7 +8677,7 @@ export namespace API {
                 date,
                 bytes)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = EncryptedMessageService.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9040,7 +8701,6 @@ export namespace API {
     export namespace messages {
     export class DhConfigNotModified implements TLObject {
         static readonly cons = new TLInt(0xc0e24635);
-    
         static deserialized(_data: ByteStream): DhConfigNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DhConfigNotModified.cons)) return undefined;
@@ -9049,7 +8709,7 @@ export namespace API {
             return new DhConfigNotModified(
                 random)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DhConfigNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9067,7 +8727,6 @@ export namespace API {
     export namespace messages {
     export class DhConfig implements TLObject {
         static readonly cons = new TLInt(0x2c221edd);
-    
         static deserialized(_data: ByteStream): DhConfig | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DhConfig.cons)) return undefined;
@@ -9085,7 +8744,7 @@ export namespace API {
                 version,
                 random)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DhConfig.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9109,7 +8768,6 @@ export namespace API {
     export namespace messages {
     export class SentEncryptedMessage implements TLObject {
         static readonly cons = new TLInt(0x560f8935);
-    
         static deserialized(_data: ByteStream): SentEncryptedMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SentEncryptedMessage.cons)) return undefined;
@@ -9118,7 +8776,7 @@ export namespace API {
             return new SentEncryptedMessage(
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SentEncryptedMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9136,7 +8794,6 @@ export namespace API {
     export namespace messages {
     export class SentEncryptedFile implements TLObject {
         static readonly cons = new TLInt(0x9493ff32);
-    
         static deserialized(_data: ByteStream): SentEncryptedFile | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SentEncryptedFile.cons)) return undefined;
@@ -9144,12 +8801,11 @@ export namespace API {
             if (!date) return undefined;
             const file = deserializedObject(_data) as EncryptedFileType;
             if (!file) return undefined;
-            
             return new SentEncryptedFile(
                 date,
                 file)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SentEncryptedFile.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9168,13 +8824,12 @@ export namespace API {
 
     export class InputDocumentEmpty implements TLObject {
         static readonly cons = new TLInt(0x72f0eaae);
-    
         static deserialized(_data: ByteStream): InputDocumentEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputDocumentEmpty.cons)) return undefined;
             return new InputDocumentEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputDocumentEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9187,7 +8842,6 @@ export namespace API {
 
     export class InputDocument implements TLObject {
         static readonly cons = new TLInt(0x18798952);
-    
         static deserialized(_data: ByteStream): InputDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputDocument.cons)) return undefined;
@@ -9199,7 +8853,7 @@ export namespace API {
                 id,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9218,7 +8872,6 @@ export namespace API {
 
     export class DocumentEmpty implements TLObject {
         static readonly cons = new TLInt(0x36f8c871);
-    
         static deserialized(_data: ByteStream): DocumentEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentEmpty.cons)) return undefined;
@@ -9227,7 +8880,7 @@ export namespace API {
             return new DocumentEmpty(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9244,7 +8897,6 @@ export namespace API {
 
     export class Document implements TLObject {
         static readonly cons = new TLInt(0x87232bc7);
-    
         static deserialized(_data: ByteStream): Document | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Document.cons)) return undefined;
@@ -9260,7 +8912,6 @@ export namespace API {
             if (!size) return undefined;
             const thumb = deserializedObject(_data) as PhotoSizeType;
             if (!thumb) return undefined;
-            
             const dcId = TLInt.deserialized(_data);
             if (!dcId) return undefined;
             const version = TLInt.deserialized(_data);
@@ -9278,7 +8929,7 @@ export namespace API {
                 version,
                 attributes)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Document.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9312,7 +8963,6 @@ export namespace API {
     export namespace help {
     export class Support implements TLObject {
         static readonly cons = new TLInt(0x17c6b5f6);
-    
         static deserialized(_data: ByteStream): Support | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Support.cons)) return undefined;
@@ -9320,12 +8970,11 @@ export namespace API {
             if (!phoneNumber) return undefined;
             const user = deserializedObject(_data) as UserType;
             if (!user) return undefined;
-            
             return new Support(
                 phoneNumber,
                 user)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Support.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9344,17 +8993,15 @@ export namespace API {
 
     export class NotifyPeer implements TLObject {
         static readonly cons = new TLInt(0x9fd40bd8);
-    
         static deserialized(_data: ByteStream): NotifyPeer | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(NotifyPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             return new NotifyPeer(
                 peer)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = NotifyPeer.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9371,13 +9018,12 @@ export namespace API {
 
     export class NotifyUsers implements TLObject {
         static readonly cons = new TLInt(0xb4c83b4c);
-    
         static deserialized(_data: ByteStream): NotifyUsers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(NotifyUsers.cons)) return undefined;
             return new NotifyUsers()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = NotifyUsers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9390,13 +9036,12 @@ export namespace API {
 
     export class NotifyChats implements TLObject {
         static readonly cons = new TLInt(0xc007cec3);
-    
         static deserialized(_data: ByteStream): NotifyChats | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(NotifyChats.cons)) return undefined;
             return new NotifyChats()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = NotifyChats.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9409,13 +9054,12 @@ export namespace API {
 
     export class NotifyAll implements TLObject {
         static readonly cons = new TLInt(0x74d07c60);
-    
         static deserialized(_data: ByteStream): NotifyAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(NotifyAll.cons)) return undefined;
             return new NotifyAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = NotifyAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9428,13 +9072,12 @@ export namespace API {
 
     export class SendMessageTypingAction implements TLObject {
         static readonly cons = new TLInt(0x16bf744e);
-    
         static deserialized(_data: ByteStream): SendMessageTypingAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageTypingAction.cons)) return undefined;
             return new SendMessageTypingAction()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageTypingAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9447,13 +9090,12 @@ export namespace API {
 
     export class SendMessageCancelAction implements TLObject {
         static readonly cons = new TLInt(0xfd5ec8f5);
-    
         static deserialized(_data: ByteStream): SendMessageCancelAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageCancelAction.cons)) return undefined;
             return new SendMessageCancelAction()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageCancelAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9466,13 +9108,12 @@ export namespace API {
 
     export class SendMessageRecordVideoAction implements TLObject {
         static readonly cons = new TLInt(0xa187d66f);
-    
         static deserialized(_data: ByteStream): SendMessageRecordVideoAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageRecordVideoAction.cons)) return undefined;
             return new SendMessageRecordVideoAction()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageRecordVideoAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9485,7 +9126,6 @@ export namespace API {
 
     export class SendMessageUploadVideoAction implements TLObject {
         static readonly cons = new TLInt(0xe9763aec);
-    
         static deserialized(_data: ByteStream): SendMessageUploadVideoAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageUploadVideoAction.cons)) return undefined;
@@ -9494,7 +9134,7 @@ export namespace API {
             return new SendMessageUploadVideoAction(
                 progress)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageUploadVideoAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9511,13 +9151,12 @@ export namespace API {
 
     export class SendMessageRecordAudioAction implements TLObject {
         static readonly cons = new TLInt(0xd52f73f7);
-    
         static deserialized(_data: ByteStream): SendMessageRecordAudioAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageRecordAudioAction.cons)) return undefined;
             return new SendMessageRecordAudioAction()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageRecordAudioAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9530,7 +9169,6 @@ export namespace API {
 
     export class SendMessageUploadAudioAction implements TLObject {
         static readonly cons = new TLInt(0xf351d7ab);
-    
         static deserialized(_data: ByteStream): SendMessageUploadAudioAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageUploadAudioAction.cons)) return undefined;
@@ -9539,7 +9177,7 @@ export namespace API {
             return new SendMessageUploadAudioAction(
                 progress)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageUploadAudioAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9556,7 +9194,6 @@ export namespace API {
 
     export class SendMessageUploadPhotoAction implements TLObject {
         static readonly cons = new TLInt(0xd1d34a26);
-    
         static deserialized(_data: ByteStream): SendMessageUploadPhotoAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageUploadPhotoAction.cons)) return undefined;
@@ -9565,7 +9202,7 @@ export namespace API {
             return new SendMessageUploadPhotoAction(
                 progress)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageUploadPhotoAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9582,7 +9219,6 @@ export namespace API {
 
     export class SendMessageUploadDocumentAction implements TLObject {
         static readonly cons = new TLInt(0xaa0cd9e4);
-    
         static deserialized(_data: ByteStream): SendMessageUploadDocumentAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageUploadDocumentAction.cons)) return undefined;
@@ -9591,7 +9227,7 @@ export namespace API {
             return new SendMessageUploadDocumentAction(
                 progress)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageUploadDocumentAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9608,13 +9244,12 @@ export namespace API {
 
     export class SendMessageGeoLocationAction implements TLObject {
         static readonly cons = new TLInt(0x176f8ba1);
-    
         static deserialized(_data: ByteStream): SendMessageGeoLocationAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageGeoLocationAction.cons)) return undefined;
             return new SendMessageGeoLocationAction()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageGeoLocationAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9627,13 +9262,12 @@ export namespace API {
 
     export class SendMessageChooseContactAction implements TLObject {
         static readonly cons = new TLInt(0x628cbc6f);
-    
         static deserialized(_data: ByteStream): SendMessageChooseContactAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageChooseContactAction.cons)) return undefined;
             return new SendMessageChooseContactAction()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageChooseContactAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9646,13 +9280,12 @@ export namespace API {
 
     export class SendMessageGamePlayAction implements TLObject {
         static readonly cons = new TLInt(0xdd6a8f48);
-    
         static deserialized(_data: ByteStream): SendMessageGamePlayAction | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendMessageGamePlayAction.cons)) return undefined;
             return new SendMessageGamePlayAction()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SendMessageGamePlayAction.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9666,7 +9299,6 @@ export namespace API {
     export namespace contacts {
     export class Found implements TLObject {
         static readonly cons = new TLInt(0x1aa1f784);
-    
         static deserialized(_data: ByteStream): Found | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Found.cons)) return undefined;
@@ -9681,7 +9313,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Found.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9702,13 +9334,12 @@ export namespace API {
 
     export class InputPrivacyKeyStatusTimestamp implements TLObject {
         static readonly cons = new TLInt(0x4f96cb18);
-    
         static deserialized(_data: ByteStream): InputPrivacyKeyStatusTimestamp | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyKeyStatusTimestamp.cons)) return undefined;
             return new InputPrivacyKeyStatusTimestamp()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyKeyStatusTimestamp.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9721,13 +9352,12 @@ export namespace API {
 
     export class InputPrivacyKeyChatInvite implements TLObject {
         static readonly cons = new TLInt(0xbdfb0426);
-    
         static deserialized(_data: ByteStream): InputPrivacyKeyChatInvite | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyKeyChatInvite.cons)) return undefined;
             return new InputPrivacyKeyChatInvite()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyKeyChatInvite.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9740,13 +9370,12 @@ export namespace API {
 
     export class PrivacyKeyStatusTimestamp implements TLObject {
         static readonly cons = new TLInt(0xbc2eab30);
-    
         static deserialized(_data: ByteStream): PrivacyKeyStatusTimestamp | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyKeyStatusTimestamp.cons)) return undefined;
             return new PrivacyKeyStatusTimestamp()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyKeyStatusTimestamp.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9759,13 +9388,12 @@ export namespace API {
 
     export class PrivacyKeyChatInvite implements TLObject {
         static readonly cons = new TLInt(0x500e6dfa);
-    
         static deserialized(_data: ByteStream): PrivacyKeyChatInvite | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyKeyChatInvite.cons)) return undefined;
             return new PrivacyKeyChatInvite()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyKeyChatInvite.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9778,13 +9406,12 @@ export namespace API {
 
     export class InputPrivacyValueAllowContacts implements TLObject {
         static readonly cons = new TLInt(0xd09e07b);
-    
         static deserialized(_data: ByteStream): InputPrivacyValueAllowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyValueAllowContacts.cons)) return undefined;
             return new InputPrivacyValueAllowContacts()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyValueAllowContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9797,13 +9424,12 @@ export namespace API {
 
     export class InputPrivacyValueAllowAll implements TLObject {
         static readonly cons = new TLInt(0x184b35ce);
-    
         static deserialized(_data: ByteStream): InputPrivacyValueAllowAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyValueAllowAll.cons)) return undefined;
             return new InputPrivacyValueAllowAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyValueAllowAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9816,7 +9442,6 @@ export namespace API {
 
     export class InputPrivacyValueAllowUsers implements TLObject {
         static readonly cons = new TLInt(0x131cc67f);
-    
         static deserialized(_data: ByteStream): InputPrivacyValueAllowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyValueAllowUsers.cons)) return undefined;
@@ -9825,7 +9450,7 @@ export namespace API {
             return new InputPrivacyValueAllowUsers(
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyValueAllowUsers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9842,13 +9467,12 @@ export namespace API {
 
     export class InputPrivacyValueDisallowContacts implements TLObject {
         static readonly cons = new TLInt(0xba52007);
-    
         static deserialized(_data: ByteStream): InputPrivacyValueDisallowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyValueDisallowContacts.cons)) return undefined;
             return new InputPrivacyValueDisallowContacts()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyValueDisallowContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9861,13 +9485,12 @@ export namespace API {
 
     export class InputPrivacyValueDisallowAll implements TLObject {
         static readonly cons = new TLInt(0xd66b66c9);
-    
         static deserialized(_data: ByteStream): InputPrivacyValueDisallowAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyValueDisallowAll.cons)) return undefined;
             return new InputPrivacyValueDisallowAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyValueDisallowAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9880,7 +9503,6 @@ export namespace API {
 
     export class InputPrivacyValueDisallowUsers implements TLObject {
         static readonly cons = new TLInt(0x90110467);
-    
         static deserialized(_data: ByteStream): InputPrivacyValueDisallowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputPrivacyValueDisallowUsers.cons)) return undefined;
@@ -9889,7 +9511,7 @@ export namespace API {
             return new InputPrivacyValueDisallowUsers(
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputPrivacyValueDisallowUsers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9906,13 +9528,12 @@ export namespace API {
 
     export class PrivacyValueAllowContacts implements TLObject {
         static readonly cons = new TLInt(0xfffe1bac);
-    
         static deserialized(_data: ByteStream): PrivacyValueAllowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyValueAllowContacts.cons)) return undefined;
             return new PrivacyValueAllowContacts()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyValueAllowContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9925,13 +9546,12 @@ export namespace API {
 
     export class PrivacyValueAllowAll implements TLObject {
         static readonly cons = new TLInt(0x65427b82);
-    
         static deserialized(_data: ByteStream): PrivacyValueAllowAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyValueAllowAll.cons)) return undefined;
             return new PrivacyValueAllowAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyValueAllowAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9944,7 +9564,6 @@ export namespace API {
 
     export class PrivacyValueAllowUsers implements TLObject {
         static readonly cons = new TLInt(0x4d5bbe0c);
-    
         static deserialized(_data: ByteStream): PrivacyValueAllowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyValueAllowUsers.cons)) return undefined;
@@ -9953,7 +9572,7 @@ export namespace API {
             return new PrivacyValueAllowUsers(
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyValueAllowUsers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9970,13 +9589,12 @@ export namespace API {
 
     export class PrivacyValueDisallowContacts implements TLObject {
         static readonly cons = new TLInt(0xf888fa1a);
-    
         static deserialized(_data: ByteStream): PrivacyValueDisallowContacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyValueDisallowContacts.cons)) return undefined;
             return new PrivacyValueDisallowContacts()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyValueDisallowContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -9989,13 +9607,12 @@ export namespace API {
 
     export class PrivacyValueDisallowAll implements TLObject {
         static readonly cons = new TLInt(0x8b73e763);
-    
         static deserialized(_data: ByteStream): PrivacyValueDisallowAll | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyValueDisallowAll.cons)) return undefined;
             return new PrivacyValueDisallowAll()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyValueDisallowAll.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10008,7 +9625,6 @@ export namespace API {
 
     export class PrivacyValueDisallowUsers implements TLObject {
         static readonly cons = new TLInt(0xc7f49b7);
-    
         static deserialized(_data: ByteStream): PrivacyValueDisallowUsers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyValueDisallowUsers.cons)) return undefined;
@@ -10017,7 +9633,7 @@ export namespace API {
             return new PrivacyValueDisallowUsers(
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyValueDisallowUsers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10035,7 +9651,6 @@ export namespace API {
     export namespace account {
     export class PrivacyRules implements TLObject {
         static readonly cons = new TLInt(0x554abb6f);
-    
         static deserialized(_data: ByteStream): PrivacyRules | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PrivacyRules.cons)) return undefined;
@@ -10047,7 +9662,7 @@ export namespace API {
                 rules,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PrivacyRules.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10066,7 +9681,6 @@ export namespace API {
 
     export class AccountDaysTTL implements TLObject {
         static readonly cons = new TLInt(0xb8d0afdf);
-    
         static deserialized(_data: ByteStream): AccountDaysTTL | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AccountDaysTTL.cons)) return undefined;
@@ -10075,7 +9689,7 @@ export namespace API {
             return new AccountDaysTTL(
                 days)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AccountDaysTTL.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10092,7 +9706,6 @@ export namespace API {
 
     export class DocumentAttributeImageSize implements TLObject {
         static readonly cons = new TLInt(0x6c37c15c);
-    
         static deserialized(_data: ByteStream): DocumentAttributeImageSize | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeImageSize.cons)) return undefined;
@@ -10104,7 +9717,7 @@ export namespace API {
                 w,
                 h)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentAttributeImageSize.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10123,13 +9736,12 @@ export namespace API {
 
     export class DocumentAttributeAnimated implements TLObject {
         static readonly cons = new TLInt(0x11b58939);
-    
         static deserialized(_data: ByteStream): DocumentAttributeAnimated | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeAnimated.cons)) return undefined;
             return new DocumentAttributeAnimated()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentAttributeAnimated.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10142,7 +9754,6 @@ export namespace API {
 
     export class DocumentAttributeSticker implements TLObject {
         static readonly cons = new TLInt(0x6319d612);
-    
         static deserialized(_data: ByteStream): DocumentAttributeSticker | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeSticker.cons)) return undefined;
@@ -10153,7 +9764,6 @@ export namespace API {
             if (!alt) return undefined;
             const stickerset = deserializedObject(_data) as InputStickerSetType;
             if (!stickerset) return undefined;
-            
             let maskCoords: MaskCoords | undefined;
             if ((flags.value & 1) !== 0) {
                 const obj = deserializedObject(_data) as MaskCoords;
@@ -10166,13 +9776,13 @@ export namespace API {
                 stickerset,
                 maskCoords)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentAttributeSticker.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.mask) ? (flags | 2) : (flags & ~2);
-            flags = (!this.maskCoords) ? (flags | 1) : (flags & ~1);
+            flags = (this.maskCoords) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.alt.serialized());
             data.push(this.stickerset.serialized());
@@ -10192,7 +9802,6 @@ export namespace API {
 
     export class DocumentAttributeVideo implements TLObject {
         static readonly cons = new TLInt(0x5910cccb);
-    
         static deserialized(_data: ByteStream): DocumentAttributeVideo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeVideo.cons)) return undefined;
@@ -10207,7 +9816,7 @@ export namespace API {
                 w,
                 h)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentAttributeVideo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10228,7 +9837,6 @@ export namespace API {
 
     export class DocumentAttributeAudio implements TLObject {
         static readonly cons = new TLInt(0x9852f9c6);
-    
         static deserialized(_data: ByteStream): DocumentAttributeAudio | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeAudio.cons)) return undefined;
@@ -10262,15 +9870,15 @@ export namespace API {
                 performer,
                 waveform)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentAttributeAudio.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.voice) ? (flags | 1024) : (flags & ~1024);
-            flags = (!this.title) ? (flags | 1) : (flags & ~1);
-            flags = (!this.performer) ? (flags | 2) : (flags & ~2);
-            flags = (!this.waveform) ? (flags | 4) : (flags & ~4);
+            flags = (this.title) ? (flags | 1) : (flags & ~1);
+            flags = (this.performer) ? (flags | 2) : (flags & ~2);
+            flags = (this.waveform) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.duration.serialized());
             if (this.title) data.push(this.title.serialized());
@@ -10292,7 +9900,6 @@ export namespace API {
 
     export class DocumentAttributeFilename implements TLObject {
         static readonly cons = new TLInt(0x15590068);
-    
         static deserialized(_data: ByteStream): DocumentAttributeFilename | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeFilename.cons)) return undefined;
@@ -10301,7 +9908,7 @@ export namespace API {
             return new DocumentAttributeFilename(
                 fileName)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentAttributeFilename.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10318,13 +9925,12 @@ export namespace API {
 
     export class DocumentAttributeHasStickers implements TLObject {
         static readonly cons = new TLInt(0x9801d2f7);
-    
         static deserialized(_data: ByteStream): DocumentAttributeHasStickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeHasStickers.cons)) return undefined;
             return new DocumentAttributeHasStickers()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DocumentAttributeHasStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10338,13 +9944,12 @@ export namespace API {
     export namespace messages {
     export class StickersNotModified implements TLObject {
         static readonly cons = new TLInt(0xf1749a22);
-    
         static deserialized(_data: ByteStream): StickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickersNotModified.cons)) return undefined;
             return new StickersNotModified()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickersNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10358,7 +9963,6 @@ export namespace API {
     export namespace messages {
     export class Stickers implements TLObject {
         static readonly cons = new TLInt(0x8a8ecd32);
-    
         static deserialized(_data: ByteStream): Stickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Stickers.cons)) return undefined;
@@ -10370,7 +9974,7 @@ export namespace API {
                 hash,
                 stickers)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Stickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10389,7 +9993,6 @@ export namespace API {
 
     export class StickerPack implements TLObject {
         static readonly cons = new TLInt(0x12b299d4);
-    
         static deserialized(_data: ByteStream): StickerPack | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerPack.cons)) return undefined;
@@ -10401,7 +10004,7 @@ export namespace API {
                 emoticon,
                 documents)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickerPack.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10421,13 +10024,12 @@ export namespace API {
     export namespace messages {
     export class AllStickersNotModified implements TLObject {
         static readonly cons = new TLInt(0xe86602c3);
-    
         static deserialized(_data: ByteStream): AllStickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AllStickersNotModified.cons)) return undefined;
             return new AllStickersNotModified()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AllStickersNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10441,7 +10043,6 @@ export namespace API {
     export namespace messages {
     export class AllStickers implements TLObject {
         static readonly cons = new TLInt(0xedfd405f);
-    
         static deserialized(_data: ByteStream): AllStickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AllStickers.cons)) return undefined;
@@ -10453,7 +10054,7 @@ export namespace API {
                 hash,
                 sets)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AllStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10472,7 +10073,6 @@ export namespace API {
 
     export class DisabledFeature implements TLObject {
         static readonly cons = new TLInt(0xae636f24);
-    
         static deserialized(_data: ByteStream): DisabledFeature | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DisabledFeature.cons)) return undefined;
@@ -10484,7 +10084,7 @@ export namespace API {
                 feature,
                 description)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DisabledFeature.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10504,7 +10104,6 @@ export namespace API {
     export namespace messages {
     export class AffectedMessages implements TLObject {
         static readonly cons = new TLInt(0x84d19185);
-    
         static deserialized(_data: ByteStream): AffectedMessages | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AffectedMessages.cons)) return undefined;
@@ -10516,7 +10115,7 @@ export namespace API {
                 pts,
                 ptsCount)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AffectedMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10535,13 +10134,12 @@ export namespace API {
 
     export class ContactLinkUnknown implements TLObject {
         static readonly cons = new TLInt(0x5f4f9247);
-    
         static deserialized(_data: ByteStream): ContactLinkUnknown | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ContactLinkUnknown.cons)) return undefined;
             return new ContactLinkUnknown()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ContactLinkUnknown.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10554,13 +10152,12 @@ export namespace API {
 
     export class ContactLinkNone implements TLObject {
         static readonly cons = new TLInt(0xfeedd3ad);
-    
         static deserialized(_data: ByteStream): ContactLinkNone | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ContactLinkNone.cons)) return undefined;
             return new ContactLinkNone()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ContactLinkNone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10573,13 +10170,12 @@ export namespace API {
 
     export class ContactLinkHasPhone implements TLObject {
         static readonly cons = new TLInt(0x268f3f59);
-    
         static deserialized(_data: ByteStream): ContactLinkHasPhone | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ContactLinkHasPhone.cons)) return undefined;
             return new ContactLinkHasPhone()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ContactLinkHasPhone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10592,13 +10188,12 @@ export namespace API {
 
     export class ContactLinkContact implements TLObject {
         static readonly cons = new TLInt(0xd502c2d0);
-    
         static deserialized(_data: ByteStream): ContactLinkContact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ContactLinkContact.cons)) return undefined;
             return new ContactLinkContact()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ContactLinkContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10611,7 +10206,6 @@ export namespace API {
 
     export class WebPageEmpty implements TLObject {
         static readonly cons = new TLInt(0xeb1477e8);
-    
         static deserialized(_data: ByteStream): WebPageEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(WebPageEmpty.cons)) return undefined;
@@ -10620,7 +10214,7 @@ export namespace API {
             return new WebPageEmpty(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = WebPageEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10637,7 +10231,6 @@ export namespace API {
 
     export class WebPagePending implements TLObject {
         static readonly cons = new TLInt(0xc586da1c);
-    
         static deserialized(_data: ByteStream): WebPagePending | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(WebPagePending.cons)) return undefined;
@@ -10649,7 +10242,7 @@ export namespace API {
                 id,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = WebPagePending.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10668,7 +10261,6 @@ export namespace API {
 
     export class WebPage implements TLObject {
         static readonly cons = new TLInt(0xca820ed7);
-    
         static deserialized(_data: ByteStream): WebPage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(WebPage.cons)) return undefined;
@@ -10769,23 +10361,23 @@ export namespace API {
                 author,
                 document)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = WebPage.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.type) ? (flags | 1) : (flags & ~1);
-            flags = (!this.siteName) ? (flags | 2) : (flags & ~2);
-            flags = (!this.title) ? (flags | 4) : (flags & ~4);
-            flags = (!this.description) ? (flags | 8) : (flags & ~8);
-            flags = (!this.photo) ? (flags | 16) : (flags & ~16);
-            flags = (!this.embedUrl) ? (flags | 32) : (flags & ~32);
-            flags = (!this.embedType) ? (flags | 32) : (flags & ~32);
-            flags = (!this.embedWidth) ? (flags | 64) : (flags & ~64);
-            flags = (!this.embedHeight) ? (flags | 64) : (flags & ~64);
-            flags = (!this.duration) ? (flags | 128) : (flags & ~128);
-            flags = (!this.author) ? (flags | 256) : (flags & ~256);
-            flags = (!this.document) ? (flags | 512) : (flags & ~512);
+            flags = (this.type) ? (flags | 1) : (flags & ~1);
+            flags = (this.siteName) ? (flags | 2) : (flags & ~2);
+            flags = (this.title) ? (flags | 4) : (flags & ~4);
+            flags = (this.description) ? (flags | 8) : (flags & ~8);
+            flags = (this.photo) ? (flags | 16) : (flags & ~16);
+            flags = (this.embedUrl) ? (flags | 32) : (flags & ~32);
+            flags = (this.embedType) ? (flags | 32) : (flags & ~32);
+            flags = (this.embedWidth) ? (flags | 64) : (flags & ~64);
+            flags = (this.embedHeight) ? (flags | 64) : (flags & ~64);
+            flags = (this.duration) ? (flags | 128) : (flags & ~128);
+            flags = (this.author) ? (flags | 256) : (flags & ~256);
+            flags = (this.document) ? (flags | 512) : (flags & ~512);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.url.serialized());
@@ -10828,7 +10420,6 @@ export namespace API {
 
     export class Authorization implements TLObject {
         static readonly cons = new TLInt(0x7bf2e6f6);
-    
         static deserialized(_data: ByteStream): Authorization | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Authorization.cons)) return undefined;
@@ -10873,7 +10464,7 @@ export namespace API {
                 country,
                 region)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Authorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10915,7 +10506,6 @@ export namespace API {
     export namespace account {
     export class Authorizations implements TLObject {
         static readonly cons = new TLInt(0x1250abde);
-    
         static deserialized(_data: ByteStream): Authorizations | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Authorizations.cons)) return undefined;
@@ -10924,7 +10514,7 @@ export namespace API {
             return new Authorizations(
                 authorizations)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Authorizations.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10942,7 +10532,6 @@ export namespace API {
     export namespace account {
     export class NoPassword implements TLObject {
         static readonly cons = new TLInt(0x96dabc18);
-    
         static deserialized(_data: ByteStream): NoPassword | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(NoPassword.cons)) return undefined;
@@ -10954,7 +10543,7 @@ export namespace API {
                 newSalt,
                 emailUnconfirmedPattern)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = NoPassword.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -10974,7 +10563,6 @@ export namespace API {
     export namespace account {
     export class Password implements TLObject {
         static readonly cons = new TLInt(0x7c18141c);
-    
         static deserialized(_data: ByteStream): Password | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Password.cons)) return undefined;
@@ -10986,7 +10574,6 @@ export namespace API {
             if (!hint) return undefined;
             const hasRecovery = deserializedObject(_data) as BoolType;
             if (!hasRecovery) return undefined;
-            
             const emailUnconfirmedPattern = TLString.deserialized(_data);
             if (!emailUnconfirmedPattern) return undefined;
             return new Password(
@@ -10996,7 +10583,7 @@ export namespace API {
                 hasRecovery,
                 emailUnconfirmedPattern)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Password.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11022,7 +10609,6 @@ export namespace API {
     export namespace account {
     export class PasswordSettings implements TLObject {
         static readonly cons = new TLInt(0xb7b72ab3);
-    
         static deserialized(_data: ByteStream): PasswordSettings | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PasswordSettings.cons)) return undefined;
@@ -11031,7 +10617,7 @@ export namespace API {
             return new PasswordSettings(
                 email)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PasswordSettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11049,7 +10635,6 @@ export namespace API {
     export namespace account {
     export class PasswordInputSettings implements TLObject {
         static readonly cons = new TLInt(0x86916deb);
-    
         static deserialized(_data: ByteStream): PasswordInputSettings | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PasswordInputSettings.cons)) return undefined;
@@ -11085,15 +10670,15 @@ export namespace API {
                 hint,
                 email)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PasswordInputSettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.newSalt) ? (flags | 1) : (flags & ~1);
-            flags = (!this.newPasswordHash) ? (flags | 1) : (flags & ~1);
-            flags = (!this.hint) ? (flags | 1) : (flags & ~1);
-            flags = (!this.email) ? (flags | 2) : (flags & ~2);
+            flags = (this.newSalt) ? (flags | 1) : (flags & ~1);
+            flags = (this.newPasswordHash) ? (flags | 1) : (flags & ~1);
+            flags = (this.hint) ? (flags | 1) : (flags & ~1);
+            flags = (this.email) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             if (this.newSalt) data.push(this.newSalt.serialized());
             if (this.newPasswordHash) data.push(this.newPasswordHash.serialized());
@@ -11115,7 +10700,6 @@ export namespace API {
     export namespace auth {
     export class PasswordRecovery implements TLObject {
         static readonly cons = new TLInt(0x137948a5);
-    
         static deserialized(_data: ByteStream): PasswordRecovery | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PasswordRecovery.cons)) return undefined;
@@ -11124,7 +10708,7 @@ export namespace API {
             return new PasswordRecovery(
                 emailPattern)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PasswordRecovery.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11141,7 +10725,6 @@ export namespace API {
 
     export class ReceivedNotifyMessage implements TLObject {
         static readonly cons = new TLInt(0xa384b779);
-    
         static deserialized(_data: ByteStream): ReceivedNotifyMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ReceivedNotifyMessage.cons)) return undefined;
@@ -11153,7 +10736,7 @@ export namespace API {
                 id,
                 flags)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ReceivedNotifyMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11172,13 +10755,12 @@ export namespace API {
 
     export class ChatInviteEmpty implements TLObject {
         static readonly cons = new TLInt(0x69df3769);
-    
         static deserialized(_data: ByteStream): ChatInviteEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatInviteEmpty.cons)) return undefined;
             return new ChatInviteEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatInviteEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11191,7 +10773,6 @@ export namespace API {
 
     export class ChatInviteExported implements TLObject {
         static readonly cons = new TLInt(0xfc2e05bc);
-    
         static deserialized(_data: ByteStream): ChatInviteExported | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatInviteExported.cons)) return undefined;
@@ -11200,7 +10781,7 @@ export namespace API {
             return new ChatInviteExported(
                 link)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatInviteExported.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11217,17 +10798,15 @@ export namespace API {
 
     export class ChatInviteAlready implements TLObject {
         static readonly cons = new TLInt(0x5a686d7c);
-    
         static deserialized(_data: ByteStream): ChatInviteAlready | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatInviteAlready.cons)) return undefined;
             const chat = deserializedObject(_data) as ChatType;
             if (!chat) return undefined;
-            
             return new ChatInviteAlready(
                 chat)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatInviteAlready.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11244,7 +10823,6 @@ export namespace API {
 
     export class ChatInvite implements TLObject {
         static readonly cons = new TLInt(0xdb74f558);
-    
         static deserialized(_data: ByteStream): ChatInvite | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChatInvite.cons)) return undefined;
@@ -11258,7 +10836,6 @@ export namespace API {
             if (!title) return undefined;
             const photo = deserializedObject(_data) as ChatPhotoType;
             if (!photo) return undefined;
-            
             const participantsCount = TLInt.deserialized(_data);
             if (!participantsCount) return undefined;
             let participants: TLVector<UserType> | undefined;
@@ -11277,7 +10854,7 @@ export namespace API {
                 participantsCount,
                 participants)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChatInvite.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11286,7 +10863,7 @@ export namespace API {
             flags = (this.broadcast) ? (flags | 2) : (flags & ~2);
             flags = (this.isPublic) ? (flags | 4) : (flags & ~4);
             flags = (this.megagroup) ? (flags | 8) : (flags & ~8);
-            flags = (!this.participants) ? (flags | 16) : (flags & ~16);
+            flags = (this.participants) ? (flags | 16) : (flags & ~16);
             data.push(new TLInt(flags).serialized());
             data.push(this.title.serialized());
             data.push(this.photo.serialized());
@@ -11311,13 +10888,12 @@ export namespace API {
 
     export class InputStickerSetEmpty implements TLObject {
         static readonly cons = new TLInt(0xffb62b95);
-    
         static deserialized(_data: ByteStream): InputStickerSetEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputStickerSetEmpty.cons)) return undefined;
             return new InputStickerSetEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputStickerSetEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11330,7 +10906,6 @@ export namespace API {
 
     export class InputStickerSetID implements TLObject {
         static readonly cons = new TLInt(0x9de7a269);
-    
         static deserialized(_data: ByteStream): InputStickerSetID | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputStickerSetID.cons)) return undefined;
@@ -11342,7 +10917,7 @@ export namespace API {
                 id,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputStickerSetID.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11361,7 +10936,6 @@ export namespace API {
 
     export class InputStickerSetShortName implements TLObject {
         static readonly cons = new TLInt(0x861cc8a0);
-    
         static deserialized(_data: ByteStream): InputStickerSetShortName | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputStickerSetShortName.cons)) return undefined;
@@ -11370,7 +10944,7 @@ export namespace API {
             return new InputStickerSetShortName(
                 shortName)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputStickerSetShortName.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11387,7 +10961,6 @@ export namespace API {
 
     export class StickerSet implements TLObject {
         static readonly cons = new TLInt(0xcd303b41);
-    
         static deserialized(_data: ByteStream): StickerSet | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSet.cons)) return undefined;
@@ -11421,7 +10994,7 @@ export namespace API {
                 count,
                 hash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickerSet.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11459,13 +11032,11 @@ export namespace API {
     export namespace messages {
     export class StickerSet implements TLObject {
         static readonly cons = new TLInt(0xb60a24a6);
-    
         static deserialized(_data: ByteStream): StickerSet | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSet.cons)) return undefined;
             const set = deserializedObject(_data) as StickerSet;
             if (!set) return undefined;
-            
             const packs = TLVector.deserialized(_data, StickerPack) as TLVector<StickerPack>;
             if (!packs) return undefined;
             const documents = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
@@ -11475,7 +11046,7 @@ export namespace API {
                 packs,
                 documents)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickerSet.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11496,7 +11067,6 @@ export namespace API {
 
     export class BotCommand implements TLObject {
         static readonly cons = new TLInt(0xc27ac8c7);
-    
         static deserialized(_data: ByteStream): BotCommand | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotCommand.cons)) return undefined;
@@ -11508,7 +11078,7 @@ export namespace API {
                 command,
                 description)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotCommand.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11527,7 +11097,6 @@ export namespace API {
 
     export class BotInfo implements TLObject {
         static readonly cons = new TLInt(0x98e81d3a);
-    
         static deserialized(_data: ByteStream): BotInfo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInfo.cons)) return undefined;
@@ -11542,7 +11111,7 @@ export namespace API {
                 description,
                 commands)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInfo.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11563,7 +11132,6 @@ export namespace API {
 
     export class KeyboardButton implements TLObject {
         static readonly cons = new TLInt(0xa2fa4880);
-    
         static deserialized(_data: ByteStream): KeyboardButton | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButton.cons)) return undefined;
@@ -11572,7 +11140,7 @@ export namespace API {
             return new KeyboardButton(
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButton.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11589,7 +11157,6 @@ export namespace API {
 
     export class KeyboardButtonUrl implements TLObject {
         static readonly cons = new TLInt(0x258aff05);
-    
         static deserialized(_data: ByteStream): KeyboardButtonUrl | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButtonUrl.cons)) return undefined;
@@ -11601,7 +11168,7 @@ export namespace API {
                 text,
                 url)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButtonUrl.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11620,7 +11187,6 @@ export namespace API {
 
     export class KeyboardButtonCallback implements TLObject {
         static readonly cons = new TLInt(0x683a5e46);
-    
         static deserialized(_data: ByteStream): KeyboardButtonCallback | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButtonCallback.cons)) return undefined;
@@ -11632,7 +11198,7 @@ export namespace API {
                 text,
                 data)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButtonCallback.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11651,7 +11217,6 @@ export namespace API {
 
     export class KeyboardButtonRequestPhone implements TLObject {
         static readonly cons = new TLInt(0xb16a6c29);
-    
         static deserialized(_data: ByteStream): KeyboardButtonRequestPhone | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButtonRequestPhone.cons)) return undefined;
@@ -11660,7 +11225,7 @@ export namespace API {
             return new KeyboardButtonRequestPhone(
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButtonRequestPhone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11677,7 +11242,6 @@ export namespace API {
 
     export class KeyboardButtonRequestGeoLocation implements TLObject {
         static readonly cons = new TLInt(0xfc796b3f);
-    
         static deserialized(_data: ByteStream): KeyboardButtonRequestGeoLocation | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButtonRequestGeoLocation.cons)) return undefined;
@@ -11686,7 +11250,7 @@ export namespace API {
             return new KeyboardButtonRequestGeoLocation(
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButtonRequestGeoLocation.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11703,7 +11267,6 @@ export namespace API {
 
     export class KeyboardButtonSwitchInline implements TLObject {
         static readonly cons = new TLInt(0x568a748);
-    
         static deserialized(_data: ByteStream): KeyboardButtonSwitchInline | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButtonSwitchInline.cons)) return undefined;
@@ -11719,7 +11282,7 @@ export namespace API {
                 text,
                 query)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButtonSwitchInline.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11742,7 +11305,6 @@ export namespace API {
 
     export class KeyboardButtonGame implements TLObject {
         static readonly cons = new TLInt(0x50f41ccf);
-    
         static deserialized(_data: ByteStream): KeyboardButtonGame | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButtonGame.cons)) return undefined;
@@ -11751,7 +11313,7 @@ export namespace API {
             return new KeyboardButtonGame(
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButtonGame.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11768,7 +11330,6 @@ export namespace API {
 
     export class KeyboardButtonRow implements TLObject {
         static readonly cons = new TLInt(0x77608b83);
-    
         static deserialized(_data: ByteStream): KeyboardButtonRow | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(KeyboardButtonRow.cons)) return undefined;
@@ -11777,7 +11338,7 @@ export namespace API {
             return new KeyboardButtonRow(
                 buttons)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = KeyboardButtonRow.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11794,7 +11355,6 @@ export namespace API {
 
     export class ReplyKeyboardHide implements TLObject {
         static readonly cons = new TLInt(0xa03e5b85);
-    
         static deserialized(_data: ByteStream): ReplyKeyboardHide | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ReplyKeyboardHide.cons)) return undefined;
@@ -11804,7 +11364,7 @@ export namespace API {
             return new ReplyKeyboardHide(
                 selective)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ReplyKeyboardHide.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11823,7 +11383,6 @@ export namespace API {
 
     export class ReplyKeyboardForceReply implements TLObject {
         static readonly cons = new TLInt(0xf4108aa0);
-    
         static deserialized(_data: ByteStream): ReplyKeyboardForceReply | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ReplyKeyboardForceReply.cons)) return undefined;
@@ -11835,7 +11394,7 @@ export namespace API {
                 singleUse,
                 selective)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ReplyKeyboardForceReply.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11856,7 +11415,6 @@ export namespace API {
 
     export class ReplyKeyboardMarkup implements TLObject {
         static readonly cons = new TLInt(0x3502758c);
-    
         static deserialized(_data: ByteStream): ReplyKeyboardMarkup | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ReplyKeyboardMarkup.cons)) return undefined;
@@ -11873,7 +11431,7 @@ export namespace API {
                 selective,
                 rows)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ReplyKeyboardMarkup.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11898,7 +11456,6 @@ export namespace API {
 
     export class ReplyInlineMarkup implements TLObject {
         static readonly cons = new TLInt(0x48a30254);
-    
         static deserialized(_data: ByteStream): ReplyInlineMarkup | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ReplyInlineMarkup.cons)) return undefined;
@@ -11907,7 +11464,7 @@ export namespace API {
             return new ReplyInlineMarkup(
                 rows)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ReplyInlineMarkup.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11925,13 +11482,12 @@ export namespace API {
     export namespace help {
     export class AppChangelogEmpty implements TLObject {
         static readonly cons = new TLInt(0xaf7e0394);
-    
         static deserialized(_data: ByteStream): AppChangelogEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AppChangelogEmpty.cons)) return undefined;
             return new AppChangelogEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AppChangelogEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11945,7 +11501,6 @@ export namespace API {
     export namespace help {
     export class AppChangelog implements TLObject {
         static readonly cons = new TLInt(0x4668e6bd);
-    
         static deserialized(_data: ByteStream): AppChangelog | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AppChangelog.cons)) return undefined;
@@ -11954,7 +11509,7 @@ export namespace API {
             return new AppChangelog(
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = AppChangelog.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -11971,7 +11526,6 @@ export namespace API {
 
     export class MessageEntityUnknown implements TLObject {
         static readonly cons = new TLInt(0xbb92ba95);
-    
         static deserialized(_data: ByteStream): MessageEntityUnknown | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityUnknown.cons)) return undefined;
@@ -11983,7 +11537,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityUnknown.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12002,7 +11556,6 @@ export namespace API {
 
     export class MessageEntityMention implements TLObject {
         static readonly cons = new TLInt(0xfa04579d);
-    
         static deserialized(_data: ByteStream): MessageEntityMention | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityMention.cons)) return undefined;
@@ -12014,7 +11567,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityMention.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12033,7 +11586,6 @@ export namespace API {
 
     export class MessageEntityHashtag implements TLObject {
         static readonly cons = new TLInt(0x6f635b0d);
-    
         static deserialized(_data: ByteStream): MessageEntityHashtag | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityHashtag.cons)) return undefined;
@@ -12045,7 +11597,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityHashtag.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12064,7 +11616,6 @@ export namespace API {
 
     export class MessageEntityBotCommand implements TLObject {
         static readonly cons = new TLInt(0x6cef8ac7);
-    
         static deserialized(_data: ByteStream): MessageEntityBotCommand | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityBotCommand.cons)) return undefined;
@@ -12076,7 +11627,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityBotCommand.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12095,7 +11646,6 @@ export namespace API {
 
     export class MessageEntityUrl implements TLObject {
         static readonly cons = new TLInt(0x6ed02538);
-    
         static deserialized(_data: ByteStream): MessageEntityUrl | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityUrl.cons)) return undefined;
@@ -12107,7 +11657,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityUrl.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12126,7 +11676,6 @@ export namespace API {
 
     export class MessageEntityEmail implements TLObject {
         static readonly cons = new TLInt(0x64e475c2);
-    
         static deserialized(_data: ByteStream): MessageEntityEmail | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityEmail.cons)) return undefined;
@@ -12138,7 +11687,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityEmail.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12157,7 +11706,6 @@ export namespace API {
 
     export class MessageEntityBold implements TLObject {
         static readonly cons = new TLInt(0xbd610bc9);
-    
         static deserialized(_data: ByteStream): MessageEntityBold | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityBold.cons)) return undefined;
@@ -12169,7 +11717,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityBold.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12188,7 +11736,6 @@ export namespace API {
 
     export class MessageEntityItalic implements TLObject {
         static readonly cons = new TLInt(0x826f8b60);
-    
         static deserialized(_data: ByteStream): MessageEntityItalic | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityItalic.cons)) return undefined;
@@ -12200,7 +11747,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityItalic.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12219,7 +11766,6 @@ export namespace API {
 
     export class MessageEntityCode implements TLObject {
         static readonly cons = new TLInt(0x28a20571);
-    
         static deserialized(_data: ByteStream): MessageEntityCode | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityCode.cons)) return undefined;
@@ -12231,7 +11777,7 @@ export namespace API {
                 offset,
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityCode.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12250,7 +11796,6 @@ export namespace API {
 
     export class MessageEntityPre implements TLObject {
         static readonly cons = new TLInt(0x73924be0);
-    
         static deserialized(_data: ByteStream): MessageEntityPre | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityPre.cons)) return undefined;
@@ -12265,7 +11810,7 @@ export namespace API {
                 length,
                 language)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityPre.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12286,7 +11831,6 @@ export namespace API {
 
     export class MessageEntityTextUrl implements TLObject {
         static readonly cons = new TLInt(0x76a6d327);
-    
         static deserialized(_data: ByteStream): MessageEntityTextUrl | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityTextUrl.cons)) return undefined;
@@ -12301,7 +11845,7 @@ export namespace API {
                 length,
                 url)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityTextUrl.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12322,7 +11866,6 @@ export namespace API {
 
     export class MessageEntityMentionName implements TLObject {
         static readonly cons = new TLInt(0x352dca58);
-    
         static deserialized(_data: ByteStream): MessageEntityMentionName | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEntityMentionName.cons)) return undefined;
@@ -12337,7 +11880,7 @@ export namespace API {
                 length,
                 userId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEntityMentionName.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12358,7 +11901,6 @@ export namespace API {
 
     export class InputMessageEntityMentionName implements TLObject {
         static readonly cons = new TLInt(0x208e68c9);
-    
         static deserialized(_data: ByteStream): InputMessageEntityMentionName | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputMessageEntityMentionName.cons)) return undefined;
@@ -12368,13 +11910,12 @@ export namespace API {
             if (!length) return undefined;
             const userId = deserializedObject(_data) as InputUserType;
             if (!userId) return undefined;
-            
             return new InputMessageEntityMentionName(
                 offset,
                 length,
                 userId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputMessageEntityMentionName.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12395,13 +11936,12 @@ export namespace API {
 
     export class InputChannelEmpty implements TLObject {
         static readonly cons = new TLInt(0xee8c1e86);
-    
         static deserialized(_data: ByteStream): InputChannelEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputChannelEmpty.cons)) return undefined;
             return new InputChannelEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputChannelEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12414,7 +11954,6 @@ export namespace API {
 
     export class InputChannel implements TLObject {
         static readonly cons = new TLInt(0xafeb712e);
-    
         static deserialized(_data: ByteStream): InputChannel | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputChannel.cons)) return undefined;
@@ -12426,7 +11965,7 @@ export namespace API {
                 channelId,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12446,13 +11985,11 @@ export namespace API {
     export namespace contacts {
     export class ResolvedPeer implements TLObject {
         static readonly cons = new TLInt(0x7f077ad9);
-    
         static deserialized(_data: ByteStream): ResolvedPeer | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ResolvedPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
             if (!chats) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
@@ -12462,7 +11999,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ResolvedPeer.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12483,7 +12020,6 @@ export namespace API {
 
     export class MessageRange implements TLObject {
         static readonly cons = new TLInt(0xae30253);
-    
         static deserialized(_data: ByteStream): MessageRange | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageRange.cons)) return undefined;
@@ -12495,7 +12031,7 @@ export namespace API {
                 minId,
                 maxId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageRange.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12515,7 +12051,6 @@ export namespace API {
     export namespace updates {
     export class ChannelDifferenceEmpty implements TLObject {
         static readonly cons = new TLInt(0x3e11affb);
-    
         static deserialized(_data: ByteStream): ChannelDifferenceEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelDifferenceEmpty.cons)) return undefined;
@@ -12535,13 +12070,13 @@ export namespace API {
                 pts,
                 timeout)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelDifferenceEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.final) ? (flags | 1) : (flags & ~1);
-            flags = (!this.timeout) ? (flags | 2) : (flags & ~2);
+            flags = (this.timeout) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.pts.serialized());
             if (this.timeout) data.push(this.timeout.serialized());
@@ -12560,7 +12095,6 @@ export namespace API {
     export namespace updates {
     export class ChannelDifferenceTooLong implements TLObject {
         static readonly cons = new TLInt(0x410dee07);
-    
         static deserialized(_data: ByteStream): ChannelDifferenceTooLong | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelDifferenceTooLong.cons)) return undefined;
@@ -12601,13 +12135,13 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelDifferenceTooLong.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.final) ? (flags | 1) : (flags & ~1);
-            flags = (!this.timeout) ? (flags | 2) : (flags & ~2);
+            flags = (this.timeout) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.pts.serialized());
             if (this.timeout) data.push(this.timeout.serialized());
@@ -12640,7 +12174,6 @@ export namespace API {
     export namespace updates {
     export class ChannelDifference implements TLObject {
         static readonly cons = new TLInt(0x2064674e);
-    
         static deserialized(_data: ByteStream): ChannelDifference | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelDifference.cons)) return undefined;
@@ -12672,13 +12205,13 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelDifference.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.final) ? (flags | 1) : (flags & ~1);
-            flags = (!this.timeout) ? (flags | 2) : (flags & ~2);
+            flags = (this.timeout) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.pts.serialized());
             if (this.timeout) data.push(this.timeout.serialized());
@@ -12704,13 +12237,12 @@ export namespace API {
 
     export class ChannelMessagesFilterEmpty implements TLObject {
         static readonly cons = new TLInt(0x94d42ee7);
-    
         static deserialized(_data: ByteStream): ChannelMessagesFilterEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelMessagesFilterEmpty.cons)) return undefined;
             return new ChannelMessagesFilterEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelMessagesFilterEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12723,7 +12255,6 @@ export namespace API {
 
     export class ChannelMessagesFilter implements TLObject {
         static readonly cons = new TLInt(0xcd77d957);
-    
         static deserialized(_data: ByteStream): ChannelMessagesFilter | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelMessagesFilter.cons)) return undefined;
@@ -12736,7 +12267,7 @@ export namespace API {
                 excludeNewMessages,
                 ranges)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelMessagesFilter.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12757,7 +12288,6 @@ export namespace API {
 
     export class ChannelParticipant implements TLObject {
         static readonly cons = new TLInt(0x15ebac1d);
-    
         static deserialized(_data: ByteStream): ChannelParticipant | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipant.cons)) return undefined;
@@ -12769,7 +12299,7 @@ export namespace API {
                 userId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipant.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12788,7 +12318,6 @@ export namespace API {
 
     export class ChannelParticipantSelf implements TLObject {
         static readonly cons = new TLInt(0xa3289a6d);
-    
         static deserialized(_data: ByteStream): ChannelParticipantSelf | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantSelf.cons)) return undefined;
@@ -12803,7 +12332,7 @@ export namespace API {
                 inviterId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantSelf.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12824,7 +12353,6 @@ export namespace API {
 
     export class ChannelParticipantModerator implements TLObject {
         static readonly cons = new TLInt(0x91057fef);
-    
         static deserialized(_data: ByteStream): ChannelParticipantModerator | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantModerator.cons)) return undefined;
@@ -12839,7 +12367,7 @@ export namespace API {
                 inviterId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantModerator.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12860,7 +12388,6 @@ export namespace API {
 
     export class ChannelParticipantEditor implements TLObject {
         static readonly cons = new TLInt(0x98192d61);
-    
         static deserialized(_data: ByteStream): ChannelParticipantEditor | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantEditor.cons)) return undefined;
@@ -12875,7 +12402,7 @@ export namespace API {
                 inviterId,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantEditor.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12896,7 +12423,6 @@ export namespace API {
 
     export class ChannelParticipantKicked implements TLObject {
         static readonly cons = new TLInt(0x8cc5e69a);
-    
         static deserialized(_data: ByteStream): ChannelParticipantKicked | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantKicked.cons)) return undefined;
@@ -12911,7 +12437,7 @@ export namespace API {
                 kickedBy,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantKicked.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12932,7 +12458,6 @@ export namespace API {
 
     export class ChannelParticipantCreator implements TLObject {
         static readonly cons = new TLInt(0xe3e2e1f9);
-    
         static deserialized(_data: ByteStream): ChannelParticipantCreator | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantCreator.cons)) return undefined;
@@ -12941,7 +12466,7 @@ export namespace API {
             return new ChannelParticipantCreator(
                 userId)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantCreator.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12958,13 +12483,12 @@ export namespace API {
 
     export class ChannelParticipantsRecent implements TLObject {
         static readonly cons = new TLInt(0xde3f3c79);
-    
         static deserialized(_data: ByteStream): ChannelParticipantsRecent | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantsRecent.cons)) return undefined;
             return new ChannelParticipantsRecent()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantsRecent.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12977,13 +12501,12 @@ export namespace API {
 
     export class ChannelParticipantsAdmins implements TLObject {
         static readonly cons = new TLInt(0xb4608969);
-    
         static deserialized(_data: ByteStream): ChannelParticipantsAdmins | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantsAdmins.cons)) return undefined;
             return new ChannelParticipantsAdmins()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantsAdmins.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -12996,13 +12519,12 @@ export namespace API {
 
     export class ChannelParticipantsKicked implements TLObject {
         static readonly cons = new TLInt(0x3c37bb7a);
-    
         static deserialized(_data: ByteStream): ChannelParticipantsKicked | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantsKicked.cons)) return undefined;
             return new ChannelParticipantsKicked()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantsKicked.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13015,13 +12537,12 @@ export namespace API {
 
     export class ChannelParticipantsBots implements TLObject {
         static readonly cons = new TLInt(0xb0d1865b);
-    
         static deserialized(_data: ByteStream): ChannelParticipantsBots | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipantsBots.cons)) return undefined;
             return new ChannelParticipantsBots()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipantsBots.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13034,13 +12555,12 @@ export namespace API {
 
     export class ChannelRoleEmpty implements TLObject {
         static readonly cons = new TLInt(0xb285a0c6);
-    
         static deserialized(_data: ByteStream): ChannelRoleEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelRoleEmpty.cons)) return undefined;
             return new ChannelRoleEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelRoleEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13053,13 +12573,12 @@ export namespace API {
 
     export class ChannelRoleModerator implements TLObject {
         static readonly cons = new TLInt(0x9618d975);
-    
         static deserialized(_data: ByteStream): ChannelRoleModerator | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelRoleModerator.cons)) return undefined;
             return new ChannelRoleModerator()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelRoleModerator.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13072,13 +12591,12 @@ export namespace API {
 
     export class ChannelRoleEditor implements TLObject {
         static readonly cons = new TLInt(0x820bfe8c);
-    
         static deserialized(_data: ByteStream): ChannelRoleEditor | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelRoleEditor.cons)) return undefined;
             return new ChannelRoleEditor()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelRoleEditor.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13092,7 +12610,6 @@ export namespace API {
     export namespace channels {
     export class ChannelParticipants implements TLObject {
         static readonly cons = new TLInt(0xf56ee2a8);
-    
         static deserialized(_data: ByteStream): ChannelParticipants | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipants.cons)) return undefined;
@@ -13107,7 +12624,7 @@ export namespace API {
                 participants,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipants.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13129,20 +12646,18 @@ export namespace API {
     export namespace channels {
     export class ChannelParticipant implements TLObject {
         static readonly cons = new TLInt(0xd0d9b163);
-    
         static deserialized(_data: ByteStream): ChannelParticipant | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ChannelParticipant.cons)) return undefined;
             const participant = deserializedObject(_data) as ChannelParticipantType;
             if (!participant) return undefined;
-            
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
             if (!users) return undefined;
             return new ChannelParticipant(
                 participant,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ChannelParticipant.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13162,7 +12677,6 @@ export namespace API {
     export namespace help {
     export class TermsOfService implements TLObject {
         static readonly cons = new TLInt(0xf1ee3e90);
-    
         static deserialized(_data: ByteStream): TermsOfService | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TermsOfService.cons)) return undefined;
@@ -13171,7 +12685,7 @@ export namespace API {
             return new TermsOfService(
                 text)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TermsOfService.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13188,7 +12702,6 @@ export namespace API {
 
     export class FoundGif implements TLObject {
         static readonly cons = new TLInt(0x162ecc1f);
-    
         static deserialized(_data: ByteStream): FoundGif | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FoundGif.cons)) return undefined;
@@ -13212,7 +12725,7 @@ export namespace API {
                 w,
                 h)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FoundGif.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13239,7 +12752,6 @@ export namespace API {
 
     export class FoundGifCached implements TLObject {
         static readonly cons = new TLInt(0x9c750409);
-    
         static deserialized(_data: ByteStream): FoundGifCached | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FoundGifCached.cons)) return undefined;
@@ -13247,16 +12759,14 @@ export namespace API {
             if (!url) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
-            
             const document = deserializedObject(_data) as DocumentType;
             if (!document) return undefined;
-            
             return new FoundGifCached(
                 url,
                 photo,
                 document)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FoundGifCached.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13278,7 +12788,6 @@ export namespace API {
     export namespace messages {
     export class FoundGifs implements TLObject {
         static readonly cons = new TLInt(0x450a1c0a);
-    
         static deserialized(_data: ByteStream): FoundGifs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FoundGifs.cons)) return undefined;
@@ -13290,7 +12799,7 @@ export namespace API {
                 nextOffset,
                 results)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FoundGifs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13310,13 +12819,12 @@ export namespace API {
     export namespace messages {
     export class SavedGifsNotModified implements TLObject {
         static readonly cons = new TLInt(0xe8025ca2);
-    
         static deserialized(_data: ByteStream): SavedGifsNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SavedGifsNotModified.cons)) return undefined;
             return new SavedGifsNotModified()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SavedGifsNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13330,7 +12838,6 @@ export namespace API {
     export namespace messages {
     export class SavedGifs implements TLObject {
         static readonly cons = new TLInt(0x2e0709a5);
-    
         static deserialized(_data: ByteStream): SavedGifs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SavedGifs.cons)) return undefined;
@@ -13342,7 +12849,7 @@ export namespace API {
                 hash,
                 gifs)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SavedGifs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13361,7 +12868,6 @@ export namespace API {
 
     export class InputBotInlineMessageMediaAuto implements TLObject {
         static readonly cons = new TLInt(0x292fed13);
-    
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaAuto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineMessageMediaAuto.cons)) return undefined;
@@ -13379,12 +12885,12 @@ export namespace API {
                 caption,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineMessageMediaAuto.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.caption.serialized());
             if (this.replyMarkup) data.push(this.replyMarkup.serialized());
@@ -13401,7 +12907,6 @@ export namespace API {
 
     export class InputBotInlineMessageText implements TLObject {
         static readonly cons = new TLInt(0x3dcd7a87);
-    
         static deserialized(_data: ByteStream): InputBotInlineMessageText | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineMessageText.cons)) return undefined;
@@ -13428,14 +12933,14 @@ export namespace API {
                 entities,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineMessageText.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.noWebpage) ? (flags | 1) : (flags & ~1);
-            flags = (!this.entities) ? (flags | 2) : (flags & ~2);
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.entities) ? (flags | 2) : (flags & ~2);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.message.serialized());
             if (this.entities) data.push(this.entities.serialized());
@@ -13455,7 +12960,6 @@ export namespace API {
 
     export class InputBotInlineMessageMediaGeo implements TLObject {
         static readonly cons = new TLInt(0xf4a59de1);
-    
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaGeo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineMessageMediaGeo.cons)) return undefined;
@@ -13463,7 +12967,6 @@ export namespace API {
             if (!flags) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
             if (!geoPoint) return undefined;
-            
             let replyMarkup: ReplyMarkupType | undefined;
             if ((flags.value & 4) !== 0) {
                 const obj = deserializedObject(_data) as ReplyMarkupType;
@@ -13474,12 +12977,12 @@ export namespace API {
                 geoPoint,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineMessageMediaGeo.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.geoPoint.serialized());
             if (this.replyMarkup) data.push(this.replyMarkup.serialized());
@@ -13496,7 +12999,6 @@ export namespace API {
 
     export class InputBotInlineMessageMediaVenue implements TLObject {
         static readonly cons = new TLInt(0xaaafadc8);
-    
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineMessageMediaVenue.cons)) return undefined;
@@ -13504,7 +13006,6 @@ export namespace API {
             if (!flags) return undefined;
             const geoPoint = deserializedObject(_data) as InputGeoPointType;
             if (!geoPoint) return undefined;
-            
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             const address = TLString.deserialized(_data);
@@ -13527,12 +13028,12 @@ export namespace API {
                 venueId,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineMessageMediaVenue.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.geoPoint.serialized());
             data.push(this.title.serialized());
@@ -13557,7 +13058,6 @@ export namespace API {
 
     export class InputBotInlineMessageMediaContact implements TLObject {
         static readonly cons = new TLInt(0x2daf01a7);
-    
         static deserialized(_data: ByteStream): InputBotInlineMessageMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineMessageMediaContact.cons)) return undefined;
@@ -13581,12 +13081,12 @@ export namespace API {
                 lastName,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineMessageMediaContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.phoneNumber.serialized());
             data.push(this.firstName.serialized());
@@ -13607,7 +13107,6 @@ export namespace API {
 
     export class InputBotInlineMessageGame implements TLObject {
         static readonly cons = new TLInt(0x4b425864);
-    
         static deserialized(_data: ByteStream): InputBotInlineMessageGame | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineMessageGame.cons)) return undefined;
@@ -13622,12 +13121,12 @@ export namespace API {
             return new InputBotInlineMessageGame(
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineMessageGame.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             if (this.replyMarkup) data.push(this.replyMarkup.serialized());
     
@@ -13642,7 +13141,6 @@ export namespace API {
 
     export class InputBotInlineResult implements TLObject {
         static readonly cons = new TLInt(0x2cbbe15a);
-    
         static deserialized(_data: ByteStream): InputBotInlineResult | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineResult.cons)) return undefined;
@@ -13708,7 +13206,6 @@ export namespace API {
             }
             const sendMessage = deserializedObject(_data) as InputBotInlineMessageType;
             if (!sendMessage) return undefined;
-            
             return new InputBotInlineResult(
                 id,
                 type,
@@ -13723,20 +13220,20 @@ export namespace API {
                 duration,
                 sendMessage)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineResult.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.title) ? (flags | 2) : (flags & ~2);
-            flags = (!this.description) ? (flags | 4) : (flags & ~4);
-            flags = (!this.url) ? (flags | 8) : (flags & ~8);
-            flags = (!this.thumbUrl) ? (flags | 16) : (flags & ~16);
-            flags = (!this.contentUrl) ? (flags | 32) : (flags & ~32);
-            flags = (!this.contentType) ? (flags | 32) : (flags & ~32);
-            flags = (!this.w) ? (flags | 64) : (flags & ~64);
-            flags = (!this.h) ? (flags | 64) : (flags & ~64);
-            flags = (!this.duration) ? (flags | 128) : (flags & ~128);
+            flags = (this.title) ? (flags | 2) : (flags & ~2);
+            flags = (this.description) ? (flags | 4) : (flags & ~4);
+            flags = (this.url) ? (flags | 8) : (flags & ~8);
+            flags = (this.thumbUrl) ? (flags | 16) : (flags & ~16);
+            flags = (this.contentUrl) ? (flags | 32) : (flags & ~32);
+            flags = (this.contentType) ? (flags | 32) : (flags & ~32);
+            flags = (this.w) ? (flags | 64) : (flags & ~64);
+            flags = (this.h) ? (flags | 64) : (flags & ~64);
+            flags = (this.duration) ? (flags | 128) : (flags & ~128);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.type.serialized());
@@ -13773,7 +13270,6 @@ export namespace API {
 
     export class InputBotInlineResultPhoto implements TLObject {
         static readonly cons = new TLInt(0xa8d864a7);
-    
         static deserialized(_data: ByteStream): InputBotInlineResultPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineResultPhoto.cons)) return undefined;
@@ -13783,17 +13279,15 @@ export namespace API {
             if (!type) return undefined;
             const photo = deserializedObject(_data) as InputPhotoType;
             if (!photo) return undefined;
-            
             const sendMessage = deserializedObject(_data) as InputBotInlineMessageType;
             if (!sendMessage) return undefined;
-            
             return new InputBotInlineResultPhoto(
                 id,
                 type,
                 photo,
                 sendMessage)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineResultPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13816,7 +13310,6 @@ export namespace API {
 
     export class InputBotInlineResultDocument implements TLObject {
         static readonly cons = new TLInt(0xfff8fdc4);
-    
         static deserialized(_data: ByteStream): InputBotInlineResultDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineResultDocument.cons)) return undefined;
@@ -13840,10 +13333,8 @@ export namespace API {
             }
             const document = deserializedObject(_data) as InputDocumentType;
             if (!document) return undefined;
-            
             const sendMessage = deserializedObject(_data) as InputBotInlineMessageType;
             if (!sendMessage) return undefined;
-            
             return new InputBotInlineResultDocument(
                 id,
                 type,
@@ -13852,13 +13343,13 @@ export namespace API {
                 document,
                 sendMessage)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineResultDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.title) ? (flags | 2) : (flags & ~2);
-            flags = (!this.description) ? (flags | 4) : (flags & ~4);
+            flags = (this.title) ? (flags | 2) : (flags & ~2);
+            flags = (this.description) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.type.serialized());
@@ -13883,7 +13374,6 @@ export namespace API {
 
     export class InputBotInlineResultGame implements TLObject {
         static readonly cons = new TLInt(0x4fa417f2);
-    
         static deserialized(_data: ByteStream): InputBotInlineResultGame | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineResultGame.cons)) return undefined;
@@ -13893,13 +13383,12 @@ export namespace API {
             if (!shortName) return undefined;
             const sendMessage = deserializedObject(_data) as InputBotInlineMessageType;
             if (!sendMessage) return undefined;
-            
             return new InputBotInlineResultGame(
                 id,
                 shortName,
                 sendMessage)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineResultGame.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -13920,7 +13409,6 @@ export namespace API {
 
     export class BotInlineMessageMediaAuto implements TLObject {
         static readonly cons = new TLInt(0xa74b15b);
-    
         static deserialized(_data: ByteStream): BotInlineMessageMediaAuto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInlineMessageMediaAuto.cons)) return undefined;
@@ -13938,12 +13426,12 @@ export namespace API {
                 caption,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInlineMessageMediaAuto.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.caption.serialized());
             if (this.replyMarkup) data.push(this.replyMarkup.serialized());
@@ -13960,7 +13448,6 @@ export namespace API {
 
     export class BotInlineMessageText implements TLObject {
         static readonly cons = new TLInt(0x8c7f65e2);
-    
         static deserialized(_data: ByteStream): BotInlineMessageText | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInlineMessageText.cons)) return undefined;
@@ -13987,14 +13474,14 @@ export namespace API {
                 entities,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInlineMessageText.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.noWebpage) ? (flags | 1) : (flags & ~1);
-            flags = (!this.entities) ? (flags | 2) : (flags & ~2);
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.entities) ? (flags | 2) : (flags & ~2);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.message.serialized());
             if (this.entities) data.push(this.entities.serialized());
@@ -14014,7 +13501,6 @@ export namespace API {
 
     export class BotInlineMessageMediaGeo implements TLObject {
         static readonly cons = new TLInt(0x3a8fd8b8);
-    
         static deserialized(_data: ByteStream): BotInlineMessageMediaGeo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInlineMessageMediaGeo.cons)) return undefined;
@@ -14022,7 +13508,6 @@ export namespace API {
             if (!flags) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
             if (!geo) return undefined;
-            
             let replyMarkup: ReplyMarkupType | undefined;
             if ((flags.value & 4) !== 0) {
                 const obj = deserializedObject(_data) as ReplyMarkupType;
@@ -14033,12 +13518,12 @@ export namespace API {
                 geo,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInlineMessageMediaGeo.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.geo.serialized());
             if (this.replyMarkup) data.push(this.replyMarkup.serialized());
@@ -14055,7 +13540,6 @@ export namespace API {
 
     export class BotInlineMessageMediaVenue implements TLObject {
         static readonly cons = new TLInt(0x4366232e);
-    
         static deserialized(_data: ByteStream): BotInlineMessageMediaVenue | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInlineMessageMediaVenue.cons)) return undefined;
@@ -14063,7 +13547,6 @@ export namespace API {
             if (!flags) return undefined;
             const geo = deserializedObject(_data) as GeoPointType;
             if (!geo) return undefined;
-            
             const title = TLString.deserialized(_data);
             if (!title) return undefined;
             const address = TLString.deserialized(_data);
@@ -14086,12 +13569,12 @@ export namespace API {
                 venueId,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInlineMessageMediaVenue.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.geo.serialized());
             data.push(this.title.serialized());
@@ -14116,7 +13599,6 @@ export namespace API {
 
     export class BotInlineMessageMediaContact implements TLObject {
         static readonly cons = new TLInt(0x35edb4d4);
-    
         static deserialized(_data: ByteStream): BotInlineMessageMediaContact | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInlineMessageMediaContact.cons)) return undefined;
@@ -14140,12 +13622,12 @@ export namespace API {
                 lastName,
                 replyMarkup)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInlineMessageMediaContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.phoneNumber.serialized());
             data.push(this.firstName.serialized());
@@ -14166,7 +13648,6 @@ export namespace API {
 
     export class BotInlineResult implements TLObject {
         static readonly cons = new TLInt(0x9bebaeb9);
-    
         static deserialized(_data: ByteStream): BotInlineResult | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInlineResult.cons)) return undefined;
@@ -14232,7 +13713,6 @@ export namespace API {
             }
             const sendMessage = deserializedObject(_data) as BotInlineMessageType;
             if (!sendMessage) return undefined;
-            
             return new BotInlineResult(
                 id,
                 type,
@@ -14247,20 +13727,20 @@ export namespace API {
                 duration,
                 sendMessage)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInlineResult.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.title) ? (flags | 2) : (flags & ~2);
-            flags = (!this.description) ? (flags | 4) : (flags & ~4);
-            flags = (!this.url) ? (flags | 8) : (flags & ~8);
-            flags = (!this.thumbUrl) ? (flags | 16) : (flags & ~16);
-            flags = (!this.contentUrl) ? (flags | 32) : (flags & ~32);
-            flags = (!this.contentType) ? (flags | 32) : (flags & ~32);
-            flags = (!this.w) ? (flags | 64) : (flags & ~64);
-            flags = (!this.h) ? (flags | 64) : (flags & ~64);
-            flags = (!this.duration) ? (flags | 128) : (flags & ~128);
+            flags = (this.title) ? (flags | 2) : (flags & ~2);
+            flags = (this.description) ? (flags | 4) : (flags & ~4);
+            flags = (this.url) ? (flags | 8) : (flags & ~8);
+            flags = (this.thumbUrl) ? (flags | 16) : (flags & ~16);
+            flags = (this.contentUrl) ? (flags | 32) : (flags & ~32);
+            flags = (this.contentType) ? (flags | 32) : (flags & ~32);
+            flags = (this.w) ? (flags | 64) : (flags & ~64);
+            flags = (this.h) ? (flags | 64) : (flags & ~64);
+            flags = (this.duration) ? (flags | 128) : (flags & ~128);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.type.serialized());
@@ -14297,7 +13777,6 @@ export namespace API {
 
     export class BotInlineMediaResult implements TLObject {
         static readonly cons = new TLInt(0x17db940b);
-    
         static deserialized(_data: ByteStream): BotInlineMediaResult | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotInlineMediaResult.cons)) return undefined;
@@ -14333,7 +13812,6 @@ export namespace API {
             }
             const sendMessage = deserializedObject(_data) as BotInlineMessageType;
             if (!sendMessage) return undefined;
-            
             return new BotInlineMediaResult(
                 id,
                 type,
@@ -14343,15 +13821,15 @@ export namespace API {
                 description,
                 sendMessage)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotInlineMediaResult.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.photo) ? (flags | 1) : (flags & ~1);
-            flags = (!this.document) ? (flags | 2) : (flags & ~2);
-            flags = (!this.title) ? (flags | 4) : (flags & ~4);
-            flags = (!this.description) ? (flags | 8) : (flags & ~8);
+            flags = (this.photo) ? (flags | 1) : (flags & ~1);
+            flags = (this.document) ? (flags | 2) : (flags & ~2);
+            flags = (this.title) ? (flags | 4) : (flags & ~4);
+            flags = (this.description) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.type.serialized());
@@ -14379,7 +13857,6 @@ export namespace API {
     export namespace messages {
     export class BotResults implements TLObject {
         static readonly cons = new TLInt(0x256709a6);
-    
         static deserialized(_data: ByteStream): BotResults | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotResults.cons)) return undefined;
@@ -14409,14 +13886,14 @@ export namespace API {
                 switchPm,
                 results)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotResults.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.gallery) ? (flags | 1) : (flags & ~1);
-            flags = (!this.nextOffset) ? (flags | 2) : (flags & ~2);
-            flags = (!this.switchPm) ? (flags | 4) : (flags & ~4);
+            flags = (this.nextOffset) ? (flags | 2) : (flags & ~2);
+            flags = (this.switchPm) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.queryId.serialized());
             if (this.nextOffset) data.push(this.nextOffset.serialized());
@@ -14438,7 +13915,6 @@ export namespace API {
 
     export class ExportedMessageLink implements TLObject {
         static readonly cons = new TLInt(0x1f486803);
-    
         static deserialized(_data: ByteStream): ExportedMessageLink | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ExportedMessageLink.cons)) return undefined;
@@ -14447,7 +13923,7 @@ export namespace API {
             return new ExportedMessageLink(
                 link)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ExportedMessageLink.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14464,7 +13940,6 @@ export namespace API {
 
     export class MessageFwdHeader implements TLObject {
         static readonly cons = new TLInt(0xc786ddcb);
-    
         static deserialized(_data: ByteStream): MessageFwdHeader | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageFwdHeader.cons)) return undefined;
@@ -14496,14 +13971,14 @@ export namespace API {
                 channelId,
                 channelPost)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageFwdHeader.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.fromId) ? (flags | 1) : (flags & ~1);
-            flags = (!this.channelId) ? (flags | 2) : (flags & ~2);
-            flags = (!this.channelPost) ? (flags | 4) : (flags & ~4);
+            flags = (this.fromId) ? (flags | 1) : (flags & ~1);
+            flags = (this.channelId) ? (flags | 2) : (flags & ~2);
+            flags = (this.channelPost) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             if (this.fromId) data.push(this.fromId.serialized());
             data.push(this.date.serialized());
@@ -14525,13 +14000,12 @@ export namespace API {
     export namespace auth {
     export class CodeTypeSms implements TLObject {
         static readonly cons = new TLInt(0x72a3158c);
-    
         static deserialized(_data: ByteStream): CodeTypeSms | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(CodeTypeSms.cons)) return undefined;
             return new CodeTypeSms()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = CodeTypeSms.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14545,13 +14019,12 @@ export namespace API {
     export namespace auth {
     export class CodeTypeCall implements TLObject {
         static readonly cons = new TLInt(0x741cd3e3);
-    
         static deserialized(_data: ByteStream): CodeTypeCall | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(CodeTypeCall.cons)) return undefined;
             return new CodeTypeCall()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = CodeTypeCall.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14565,13 +14038,12 @@ export namespace API {
     export namespace auth {
     export class CodeTypeFlashCall implements TLObject {
         static readonly cons = new TLInt(0x226ccefb);
-    
         static deserialized(_data: ByteStream): CodeTypeFlashCall | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(CodeTypeFlashCall.cons)) return undefined;
             return new CodeTypeFlashCall()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = CodeTypeFlashCall.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14585,7 +14057,6 @@ export namespace API {
     export namespace auth {
     export class SentCodeTypeApp implements TLObject {
         static readonly cons = new TLInt(0x3dbb5986);
-    
         static deserialized(_data: ByteStream): SentCodeTypeApp | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SentCodeTypeApp.cons)) return undefined;
@@ -14594,7 +14065,7 @@ export namespace API {
             return new SentCodeTypeApp(
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SentCodeTypeApp.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14612,7 +14083,6 @@ export namespace API {
     export namespace auth {
     export class SentCodeTypeSms implements TLObject {
         static readonly cons = new TLInt(0xc000bba2);
-    
         static deserialized(_data: ByteStream): SentCodeTypeSms | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SentCodeTypeSms.cons)) return undefined;
@@ -14621,7 +14091,7 @@ export namespace API {
             return new SentCodeTypeSms(
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SentCodeTypeSms.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14639,7 +14109,6 @@ export namespace API {
     export namespace auth {
     export class SentCodeTypeCall implements TLObject {
         static readonly cons = new TLInt(0x5353e5a7);
-    
         static deserialized(_data: ByteStream): SentCodeTypeCall | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SentCodeTypeCall.cons)) return undefined;
@@ -14648,7 +14117,7 @@ export namespace API {
             return new SentCodeTypeCall(
                 length)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SentCodeTypeCall.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14666,7 +14135,6 @@ export namespace API {
     export namespace auth {
     export class SentCodeTypeFlashCall implements TLObject {
         static readonly cons = new TLInt(0xab03c6d9);
-    
         static deserialized(_data: ByteStream): SentCodeTypeFlashCall | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SentCodeTypeFlashCall.cons)) return undefined;
@@ -14675,7 +14143,7 @@ export namespace API {
             return new SentCodeTypeFlashCall(
                 pattern)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = SentCodeTypeFlashCall.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14693,7 +14161,6 @@ export namespace API {
     export namespace messages {
     export class BotCallbackAnswer implements TLObject {
         static readonly cons = new TLInt(0xb10df1fb);
-    
         static deserialized(_data: ByteStream): BotCallbackAnswer | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotCallbackAnswer.cons)) return undefined;
@@ -14719,15 +14186,15 @@ export namespace API {
                 message,
                 url)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = BotCallbackAnswer.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.alert) ? (flags | 2) : (flags & ~2);
             flags = (this.hasUrl) ? (flags | 8) : (flags & ~8);
-            flags = (!this.message) ? (flags | 1) : (flags & ~1);
-            flags = (!this.url) ? (flags | 4) : (flags & ~4);
+            flags = (this.message) ? (flags | 1) : (flags & ~1);
+            flags = (this.url) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             if (this.message) data.push(this.message.serialized());
             if (this.url) data.push(this.url.serialized());
@@ -14747,7 +14214,6 @@ export namespace API {
     export namespace messages {
     export class MessageEditData implements TLObject {
         static readonly cons = new TLInt(0x26b5dde6);
-    
         static deserialized(_data: ByteStream): MessageEditData | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageEditData.cons)) return undefined;
@@ -14757,7 +14223,7 @@ export namespace API {
             return new MessageEditData(
                 caption)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MessageEditData.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14776,7 +14242,6 @@ export namespace API {
 
     export class InputBotInlineMessageID implements TLObject {
         static readonly cons = new TLInt(0x890c3d89);
-    
         static deserialized(_data: ByteStream): InputBotInlineMessageID | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputBotInlineMessageID.cons)) return undefined;
@@ -14791,7 +14256,7 @@ export namespace API {
                 id,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputBotInlineMessageID.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14812,7 +14277,6 @@ export namespace API {
 
     export class InlineBotSwitchPM implements TLObject {
         static readonly cons = new TLInt(0x3c20629f);
-    
         static deserialized(_data: ByteStream): InlineBotSwitchPM | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InlineBotSwitchPM.cons)) return undefined;
@@ -14824,7 +14288,7 @@ export namespace API {
                 text,
                 startParam)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InlineBotSwitchPM.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14844,7 +14308,6 @@ export namespace API {
     export namespace messages {
     export class PeerDialogs implements TLObject {
         static readonly cons = new TLInt(0x3371c354);
-    
         static deserialized(_data: ByteStream): PeerDialogs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerDialogs.cons)) return undefined;
@@ -14858,7 +14321,6 @@ export namespace API {
             if (!users) return undefined;
             const state = deserializedObject(_data) as updates.State;
             if (!state) return undefined;
-            
             return new PeerDialogs(
                 dialogs,
                 messages,
@@ -14866,7 +14328,7 @@ export namespace API {
                 users,
                 state)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = PeerDialogs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14891,20 +14353,18 @@ export namespace API {
 
     export class TopPeer implements TLObject {
         static readonly cons = new TLInt(0xedcdc05b);
-    
         static deserialized(_data: ByteStream): TopPeer | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeer.cons)) return undefined;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
-            
             const rating = TLDouble.deserialized(_data);
             if (!rating) return undefined;
             return new TopPeer(
                 peer,
                 rating)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeer.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14923,13 +14383,12 @@ export namespace API {
 
     export class TopPeerCategoryBotsPM implements TLObject {
         static readonly cons = new TLInt(0xab661b5b);
-    
         static deserialized(_data: ByteStream): TopPeerCategoryBotsPM | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeerCategoryBotsPM.cons)) return undefined;
             return new TopPeerCategoryBotsPM()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeerCategoryBotsPM.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14942,13 +14401,12 @@ export namespace API {
 
     export class TopPeerCategoryBotsInline implements TLObject {
         static readonly cons = new TLInt(0x148677e2);
-    
         static deserialized(_data: ByteStream): TopPeerCategoryBotsInline | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeerCategoryBotsInline.cons)) return undefined;
             return new TopPeerCategoryBotsInline()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeerCategoryBotsInline.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14961,13 +14419,12 @@ export namespace API {
 
     export class TopPeerCategoryCorrespondents implements TLObject {
         static readonly cons = new TLInt(0x637b7ed);
-    
         static deserialized(_data: ByteStream): TopPeerCategoryCorrespondents | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeerCategoryCorrespondents.cons)) return undefined;
             return new TopPeerCategoryCorrespondents()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeerCategoryCorrespondents.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14980,13 +14437,12 @@ export namespace API {
 
     export class TopPeerCategoryGroups implements TLObject {
         static readonly cons = new TLInt(0xbd17a14a);
-    
         static deserialized(_data: ByteStream): TopPeerCategoryGroups | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeerCategoryGroups.cons)) return undefined;
             return new TopPeerCategoryGroups()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeerCategoryGroups.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -14999,13 +14455,12 @@ export namespace API {
 
     export class TopPeerCategoryChannels implements TLObject {
         static readonly cons = new TLInt(0x161d9628);
-    
         static deserialized(_data: ByteStream): TopPeerCategoryChannels | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeerCategoryChannels.cons)) return undefined;
             return new TopPeerCategoryChannels()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeerCategoryChannels.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15018,13 +14473,11 @@ export namespace API {
 
     export class TopPeerCategoryPeers implements TLObject {
         static readonly cons = new TLInt(0xfb834291);
-    
         static deserialized(_data: ByteStream): TopPeerCategoryPeers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeerCategoryPeers.cons)) return undefined;
             const category = deserializedObject(_data) as TopPeerCategoryType;
             if (!category) return undefined;
-            
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
             const peers = TLVector.deserialized(_data, TopPeer) as TLVector<TopPeer>;
@@ -15034,7 +14487,7 @@ export namespace API {
                 count,
                 peers)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeerCategoryPeers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15056,13 +14509,12 @@ export namespace API {
     export namespace contacts {
     export class TopPeersNotModified implements TLObject {
         static readonly cons = new TLInt(0xde266ef5);
-    
         static deserialized(_data: ByteStream): TopPeersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeersNotModified.cons)) return undefined;
             return new TopPeersNotModified()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeersNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15076,7 +14528,6 @@ export namespace API {
     export namespace contacts {
     export class TopPeers implements TLObject {
         static readonly cons = new TLInt(0x70b772a8);
-    
         static deserialized(_data: ByteStream): TopPeers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeers.cons)) return undefined;
@@ -15091,7 +14542,7 @@ export namespace API {
                 chats,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = TopPeers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15112,13 +14563,12 @@ export namespace API {
 
     export class DraftMessageEmpty implements TLObject {
         static readonly cons = new TLInt(0xba4baec5);
-    
         static deserialized(_data: ByteStream): DraftMessageEmpty | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DraftMessageEmpty.cons)) return undefined;
             return new DraftMessageEmpty()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DraftMessageEmpty.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15131,7 +14581,6 @@ export namespace API {
 
     export class DraftMessage implements TLObject {
         static readonly cons = new TLInt(0xfd8e711f);
-    
         static deserialized(_data: ByteStream): DraftMessage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DraftMessage.cons)) return undefined;
@@ -15161,14 +14610,14 @@ export namespace API {
                 entities,
                 date)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = DraftMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.noWebpage) ? (flags | 2) : (flags & ~2);
-            flags = (!this.replyToMsgId) ? (flags | 1) : (flags & ~1);
-            flags = (!this.entities) ? (flags | 8) : (flags & ~8);
+            flags = (this.replyToMsgId) ? (flags | 1) : (flags & ~1);
+            flags = (this.entities) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             if (this.replyToMsgId) data.push(this.replyToMsgId.serialized());
             data.push(this.message.serialized());
@@ -15191,13 +14640,12 @@ export namespace API {
     export namespace messages {
     export class FeaturedStickersNotModified implements TLObject {
         static readonly cons = new TLInt(0x4ede3cf);
-    
         static deserialized(_data: ByteStream): FeaturedStickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FeaturedStickersNotModified.cons)) return undefined;
             return new FeaturedStickersNotModified()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FeaturedStickersNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15211,7 +14659,6 @@ export namespace API {
     export namespace messages {
     export class FeaturedStickers implements TLObject {
         static readonly cons = new TLInt(0xf89d88e5);
-    
         static deserialized(_data: ByteStream): FeaturedStickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(FeaturedStickers.cons)) return undefined;
@@ -15226,7 +14673,7 @@ export namespace API {
                 sets,
                 unread)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = FeaturedStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15248,13 +14695,12 @@ export namespace API {
     export namespace messages {
     export class RecentStickersNotModified implements TLObject {
         static readonly cons = new TLInt(0xb17f890);
-    
         static deserialized(_data: ByteStream): RecentStickersNotModified | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(RecentStickersNotModified.cons)) return undefined;
             return new RecentStickersNotModified()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = RecentStickersNotModified.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15268,7 +14714,6 @@ export namespace API {
     export namespace messages {
     export class RecentStickers implements TLObject {
         static readonly cons = new TLInt(0x5ce20970);
-    
         static deserialized(_data: ByteStream): RecentStickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(RecentStickers.cons)) return undefined;
@@ -15280,7 +14725,7 @@ export namespace API {
                 hash,
                 stickers)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = RecentStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15300,7 +14745,6 @@ export namespace API {
     export namespace messages {
     export class ArchivedStickers implements TLObject {
         static readonly cons = new TLInt(0x4fcba9c8);
-    
         static deserialized(_data: ByteStream): ArchivedStickers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ArchivedStickers.cons)) return undefined;
@@ -15312,7 +14756,7 @@ export namespace API {
                 count,
                 sets)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = ArchivedStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15332,13 +14776,12 @@ export namespace API {
     export namespace messages {
     export class StickerSetInstallResultSuccess implements TLObject {
         static readonly cons = new TLInt(0x38641628);
-    
         static deserialized(_data: ByteStream): StickerSetInstallResultSuccess | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSetInstallResultSuccess.cons)) return undefined;
             return new StickerSetInstallResultSuccess()
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickerSetInstallResultSuccess.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15352,7 +14795,6 @@ export namespace API {
     export namespace messages {
     export class StickerSetInstallResultArchive implements TLObject {
         static readonly cons = new TLInt(0x35e410a8);
-    
         static deserialized(_data: ByteStream): StickerSetInstallResultArchive | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSetInstallResultArchive.cons)) return undefined;
@@ -15361,7 +14803,7 @@ export namespace API {
             return new StickerSetInstallResultArchive(
                 sets)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickerSetInstallResultArchive.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15378,21 +14820,18 @@ export namespace API {
 
     export class StickerSetCovered implements TLObject {
         static readonly cons = new TLInt(0x6410a5d2);
-    
         static deserialized(_data: ByteStream): StickerSetCovered | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSetCovered.cons)) return undefined;
             const set = deserializedObject(_data) as StickerSet;
             if (!set) return undefined;
-            
             const cover = deserializedObject(_data) as DocumentType;
             if (!cover) return undefined;
-            
             return new StickerSetCovered(
                 set,
                 cover)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickerSetCovered.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15411,20 +14850,18 @@ export namespace API {
 
     export class StickerSetMultiCovered implements TLObject {
         static readonly cons = new TLInt(0x3407e51b);
-    
         static deserialized(_data: ByteStream): StickerSetMultiCovered | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSetMultiCovered.cons)) return undefined;
             const set = deserializedObject(_data) as StickerSet;
             if (!set) return undefined;
-            
             const covers = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
             if (!covers) return undefined;
             return new StickerSetMultiCovered(
                 set,
                 covers)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = StickerSetMultiCovered.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15443,7 +14880,6 @@ export namespace API {
 
     export class MaskCoords implements TLObject {
         static readonly cons = new TLInt(0xaed6dbb2);
-    
         static deserialized(_data: ByteStream): MaskCoords | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MaskCoords.cons)) return undefined;
@@ -15461,7 +14897,7 @@ export namespace API {
                 y,
                 zoom)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = MaskCoords.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15484,17 +14920,15 @@ export namespace API {
 
     export class InputStickeredMediaPhoto implements TLObject {
         static readonly cons = new TLInt(0x4a992157);
-    
         static deserialized(_data: ByteStream): InputStickeredMediaPhoto | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputStickeredMediaPhoto.cons)) return undefined;
             const id = deserializedObject(_data) as InputPhotoType;
             if (!id) return undefined;
-            
             return new InputStickeredMediaPhoto(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputStickeredMediaPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15511,17 +14945,15 @@ export namespace API {
 
     export class InputStickeredMediaDocument implements TLObject {
         static readonly cons = new TLInt(0x438865b);
-    
         static deserialized(_data: ByteStream): InputStickeredMediaDocument | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputStickeredMediaDocument.cons)) return undefined;
             const id = deserializedObject(_data) as InputDocumentType;
             if (!id) return undefined;
-            
             return new InputStickeredMediaDocument(
                 id)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputStickeredMediaDocument.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15538,7 +14970,6 @@ export namespace API {
 
     export class Game implements TLObject {
         static readonly cons = new TLInt(0xbdf9653b);
-    
         static deserialized(_data: ByteStream): Game | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Game.cons)) return undefined;
@@ -15556,7 +14987,6 @@ export namespace API {
             if (!description) return undefined;
             const photo = deserializedObject(_data) as PhotoType;
             if (!photo) return undefined;
-            
             let document: DocumentType | undefined;
             if ((flags.value & 1) !== 0) {
                 const obj = deserializedObject(_data) as DocumentType;
@@ -15572,12 +15002,12 @@ export namespace API {
                 photo,
                 document)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = Game.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.document) ? (flags | 1) : (flags & ~1);
+            flags = (this.document) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.accessHash.serialized());
@@ -15604,7 +15034,6 @@ export namespace API {
 
     export class InputGameID implements TLObject {
         static readonly cons = new TLInt(0x32c3e77);
-    
         static deserialized(_data: ByteStream): InputGameID | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputGameID.cons)) return undefined;
@@ -15616,7 +15045,7 @@ export namespace API {
                 id,
                 accessHash)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputGameID.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15635,20 +15064,18 @@ export namespace API {
 
     export class InputGameShortName implements TLObject {
         static readonly cons = new TLInt(0xc331e80a);
-    
         static deserialized(_data: ByteStream): InputGameShortName | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(InputGameShortName.cons)) return undefined;
             const botId = deserializedObject(_data) as InputUserType;
             if (!botId) return undefined;
-            
             const shortName = TLString.deserialized(_data);
             if (!shortName) return undefined;
             return new InputGameShortName(
                 botId,
                 shortName)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = InputGameShortName.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15667,7 +15094,6 @@ export namespace API {
 
     export class HighScore implements TLObject {
         static readonly cons = new TLInt(0x58fffcd0);
-    
         static deserialized(_data: ByteStream): HighScore | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(HighScore.cons)) return undefined;
@@ -15682,7 +15108,7 @@ export namespace API {
                 userId,
                 score)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = HighScore.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15704,7 +15130,6 @@ export namespace API {
     export namespace messages {
     export class HighScores implements TLObject {
         static readonly cons = new TLInt(0x9a3bfd99);
-    
         static deserialized(_data: ByteStream): HighScores | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(HighScores.cons)) return undefined;
@@ -15716,7 +15141,7 @@ export namespace API {
                 scores,
                 users)
         }
-    
+        
         serialized(): Uint8Array {
             const constructor = HighScores.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15735,7 +15160,18 @@ export namespace API {
 
     export class InvokeAfterMsg implements TLFunction<TLObject> {
         static readonly cons = new TLInt(0xcb9f372d);
-    
+        static deserialized(_data: ByteStream): InvokeAfterMsg | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InvokeAfterMsg.cons)) return undefined;
+            const msgId = TLLong.deserialized(_data);
+            if (!msgId) return undefined;
+            const query = deserializedObject(_data) as TLObject;
+            if (!query) return undefined;
+            return new InvokeAfterMsg(
+                msgId,
+                query)
+        }
+        
         serialized(): Uint8Array {
             const constructor = InvokeAfterMsg.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15754,7 +15190,18 @@ export namespace API {
 
     export class InvokeAfterMsgs implements TLFunction<TLObject> {
         static readonly cons = new TLInt(0x3dc4b4f0);
-    
+        static deserialized(_data: ByteStream): InvokeAfterMsgs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InvokeAfterMsgs.cons)) return undefined;
+            const msgIds = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
+            if (!msgIds) return undefined;
+            const query = deserializedObject(_data) as TLObject;
+            if (!query) return undefined;
+            return new InvokeAfterMsgs(
+                msgIds,
+                query)
+        }
+        
         serialized(): Uint8Array {
             const constructor = InvokeAfterMsgs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15773,7 +15220,30 @@ export namespace API {
 
     export class InitConnection implements TLFunction<TLObject> {
         static readonly cons = new TLInt(0x69796de9);
-    
+        static deserialized(_data: ByteStream): InitConnection | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InitConnection.cons)) return undefined;
+            const apiId = TLInt.deserialized(_data);
+            if (!apiId) return undefined;
+            const deviceModel = TLString.deserialized(_data);
+            if (!deviceModel) return undefined;
+            const systemVersion = TLString.deserialized(_data);
+            if (!systemVersion) return undefined;
+            const appVersion = TLString.deserialized(_data);
+            if (!appVersion) return undefined;
+            const langCode = TLString.deserialized(_data);
+            if (!langCode) return undefined;
+            const query = deserializedObject(_data) as TLObject;
+            if (!query) return undefined;
+            return new InitConnection(
+                apiId,
+                deviceModel,
+                systemVersion,
+                appVersion,
+                langCode,
+                query)
+        }
+        
         serialized(): Uint8Array {
             const constructor = InitConnection.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15800,7 +15270,18 @@ export namespace API {
 
     export class InvokeWithLayer implements TLFunction<TLObject> {
         static readonly cons = new TLInt(0xda9b0d0d);
-    
+        static deserialized(_data: ByteStream): InvokeWithLayer | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InvokeWithLayer.cons)) return undefined;
+            const layer = TLInt.deserialized(_data);
+            if (!layer) return undefined;
+            const query = deserializedObject(_data) as TLObject;
+            if (!query) return undefined;
+            return new InvokeWithLayer(
+                layer,
+                query)
+        }
+        
         serialized(): Uint8Array {
             const constructor = InvokeWithLayer.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15819,7 +15300,15 @@ export namespace API {
 
     export class InvokeWithoutUpdates implements TLFunction<TLObject> {
         static readonly cons = new TLInt(0xbf9459b7);
-    
+        static deserialized(_data: ByteStream): InvokeWithoutUpdates | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InvokeWithoutUpdates.cons)) return undefined;
+            const query = deserializedObject(_data) as TLObject;
+            if (!query) return undefined;
+            return new InvokeWithoutUpdates(
+                query)
+        }
+        
         serialized(): Uint8Array {
             const constructor = InvokeWithoutUpdates.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15837,7 +15326,15 @@ export namespace API {
     export namespace auth {
     export class CheckPhone implements TLFunction<auth.CheckedPhone> {
         static readonly cons = new TLInt(0x6fe51dfb);
-    
+        static deserialized(_data: ByteStream): CheckPhone | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CheckPhone.cons)) return undefined;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            return new CheckPhone(
+                phoneNumber)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CheckPhone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15855,13 +15352,38 @@ export namespace API {
     export namespace auth {
     export class SendCode implements TLFunction<auth.SentCode> {
         static readonly cons = new TLInt(0x86aef0ec);
-    
+        static deserialized(_data: ByteStream): SendCode | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendCode.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const allowFlashcall = (flags.value & 1) !== 0;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            let currentNumber: BoolType | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as BoolType;
+                if (!obj) return undefined;
+                currentNumber = obj
+            }
+            const apiId = TLInt.deserialized(_data);
+            if (!apiId) return undefined;
+            const apiHash = TLString.deserialized(_data);
+            if (!apiHash) return undefined;
+            return new SendCode(
+                allowFlashcall,
+                phoneNumber,
+                currentNumber,
+                apiId,
+                apiHash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendCode.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.allowFlashcall) ? (flags | 1) : (flags & ~1);
-            flags = (!this.currentNumber) ? (flags | 1) : (flags & ~1);
+            flags = (this.currentNumber) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.phoneNumber.serialized());
             if (this.currentNumber) data.push(this.currentNumber.serialized());
@@ -15884,7 +15406,27 @@ export namespace API {
     export namespace auth {
     export class SignUp implements TLFunction<auth.Authorization> {
         static readonly cons = new TLInt(0x1b067634);
-    
+        static deserialized(_data: ByteStream): SignUp | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SignUp.cons)) return undefined;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            const phoneCodeHash = TLString.deserialized(_data);
+            if (!phoneCodeHash) return undefined;
+            const phoneCode = TLString.deserialized(_data);
+            if (!phoneCode) return undefined;
+            const firstName = TLString.deserialized(_data);
+            if (!firstName) return undefined;
+            const lastName = TLString.deserialized(_data);
+            if (!lastName) return undefined;
+            return new SignUp(
+                phoneNumber,
+                phoneCodeHash,
+                phoneCode,
+                firstName,
+                lastName)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SignUp.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15910,7 +15452,21 @@ export namespace API {
     export namespace auth {
     export class SignIn implements TLFunction<auth.Authorization> {
         static readonly cons = new TLInt(0xbcd51581);
-    
+        static deserialized(_data: ByteStream): SignIn | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SignIn.cons)) return undefined;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            const phoneCodeHash = TLString.deserialized(_data);
+            if (!phoneCodeHash) return undefined;
+            const phoneCode = TLString.deserialized(_data);
+            if (!phoneCode) return undefined;
+            return new SignIn(
+                phoneNumber,
+                phoneCodeHash,
+                phoneCode)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SignIn.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15932,7 +15488,12 @@ export namespace API {
     export namespace auth {
     export class LogOut implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x5717da40);
-    
+        static deserialized(_data: ByteStream): LogOut | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(LogOut.cons)) return undefined;
+            return new LogOut()
+        }
+        
         serialized(): Uint8Array {
             const constructor = LogOut.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15946,7 +15507,12 @@ export namespace API {
     export namespace auth {
     export class ResetAuthorizations implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x9fab0d1a);
-    
+        static deserialized(_data: ByteStream): ResetAuthorizations | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ResetAuthorizations.cons)) return undefined;
+            return new ResetAuthorizations()
+        }
+        
         serialized(): Uint8Array {
             const constructor = ResetAuthorizations.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15960,7 +15526,18 @@ export namespace API {
     export namespace auth {
     export class SendInvites implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x771c1d97);
-    
+        static deserialized(_data: ByteStream): SendInvites | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendInvites.cons)) return undefined;
+            const phoneNumbers = TLVector.deserialized(_data, TLString) as TLVector<TLString>;
+            if (!phoneNumbers) return undefined;
+            const message = TLString.deserialized(_data);
+            if (!message) return undefined;
+            return new SendInvites(
+                phoneNumbers,
+                message)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendInvites.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15980,7 +15557,15 @@ export namespace API {
     export namespace auth {
     export class ExportAuthorization implements TLFunction<auth.ExportedAuthorization> {
         static readonly cons = new TLInt(0xe5bfffcd);
-    
+        static deserialized(_data: ByteStream): ExportAuthorization | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ExportAuthorization.cons)) return undefined;
+            const dcId = TLInt.deserialized(_data);
+            if (!dcId) return undefined;
+            return new ExportAuthorization(
+                dcId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ExportAuthorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -15998,7 +15583,18 @@ export namespace API {
     export namespace auth {
     export class ImportAuthorization implements TLFunction<auth.Authorization> {
         static readonly cons = new TLInt(0xe3ef9613);
-    
+        static deserialized(_data: ByteStream): ImportAuthorization | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ImportAuthorization.cons)) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            const bytes = TLBytes.deserialized(_data);
+            if (!bytes) return undefined;
+            return new ImportAuthorization(
+                id,
+                bytes)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ImportAuthorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16018,7 +15614,24 @@ export namespace API {
     export namespace auth {
     export class BindTempAuthKey implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xcdd42a05);
-    
+        static deserialized(_data: ByteStream): BindTempAuthKey | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(BindTempAuthKey.cons)) return undefined;
+            const permAuthKeyId = TLLong.deserialized(_data);
+            if (!permAuthKeyId) return undefined;
+            const nonce = TLLong.deserialized(_data);
+            if (!nonce) return undefined;
+            const expiresAt = TLInt.deserialized(_data);
+            if (!expiresAt) return undefined;
+            const encryptedMessage = TLBytes.deserialized(_data);
+            if (!encryptedMessage) return undefined;
+            return new BindTempAuthKey(
+                permAuthKeyId,
+                nonce,
+                expiresAt,
+                encryptedMessage)
+        }
+        
         serialized(): Uint8Array {
             const constructor = BindTempAuthKey.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16042,7 +15655,24 @@ export namespace API {
     export namespace auth {
     export class ImportBotAuthorization implements TLFunction<auth.Authorization> {
         static readonly cons = new TLInt(0x67a3ff2c);
-    
+        static deserialized(_data: ByteStream): ImportBotAuthorization | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ImportBotAuthorization.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const apiId = TLInt.deserialized(_data);
+            if (!apiId) return undefined;
+            const apiHash = TLString.deserialized(_data);
+            if (!apiHash) return undefined;
+            const botAuthToken = TLString.deserialized(_data);
+            if (!botAuthToken) return undefined;
+            return new ImportBotAuthorization(
+                flags,
+                apiId,
+                apiHash,
+                botAuthToken)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ImportBotAuthorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16066,7 +15696,15 @@ export namespace API {
     export namespace auth {
     export class CheckPassword implements TLFunction<auth.Authorization> {
         static readonly cons = new TLInt(0xa63011e);
-    
+        static deserialized(_data: ByteStream): CheckPassword | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CheckPassword.cons)) return undefined;
+            const passwordHash = TLBytes.deserialized(_data);
+            if (!passwordHash) return undefined;
+            return new CheckPassword(
+                passwordHash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CheckPassword.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16084,7 +15722,12 @@ export namespace API {
     export namespace auth {
     export class RequestPasswordRecovery implements TLFunction<auth.PasswordRecovery> {
         static readonly cons = new TLInt(0xd897bc66);
-    
+        static deserialized(_data: ByteStream): RequestPasswordRecovery | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(RequestPasswordRecovery.cons)) return undefined;
+            return new RequestPasswordRecovery()
+        }
+        
         serialized(): Uint8Array {
             const constructor = RequestPasswordRecovery.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16098,7 +15741,15 @@ export namespace API {
     export namespace auth {
     export class RecoverPassword implements TLFunction<auth.Authorization> {
         static readonly cons = new TLInt(0x4ea56e92);
-    
+        static deserialized(_data: ByteStream): RecoverPassword | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(RecoverPassword.cons)) return undefined;
+            const code = TLString.deserialized(_data);
+            if (!code) return undefined;
+            return new RecoverPassword(
+                code)
+        }
+        
         serialized(): Uint8Array {
             const constructor = RecoverPassword.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16116,7 +15767,18 @@ export namespace API {
     export namespace auth {
     export class ResendCode implements TLFunction<auth.SentCode> {
         static readonly cons = new TLInt(0x3ef1a9bf);
-    
+        static deserialized(_data: ByteStream): ResendCode | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ResendCode.cons)) return undefined;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            const phoneCodeHash = TLString.deserialized(_data);
+            if (!phoneCodeHash) return undefined;
+            return new ResendCode(
+                phoneNumber,
+                phoneCodeHash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ResendCode.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16136,7 +15798,18 @@ export namespace API {
     export namespace auth {
     export class CancelCode implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x1f040578);
-    
+        static deserialized(_data: ByteStream): CancelCode | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CancelCode.cons)) return undefined;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            const phoneCodeHash = TLString.deserialized(_data);
+            if (!phoneCodeHash) return undefined;
+            return new CancelCode(
+                phoneNumber,
+                phoneCodeHash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CancelCode.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16156,7 +15829,15 @@ export namespace API {
     export namespace auth {
     export class DropTempAuthKeys implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x8e48a188);
-    
+        static deserialized(_data: ByteStream): DropTempAuthKeys | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DropTempAuthKeys.cons)) return undefined;
+            const exceptAuthKeys = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
+            if (!exceptAuthKeys) return undefined;
+            return new DropTempAuthKeys(
+                exceptAuthKeys)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DropTempAuthKeys.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16174,7 +15855,18 @@ export namespace API {
     export namespace account {
     export class RegisterDevice implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x637ea878);
-    
+        static deserialized(_data: ByteStream): RegisterDevice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(RegisterDevice.cons)) return undefined;
+            const tokenType = TLInt.deserialized(_data);
+            if (!tokenType) return undefined;
+            const token = TLString.deserialized(_data);
+            if (!token) return undefined;
+            return new RegisterDevice(
+                tokenType,
+                token)
+        }
+        
         serialized(): Uint8Array {
             const constructor = RegisterDevice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16194,7 +15886,18 @@ export namespace API {
     export namespace account {
     export class UnregisterDevice implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x65c55b40);
-    
+        static deserialized(_data: ByteStream): UnregisterDevice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UnregisterDevice.cons)) return undefined;
+            const tokenType = TLInt.deserialized(_data);
+            if (!tokenType) return undefined;
+            const token = TLString.deserialized(_data);
+            if (!token) return undefined;
+            return new UnregisterDevice(
+                tokenType,
+                token)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UnregisterDevice.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16214,7 +15917,18 @@ export namespace API {
     export namespace account {
     export class UpdateNotifySettings implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x84be5b93);
-    
+        static deserialized(_data: ByteStream): UpdateNotifySettings | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateNotifySettings.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputNotifyPeerType;
+            if (!peer) return undefined;
+            const settings = deserializedObject(_data) as InputPeerNotifySettings;
+            if (!settings) return undefined;
+            return new UpdateNotifySettings(
+                peer,
+                settings)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdateNotifySettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16234,7 +15948,15 @@ export namespace API {
     export namespace account {
     export class GetNotifySettings implements TLFunction<PeerNotifySettingsType> {
         static readonly cons = new TLInt(0x12b3ad31);
-    
+        static deserialized(_data: ByteStream): GetNotifySettings | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetNotifySettings.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputNotifyPeerType;
+            if (!peer) return undefined;
+            return new GetNotifySettings(
+                peer)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetNotifySettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16252,7 +15974,12 @@ export namespace API {
     export namespace account {
     export class ResetNotifySettings implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xdb7e1747);
-    
+        static deserialized(_data: ByteStream): ResetNotifySettings | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ResetNotifySettings.cons)) return undefined;
+            return new ResetNotifySettings()
+        }
+        
         serialized(): Uint8Array {
             const constructor = ResetNotifySettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16266,14 +15993,42 @@ export namespace API {
     export namespace account {
     export class UpdateProfile implements TLFunction<UserType> {
         static readonly cons = new TLInt(0x78515775);
-    
+        static deserialized(_data: ByteStream): UpdateProfile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateProfile.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            let firstName: TLString | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                firstName = obj
+            }
+            let lastName: TLString | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                lastName = obj
+            }
+            let about: TLString | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                about = obj
+            }
+            return new UpdateProfile(
+                firstName,
+                lastName,
+                about)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdateProfile.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.firstName) ? (flags | 1) : (flags & ~1);
-            flags = (!this.lastName) ? (flags | 2) : (flags & ~2);
-            flags = (!this.about) ? (flags | 4) : (flags & ~4);
+            flags = (this.firstName) ? (flags | 1) : (flags & ~1);
+            flags = (this.lastName) ? (flags | 2) : (flags & ~2);
+            flags = (this.about) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             if (this.firstName) data.push(this.firstName.serialized());
             if (this.lastName) data.push(this.lastName.serialized());
@@ -16293,7 +16048,15 @@ export namespace API {
     export namespace account {
     export class UpdateStatus implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x6628562c);
-    
+        static deserialized(_data: ByteStream): UpdateStatus | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateStatus.cons)) return undefined;
+            const offline = deserializedObject(_data) as BoolType;
+            if (!offline) return undefined;
+            return new UpdateStatus(
+                offline)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdateStatus.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16311,7 +16074,12 @@ export namespace API {
     export namespace account {
     export class GetWallPapers implements TLFunction<TLVector<WallPaperType>> {
         static readonly cons = new TLInt(0xc04cfac2);
-    
+        static deserialized(_data: ByteStream): GetWallPapers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetWallPapers.cons)) return undefined;
+            return new GetWallPapers()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetWallPapers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16325,7 +16093,18 @@ export namespace API {
     export namespace account {
     export class ReportPeer implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xae189d5f);
-    
+        static deserialized(_data: ByteStream): ReportPeer | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReportPeer.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const reason = deserializedObject(_data) as ReportReasonType;
+            if (!reason) return undefined;
+            return new ReportPeer(
+                peer,
+                reason)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReportPeer.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16345,7 +16124,15 @@ export namespace API {
     export namespace account {
     export class CheckUsername implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x2714d86c);
-    
+        static deserialized(_data: ByteStream): CheckUsername | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CheckUsername.cons)) return undefined;
+            const username = TLString.deserialized(_data);
+            if (!username) return undefined;
+            return new CheckUsername(
+                username)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CheckUsername.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16363,7 +16150,15 @@ export namespace API {
     export namespace account {
     export class UpdateUsername implements TLFunction<UserType> {
         static readonly cons = new TLInt(0x3e0bdd7c);
-    
+        static deserialized(_data: ByteStream): UpdateUsername | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateUsername.cons)) return undefined;
+            const username = TLString.deserialized(_data);
+            if (!username) return undefined;
+            return new UpdateUsername(
+                username)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdateUsername.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16381,7 +16176,15 @@ export namespace API {
     export namespace account {
     export class GetPrivacy implements TLFunction<account.PrivacyRules> {
         static readonly cons = new TLInt(0xdadbc950);
-    
+        static deserialized(_data: ByteStream): GetPrivacy | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPrivacy.cons)) return undefined;
+            const key = deserializedObject(_data) as InputPrivacyKeyType;
+            if (!key) return undefined;
+            return new GetPrivacy(
+                key)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetPrivacy.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16399,7 +16202,18 @@ export namespace API {
     export namespace account {
     export class SetPrivacy implements TLFunction<account.PrivacyRules> {
         static readonly cons = new TLInt(0xc9f81ce8);
-    
+        static deserialized(_data: ByteStream): SetPrivacy | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetPrivacy.cons)) return undefined;
+            const key = deserializedObject(_data) as InputPrivacyKeyType;
+            if (!key) return undefined;
+            const rules = TLVector.deserialized(_data, ) as TLVector<InputPrivacyRuleType>;
+            if (!rules) return undefined;
+            return new SetPrivacy(
+                key,
+                rules)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetPrivacy.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16419,7 +16233,15 @@ export namespace API {
     export namespace account {
     export class DeleteAccount implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x418d4e0b);
-    
+        static deserialized(_data: ByteStream): DeleteAccount | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteAccount.cons)) return undefined;
+            const reason = TLString.deserialized(_data);
+            if (!reason) return undefined;
+            return new DeleteAccount(
+                reason)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteAccount.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16437,7 +16259,12 @@ export namespace API {
     export namespace account {
     export class GetAccountTTL implements TLFunction<AccountDaysTTL> {
         static readonly cons = new TLInt(0x8fc711d);
-    
+        static deserialized(_data: ByteStream): GetAccountTTL | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAccountTTL.cons)) return undefined;
+            return new GetAccountTTL()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAccountTTL.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16451,7 +16278,15 @@ export namespace API {
     export namespace account {
     export class SetAccountTTL implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x2442485e);
-    
+        static deserialized(_data: ByteStream): SetAccountTTL | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetAccountTTL.cons)) return undefined;
+            const ttl = deserializedObject(_data) as AccountDaysTTL;
+            if (!ttl) return undefined;
+            return new SetAccountTTL(
+                ttl)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetAccountTTL.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16469,13 +16304,32 @@ export namespace API {
     export namespace account {
     export class SendChangePhoneCode implements TLFunction<auth.SentCode> {
         static readonly cons = new TLInt(0x8e57deb);
-    
+        static deserialized(_data: ByteStream): SendChangePhoneCode | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendChangePhoneCode.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const allowFlashcall = (flags.value & 1) !== 0;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            let currentNumber: BoolType | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as BoolType;
+                if (!obj) return undefined;
+                currentNumber = obj
+            }
+            return new SendChangePhoneCode(
+                allowFlashcall,
+                phoneNumber,
+                currentNumber)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendChangePhoneCode.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.allowFlashcall) ? (flags | 1) : (flags & ~1);
-            flags = (!this.currentNumber) ? (flags | 1) : (flags & ~1);
+            flags = (this.currentNumber) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.phoneNumber.serialized());
             if (this.currentNumber) data.push(this.currentNumber.serialized());
@@ -16494,7 +16348,21 @@ export namespace API {
     export namespace account {
     export class ChangePhone implements TLFunction<UserType> {
         static readonly cons = new TLInt(0x70c32edb);
-    
+        static deserialized(_data: ByteStream): ChangePhone | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ChangePhone.cons)) return undefined;
+            const phoneNumber = TLString.deserialized(_data);
+            if (!phoneNumber) return undefined;
+            const phoneCodeHash = TLString.deserialized(_data);
+            if (!phoneCodeHash) return undefined;
+            const phoneCode = TLString.deserialized(_data);
+            if (!phoneCode) return undefined;
+            return new ChangePhone(
+                phoneNumber,
+                phoneCodeHash,
+                phoneCode)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ChangePhone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16516,7 +16384,15 @@ export namespace API {
     export namespace account {
     export class UpdateDeviceLocked implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x38df3532);
-    
+        static deserialized(_data: ByteStream): UpdateDeviceLocked | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateDeviceLocked.cons)) return undefined;
+            const period = TLInt.deserialized(_data);
+            if (!period) return undefined;
+            return new UpdateDeviceLocked(
+                period)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdateDeviceLocked.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16534,7 +16410,12 @@ export namespace API {
     export namespace account {
     export class GetAuthorizations implements TLFunction<account.Authorizations> {
         static readonly cons = new TLInt(0xe320c158);
-    
+        static deserialized(_data: ByteStream): GetAuthorizations | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAuthorizations.cons)) return undefined;
+            return new GetAuthorizations()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAuthorizations.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16548,7 +16429,15 @@ export namespace API {
     export namespace account {
     export class ResetAuthorization implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xdf77f3bc);
-    
+        static deserialized(_data: ByteStream): ResetAuthorization | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ResetAuthorization.cons)) return undefined;
+            const hash = TLLong.deserialized(_data);
+            if (!hash) return undefined;
+            return new ResetAuthorization(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ResetAuthorization.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16566,7 +16455,12 @@ export namespace API {
     export namespace account {
     export class GetPassword implements TLFunction<account.PasswordType> {
         static readonly cons = new TLInt(0x548a30f5);
-    
+        static deserialized(_data: ByteStream): GetPassword | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPassword.cons)) return undefined;
+            return new GetPassword()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetPassword.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16580,7 +16474,15 @@ export namespace API {
     export namespace account {
     export class GetPasswordSettings implements TLFunction<account.PasswordSettings> {
         static readonly cons = new TLInt(0xbc8d11bb);
-    
+        static deserialized(_data: ByteStream): GetPasswordSettings | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPasswordSettings.cons)) return undefined;
+            const currentPasswordHash = TLBytes.deserialized(_data);
+            if (!currentPasswordHash) return undefined;
+            return new GetPasswordSettings(
+                currentPasswordHash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetPasswordSettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16598,7 +16500,18 @@ export namespace API {
     export namespace account {
     export class UpdatePasswordSettings implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xfa7c4b86);
-    
+        static deserialized(_data: ByteStream): UpdatePasswordSettings | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdatePasswordSettings.cons)) return undefined;
+            const currentPasswordHash = TLBytes.deserialized(_data);
+            if (!currentPasswordHash) return undefined;
+            const newSettings = deserializedObject(_data) as account.PasswordInputSettings;
+            if (!newSettings) return undefined;
+            return new UpdatePasswordSettings(
+                currentPasswordHash,
+                newSettings)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdatePasswordSettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16618,13 +16531,32 @@ export namespace API {
     export namespace account {
     export class SendConfirmPhoneCode implements TLFunction<auth.SentCode> {
         static readonly cons = new TLInt(0x1516d7bd);
-    
+        static deserialized(_data: ByteStream): SendConfirmPhoneCode | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendConfirmPhoneCode.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const allowFlashcall = (flags.value & 1) !== 0;
+            const hash = TLString.deserialized(_data);
+            if (!hash) return undefined;
+            let currentNumber: BoolType | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as BoolType;
+                if (!obj) return undefined;
+                currentNumber = obj
+            }
+            return new SendConfirmPhoneCode(
+                allowFlashcall,
+                hash,
+                currentNumber)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendConfirmPhoneCode.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.allowFlashcall) ? (flags | 1) : (flags & ~1);
-            flags = (!this.currentNumber) ? (flags | 1) : (flags & ~1);
+            flags = (this.currentNumber) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.hash.serialized());
             if (this.currentNumber) data.push(this.currentNumber.serialized());
@@ -16643,7 +16575,18 @@ export namespace API {
     export namespace account {
     export class ConfirmPhone implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x5f2178c3);
-    
+        static deserialized(_data: ByteStream): ConfirmPhone | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ConfirmPhone.cons)) return undefined;
+            const phoneCodeHash = TLString.deserialized(_data);
+            if (!phoneCodeHash) return undefined;
+            const phoneCode = TLString.deserialized(_data);
+            if (!phoneCode) return undefined;
+            return new ConfirmPhone(
+                phoneCodeHash,
+                phoneCode)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ConfirmPhone.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16663,7 +16606,15 @@ export namespace API {
     export namespace users {
     export class GetUsers implements TLFunction<TLVector<UserType>> {
         static readonly cons = new TLInt(0xd91a548);
-    
+        static deserialized(_data: ByteStream): GetUsers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetUsers.cons)) return undefined;
+            const id = TLVector.deserialized(_data, ) as TLVector<InputUserType>;
+            if (!id) return undefined;
+            return new GetUsers(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetUsers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16681,7 +16632,15 @@ export namespace API {
     export namespace users {
     export class GetFullUser implements TLFunction<UserFull> {
         static readonly cons = new TLInt(0xca30a5b1);
-    
+        static deserialized(_data: ByteStream): GetFullUser | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetFullUser.cons)) return undefined;
+            const id = deserializedObject(_data) as InputUserType;
+            if (!id) return undefined;
+            return new GetFullUser(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetFullUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16699,7 +16658,12 @@ export namespace API {
     export namespace contacts {
     export class GetStatuses implements TLFunction<TLVector<ContactStatus>> {
         static readonly cons = new TLInt(0xc4a353ee);
-    
+        static deserialized(_data: ByteStream): GetStatuses | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetStatuses.cons)) return undefined;
+            return new GetStatuses()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetStatuses.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16713,7 +16677,15 @@ export namespace API {
     export namespace contacts {
     export class GetContacts implements TLFunction<contacts.ContactsType> {
         static readonly cons = new TLInt(0x22c6aa08);
-    
+        static deserialized(_data: ByteStream): GetContacts | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetContacts.cons)) return undefined;
+            const hash = TLString.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetContacts(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16731,7 +16703,18 @@ export namespace API {
     export namespace contacts {
     export class ImportContacts implements TLFunction<contacts.ImportedContacts> {
         static readonly cons = new TLInt(0xda30b32d);
-    
+        static deserialized(_data: ByteStream): ImportContacts | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ImportContacts.cons)) return undefined;
+            const contacts = TLVector.deserialized(_data, ) as TLVector<InputContactType>;
+            if (!contacts) return undefined;
+            const replace = deserializedObject(_data) as BoolType;
+            if (!replace) return undefined;
+            return new ImportContacts(
+                contacts,
+                replace)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ImportContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16751,7 +16734,15 @@ export namespace API {
     export namespace contacts {
     export class DeleteContact implements TLFunction<contacts.Link> {
         static readonly cons = new TLInt(0x8e953744);
-    
+        static deserialized(_data: ByteStream): DeleteContact | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteContact.cons)) return undefined;
+            const id = deserializedObject(_data) as InputUserType;
+            if (!id) return undefined;
+            return new DeleteContact(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteContact.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16769,7 +16760,15 @@ export namespace API {
     export namespace contacts {
     export class DeleteContacts implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x59ab389e);
-    
+        static deserialized(_data: ByteStream): DeleteContacts | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteContacts.cons)) return undefined;
+            const id = TLVector.deserialized(_data, ) as TLVector<InputUserType>;
+            if (!id) return undefined;
+            return new DeleteContacts(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteContacts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16787,7 +16786,15 @@ export namespace API {
     export namespace contacts {
     export class Block implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x332b49fc);
-    
+        static deserialized(_data: ByteStream): Block | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(Block.cons)) return undefined;
+            const id = deserializedObject(_data) as InputUserType;
+            if (!id) return undefined;
+            return new Block(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = Block.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16805,7 +16812,15 @@ export namespace API {
     export namespace contacts {
     export class Unblock implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xe54100bd);
-    
+        static deserialized(_data: ByteStream): Unblock | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(Unblock.cons)) return undefined;
+            const id = deserializedObject(_data) as InputUserType;
+            if (!id) return undefined;
+            return new Unblock(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = Unblock.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16823,7 +16838,18 @@ export namespace API {
     export namespace contacts {
     export class GetBlocked implements TLFunction<contacts.BlockedType> {
         static readonly cons = new TLInt(0xf57c350f);
-    
+        static deserialized(_data: ByteStream): GetBlocked | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetBlocked.cons)) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetBlocked(
+                offset,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetBlocked.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16843,7 +16869,12 @@ export namespace API {
     export namespace contacts {
     export class ExportCard implements TLFunction<TLVector<TLInt>> {
         static readonly cons = new TLInt(0x84e53737);
-    
+        static deserialized(_data: ByteStream): ExportCard | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ExportCard.cons)) return undefined;
+            return new ExportCard()
+        }
+        
         serialized(): Uint8Array {
             const constructor = ExportCard.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16857,7 +16888,15 @@ export namespace API {
     export namespace contacts {
     export class ImportCard implements TLFunction<UserType> {
         static readonly cons = new TLInt(0x4fe196fe);
-    
+        static deserialized(_data: ByteStream): ImportCard | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ImportCard.cons)) return undefined;
+            const exportCard = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!exportCard) return undefined;
+            return new ImportCard(
+                exportCard)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ImportCard.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16875,7 +16914,18 @@ export namespace API {
     export namespace contacts {
     export class Search implements TLFunction<contacts.Found> {
         static readonly cons = new TLInt(0x11f812d8);
-    
+        static deserialized(_data: ByteStream): Search | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(Search.cons)) return undefined;
+            const q = TLString.deserialized(_data);
+            if (!q) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new Search(
+                q,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = Search.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16895,7 +16945,15 @@ export namespace API {
     export namespace contacts {
     export class ResolveUsername implements TLFunction<contacts.ResolvedPeer> {
         static readonly cons = new TLInt(0xf93ccba3);
-    
+        static deserialized(_data: ByteStream): ResolveUsername | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ResolveUsername.cons)) return undefined;
+            const username = TLString.deserialized(_data);
+            if (!username) return undefined;
+            return new ResolveUsername(
+                username)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ResolveUsername.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16913,7 +16971,33 @@ export namespace API {
     export namespace contacts {
     export class GetTopPeers implements TLFunction<contacts.TopPeersType> {
         static readonly cons = new TLInt(0xd4982db5);
-    
+        static deserialized(_data: ByteStream): GetTopPeers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetTopPeers.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const correspondents = (flags.value & 1) !== 0;
+            const botsPm = (flags.value & 2) !== 0;
+            const botsInline = (flags.value & 4) !== 0;
+            const groups = (flags.value & 1024) !== 0;
+            const channels = (flags.value & 32768) !== 0;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetTopPeers(
+                correspondents,
+                botsPm,
+                botsInline,
+                groups,
+                channels,
+                offset,
+                limit,
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetTopPeers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16947,7 +17031,18 @@ export namespace API {
     export namespace contacts {
     export class ResetTopPeerRating implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x1ae373ac);
-    
+        static deserialized(_data: ByteStream): ResetTopPeerRating | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ResetTopPeerRating.cons)) return undefined;
+            const category = deserializedObject(_data) as TopPeerCategoryType;
+            if (!category) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            return new ResetTopPeerRating(
+                category,
+                peer)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ResetTopPeerRating.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16967,7 +17062,15 @@ export namespace API {
     export namespace messages {
     export class GetMessages implements TLFunction<messages.MessagesType> {
         static readonly cons = new TLInt(0x4222fa74);
-    
+        static deserialized(_data: ByteStream): GetMessages | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetMessages.cons)) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            return new GetMessages(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -16985,7 +17088,24 @@ export namespace API {
     export namespace messages {
     export class GetDialogs implements TLFunction<messages.DialogsType> {
         static readonly cons = new TLInt(0x6b47f94d);
-    
+        static deserialized(_data: ByteStream): GetDialogs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetDialogs.cons)) return undefined;
+            const offsetDate = TLInt.deserialized(_data);
+            if (!offsetDate) return undefined;
+            const offsetId = TLInt.deserialized(_data);
+            if (!offsetId) return undefined;
+            const offsetPeer = deserializedObject(_data) as InputPeerType;
+            if (!offsetPeer) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetDialogs(
+                offsetDate,
+                offsetId,
+                offsetPeer,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetDialogs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17009,7 +17129,33 @@ export namespace API {
     export namespace messages {
     export class GetHistory implements TLFunction<messages.MessagesType> {
         static readonly cons = new TLInt(0xafa92846);
-    
+        static deserialized(_data: ByteStream): GetHistory | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetHistory.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const offsetId = TLInt.deserialized(_data);
+            if (!offsetId) return undefined;
+            const offsetDate = TLInt.deserialized(_data);
+            if (!offsetDate) return undefined;
+            const addOffset = TLInt.deserialized(_data);
+            if (!addOffset) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            const maxId = TLInt.deserialized(_data);
+            if (!maxId) return undefined;
+            const minId = TLInt.deserialized(_data);
+            if (!minId) return undefined;
+            return new GetHistory(
+                peer,
+                offsetId,
+                offsetDate,
+                addOffset,
+                limit,
+                maxId,
+                minId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetHistory.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17039,7 +17185,38 @@ export namespace API {
     export namespace messages {
     export class Search implements TLFunction<messages.MessagesType> {
         static readonly cons = new TLInt(0xd4569248);
-    
+        static deserialized(_data: ByteStream): Search | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(Search.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const q = TLString.deserialized(_data);
+            if (!q) return undefined;
+            const filter = deserializedObject(_data) as MessagesFilterType;
+            if (!filter) return undefined;
+            const minDate = TLInt.deserialized(_data);
+            if (!minDate) return undefined;
+            const maxDate = TLInt.deserialized(_data);
+            if (!maxDate) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const maxId = TLInt.deserialized(_data);
+            if (!maxId) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new Search(
+                peer,
+                q,
+                filter,
+                minDate,
+                maxDate,
+                offset,
+                maxId,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = Search.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17073,7 +17250,18 @@ export namespace API {
     export namespace messages {
     export class ReadHistory implements TLFunction<messages.AffectedMessages> {
         static readonly cons = new TLInt(0xe306d3a);
-    
+        static deserialized(_data: ByteStream): ReadHistory | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReadHistory.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const maxId = TLInt.deserialized(_data);
+            if (!maxId) return undefined;
+            return new ReadHistory(
+                peer,
+                maxId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReadHistory.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17093,7 +17281,22 @@ export namespace API {
     export namespace messages {
     export class DeleteHistory implements TLFunction<messages.AffectedHistory> {
         static readonly cons = new TLInt(0x1c015b09);
-    
+        static deserialized(_data: ByteStream): DeleteHistory | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteHistory.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const justClear = (flags.value & 1) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const maxId = TLInt.deserialized(_data);
+            if (!maxId) return undefined;
+            return new DeleteHistory(
+                justClear,
+                peer,
+                maxId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteHistory.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17117,7 +17320,15 @@ export namespace API {
     export namespace messages {
     export class DeleteMessages implements TLFunction<messages.AffectedMessages> {
         static readonly cons = new TLInt(0xa5f18925);
-    
+        static deserialized(_data: ByteStream): DeleteMessages | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteMessages.cons)) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            return new DeleteMessages(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17135,7 +17346,15 @@ export namespace API {
     export namespace messages {
     export class ReceivedMessages implements TLFunction<TLVector<ReceivedNotifyMessage>> {
         static readonly cons = new TLInt(0x5a954c0);
-    
+        static deserialized(_data: ByteStream): ReceivedMessages | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReceivedMessages.cons)) return undefined;
+            const maxId = TLInt.deserialized(_data);
+            if (!maxId) return undefined;
+            return new ReceivedMessages(
+                maxId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReceivedMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17153,7 +17372,18 @@ export namespace API {
     export namespace messages {
     export class SetTyping implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xa3825e50);
-    
+        static deserialized(_data: ByteStream): SetTyping | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetTyping.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const action = deserializedObject(_data) as SendMessageActionType;
+            if (!action) return undefined;
+            return new SetTyping(
+                peer,
+                action)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetTyping.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17173,7 +17403,52 @@ export namespace API {
     export namespace messages {
     export class SendMessage implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xfa88427a);
-    
+        static deserialized(_data: ByteStream): SendMessage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendMessage.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const noWebpage = (flags.value & 2) !== 0;
+            const silent = (flags.value & 32) !== 0;
+            const background = (flags.value & 64) !== 0;
+            const clearDraft = (flags.value & 128) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            let replyToMsgId: TLInt | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                replyToMsgId = obj
+            }
+            const message = TLString.deserialized(_data);
+            if (!message) return undefined;
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            let replyMarkup: ReplyMarkupType | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = deserializedObject(_data) as ReplyMarkupType;
+                if (!obj) return undefined;
+                replyMarkup = obj
+            }
+            let entities: TLVector<MessageEntityType> | undefined;
+            if ((flags.value & 8) !== 0) {
+                const obj = TLVector.deserialized(_data, ) as TLVector<MessageEntityType>;
+                if (!obj) return undefined;
+                entities = obj
+            }
+            return new SendMessage(
+                noWebpage,
+                silent,
+                background,
+                clearDraft,
+                peer,
+                replyToMsgId,
+                message,
+                randomId,
+                replyMarkup,
+                entities)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17182,9 +17457,9 @@ export namespace API {
             flags = (this.silent) ? (flags | 32) : (flags & ~32);
             flags = (this.background) ? (flags | 64) : (flags & ~64);
             flags = (this.clearDraft) ? (flags | 128) : (flags & ~128);
-            flags = (!this.replyToMsgId) ? (flags | 1) : (flags & ~1);
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
-            flags = (!this.entities) ? (flags | 8) : (flags & ~8);
+            flags = (this.replyToMsgId) ? (flags | 1) : (flags & ~1);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.entities) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.peer.serialized());
             if (this.replyToMsgId) data.push(this.replyToMsgId.serialized());
@@ -17214,7 +17489,43 @@ export namespace API {
     export namespace messages {
     export class SendMedia implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xc8f16791);
-    
+        static deserialized(_data: ByteStream): SendMedia | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendMedia.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const silent = (flags.value & 32) !== 0;
+            const background = (flags.value & 64) !== 0;
+            const clearDraft = (flags.value & 128) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            let replyToMsgId: TLInt | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                replyToMsgId = obj
+            }
+            const media = deserializedObject(_data) as InputMediaType;
+            if (!media) return undefined;
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            let replyMarkup: ReplyMarkupType | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = deserializedObject(_data) as ReplyMarkupType;
+                if (!obj) return undefined;
+                replyMarkup = obj
+            }
+            return new SendMedia(
+                silent,
+                background,
+                clearDraft,
+                peer,
+                replyToMsgId,
+                media,
+                randomId,
+                replyMarkup)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendMedia.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17222,8 +17533,8 @@ export namespace API {
             flags = (this.silent) ? (flags | 32) : (flags & ~32);
             flags = (this.background) ? (flags | 64) : (flags & ~64);
             flags = (this.clearDraft) ? (flags | 128) : (flags & ~128);
-            flags = (!this.replyToMsgId) ? (flags | 1) : (flags & ~1);
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.replyToMsgId) ? (flags | 1) : (flags & ~1);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.peer.serialized());
             if (this.replyToMsgId) data.push(this.replyToMsgId.serialized());
@@ -17250,7 +17561,32 @@ export namespace API {
     export namespace messages {
     export class ForwardMessages implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x708e0195);
-    
+        static deserialized(_data: ByteStream): ForwardMessages | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ForwardMessages.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const silent = (flags.value & 32) !== 0;
+            const background = (flags.value & 64) !== 0;
+            const withMyScore = (flags.value & 256) !== 0;
+            const fromPeer = deserializedObject(_data) as InputPeerType;
+            if (!fromPeer) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            const randomId = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
+            if (!randomId) return undefined;
+            const toPeer = deserializedObject(_data) as InputPeerType;
+            if (!toPeer) return undefined;
+            return new ForwardMessages(
+                silent,
+                background,
+                withMyScore,
+                fromPeer,
+                id,
+                randomId,
+                toPeer)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ForwardMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17282,7 +17618,15 @@ export namespace API {
     export namespace messages {
     export class ReportSpam implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xcf1592db);
-    
+        static deserialized(_data: ByteStream): ReportSpam | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReportSpam.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            return new ReportSpam(
+                peer)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReportSpam.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17300,7 +17644,15 @@ export namespace API {
     export namespace messages {
     export class HideReportSpam implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xa8f1709b);
-    
+        static deserialized(_data: ByteStream): HideReportSpam | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(HideReportSpam.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            return new HideReportSpam(
+                peer)
+        }
+        
         serialized(): Uint8Array {
             const constructor = HideReportSpam.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17318,7 +17670,15 @@ export namespace API {
     export namespace messages {
     export class GetPeerSettings implements TLFunction<PeerSettings> {
         static readonly cons = new TLInt(0x3672e09c);
-    
+        static deserialized(_data: ByteStream): GetPeerSettings | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPeerSettings.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            return new GetPeerSettings(
+                peer)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetPeerSettings.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17336,7 +17696,15 @@ export namespace API {
     export namespace messages {
     export class GetChats implements TLFunction<messages.Chats> {
         static readonly cons = new TLInt(0x3c6aa187);
-    
+        static deserialized(_data: ByteStream): GetChats | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetChats.cons)) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            return new GetChats(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetChats.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17354,7 +17722,15 @@ export namespace API {
     export namespace messages {
     export class GetFullChat implements TLFunction<messages.ChatFull> {
         static readonly cons = new TLInt(0x3b831c66);
-    
+        static deserialized(_data: ByteStream): GetFullChat | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetFullChat.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            return new GetFullChat(
+                chatId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetFullChat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17372,7 +17748,18 @@ export namespace API {
     export namespace messages {
     export class EditChatTitle implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xdc452855);
-    
+        static deserialized(_data: ByteStream): EditChatTitle | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditChatTitle.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            return new EditChatTitle(
+                chatId,
+                title)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditChatTitle.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17392,7 +17779,18 @@ export namespace API {
     export namespace messages {
     export class EditChatPhoto implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xca4c79d8);
-    
+        static deserialized(_data: ByteStream): EditChatPhoto | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditChatPhoto.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            const photo = deserializedObject(_data) as InputChatPhotoType;
+            if (!photo) return undefined;
+            return new EditChatPhoto(
+                chatId,
+                photo)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditChatPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17412,7 +17810,21 @@ export namespace API {
     export namespace messages {
     export class AddChatUser implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xf9a0aa09);
-    
+        static deserialized(_data: ByteStream): AddChatUser | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(AddChatUser.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const fwdLimit = TLInt.deserialized(_data);
+            if (!fwdLimit) return undefined;
+            return new AddChatUser(
+                chatId,
+                userId,
+                fwdLimit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = AddChatUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17434,7 +17846,18 @@ export namespace API {
     export namespace messages {
     export class DeleteChatUser implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xe0611f16);
-    
+        static deserialized(_data: ByteStream): DeleteChatUser | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteChatUser.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            return new DeleteChatUser(
+                chatId,
+                userId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteChatUser.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17454,7 +17877,18 @@ export namespace API {
     export namespace messages {
     export class CreateChat implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x9cb126e);
-    
+        static deserialized(_data: ByteStream): CreateChat | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CreateChat.cons)) return undefined;
+            const users = TLVector.deserialized(_data, ) as TLVector<InputUserType>;
+            if (!users) return undefined;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            return new CreateChat(
+                users,
+                title)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CreateChat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17474,7 +17908,21 @@ export namespace API {
     export namespace messages {
     export class ForwardMessage implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x33963bf9);
-    
+        static deserialized(_data: ByteStream): ForwardMessage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ForwardMessage.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            return new ForwardMessage(
+                peer,
+                id,
+                randomId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ForwardMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17496,7 +17944,18 @@ export namespace API {
     export namespace messages {
     export class GetDhConfig implements TLFunction<messages.DhConfigType> {
         static readonly cons = new TLInt(0x26cf8950);
-    
+        static deserialized(_data: ByteStream): GetDhConfig | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetDhConfig.cons)) return undefined;
+            const version = TLInt.deserialized(_data);
+            if (!version) return undefined;
+            const randomLength = TLInt.deserialized(_data);
+            if (!randomLength) return undefined;
+            return new GetDhConfig(
+                version,
+                randomLength)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetDhConfig.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17516,7 +17975,21 @@ export namespace API {
     export namespace messages {
     export class RequestEncryption implements TLFunction<EncryptedChatType> {
         static readonly cons = new TLInt(0xf64daf43);
-    
+        static deserialized(_data: ByteStream): RequestEncryption | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(RequestEncryption.cons)) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const randomId = TLInt.deserialized(_data);
+            if (!randomId) return undefined;
+            const gA = TLBytes.deserialized(_data);
+            if (!gA) return undefined;
+            return new RequestEncryption(
+                userId,
+                randomId,
+                gA)
+        }
+        
         serialized(): Uint8Array {
             const constructor = RequestEncryption.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17538,7 +18011,21 @@ export namespace API {
     export namespace messages {
     export class AcceptEncryption implements TLFunction<EncryptedChatType> {
         static readonly cons = new TLInt(0x3dbc0415);
-    
+        static deserialized(_data: ByteStream): AcceptEncryption | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(AcceptEncryption.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputEncryptedChat;
+            if (!peer) return undefined;
+            const gB = TLBytes.deserialized(_data);
+            if (!gB) return undefined;
+            const keyFingerprint = TLLong.deserialized(_data);
+            if (!keyFingerprint) return undefined;
+            return new AcceptEncryption(
+                peer,
+                gB,
+                keyFingerprint)
+        }
+        
         serialized(): Uint8Array {
             const constructor = AcceptEncryption.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17560,7 +18047,15 @@ export namespace API {
     export namespace messages {
     export class DiscardEncryption implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xedd923c5);
-    
+        static deserialized(_data: ByteStream): DiscardEncryption | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DiscardEncryption.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            return new DiscardEncryption(
+                chatId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DiscardEncryption.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17578,7 +18073,18 @@ export namespace API {
     export namespace messages {
     export class SetEncryptedTyping implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x791451ed);
-    
+        static deserialized(_data: ByteStream): SetEncryptedTyping | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetEncryptedTyping.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputEncryptedChat;
+            if (!peer) return undefined;
+            const typing = deserializedObject(_data) as BoolType;
+            if (!typing) return undefined;
+            return new SetEncryptedTyping(
+                peer,
+                typing)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetEncryptedTyping.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17598,7 +18104,18 @@ export namespace API {
     export namespace messages {
     export class ReadEncryptedHistory implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x7f4b690a);
-    
+        static deserialized(_data: ByteStream): ReadEncryptedHistory | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReadEncryptedHistory.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputEncryptedChat;
+            if (!peer) return undefined;
+            const maxDate = TLInt.deserialized(_data);
+            if (!maxDate) return undefined;
+            return new ReadEncryptedHistory(
+                peer,
+                maxDate)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReadEncryptedHistory.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17618,7 +18135,21 @@ export namespace API {
     export namespace messages {
     export class SendEncrypted implements TLFunction<messages.SentEncryptedMessageType> {
         static readonly cons = new TLInt(0xa9776773);
-    
+        static deserialized(_data: ByteStream): SendEncrypted | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendEncrypted.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputEncryptedChat;
+            if (!peer) return undefined;
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            const data = TLBytes.deserialized(_data);
+            if (!data) return undefined;
+            return new SendEncrypted(
+                peer,
+                randomId,
+                data)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendEncrypted.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17640,7 +18171,24 @@ export namespace API {
     export namespace messages {
     export class SendEncryptedFile implements TLFunction<messages.SentEncryptedMessageType> {
         static readonly cons = new TLInt(0x9a901b66);
-    
+        static deserialized(_data: ByteStream): SendEncryptedFile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendEncryptedFile.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputEncryptedChat;
+            if (!peer) return undefined;
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            const data = TLBytes.deserialized(_data);
+            if (!data) return undefined;
+            const file = deserializedObject(_data) as InputEncryptedFileType;
+            if (!file) return undefined;
+            return new SendEncryptedFile(
+                peer,
+                randomId,
+                data,
+                file)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendEncryptedFile.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17664,7 +18212,21 @@ export namespace API {
     export namespace messages {
     export class SendEncryptedService implements TLFunction<messages.SentEncryptedMessageType> {
         static readonly cons = new TLInt(0x32d439a4);
-    
+        static deserialized(_data: ByteStream): SendEncryptedService | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendEncryptedService.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputEncryptedChat;
+            if (!peer) return undefined;
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            const data = TLBytes.deserialized(_data);
+            if (!data) return undefined;
+            return new SendEncryptedService(
+                peer,
+                randomId,
+                data)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendEncryptedService.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17686,7 +18248,15 @@ export namespace API {
     export namespace messages {
     export class ReceivedQueue implements TLFunction<TLVector<TLLong>> {
         static readonly cons = new TLInt(0x55a5bb66);
-    
+        static deserialized(_data: ByteStream): ReceivedQueue | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReceivedQueue.cons)) return undefined;
+            const maxQts = TLInt.deserialized(_data);
+            if (!maxQts) return undefined;
+            return new ReceivedQueue(
+                maxQts)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReceivedQueue.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17704,7 +18274,15 @@ export namespace API {
     export namespace messages {
     export class ReadMessageContents implements TLFunction<messages.AffectedMessages> {
         static readonly cons = new TLInt(0x36a73f77);
-    
+        static deserialized(_data: ByteStream): ReadMessageContents | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReadMessageContents.cons)) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            return new ReadMessageContents(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReadMessageContents.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17722,7 +18300,15 @@ export namespace API {
     export namespace messages {
     export class GetAllStickers implements TLFunction<messages.AllStickersType> {
         static readonly cons = new TLInt(0x1c9618b1);
-    
+        static deserialized(_data: ByteStream): GetAllStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAllStickers.cons)) return undefined;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetAllStickers(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAllStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17740,7 +18326,15 @@ export namespace API {
     export namespace messages {
     export class GetWebPagePreview implements TLFunction<MessageMediaType> {
         static readonly cons = new TLInt(0x25223e24);
-    
+        static deserialized(_data: ByteStream): GetWebPagePreview | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetWebPagePreview.cons)) return undefined;
+            const message = TLString.deserialized(_data);
+            if (!message) return undefined;
+            return new GetWebPagePreview(
+                message)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetWebPagePreview.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17758,7 +18352,15 @@ export namespace API {
     export namespace messages {
     export class ExportChatInvite implements TLFunction<ExportedChatInviteType> {
         static readonly cons = new TLInt(0x7d885289);
-    
+        static deserialized(_data: ByteStream): ExportChatInvite | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ExportChatInvite.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            return new ExportChatInvite(
+                chatId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ExportChatInvite.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17776,7 +18378,15 @@ export namespace API {
     export namespace messages {
     export class CheckChatInvite implements TLFunction<ChatInviteType> {
         static readonly cons = new TLInt(0x3eadb1bb);
-    
+        static deserialized(_data: ByteStream): CheckChatInvite | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CheckChatInvite.cons)) return undefined;
+            const hash = TLString.deserialized(_data);
+            if (!hash) return undefined;
+            return new CheckChatInvite(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CheckChatInvite.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17794,7 +18404,15 @@ export namespace API {
     export namespace messages {
     export class ImportChatInvite implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x6c50051c);
-    
+        static deserialized(_data: ByteStream): ImportChatInvite | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ImportChatInvite.cons)) return undefined;
+            const hash = TLString.deserialized(_data);
+            if (!hash) return undefined;
+            return new ImportChatInvite(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ImportChatInvite.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17812,7 +18430,15 @@ export namespace API {
     export namespace messages {
     export class GetStickerSet implements TLFunction<messages.StickerSet> {
         static readonly cons = new TLInt(0x2619a90e);
-    
+        static deserialized(_data: ByteStream): GetStickerSet | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetStickerSet.cons)) return undefined;
+            const stickerset = deserializedObject(_data) as InputStickerSetType;
+            if (!stickerset) return undefined;
+            return new GetStickerSet(
+                stickerset)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetStickerSet.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17830,7 +18456,18 @@ export namespace API {
     export namespace messages {
     export class InstallStickerSet implements TLFunction<messages.StickerSetInstallResultType> {
         static readonly cons = new TLInt(0xc78fe460);
-    
+        static deserialized(_data: ByteStream): InstallStickerSet | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InstallStickerSet.cons)) return undefined;
+            const stickerset = deserializedObject(_data) as InputStickerSetType;
+            if (!stickerset) return undefined;
+            const archived = deserializedObject(_data) as BoolType;
+            if (!archived) return undefined;
+            return new InstallStickerSet(
+                stickerset,
+                archived)
+        }
+        
         serialized(): Uint8Array {
             const constructor = InstallStickerSet.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17850,7 +18487,15 @@ export namespace API {
     export namespace messages {
     export class UninstallStickerSet implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xf96e55de);
-    
+        static deserialized(_data: ByteStream): UninstallStickerSet | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UninstallStickerSet.cons)) return undefined;
+            const stickerset = deserializedObject(_data) as InputStickerSetType;
+            if (!stickerset) return undefined;
+            return new UninstallStickerSet(
+                stickerset)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UninstallStickerSet.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17868,7 +18513,24 @@ export namespace API {
     export namespace messages {
     export class StartBot implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xe6df7378);
-    
+        static deserialized(_data: ByteStream): StartBot | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(StartBot.cons)) return undefined;
+            const bot = deserializedObject(_data) as InputUserType;
+            if (!bot) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            const startParam = TLString.deserialized(_data);
+            if (!startParam) return undefined;
+            return new StartBot(
+                bot,
+                peer,
+                randomId,
+                startParam)
+        }
+        
         serialized(): Uint8Array {
             const constructor = StartBot.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17892,7 +18554,21 @@ export namespace API {
     export namespace messages {
     export class GetMessagesViews implements TLFunction<TLVector<TLInt>> {
         static readonly cons = new TLInt(0xc4c8a55d);
-    
+        static deserialized(_data: ByteStream): GetMessagesViews | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetMessagesViews.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            const increment = deserializedObject(_data) as BoolType;
+            if (!increment) return undefined;
+            return new GetMessagesViews(
+                peer,
+                id,
+                increment)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetMessagesViews.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17914,7 +18590,18 @@ export namespace API {
     export namespace messages {
     export class ToggleChatAdmins implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xec8bd9e1);
-    
+        static deserialized(_data: ByteStream): ToggleChatAdmins | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ToggleChatAdmins.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            const enabled = deserializedObject(_data) as BoolType;
+            if (!enabled) return undefined;
+            return new ToggleChatAdmins(
+                chatId,
+                enabled)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ToggleChatAdmins.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17934,7 +18621,21 @@ export namespace API {
     export namespace messages {
     export class EditChatAdmin implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xa9e69f2e);
-    
+        static deserialized(_data: ByteStream): EditChatAdmin | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditChatAdmin.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const isAdmin = deserializedObject(_data) as BoolType;
+            if (!isAdmin) return undefined;
+            return new EditChatAdmin(
+                chatId,
+                userId,
+                isAdmin)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditChatAdmin.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17956,7 +18657,15 @@ export namespace API {
     export namespace messages {
     export class MigrateChat implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x15a3b8e3);
-    
+        static deserialized(_data: ByteStream): MigrateChat | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(MigrateChat.cons)) return undefined;
+            const chatId = TLInt.deserialized(_data);
+            if (!chatId) return undefined;
+            return new MigrateChat(
+                chatId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = MigrateChat.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -17974,7 +18683,27 @@ export namespace API {
     export namespace messages {
     export class SearchGlobal implements TLFunction<messages.MessagesType> {
         static readonly cons = new TLInt(0x9e3cacb0);
-    
+        static deserialized(_data: ByteStream): SearchGlobal | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SearchGlobal.cons)) return undefined;
+            const q = TLString.deserialized(_data);
+            if (!q) return undefined;
+            const offsetDate = TLInt.deserialized(_data);
+            if (!offsetDate) return undefined;
+            const offsetPeer = deserializedObject(_data) as InputPeerType;
+            if (!offsetPeer) return undefined;
+            const offsetId = TLInt.deserialized(_data);
+            if (!offsetId) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new SearchGlobal(
+                q,
+                offsetDate,
+                offsetPeer,
+                offsetId,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SearchGlobal.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18000,7 +18729,19 @@ export namespace API {
     export namespace messages {
     export class ReorderStickerSets implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x78337739);
-    
+        static deserialized(_data: ByteStream): ReorderStickerSets | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReorderStickerSets.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const masks = (flags.value & 1) !== 0;
+            const order = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
+            if (!order) return undefined;
+            return new ReorderStickerSets(
+                masks,
+                order)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReorderStickerSets.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18022,7 +18763,21 @@ export namespace API {
     export namespace messages {
     export class GetDocumentByHash implements TLFunction<DocumentType> {
         static readonly cons = new TLInt(0x338e2464);
-    
+        static deserialized(_data: ByteStream): GetDocumentByHash | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetDocumentByHash.cons)) return undefined;
+            const sha256 = TLBytes.deserialized(_data);
+            if (!sha256) return undefined;
+            const size = TLInt.deserialized(_data);
+            if (!size) return undefined;
+            const mimeType = TLString.deserialized(_data);
+            if (!mimeType) return undefined;
+            return new GetDocumentByHash(
+                sha256,
+                size,
+                mimeType)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetDocumentByHash.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18044,7 +18799,18 @@ export namespace API {
     export namespace messages {
     export class SearchGifs implements TLFunction<messages.FoundGifs> {
         static readonly cons = new TLInt(0xbf9a776b);
-    
+        static deserialized(_data: ByteStream): SearchGifs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SearchGifs.cons)) return undefined;
+            const q = TLString.deserialized(_data);
+            if (!q) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            return new SearchGifs(
+                q,
+                offset)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SearchGifs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18064,7 +18830,15 @@ export namespace API {
     export namespace messages {
     export class GetSavedGifs implements TLFunction<messages.SavedGifsType> {
         static readonly cons = new TLInt(0x83bf3d52);
-    
+        static deserialized(_data: ByteStream): GetSavedGifs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetSavedGifs.cons)) return undefined;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetSavedGifs(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetSavedGifs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18082,7 +18856,18 @@ export namespace API {
     export namespace messages {
     export class SaveGif implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x327a30cb);
-    
+        static deserialized(_data: ByteStream): SaveGif | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SaveGif.cons)) return undefined;
+            const id = deserializedObject(_data) as InputDocumentType;
+            if (!id) return undefined;
+            const unsave = deserializedObject(_data) as BoolType;
+            if (!unsave) return undefined;
+            return new SaveGif(
+                id,
+                unsave)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SaveGif.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18102,12 +18887,38 @@ export namespace API {
     export namespace messages {
     export class GetInlineBotResults implements TLFunction<messages.BotResults> {
         static readonly cons = new TLInt(0x514e999d);
-    
+        static deserialized(_data: ByteStream): GetInlineBotResults | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetInlineBotResults.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const bot = deserializedObject(_data) as InputUserType;
+            if (!bot) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            let geoPoint: InputGeoPointType | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as InputGeoPointType;
+                if (!obj) return undefined;
+                geoPoint = obj
+            }
+            const query = TLString.deserialized(_data);
+            if (!query) return undefined;
+            const offset = TLString.deserialized(_data);
+            if (!offset) return undefined;
+            return new GetInlineBotResults(
+                bot,
+                peer,
+                geoPoint,
+                query,
+                offset)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetInlineBotResults.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
-            flags = (!this.geoPoint) ? (flags | 1) : (flags & ~1);
+            flags = (this.geoPoint) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.bot.serialized());
             data.push(this.peer.serialized());
@@ -18131,15 +18942,49 @@ export namespace API {
     export namespace messages {
     export class SetInlineBotResults implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xeb5ea206);
-    
+        static deserialized(_data: ByteStream): SetInlineBotResults | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetInlineBotResults.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const gallery = (flags.value & 1) !== 0;
+            const isPrivate = (flags.value & 2) !== 0;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            const results = TLVector.deserialized(_data, ) as TLVector<InputBotInlineResultType>;
+            if (!results) return undefined;
+            const cacheTime = TLInt.deserialized(_data);
+            if (!cacheTime) return undefined;
+            let nextOffset: TLString | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                nextOffset = obj
+            }
+            let switchPm: InlineBotSwitchPM | undefined;
+            if ((flags.value & 8) !== 0) {
+                const obj = deserializedObject(_data) as InlineBotSwitchPM;
+                if (!obj) return undefined;
+                switchPm = obj
+            }
+            return new SetInlineBotResults(
+                gallery,
+                isPrivate,
+                queryId,
+                results,
+                cacheTime,
+                nextOffset,
+                switchPm)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetInlineBotResults.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.gallery) ? (flags | 1) : (flags & ~1);
             flags = (this.isPrivate) ? (flags | 2) : (flags & ~2);
-            flags = (!this.nextOffset) ? (flags | 4) : (flags & ~4);
-            flags = (!this.switchPm) ? (flags | 8) : (flags & ~8);
+            flags = (this.nextOffset) ? (flags | 4) : (flags & ~4);
+            flags = (this.switchPm) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.queryId.serialized());
             data.push(this.results.serialized());
@@ -18165,7 +19010,39 @@ export namespace API {
     export namespace messages {
     export class SendInlineBotResult implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xb16e06fe);
-    
+        static deserialized(_data: ByteStream): SendInlineBotResult | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendInlineBotResult.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const silent = (flags.value & 32) !== 0;
+            const background = (flags.value & 64) !== 0;
+            const clearDraft = (flags.value & 128) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            let replyToMsgId: TLInt | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                replyToMsgId = obj
+            }
+            const randomId = TLLong.deserialized(_data);
+            if (!randomId) return undefined;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            const id = TLString.deserialized(_data);
+            if (!id) return undefined;
+            return new SendInlineBotResult(
+                silent,
+                background,
+                clearDraft,
+                peer,
+                replyToMsgId,
+                randomId,
+                queryId,
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SendInlineBotResult.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18173,7 +19050,7 @@ export namespace API {
             flags = (this.silent) ? (flags | 32) : (flags & ~32);
             flags = (this.background) ? (flags | 64) : (flags & ~64);
             flags = (this.clearDraft) ? (flags | 128) : (flags & ~128);
-            flags = (!this.replyToMsgId) ? (flags | 1) : (flags & ~1);
+            flags = (this.replyToMsgId) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.peer.serialized());
             if (this.replyToMsgId) data.push(this.replyToMsgId.serialized());
@@ -18200,7 +19077,18 @@ export namespace API {
     export namespace messages {
     export class GetMessageEditData implements TLFunction<messages.MessageEditData> {
         static readonly cons = new TLInt(0xfda68d36);
-    
+        static deserialized(_data: ByteStream): GetMessageEditData | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetMessageEditData.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            return new GetMessageEditData(
+                peer,
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetMessageEditData.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18220,15 +19108,51 @@ export namespace API {
     export namespace messages {
     export class EditMessage implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xce91e4ca);
-    
+        static deserialized(_data: ByteStream): EditMessage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditMessage.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const noWebpage = (flags.value & 2) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            let message: TLString | undefined;
+            if ((flags.value & 2048) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                message = obj
+            }
+            let replyMarkup: ReplyMarkupType | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = deserializedObject(_data) as ReplyMarkupType;
+                if (!obj) return undefined;
+                replyMarkup = obj
+            }
+            let entities: TLVector<MessageEntityType> | undefined;
+            if ((flags.value & 8) !== 0) {
+                const obj = TLVector.deserialized(_data, ) as TLVector<MessageEntityType>;
+                if (!obj) return undefined;
+                entities = obj
+            }
+            return new EditMessage(
+                noWebpage,
+                peer,
+                id,
+                message,
+                replyMarkup,
+                entities)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.noWebpage) ? (flags | 2) : (flags & ~2);
-            flags = (!this.message) ? (flags | 2048) : (flags & ~2048);
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
-            flags = (!this.entities) ? (flags | 8) : (flags & ~8);
+            flags = (this.message) ? (flags | 2048) : (flags & ~2048);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.entities) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.peer.serialized());
             data.push(this.id.serialized());
@@ -18253,15 +19177,48 @@ export namespace API {
     export namespace messages {
     export class EditInlineBotMessage implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x130c2c85);
-    
+        static deserialized(_data: ByteStream): EditInlineBotMessage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditInlineBotMessage.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const noWebpage = (flags.value & 2) !== 0;
+            const id = deserializedObject(_data) as InputBotInlineMessageID;
+            if (!id) return undefined;
+            let message: TLString | undefined;
+            if ((flags.value & 2048) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                message = obj
+            }
+            let replyMarkup: ReplyMarkupType | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = deserializedObject(_data) as ReplyMarkupType;
+                if (!obj) return undefined;
+                replyMarkup = obj
+            }
+            let entities: TLVector<MessageEntityType> | undefined;
+            if ((flags.value & 8) !== 0) {
+                const obj = TLVector.deserialized(_data, ) as TLVector<MessageEntityType>;
+                if (!obj) return undefined;
+                entities = obj
+            }
+            return new EditInlineBotMessage(
+                noWebpage,
+                id,
+                message,
+                replyMarkup,
+                entities)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditInlineBotMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.noWebpage) ? (flags | 2) : (flags & ~2);
-            flags = (!this.message) ? (flags | 2048) : (flags & ~2048);
-            flags = (!this.replyMarkup) ? (flags | 4) : (flags & ~4);
-            flags = (!this.entities) ? (flags | 8) : (flags & ~8);
+            flags = (this.message) ? (flags | 2048) : (flags & ~2048);
+            flags = (this.replyMarkup) ? (flags | 4) : (flags & ~4);
+            flags = (this.entities) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             if (this.message) data.push(this.message.serialized());
@@ -18284,13 +19241,35 @@ export namespace API {
     export namespace messages {
     export class GetBotCallbackAnswer implements TLFunction<messages.BotCallbackAnswer> {
         static readonly cons = new TLInt(0x810a9fec);
-    
+        static deserialized(_data: ByteStream): GetBotCallbackAnswer | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetBotCallbackAnswer.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const game = (flags.value & 2) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const msgId = TLInt.deserialized(_data);
+            if (!msgId) return undefined;
+            let data: TLBytes | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLBytes.deserialized(_data);
+                if (!obj) return undefined;
+                data = obj
+            }
+            return new GetBotCallbackAnswer(
+                game,
+                peer,
+                msgId,
+                data)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetBotCallbackAnswer.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.game) ? (flags | 2) : (flags & ~2);
-            flags = (!this.data) ? (flags | 1) : (flags & ~1);
+            flags = (this.data) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.peer.serialized());
             data.push(this.msgId.serialized());
@@ -18311,14 +19290,40 @@ export namespace API {
     export namespace messages {
     export class SetBotCallbackAnswer implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xc927d44b);
-    
+        static deserialized(_data: ByteStream): SetBotCallbackAnswer | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetBotCallbackAnswer.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const alert = (flags.value & 2) !== 0;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            let message: TLString | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                message = obj
+            }
+            let url: TLString | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                url = obj
+            }
+            return new SetBotCallbackAnswer(
+                alert,
+                queryId,
+                message,
+                url)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetBotCallbackAnswer.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.alert) ? (flags | 2) : (flags & ~2);
-            flags = (!this.message) ? (flags | 1) : (flags & ~1);
-            flags = (!this.url) ? (flags | 4) : (flags & ~4);
+            flags = (this.message) ? (flags | 1) : (flags & ~1);
+            flags = (this.url) ? (flags | 4) : (flags & ~4);
             data.push(new TLInt(flags).serialized());
             data.push(this.queryId.serialized());
             if (this.message) data.push(this.message.serialized());
@@ -18339,7 +19344,15 @@ export namespace API {
     export namespace messages {
     export class GetPeerDialogs implements TLFunction<messages.PeerDialogs> {
         static readonly cons = new TLInt(0x2d9776b9);
-    
+        static deserialized(_data: ByteStream): GetPeerDialogs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPeerDialogs.cons)) return undefined;
+            const peers = TLVector.deserialized(_data, ) as TLVector<InputPeerType>;
+            if (!peers) return undefined;
+            return new GetPeerDialogs(
+                peers)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetPeerDialogs.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18357,14 +19370,43 @@ export namespace API {
     export namespace messages {
     export class SaveDraft implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xbc39e14b);
-    
+        static deserialized(_data: ByteStream): SaveDraft | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SaveDraft.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const noWebpage = (flags.value & 2) !== 0;
+            let replyToMsgId: TLInt | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                replyToMsgId = obj
+            }
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const message = TLString.deserialized(_data);
+            if (!message) return undefined;
+            let entities: TLVector<MessageEntityType> | undefined;
+            if ((flags.value & 8) !== 0) {
+                const obj = TLVector.deserialized(_data, ) as TLVector<MessageEntityType>;
+                if (!obj) return undefined;
+                entities = obj
+            }
+            return new SaveDraft(
+                noWebpage,
+                replyToMsgId,
+                peer,
+                message,
+                entities)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SaveDraft.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.noWebpage) ? (flags | 2) : (flags & ~2);
-            flags = (!this.replyToMsgId) ? (flags | 1) : (flags & ~1);
-            flags = (!this.entities) ? (flags | 8) : (flags & ~8);
+            flags = (this.replyToMsgId) ? (flags | 1) : (flags & ~1);
+            flags = (this.entities) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             if (this.replyToMsgId) data.push(this.replyToMsgId.serialized());
             data.push(this.peer.serialized());
@@ -18387,7 +19429,12 @@ export namespace API {
     export namespace messages {
     export class GetAllDrafts implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x6a3f8d65);
-    
+        static deserialized(_data: ByteStream): GetAllDrafts | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAllDrafts.cons)) return undefined;
+            return new GetAllDrafts()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAllDrafts.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18401,7 +19448,15 @@ export namespace API {
     export namespace messages {
     export class GetFeaturedStickers implements TLFunction<messages.FeaturedStickersType> {
         static readonly cons = new TLInt(0x2dacca4f);
-    
+        static deserialized(_data: ByteStream): GetFeaturedStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetFeaturedStickers.cons)) return undefined;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetFeaturedStickers(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetFeaturedStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18419,7 +19474,15 @@ export namespace API {
     export namespace messages {
     export class ReadFeaturedStickers implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x5b118126);
-    
+        static deserialized(_data: ByteStream): ReadFeaturedStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReadFeaturedStickers.cons)) return undefined;
+            const id = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
+            if (!id) return undefined;
+            return new ReadFeaturedStickers(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReadFeaturedStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18437,7 +19500,19 @@ export namespace API {
     export namespace messages {
     export class GetRecentStickers implements TLFunction<messages.RecentStickersType> {
         static readonly cons = new TLInt(0x5ea192c9);
-    
+        static deserialized(_data: ByteStream): GetRecentStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetRecentStickers.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const attached = (flags.value & 1) !== 0;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetRecentStickers(
+                attached,
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetRecentStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18459,7 +19534,22 @@ export namespace API {
     export namespace messages {
     export class SaveRecentSticker implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x392718f8);
-    
+        static deserialized(_data: ByteStream): SaveRecentSticker | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SaveRecentSticker.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const attached = (flags.value & 1) !== 0;
+            const id = deserializedObject(_data) as InputDocumentType;
+            if (!id) return undefined;
+            const unsave = deserializedObject(_data) as BoolType;
+            if (!unsave) return undefined;
+            return new SaveRecentSticker(
+                attached,
+                id,
+                unsave)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SaveRecentSticker.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18483,7 +19573,16 @@ export namespace API {
     export namespace messages {
     export class ClearRecentStickers implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x8999602d);
-    
+        static deserialized(_data: ByteStream): ClearRecentStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ClearRecentStickers.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const attached = (flags.value & 1) !== 0;
+            return new ClearRecentStickers(
+                attached)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ClearRecentStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18503,7 +19602,22 @@ export namespace API {
     export namespace messages {
     export class GetArchivedStickers implements TLFunction<messages.ArchivedStickers> {
         static readonly cons = new TLInt(0x57f17692);
-    
+        static deserialized(_data: ByteStream): GetArchivedStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetArchivedStickers.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const masks = (flags.value & 1) !== 0;
+            const offsetId = TLLong.deserialized(_data);
+            if (!offsetId) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetArchivedStickers(
+                masks,
+                offsetId,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetArchivedStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18527,7 +19641,15 @@ export namespace API {
     export namespace messages {
     export class GetMaskStickers implements TLFunction<messages.AllStickersType> {
         static readonly cons = new TLInt(0x65b8c79f);
-    
+        static deserialized(_data: ByteStream): GetMaskStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetMaskStickers.cons)) return undefined;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetMaskStickers(
+                hash)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetMaskStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18545,7 +19667,15 @@ export namespace API {
     export namespace messages {
     export class GetAttachedStickers implements TLFunction<TLVector<StickerSetCoveredType>> {
         static readonly cons = new TLInt(0xcc5b67cc);
-    
+        static deserialized(_data: ByteStream): GetAttachedStickers | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAttachedStickers.cons)) return undefined;
+            const media = deserializedObject(_data) as InputStickeredMediaType;
+            if (!media) return undefined;
+            return new GetAttachedStickers(
+                media)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAttachedStickers.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18563,7 +19693,28 @@ export namespace API {
     export namespace messages {
     export class SetGameScore implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x8ef8ecc0);
-    
+        static deserialized(_data: ByteStream): SetGameScore | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetGameScore.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const editMessage = (flags.value & 1) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const score = TLInt.deserialized(_data);
+            if (!score) return undefined;
+            return new SetGameScore(
+                editMessage,
+                peer,
+                id,
+                userId,
+                score)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetGameScore.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18591,7 +19742,25 @@ export namespace API {
     export namespace messages {
     export class SetInlineGameScore implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x15ad9f64);
-    
+        static deserialized(_data: ByteStream): SetInlineGameScore | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetInlineGameScore.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const editMessage = (flags.value & 1) !== 0;
+            const id = deserializedObject(_data) as InputBotInlineMessageID;
+            if (!id) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const score = TLInt.deserialized(_data);
+            if (!score) return undefined;
+            return new SetInlineGameScore(
+                editMessage,
+                id,
+                userId,
+                score)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SetInlineGameScore.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18617,7 +19786,21 @@ export namespace API {
     export namespace messages {
     export class GetGameHighScores implements TLFunction<messages.HighScores> {
         static readonly cons = new TLInt(0xe822649d);
-    
+        static deserialized(_data: ByteStream): GetGameHighScores | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetGameHighScores.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            return new GetGameHighScores(
+                peer,
+                id,
+                userId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetGameHighScores.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18639,7 +19822,18 @@ export namespace API {
     export namespace messages {
     export class GetInlineGameHighScores implements TLFunction<messages.HighScores> {
         static readonly cons = new TLInt(0xf635e1b);
-    
+        static deserialized(_data: ByteStream): GetInlineGameHighScores | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetInlineGameHighScores.cons)) return undefined;
+            const id = deserializedObject(_data) as InputBotInlineMessageID;
+            if (!id) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            return new GetInlineGameHighScores(
+                id,
+                userId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetInlineGameHighScores.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18659,7 +19853,12 @@ export namespace API {
     export namespace updates {
     export class GetState implements TLFunction<updates.State> {
         static readonly cons = new TLInt(0xedd4882a);
-    
+        static deserialized(_data: ByteStream): GetState | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetState.cons)) return undefined;
+            return new GetState()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetState.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18673,7 +19872,21 @@ export namespace API {
     export namespace updates {
     export class GetDifference implements TLFunction<updates.DifferenceType> {
         static readonly cons = new TLInt(0xa041495);
-    
+        static deserialized(_data: ByteStream): GetDifference | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetDifference.cons)) return undefined;
+            const pts = TLInt.deserialized(_data);
+            if (!pts) return undefined;
+            const date = TLInt.deserialized(_data);
+            if (!date) return undefined;
+            const qts = TLInt.deserialized(_data);
+            if (!qts) return undefined;
+            return new GetDifference(
+                pts,
+                date,
+                qts)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetDifference.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18695,7 +19908,24 @@ export namespace API {
     export namespace updates {
     export class GetChannelDifference implements TLFunction<updates.ChannelDifferenceType> {
         static readonly cons = new TLInt(0xbb32d7c0);
-    
+        static deserialized(_data: ByteStream): GetChannelDifference | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetChannelDifference.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const filter = deserializedObject(_data) as ChannelMessagesFilterType;
+            if (!filter) return undefined;
+            const pts = TLInt.deserialized(_data);
+            if (!pts) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetChannelDifference(
+                channel,
+                filter,
+                pts,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetChannelDifference.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18719,7 +19949,15 @@ export namespace API {
     export namespace photos {
     export class UpdateProfilePhoto implements TLFunction<UserProfilePhotoType> {
         static readonly cons = new TLInt(0xf0bb5152);
-    
+        static deserialized(_data: ByteStream): UpdateProfilePhoto | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateProfilePhoto.cons)) return undefined;
+            const id = deserializedObject(_data) as InputPhotoType;
+            if (!id) return undefined;
+            return new UpdateProfilePhoto(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdateProfilePhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18737,7 +19975,15 @@ export namespace API {
     export namespace photos {
     export class UploadProfilePhoto implements TLFunction<photos.Photo> {
         static readonly cons = new TLInt(0x4f32c098);
-    
+        static deserialized(_data: ByteStream): UploadProfilePhoto | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UploadProfilePhoto.cons)) return undefined;
+            const file = deserializedObject(_data) as InputFileType;
+            if (!file) return undefined;
+            return new UploadProfilePhoto(
+                file)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UploadProfilePhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18755,7 +20001,15 @@ export namespace API {
     export namespace photos {
     export class DeletePhotos implements TLFunction<TLVector<TLLong>> {
         static readonly cons = new TLInt(0x87cf7f2f);
-    
+        static deserialized(_data: ByteStream): DeletePhotos | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeletePhotos.cons)) return undefined;
+            const id = TLVector.deserialized(_data, ) as TLVector<InputPhotoType>;
+            if (!id) return undefined;
+            return new DeletePhotos(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeletePhotos.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18773,7 +20027,24 @@ export namespace API {
     export namespace photos {
     export class GetUserPhotos implements TLFunction<photos.PhotosType> {
         static readonly cons = new TLInt(0x91cd32a8);
-    
+        static deserialized(_data: ByteStream): GetUserPhotos | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetUserPhotos.cons)) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const maxId = TLLong.deserialized(_data);
+            if (!maxId) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetUserPhotos(
+                userId,
+                offset,
+                maxId,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetUserPhotos.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18797,7 +20068,21 @@ export namespace API {
     export namespace upload {
     export class SaveFilePart implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xb304a621);
-    
+        static deserialized(_data: ByteStream): SaveFilePart | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SaveFilePart.cons)) return undefined;
+            const fileId = TLLong.deserialized(_data);
+            if (!fileId) return undefined;
+            const filePart = TLInt.deserialized(_data);
+            if (!filePart) return undefined;
+            const bytes = TLBytes.deserialized(_data);
+            if (!bytes) return undefined;
+            return new SaveFilePart(
+                fileId,
+                filePart,
+                bytes)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SaveFilePart.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18819,7 +20104,21 @@ export namespace API {
     export namespace upload {
     export class GetFile implements TLFunction<upload.File> {
         static readonly cons = new TLInt(0xe3a6cfb5);
-    
+        static deserialized(_data: ByteStream): GetFile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetFile.cons)) return undefined;
+            const location = deserializedObject(_data) as InputFileLocationType;
+            if (!location) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetFile(
+                location,
+                offset,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetFile.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18841,7 +20140,24 @@ export namespace API {
     export namespace upload {
     export class SaveBigFilePart implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xde7b673d);
-    
+        static deserialized(_data: ByteStream): SaveBigFilePart | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SaveBigFilePart.cons)) return undefined;
+            const fileId = TLLong.deserialized(_data);
+            if (!fileId) return undefined;
+            const filePart = TLInt.deserialized(_data);
+            if (!filePart) return undefined;
+            const fileTotalParts = TLInt.deserialized(_data);
+            if (!fileTotalParts) return undefined;
+            const bytes = TLBytes.deserialized(_data);
+            if (!bytes) return undefined;
+            return new SaveBigFilePart(
+                fileId,
+                filePart,
+                fileTotalParts,
+                bytes)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SaveBigFilePart.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18865,7 +20181,12 @@ export namespace API {
     export namespace help {
     export class GetConfig implements TLFunction<Config> {
         static readonly cons = new TLInt(0xc4f9186b);
-    
+        static deserialized(_data: ByteStream): GetConfig | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetConfig.cons)) return undefined;
+            return new GetConfig()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetConfig.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18879,7 +20200,12 @@ export namespace API {
     export namespace help {
     export class GetNearestDc implements TLFunction<NearestDc> {
         static readonly cons = new TLInt(0x1fb33026);
-    
+        static deserialized(_data: ByteStream): GetNearestDc | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetNearestDc.cons)) return undefined;
+            return new GetNearestDc()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetNearestDc.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18893,7 +20219,12 @@ export namespace API {
     export namespace help {
     export class GetAppUpdate implements TLFunction<help.AppUpdateType> {
         static readonly cons = new TLInt(0xae2de196);
-    
+        static deserialized(_data: ByteStream): GetAppUpdate | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAppUpdate.cons)) return undefined;
+            return new GetAppUpdate()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAppUpdate.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18907,7 +20238,15 @@ export namespace API {
     export namespace help {
     export class SaveAppLog implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x6f02f748);
-    
+        static deserialized(_data: ByteStream): SaveAppLog | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SaveAppLog.cons)) return undefined;
+            const events = TLVector.deserialized(_data, InputAppEvent) as TLVector<InputAppEvent>;
+            if (!events) return undefined;
+            return new SaveAppLog(
+                events)
+        }
+        
         serialized(): Uint8Array {
             const constructor = SaveAppLog.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18925,7 +20264,12 @@ export namespace API {
     export namespace help {
     export class GetInviteText implements TLFunction<help.InviteText> {
         static readonly cons = new TLInt(0x4d392343);
-    
+        static deserialized(_data: ByteStream): GetInviteText | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetInviteText.cons)) return undefined;
+            return new GetInviteText()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetInviteText.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18939,7 +20283,12 @@ export namespace API {
     export namespace help {
     export class GetSupport implements TLFunction<help.Support> {
         static readonly cons = new TLInt(0x9cdf08cd);
-    
+        static deserialized(_data: ByteStream): GetSupport | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetSupport.cons)) return undefined;
+            return new GetSupport()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetSupport.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18953,7 +20302,12 @@ export namespace API {
     export namespace help {
     export class GetAppChangelog implements TLFunction<help.AppChangelogType> {
         static readonly cons = new TLInt(0xb921197a);
-    
+        static deserialized(_data: ByteStream): GetAppChangelog | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAppChangelog.cons)) return undefined;
+            return new GetAppChangelog()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAppChangelog.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18967,7 +20321,12 @@ export namespace API {
     export namespace help {
     export class GetTermsOfService implements TLFunction<help.TermsOfService> {
         static readonly cons = new TLInt(0x350170f3);
-    
+        static deserialized(_data: ByteStream): GetTermsOfService | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetTermsOfService.cons)) return undefined;
+            return new GetTermsOfService()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetTermsOfService.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -18981,7 +20340,18 @@ export namespace API {
     export namespace channels {
     export class ReadHistory implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xcc104937);
-    
+        static deserialized(_data: ByteStream): ReadHistory | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReadHistory.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const maxId = TLInt.deserialized(_data);
+            if (!maxId) return undefined;
+            return new ReadHistory(
+                channel,
+                maxId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReadHistory.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19001,7 +20371,18 @@ export namespace API {
     export namespace channels {
     export class DeleteMessages implements TLFunction<messages.AffectedMessages> {
         static readonly cons = new TLInt(0x84c1fd4e);
-    
+        static deserialized(_data: ByteStream): DeleteMessages | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteMessages.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            return new DeleteMessages(
+                channel,
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19021,7 +20402,18 @@ export namespace API {
     export namespace channels {
     export class DeleteUserHistory implements TLFunction<messages.AffectedHistory> {
         static readonly cons = new TLInt(0xd10dd71b);
-    
+        static deserialized(_data: ByteStream): DeleteUserHistory | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteUserHistory.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            return new DeleteUserHistory(
+                channel,
+                userId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteUserHistory.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19041,7 +20433,21 @@ export namespace API {
     export namespace channels {
     export class ReportSpam implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0xfe087810);
-    
+        static deserialized(_data: ByteStream): ReportSpam | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReportSpam.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            return new ReportSpam(
+                channel,
+                userId,
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ReportSpam.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19063,7 +20469,18 @@ export namespace API {
     export namespace channels {
     export class GetMessages implements TLFunction<messages.MessagesType> {
         static readonly cons = new TLInt(0x93d7b347);
-    
+        static deserialized(_data: ByteStream): GetMessages | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetMessages.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!id) return undefined;
+            return new GetMessages(
+                channel,
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19083,7 +20500,24 @@ export namespace API {
     export namespace channels {
     export class GetParticipants implements TLFunction<channels.ChannelParticipants> {
         static readonly cons = new TLInt(0x24d98f92);
-    
+        static deserialized(_data: ByteStream): GetParticipants | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetParticipants.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const filter = deserializedObject(_data) as ChannelParticipantsFilterType;
+            if (!filter) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetParticipants(
+                channel,
+                filter,
+                offset,
+                limit)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetParticipants.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19107,7 +20541,18 @@ export namespace API {
     export namespace channels {
     export class GetParticipant implements TLFunction<channels.ChannelParticipant> {
         static readonly cons = new TLInt(0x546dd7a6);
-    
+        static deserialized(_data: ByteStream): GetParticipant | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetParticipant.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            return new GetParticipant(
+                channel,
+                userId)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetParticipant.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19127,7 +20572,15 @@ export namespace API {
     export namespace channels {
     export class GetChannels implements TLFunction<messages.Chats> {
         static readonly cons = new TLInt(0xa7f6bbb);
-    
+        static deserialized(_data: ByteStream): GetChannels | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetChannels.cons)) return undefined;
+            const id = TLVector.deserialized(_data, ) as TLVector<InputChannelType>;
+            if (!id) return undefined;
+            return new GetChannels(
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetChannels.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19145,7 +20598,15 @@ export namespace API {
     export namespace channels {
     export class GetFullChannel implements TLFunction<messages.ChatFull> {
         static readonly cons = new TLInt(0x8736a09);
-    
+        static deserialized(_data: ByteStream): GetFullChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetFullChannel.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            return new GetFullChannel(
+                channel)
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetFullChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19163,7 +20624,24 @@ export namespace API {
     export namespace channels {
     export class CreateChannel implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xf4893d7f);
-    
+        static deserialized(_data: ByteStream): CreateChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CreateChannel.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const broadcast = (flags.value & 1) !== 0;
+            const megagroup = (flags.value & 2) !== 0;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            const about = TLString.deserialized(_data);
+            if (!about) return undefined;
+            return new CreateChannel(
+                broadcast,
+                megagroup,
+                title,
+                about)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CreateChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19189,7 +20667,18 @@ export namespace API {
     export namespace channels {
     export class EditAbout implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x13e27f1e);
-    
+        static deserialized(_data: ByteStream): EditAbout | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditAbout.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const about = TLString.deserialized(_data);
+            if (!about) return undefined;
+            return new EditAbout(
+                channel,
+                about)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditAbout.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19209,7 +20698,21 @@ export namespace API {
     export namespace channels {
     export class EditAdmin implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xeb7611d0);
-    
+        static deserialized(_data: ByteStream): EditAdmin | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditAdmin.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const role = deserializedObject(_data) as ChannelParticipantRoleType;
+            if (!role) return undefined;
+            return new EditAdmin(
+                channel,
+                userId,
+                role)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditAdmin.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19231,7 +20734,18 @@ export namespace API {
     export namespace channels {
     export class EditTitle implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x566decd0);
-    
+        static deserialized(_data: ByteStream): EditTitle | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditTitle.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            return new EditTitle(
+                channel,
+                title)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditTitle.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19251,7 +20765,18 @@ export namespace API {
     export namespace channels {
     export class EditPhoto implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xf12e57c9);
-    
+        static deserialized(_data: ByteStream): EditPhoto | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(EditPhoto.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const photo = deserializedObject(_data) as InputChatPhotoType;
+            if (!photo) return undefined;
+            return new EditPhoto(
+                channel,
+                photo)
+        }
+        
         serialized(): Uint8Array {
             const constructor = EditPhoto.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19271,7 +20796,18 @@ export namespace API {
     export namespace channels {
     export class CheckUsername implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x10e6bd2c);
-    
+        static deserialized(_data: ByteStream): CheckUsername | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CheckUsername.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const username = TLString.deserialized(_data);
+            if (!username) return undefined;
+            return new CheckUsername(
+                channel,
+                username)
+        }
+        
         serialized(): Uint8Array {
             const constructor = CheckUsername.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19291,7 +20827,18 @@ export namespace API {
     export namespace channels {
     export class UpdateUsername implements TLFunction<BoolType> {
         static readonly cons = new TLInt(0x3514b3de);
-    
+        static deserialized(_data: ByteStream): UpdateUsername | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateUsername.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const username = TLString.deserialized(_data);
+            if (!username) return undefined;
+            return new UpdateUsername(
+                channel,
+                username)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdateUsername.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19311,7 +20858,15 @@ export namespace API {
     export namespace channels {
     export class JoinChannel implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x24b524c5);
-    
+        static deserialized(_data: ByteStream): JoinChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(JoinChannel.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            return new JoinChannel(
+                channel)
+        }
+        
         serialized(): Uint8Array {
             const constructor = JoinChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19329,7 +20884,15 @@ export namespace API {
     export namespace channels {
     export class LeaveChannel implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xf836aa95);
-    
+        static deserialized(_data: ByteStream): LeaveChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(LeaveChannel.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            return new LeaveChannel(
+                channel)
+        }
+        
         serialized(): Uint8Array {
             const constructor = LeaveChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19347,7 +20910,18 @@ export namespace API {
     export namespace channels {
     export class InviteToChannel implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x199f3a6c);
-    
+        static deserialized(_data: ByteStream): InviteToChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InviteToChannel.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const users = TLVector.deserialized(_data, ) as TLVector<InputUserType>;
+            if (!users) return undefined;
+            return new InviteToChannel(
+                channel,
+                users)
+        }
+        
         serialized(): Uint8Array {
             const constructor = InviteToChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19367,7 +20941,21 @@ export namespace API {
     export namespace channels {
     export class KickFromChannel implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xa672de14);
-    
+        static deserialized(_data: ByteStream): KickFromChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(KickFromChannel.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const kicked = deserializedObject(_data) as BoolType;
+            if (!kicked) return undefined;
+            return new KickFromChannel(
+                channel,
+                userId,
+                kicked)
+        }
+        
         serialized(): Uint8Array {
             const constructor = KickFromChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19389,7 +20977,15 @@ export namespace API {
     export namespace channels {
     export class ExportInvite implements TLFunction<ExportedChatInviteType> {
         static readonly cons = new TLInt(0xc7560885);
-    
+        static deserialized(_data: ByteStream): ExportInvite | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ExportInvite.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            return new ExportInvite(
+                channel)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ExportInvite.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19407,7 +21003,15 @@ export namespace API {
     export namespace channels {
     export class DeleteChannel implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xc0111fe3);
-    
+        static deserialized(_data: ByteStream): DeleteChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DeleteChannel.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            return new DeleteChannel(
+                channel)
+        }
+        
         serialized(): Uint8Array {
             const constructor = DeleteChannel.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19425,7 +21029,18 @@ export namespace API {
     export namespace channels {
     export class ToggleInvites implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x49609307);
-    
+        static deserialized(_data: ByteStream): ToggleInvites | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ToggleInvites.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const enabled = deserializedObject(_data) as BoolType;
+            if (!enabled) return undefined;
+            return new ToggleInvites(
+                channel,
+                enabled)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ToggleInvites.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19445,7 +21060,18 @@ export namespace API {
     export namespace channels {
     export class ExportMessageLink implements TLFunction<ExportedMessageLink> {
         static readonly cons = new TLInt(0xc846d22d);
-    
+        static deserialized(_data: ByteStream): ExportMessageLink | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ExportMessageLink.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            return new ExportMessageLink(
+                channel,
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ExportMessageLink.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19465,7 +21091,18 @@ export namespace API {
     export namespace channels {
     export class ToggleSignatures implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0x1f69b606);
-    
+        static deserialized(_data: ByteStream): ToggleSignatures | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ToggleSignatures.cons)) return undefined;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const enabled = deserializedObject(_data) as BoolType;
+            if (!enabled) return undefined;
+            return new ToggleSignatures(
+                channel,
+                enabled)
+        }
+        
         serialized(): Uint8Array {
             const constructor = ToggleSignatures.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19485,7 +21122,22 @@ export namespace API {
     export namespace channels {
     export class UpdatePinnedMessage implements TLFunction<UpdatesType> {
         static readonly cons = new TLInt(0xa72ded52);
-    
+        static deserialized(_data: ByteStream): UpdatePinnedMessage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdatePinnedMessage.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const silent = (flags.value & 1) !== 0;
+            const channel = deserializedObject(_data) as InputChannelType;
+            if (!channel) return undefined;
+            const id = TLInt.deserialized(_data);
+            if (!id) return undefined;
+            return new UpdatePinnedMessage(
+                silent,
+                channel,
+                id)
+        }
+        
         serialized(): Uint8Array {
             const constructor = UpdatePinnedMessage.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19509,7 +21161,12 @@ export namespace API {
     export namespace channels {
     export class GetAdminedPublicChannels implements TLFunction<messages.Chats> {
         static readonly cons = new TLInt(0x8d8d82d7);
-    
+        static deserialized(_data: ByteStream): GetAdminedPublicChannels | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAdminedPublicChannels.cons)) return undefined;
+            return new GetAdminedPublicChannels()
+        }
+        
         serialized(): Uint8Array {
             const constructor = GetAdminedPublicChannels.cons.serialized();
             const data: Uint8Array[] = [constructor];
@@ -19973,6 +21630,191 @@ export namespace API {
         map.put(InputGameShortName.cons, InputGameShortName);
         map.put(HighScore.cons, HighScore);
         map.put(messages.HighScores.cons, messages.HighScores);
+        map.put(InvokeAfterMsg.cons, InvokeAfterMsg);
+        map.put(InvokeAfterMsgs.cons, InvokeAfterMsgs);
+        map.put(InitConnection.cons, InitConnection);
+        map.put(InvokeWithLayer.cons, InvokeWithLayer);
+        map.put(InvokeWithoutUpdates.cons, InvokeWithoutUpdates);
+        map.put(auth.CheckPhone.cons, auth.CheckPhone);
+        map.put(auth.SendCode.cons, auth.SendCode);
+        map.put(auth.SignUp.cons, auth.SignUp);
+        map.put(auth.SignIn.cons, auth.SignIn);
+        map.put(auth.LogOut.cons, auth.LogOut);
+        map.put(auth.ResetAuthorizations.cons, auth.ResetAuthorizations);
+        map.put(auth.SendInvites.cons, auth.SendInvites);
+        map.put(auth.ExportAuthorization.cons, auth.ExportAuthorization);
+        map.put(auth.ImportAuthorization.cons, auth.ImportAuthorization);
+        map.put(auth.BindTempAuthKey.cons, auth.BindTempAuthKey);
+        map.put(auth.ImportBotAuthorization.cons, auth.ImportBotAuthorization);
+        map.put(auth.CheckPassword.cons, auth.CheckPassword);
+        map.put(auth.RequestPasswordRecovery.cons, auth.RequestPasswordRecovery);
+        map.put(auth.RecoverPassword.cons, auth.RecoverPassword);
+        map.put(auth.ResendCode.cons, auth.ResendCode);
+        map.put(auth.CancelCode.cons, auth.CancelCode);
+        map.put(auth.DropTempAuthKeys.cons, auth.DropTempAuthKeys);
+        map.put(account.RegisterDevice.cons, account.RegisterDevice);
+        map.put(account.UnregisterDevice.cons, account.UnregisterDevice);
+        map.put(account.UpdateNotifySettings.cons, account.UpdateNotifySettings);
+        map.put(account.GetNotifySettings.cons, account.GetNotifySettings);
+        map.put(account.ResetNotifySettings.cons, account.ResetNotifySettings);
+        map.put(account.UpdateProfile.cons, account.UpdateProfile);
+        map.put(account.UpdateStatus.cons, account.UpdateStatus);
+        map.put(account.GetWallPapers.cons, account.GetWallPapers);
+        map.put(account.ReportPeer.cons, account.ReportPeer);
+        map.put(account.CheckUsername.cons, account.CheckUsername);
+        map.put(account.UpdateUsername.cons, account.UpdateUsername);
+        map.put(account.GetPrivacy.cons, account.GetPrivacy);
+        map.put(account.SetPrivacy.cons, account.SetPrivacy);
+        map.put(account.DeleteAccount.cons, account.DeleteAccount);
+        map.put(account.GetAccountTTL.cons, account.GetAccountTTL);
+        map.put(account.SetAccountTTL.cons, account.SetAccountTTL);
+        map.put(account.SendChangePhoneCode.cons, account.SendChangePhoneCode);
+        map.put(account.ChangePhone.cons, account.ChangePhone);
+        map.put(account.UpdateDeviceLocked.cons, account.UpdateDeviceLocked);
+        map.put(account.GetAuthorizations.cons, account.GetAuthorizations);
+        map.put(account.ResetAuthorization.cons, account.ResetAuthorization);
+        map.put(account.GetPassword.cons, account.GetPassword);
+        map.put(account.GetPasswordSettings.cons, account.GetPasswordSettings);
+        map.put(account.UpdatePasswordSettings.cons, account.UpdatePasswordSettings);
+        map.put(account.SendConfirmPhoneCode.cons, account.SendConfirmPhoneCode);
+        map.put(account.ConfirmPhone.cons, account.ConfirmPhone);
+        map.put(users.GetUsers.cons, users.GetUsers);
+        map.put(users.GetFullUser.cons, users.GetFullUser);
+        map.put(contacts.GetStatuses.cons, contacts.GetStatuses);
+        map.put(contacts.GetContacts.cons, contacts.GetContacts);
+        map.put(contacts.ImportContacts.cons, contacts.ImportContacts);
+        map.put(contacts.DeleteContact.cons, contacts.DeleteContact);
+        map.put(contacts.DeleteContacts.cons, contacts.DeleteContacts);
+        map.put(contacts.Block.cons, contacts.Block);
+        map.put(contacts.Unblock.cons, contacts.Unblock);
+        map.put(contacts.GetBlocked.cons, contacts.GetBlocked);
+        map.put(contacts.ExportCard.cons, contacts.ExportCard);
+        map.put(contacts.ImportCard.cons, contacts.ImportCard);
+        map.put(contacts.Search.cons, contacts.Search);
+        map.put(contacts.ResolveUsername.cons, contacts.ResolveUsername);
+        map.put(contacts.GetTopPeers.cons, contacts.GetTopPeers);
+        map.put(contacts.ResetTopPeerRating.cons, contacts.ResetTopPeerRating);
+        map.put(messages.GetMessages.cons, messages.GetMessages);
+        map.put(messages.GetDialogs.cons, messages.GetDialogs);
+        map.put(messages.GetHistory.cons, messages.GetHistory);
+        map.put(messages.Search.cons, messages.Search);
+        map.put(messages.ReadHistory.cons, messages.ReadHistory);
+        map.put(messages.DeleteHistory.cons, messages.DeleteHistory);
+        map.put(messages.DeleteMessages.cons, messages.DeleteMessages);
+        map.put(messages.ReceivedMessages.cons, messages.ReceivedMessages);
+        map.put(messages.SetTyping.cons, messages.SetTyping);
+        map.put(messages.SendMessage.cons, messages.SendMessage);
+        map.put(messages.SendMedia.cons, messages.SendMedia);
+        map.put(messages.ForwardMessages.cons, messages.ForwardMessages);
+        map.put(messages.ReportSpam.cons, messages.ReportSpam);
+        map.put(messages.HideReportSpam.cons, messages.HideReportSpam);
+        map.put(messages.GetPeerSettings.cons, messages.GetPeerSettings);
+        map.put(messages.GetChats.cons, messages.GetChats);
+        map.put(messages.GetFullChat.cons, messages.GetFullChat);
+        map.put(messages.EditChatTitle.cons, messages.EditChatTitle);
+        map.put(messages.EditChatPhoto.cons, messages.EditChatPhoto);
+        map.put(messages.AddChatUser.cons, messages.AddChatUser);
+        map.put(messages.DeleteChatUser.cons, messages.DeleteChatUser);
+        map.put(messages.CreateChat.cons, messages.CreateChat);
+        map.put(messages.ForwardMessage.cons, messages.ForwardMessage);
+        map.put(messages.GetDhConfig.cons, messages.GetDhConfig);
+        map.put(messages.RequestEncryption.cons, messages.RequestEncryption);
+        map.put(messages.AcceptEncryption.cons, messages.AcceptEncryption);
+        map.put(messages.DiscardEncryption.cons, messages.DiscardEncryption);
+        map.put(messages.SetEncryptedTyping.cons, messages.SetEncryptedTyping);
+        map.put(messages.ReadEncryptedHistory.cons, messages.ReadEncryptedHistory);
+        map.put(messages.SendEncrypted.cons, messages.SendEncrypted);
+        map.put(messages.SendEncryptedFile.cons, messages.SendEncryptedFile);
+        map.put(messages.SendEncryptedService.cons, messages.SendEncryptedService);
+        map.put(messages.ReceivedQueue.cons, messages.ReceivedQueue);
+        map.put(messages.ReadMessageContents.cons, messages.ReadMessageContents);
+        map.put(messages.GetAllStickers.cons, messages.GetAllStickers);
+        map.put(messages.GetWebPagePreview.cons, messages.GetWebPagePreview);
+        map.put(messages.ExportChatInvite.cons, messages.ExportChatInvite);
+        map.put(messages.CheckChatInvite.cons, messages.CheckChatInvite);
+        map.put(messages.ImportChatInvite.cons, messages.ImportChatInvite);
+        map.put(messages.GetStickerSet.cons, messages.GetStickerSet);
+        map.put(messages.InstallStickerSet.cons, messages.InstallStickerSet);
+        map.put(messages.UninstallStickerSet.cons, messages.UninstallStickerSet);
+        map.put(messages.StartBot.cons, messages.StartBot);
+        map.put(messages.GetMessagesViews.cons, messages.GetMessagesViews);
+        map.put(messages.ToggleChatAdmins.cons, messages.ToggleChatAdmins);
+        map.put(messages.EditChatAdmin.cons, messages.EditChatAdmin);
+        map.put(messages.MigrateChat.cons, messages.MigrateChat);
+        map.put(messages.SearchGlobal.cons, messages.SearchGlobal);
+        map.put(messages.ReorderStickerSets.cons, messages.ReorderStickerSets);
+        map.put(messages.GetDocumentByHash.cons, messages.GetDocumentByHash);
+        map.put(messages.SearchGifs.cons, messages.SearchGifs);
+        map.put(messages.GetSavedGifs.cons, messages.GetSavedGifs);
+        map.put(messages.SaveGif.cons, messages.SaveGif);
+        map.put(messages.GetInlineBotResults.cons, messages.GetInlineBotResults);
+        map.put(messages.SetInlineBotResults.cons, messages.SetInlineBotResults);
+        map.put(messages.SendInlineBotResult.cons, messages.SendInlineBotResult);
+        map.put(messages.GetMessageEditData.cons, messages.GetMessageEditData);
+        map.put(messages.EditMessage.cons, messages.EditMessage);
+        map.put(messages.EditInlineBotMessage.cons, messages.EditInlineBotMessage);
+        map.put(messages.GetBotCallbackAnswer.cons, messages.GetBotCallbackAnswer);
+        map.put(messages.SetBotCallbackAnswer.cons, messages.SetBotCallbackAnswer);
+        map.put(messages.GetPeerDialogs.cons, messages.GetPeerDialogs);
+        map.put(messages.SaveDraft.cons, messages.SaveDraft);
+        map.put(messages.GetAllDrafts.cons, messages.GetAllDrafts);
+        map.put(messages.GetFeaturedStickers.cons, messages.GetFeaturedStickers);
+        map.put(messages.ReadFeaturedStickers.cons, messages.ReadFeaturedStickers);
+        map.put(messages.GetRecentStickers.cons, messages.GetRecentStickers);
+        map.put(messages.SaveRecentSticker.cons, messages.SaveRecentSticker);
+        map.put(messages.ClearRecentStickers.cons, messages.ClearRecentStickers);
+        map.put(messages.GetArchivedStickers.cons, messages.GetArchivedStickers);
+        map.put(messages.GetMaskStickers.cons, messages.GetMaskStickers);
+        map.put(messages.GetAttachedStickers.cons, messages.GetAttachedStickers);
+        map.put(messages.SetGameScore.cons, messages.SetGameScore);
+        map.put(messages.SetInlineGameScore.cons, messages.SetInlineGameScore);
+        map.put(messages.GetGameHighScores.cons, messages.GetGameHighScores);
+        map.put(messages.GetInlineGameHighScores.cons, messages.GetInlineGameHighScores);
+        map.put(updates.GetState.cons, updates.GetState);
+        map.put(updates.GetDifference.cons, updates.GetDifference);
+        map.put(updates.GetChannelDifference.cons, updates.GetChannelDifference);
+        map.put(photos.UpdateProfilePhoto.cons, photos.UpdateProfilePhoto);
+        map.put(photos.UploadProfilePhoto.cons, photos.UploadProfilePhoto);
+        map.put(photos.DeletePhotos.cons, photos.DeletePhotos);
+        map.put(photos.GetUserPhotos.cons, photos.GetUserPhotos);
+        map.put(upload.SaveFilePart.cons, upload.SaveFilePart);
+        map.put(upload.GetFile.cons, upload.GetFile);
+        map.put(upload.SaveBigFilePart.cons, upload.SaveBigFilePart);
+        map.put(help.GetConfig.cons, help.GetConfig);
+        map.put(help.GetNearestDc.cons, help.GetNearestDc);
+        map.put(help.GetAppUpdate.cons, help.GetAppUpdate);
+        map.put(help.SaveAppLog.cons, help.SaveAppLog);
+        map.put(help.GetInviteText.cons, help.GetInviteText);
+        map.put(help.GetSupport.cons, help.GetSupport);
+        map.put(help.GetAppChangelog.cons, help.GetAppChangelog);
+        map.put(help.GetTermsOfService.cons, help.GetTermsOfService);
+        map.put(channels.ReadHistory.cons, channels.ReadHistory);
+        map.put(channels.DeleteMessages.cons, channels.DeleteMessages);
+        map.put(channels.DeleteUserHistory.cons, channels.DeleteUserHistory);
+        map.put(channels.ReportSpam.cons, channels.ReportSpam);
+        map.put(channels.GetMessages.cons, channels.GetMessages);
+        map.put(channels.GetParticipants.cons, channels.GetParticipants);
+        map.put(channels.GetParticipant.cons, channels.GetParticipant);
+        map.put(channels.GetChannels.cons, channels.GetChannels);
+        map.put(channels.GetFullChannel.cons, channels.GetFullChannel);
+        map.put(channels.CreateChannel.cons, channels.CreateChannel);
+        map.put(channels.EditAbout.cons, channels.EditAbout);
+        map.put(channels.EditAdmin.cons, channels.EditAdmin);
+        map.put(channels.EditTitle.cons, channels.EditTitle);
+        map.put(channels.EditPhoto.cons, channels.EditPhoto);
+        map.put(channels.CheckUsername.cons, channels.CheckUsername);
+        map.put(channels.UpdateUsername.cons, channels.UpdateUsername);
+        map.put(channels.JoinChannel.cons, channels.JoinChannel);
+        map.put(channels.LeaveChannel.cons, channels.LeaveChannel);
+        map.put(channels.InviteToChannel.cons, channels.InviteToChannel);
+        map.put(channels.KickFromChannel.cons, channels.KickFromChannel);
+        map.put(channels.ExportInvite.cons, channels.ExportInvite);
+        map.put(channels.DeleteChannel.cons, channels.DeleteChannel);
+        map.put(channels.ToggleInvites.cons, channels.ToggleInvites);
+        map.put(channels.ExportMessageLink.cons, channels.ExportMessageLink);
+        map.put(channels.ToggleSignatures.cons, channels.ToggleSignatures);
+        map.put(channels.UpdatePinnedMessage.cons, channels.UpdatePinnedMessage);
+        map.put(channels.GetAdminedPublicChannels.cons, channels.GetAdminedPublicChannels);
     
         return map;
     })();
