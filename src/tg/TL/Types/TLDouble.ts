@@ -5,7 +5,7 @@ export class TLDouble implements TLSerializable {
     readonly value: number;
 
     static deserialized(data: ByteStream): TLDouble | undefined {
-        const bytes = data.read(4);
+        const bytes = data.read(8);
         if (!bytes) return undefined;
 
         const double = new Float64Array(bytes)[0];
