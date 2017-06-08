@@ -86,7 +86,7 @@ export class IGE extends AES {
 }
 
 /**
- * Convert an array buffer to an array of four big-endian words.
+ * Convert an array buffer to an array of big-endian words.
  * @param buf
  * @returns {Uint32Array}
  */

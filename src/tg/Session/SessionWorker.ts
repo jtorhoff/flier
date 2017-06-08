@@ -34,11 +34,18 @@ const sessionClosed = (legacy: SessionLegacy) => {
 };
 
 const newServerSessionCreated = () => {
-    // TODO
+    if (authKey) {
+        sendMessage({
+            type: "newServerSessionCreated",
+        });
+    }
 };
 
 const receivedUpdates = (updates: API.UpdatesType) => {
-    // TODO
+    sendMessage({
+        type: "updates",
+        obj: updates.serialized(),
+    });
 };
 
 const generateKey = (temporary: boolean) => {
@@ -55,6 +62,10 @@ const generateKey = (temporary: boolean) => {
             } else {
                 authKey = key;
                 generateKey(true);
+                sendMessage({
+                    type: "authKey",
+                    obj: authKey,
+                });
             }
         }, () => {
             session!.close();

@@ -15,7 +15,7 @@ export class RSAPublicKey {
         const str = key
             .replace("-----BEGIN RSA PUBLIC KEY-----", "")
             .replace("-----END RSA PUBLIC KEY-----", "")
-            .replace("\n", "");
+            .replace(/\n|\s/g, "");
         // Decode base 64
         const data = atob(str);
         const bytes = new Uint8Array(data.length);

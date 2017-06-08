@@ -192,6 +192,15 @@ export class Session {
                 break;
             }
         }
+
+        // Acknowledge received messages
+        if (this.acknowledgments.length > 0) {
+            const ids: TLLong[] = [];
+            while (this.acknowledgments.length > 0) {
+                ids.push(this.acknowledgments.dequeue()!);
+            }
+            this.send(new MTProto.MsgsAck(new TLVector(...ids)));
+        }
     }
 
     private dispatchOutput() {
