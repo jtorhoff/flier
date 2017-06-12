@@ -17,8 +17,6 @@ export class HashMap<K extends Hashable, V> {
     private static readonly maxLoadFactor = 0.7;
     private static readonly numHashFunctions = 3;
 
-    private readonly universalHashFunction = new UniversalHashFunction<K>();
-
     private hashFunctions: HashFunction<K>[] = new Array(
         HashMap.numHashFunctions);
     private tables: (Entry<K, V> | undefined)[][] = new Array(
@@ -155,8 +153,7 @@ export class HashMap<K extends Hashable, V> {
      */
     private generateHashFunctions() {
         for (let i = 0; i < HashMap.numHashFunctions; i++) {
-            this.hashFunctions[i] = this.universalHashFunction
-                .randomHashFunction(this.tables[0].length);
+            this.hashFunctions[i] = randomHashFunction(this.tables[0].length);
         }
     }
 
@@ -241,36 +238,6 @@ class Entry<K extends Hashable, V> {
     }
 }
 
-class UniversalHashFunction<K extends Hashable> {
-    //noinspection JSMethodCanBeStatic
-    /**
-     * Produces a hash function from the given bucket size.
-     *
-     * @param buckets Bucket size
-     * @returns {HashFunction<K>}
-     */
-    randomHashFunction(buckets: number): HashFunction<K> {
-        // Compute log_2 of the number of buckets.
-        // This is the number of bits required to hold the number of buckets,
-        // minus one because we want to know the number of bits
-        // to index any of these buckets.
-        let lgBuckets = -1;
-        for (; buckets > 0; buckets >>>= 1) {
-            lgBuckets++;
-        }
-
-        return new HashFunction(
-            UniversalHashFunction.randomInt(),
-            UniversalHashFunction.randomInt(),
-            lgBuckets);
-    }
-
-    private static randomInt(): number {
-        const max = 2 ** 32 - 1;
-        return Math.floor(Math.random() * max);
-    }
-}
-
 class HashFunction<K extends Hashable> {
     /**
      * @param a First coefficient
@@ -289,3 +256,12 @@ class HashFunction<K extends Hashable> {
         return (upper * this.a + lower * this.b) >>> (32 - this.lgSize);
     }
 }
+
+const randomHashFunction = <K extends Hashable>(buckets: number): HashFunction<K> => {
+    return new HashFunction(randomInt(), randomInt(), Math.log2(buckets) >>> 0);
+};
+
+const randomInt = (): number => {
+    const max = 2 ** 32 - 1;
+    return Math.floor(Math.random() * max);
+};
