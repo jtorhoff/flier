@@ -23,14 +23,16 @@ export class HashMap<K extends Hashable, V> {
         HashMap.numHashFunctions);
     private count = 0;
 
+    /**
+     * @param initialCapacity The number of elements that the hash map will
+     * hold before having to grow and rehash.
+     */
     constructor(initialCapacity: number = HashMap.initialCapacity) {
-        //noinspection JSBitwiseOperatorUsage
-        if (initialCapacity <= 1 || (initialCapacity & (initialCapacity - 1))) {
-            throw new Error("initialCapacity must be a power of two");
-        }
+        const capacity = Math.floor(
+            initialCapacity / HashMap.maxLoadFactor / HashMap.numHashFunctions);
 
         for (let i = 0; i < HashMap.numHashFunctions; i++) {
-            this.tables[i] = new Array(initialCapacity);
+            this.tables[i] = new Array(capacity);
         }
 
         this.generateHashFunctions();
@@ -172,6 +174,7 @@ export class HashMap<K extends Hashable, V> {
      * Recompute the hash values of the entries and place them accordingly.
      */
     private rehash() {
+        console.log("rehash");
         const entries = this.entries;
         reinsert: while (true) {
             // Clear the tables
@@ -247,10 +250,11 @@ class HashFunction<K extends Hashable> {
     constructor(private a: number, private b: number, private lgSize: number) {}
 
     hash(object: K): number {
+        // console.log("hash");
         // Split the object's hash value into upper and lower bits
         const objHash = object.hashValue;
         const upper = objHash >>> 16;
-        const lower = objHash & (0xFFFF);
+        const lower = objHash & (0xffff);
 
         // Product of the bits shifted so that only lgSize bits remain
         return (upper * this.a + lower * this.b) >>> (32 - this.lgSize);

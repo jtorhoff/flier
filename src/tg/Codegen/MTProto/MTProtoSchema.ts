@@ -1408,7 +1408,7 @@ export namespace MTProto {
     }
 
     export const constructables = ((): HashMap<TLInt, any> => {
-        const map = new HashMap<TLInt, any>();
+        const map = new HashMap<TLInt, any>(40);
     
         map.put(ResPQ.cons, ResPQ);
         map.put(PQInnerData.cons, PQInnerData);

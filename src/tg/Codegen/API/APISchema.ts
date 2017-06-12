@@ -21178,7 +21178,7 @@ export namespace API {
     } // namespace channels
 
     export const constructables = ((): HashMap<TLInt, any> => {
-        const map = new HashMap<TLInt, any>();
+        const map = new HashMap<TLInt, any>(635);
     
         map.put(BoolFalse.cons, BoolFalse);
         map.put(BoolTrue.cons, BoolTrue);
