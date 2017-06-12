@@ -174,7 +174,6 @@ export class HashMap<K extends Hashable, V> {
      * Recompute the hash values of the entries and place them accordingly.
      */
     private rehash() {
-        console.log("rehash");
         const entries = this.entries;
         reinsert: while (true) {
             // Clear the tables
@@ -250,7 +249,6 @@ class HashFunction<K extends Hashable> {
     constructor(private a: number, private b: number, private lgSize: number) {}
 
     hash(object: K): number {
-        // console.log("hash");
         // Split the object's hash value into upper and lower bits
         const objHash = object.hashValue;
         const upper = objHash >>> 16;
