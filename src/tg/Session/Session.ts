@@ -298,30 +298,26 @@ export class Session {
     private processIncomingEncryptedMessage(message: TLEncryptedMessage) {
         const content = message.content;
         if (content instanceof MTProto.MsgContainer) {
-            if (!this.isValidServerMessageId(message.messageId)) {
-                for (let msg of content.messages) {
-                    if (msg.body instanceof MTProto.RpcResult) {
-                        this.onResults.remove(msg.body.reqMsgId);
-                        this.messagesAwaitingResponse.remove(msg.body.reqMsgId);
-                    }
-                }
-                return;
-            }
             for (let msg of content.messages) {
-                if (msg.body instanceof MTProto.RpcResult) {
-                    this.lastServerMessageIds.enqueue(msg.msgId);
-                    this.acknowledgments.enqueue(msg.msgId);
-                    this.processRPCResult(msg.body);
-                } else {
-                    this.processServiceMessage(msg.body, msg.msgId);
-                }
+                this.processIncomingEncryptedMessageContent(
+                    msg.msgId, msg.body);
             }
-        } else if (content instanceof MTProto.RpcResult) {
-            if (this.messagesAwaitingResponse.keys.find(
-                    key => key.equals(content.reqMsgId)) ||
-                this.isValidServerMessageId(message.messageId)) {
-                this.lastServerMessageIds.enqueue(message.messageId);
-                this.acknowledgments.enqueue(message.messageId);
+        } else {
+            this.processIncomingEncryptedMessageContent(
+                message.messageId, content);
+        }
+        this.lastMessageProcessedAt = this.serverTime();
+    }
+
+    private processIncomingEncryptedMessageContent(msgId: TLLong,
+                                                   content: TLObject) {
+        if (content instanceof MTProto.RpcResult) {
+            if (this.messagesAwaitingResponse.keys
+                    .find(key => key.equals(content.reqMsgId)) ||
+                this.isValidServerMessageId(msgId)) {
+
+                this.lastServerMessageIds.enqueue(msgId);
+                this.acknowledgments.enqueue(msgId);
                 this.processRPCResult(content);
             } else {
                 this.onResults.remove(content.reqMsgId);
@@ -336,9 +332,8 @@ export class Session {
                 this.messagesStateRequests.remove(stateReqMsgId.key);
             }
         } else {
-            this.processServiceMessage(message.content, message.messageId);
+            this.processServiceMessage(msgId, content);
         }
-        this.lastMessageProcessedAt = this.serverTime();
     }
 
     private processRPCResult(rpc: MTProto.RpcResult) {
@@ -374,7 +369,7 @@ export class Session {
         defer();
     }
 
-    private processServiceMessage(message: TLObject, messageId: TLLong) {
+    private processServiceMessage(messageId: TLLong, message: TLObject) {
         switch (message.constructor) {
             case MTProto.NewSessionCreated: {
                 this.acknowledgments.enqueue(messageId);
@@ -458,16 +453,13 @@ export class Session {
                     this.send(msgContainer);
                 } else {
                     const onResult = this.onResults.get(origReqMsgId);
-                    if (!onResult) {
-                        this.messagesStateRequests.remove(reqMsgId);
-                        break;
+                    if (onResult) {
+                        this.send(msg.content, onResult);
                     }
 
-                    this.send(msg.content, onResult);
                     this.messagesAwaitingResponse.remove(origReqMsgId);
                     this.onResults.remove(origReqMsgId);
                 }
-
             } break;
 
             case MTProto.MsgDetailedInfo: {
@@ -493,15 +485,20 @@ export class Session {
                 const object = deserializedObject(new ByteStream(unpacked));
                 if (!object) break;
 
-                this.processServiceMessage(object, messageId);
-
+                this.processServiceMessage(messageId, object);
             } break;
 
-            case API.Updates: {
+            case API.UpdatesTooLong:
+            case API.UpdateShortMessage:
+            case API.UpdateShortChatMessage:
+            case API.UpdateShort:
+            case API.UpdatesCombined:
+            case API.Updates:
+            case API.UpdateShortSentMessage: {
+                this.acknowledgments.enqueue(messageId);
                 if (this.delegate) {
                     this.delegate.receivedUpdates(message);
                 }
-
             } break;
 
             default: {
