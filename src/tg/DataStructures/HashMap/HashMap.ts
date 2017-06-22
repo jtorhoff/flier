@@ -16,6 +16,7 @@ export class HashMap<K extends Hashable, V> {
     private static readonly initialCapacity = 16;
     private static readonly maxLoadFactor = 0.7;
     private static readonly numHashFunctions = 3;
+    private static readonly allowedRehashes = 3;
 
     private hashFunctions: HashFunction<K>[] = new Array(
         HashMap.numHashFunctions);
@@ -62,14 +63,19 @@ export class HashMap<K extends Hashable, V> {
             this.grow();
         }
 
-        // Try to insert the entry, rehashing until success.
-        let toInsert: any = new Entry<K, V>(key, value);
-        while (true) {
-            toInsert = this.tryInsertEntry(toInsert);
-            if (typeof toInsert === "undefined") {
-                break;
+        insert: while (true) {
+            // Try to insert the entry, rehashing until success.
+            let toInsert: any = new Entry<K, V>(key, value);
+            for (let rehashes = 1;; rehashes++) {
+                toInsert = this.tryInsertEntry(toInsert);
+                if (typeof toInsert === "undefined") {
+                    break insert;
+                } else if (rehashes === HashMap.allowedRehashes) {
+                    this.grow();
+                    continue insert;
+                }
+                this.rehash();
             }
-            this.rehash();
         }
         this.count++;
     }
