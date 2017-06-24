@@ -34,7 +34,7 @@ export class Session {
     private readonly messagesAwaitingResponse
         = new HashMap<TLLong, TLEncryptedMessage>();
     private readonly messagesStateRequests = new HashMap<TLLong, TLLong>();
-    private readonly lastServerMessageIds = new EvictingQueue<TLLong>(32);
+    private readonly lastServerMessageIds = new EvictingQueue<TLLong>(128);
     private readonly monitoringIntervalId: number;
 
     private messageSequenceNumber = 0;
@@ -460,13 +460,20 @@ export class Session {
                     this.messagesAwaitingResponse.remove(origReqMsgId);
                     this.onResults.remove(origReqMsgId);
                 }
+
+                this.messagesStateRequests.remove(reqMsgId);
             } break;
 
             case MTProto.MsgDetailedInfo: {
                 const msg = message as MTProto.MsgDetailedInfo;
 
-                this.send(new MTProto.MsgResendReq(
-                    new TLVector<TLLong>(msg.answerMsgId)));
+                // Request to resend only if we haven't received the answer yet
+                if (!this.lastServerMessageIds.entries
+                        .find(msgId => msgId.equals(msg.answerMsgId))) {
+                    this.send(new MTProto.MsgResendReq(
+                        new TLVector<TLLong>(msg.answerMsgId)));
+                }
+
                 this.messagesStateRequests.remove(msg.msgId);
             } break;
 
