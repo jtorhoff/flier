@@ -42,27 +42,25 @@ export class Auth extends React.Component<Props, State> {
     render() {
         const StepComponent = steps[this.state.step];
         return (
-            <div style={containerStyle}>
-                <div style={style}>
-                    <style type="text/css">{transitionStyle}</style>
-                    <Card>
-                        <CSSTransitionGroup transitionName="transition"
-                                            component="div"
-                                            id="child-container"
-                                            transitionEnterTimeout={250}
-                                            transitionLeaveTimeout={250}>
-                            <StepComponent key={this.state.step}
-                                           ref={(ref: any) => ref && this.childDidRender(ref.ref)}
-                                           didUpdateState={(el: any) => this.childDidRender(el)}
-                                           nextStep={(s: any) => this.nextStep(s)}
-                                           phoneNumber={this.state.phoneNumber}
-                                           phoneCodeHash={this.state.phoneCodeHash}
-                                           sentCodeType={this.state.sentCodeType}
-                                           sentCodeLength={this.state.sentCodeLength}
-                                           phoneCode={this.state.phoneCode}/>
-                        </CSSTransitionGroup>
-                    </Card>
-                </div>
+            <div style={style}>
+                <style type="text/css">{transitionStyle}</style>
+                <Card>
+                    <CSSTransitionGroup transitionName="transition"
+                                        component="div"
+                                        id="child-container"
+                                        transitionEnterTimeout={250}
+                                        transitionLeaveTimeout={250}>
+                        <StepComponent key={this.state.step}
+                                       ref={(ref: any) => ref && this.childDidRender(ref.ref)}
+                                       didUpdateState={(el: any) => this.childDidRender(el)}
+                                       nextStep={(s: any) => this.nextStep(s)}
+                                       phoneNumber={this.state.phoneNumber}
+                                       phoneCodeHash={this.state.phoneCodeHash}
+                                       sentCodeType={this.state.sentCodeType}
+                                       sentCodeLength={this.state.sentCodeLength}
+                                       phoneCode={this.state.phoneCode}/>
+                    </CSSTransitionGroup>
+                </Card>
             </div>
         );
     }
@@ -84,12 +82,6 @@ const steps = {
     enterCode: EnterCode,
     signUp: SignUp,
     twoStep: TwoStepVerification,
-};
-
-const containerStyle: CSSProperties = {
-    width: "100%",
-    height: "100%",
-    background: "linear-gradient(45deg, rgba(77,160,202,1) 0%, rgba(82,184,176,1) 50%, rgba(82,184,176,1) 100%)",
 };
 
 const style: CSSProperties = {

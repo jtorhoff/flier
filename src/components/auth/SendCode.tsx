@@ -162,7 +162,7 @@ export class SendCode extends React.Component<Props, State> {
 
     render() {
         return (
-            <div ref={ref => this.ref = ref}>
+            <div ref={ref => this.ref = ref!}>
                 <CardTitle title="Sign in"
                            subtitle="Type in your phone number to proceed"/>
                 <CardText>
@@ -172,7 +172,7 @@ export class SendCode extends React.Component<Props, State> {
                                    errorText={this.state.error}
                                    value={this.state.phoneNumber}
                                    onChange={e => this.onInput(e)}
-                                   ref={input => this.inputRef = input}/>
+                                   ref={input => this.inputRef = input!}/>
                         <div style={{
                             display: "flex",
                             justifyContent: "center",

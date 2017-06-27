@@ -1,11 +1,11 @@
-import * as React from "react";
-import { CardTitle, CardText } from "material-ui/Card";
 import { RaisedButton, TextField } from "material-ui";
-import TextFieldProps = __MaterialUI.TextFieldProps;
+import { CardTitle, CardText } from "material-ui/Card";
+import * as React from "react";
+import { API } from "../../tg/Codegen/API/APISchema";
+import { ErrorType } from "../../tg/Session/DataCenter";
 import { tg } from "../App";
 import { shallowEquals } from "./Auth";
-import { API } from "../../tg/Codegen/API/APISchema";
-import { GenericError, ErrorType } from "../../tg/Session/DataCenter";
+import TextFieldProps = __MaterialUI.TextFieldProps;
 
 interface Props {
     didUpdateState: Function,
@@ -47,11 +47,8 @@ export class TwoStepVerification extends React.Component<Props, State> {
         this.setState({
             submitDisabled: true,
         });
-        tg.checkPassword(this.state.password).subscribe(
-            auth => {
-                // TODO
-            },
-            (error: GenericError) => {
+        tg.checkPassword(this.state.password).subscribe({
+            error: (error) => {
                 switch (error.type) {
                     case ErrorType.badRequest: {
                         switch (error.details) {
@@ -62,13 +59,15 @@ export class TwoStepVerification extends React.Component<Props, State> {
                                 });
                                 return;
                         }
-                    } break;
+                    }
+                        break;
                 }
                 this.setState({
                     error: `Unknown error occurred (${error.type}: ${error.details})`,
                     submitDisabled: false,
                 });
-            });
+            }
+        });
     }
 
     onInput(event: React.SyntheticEvent<TextFieldProps>) {
@@ -92,7 +91,7 @@ export class TwoStepVerification extends React.Component<Props, State> {
 
     render() {
         return (
-            <div ref={ref => this.ref = ref}>
+            <div ref={ref => this.ref = ref!}>
                 <CardTitle title="Two-step verification"
                            subtitle="You've enabled two-step verification for your account, please enter your password below"/>
                 <CardText>
@@ -104,11 +103,12 @@ export class TwoStepVerification extends React.Component<Props, State> {
                                    errorText={this.state.error}
                                    value={this.state.password}
                                    onChange={e => this.onInput(e)}
-                                   ref={input => this.inputRef = input}/>
+                                   ref={input => this.inputRef = input!}/>
                         <div style={{
                             display: "flex",
                             justifyContent: "center",
-                            margin: "30px auto 0"}}>
+                            margin: "30px auto 0"
+                        }}>
                             <RaisedButton label="Submit"
                                           type="submit"
                                           primary={true}

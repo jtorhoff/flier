@@ -1,29 +1,44 @@
 import { MuiThemeProvider, getMuiTheme } from "material-ui/styles";
+import * as moment from "moment";
 import "normalize.css";
 import * as React from "react";
+import { CSSProperties } from "react";
 import { AppConfig } from "../tg/AppConfig";
 import { TG } from "../tg/TG";
 import { Auth } from "./auth/Auth";
-import { Main } from "./Main";
+import { Main } from "./main/Main";
 
 interface Props {
 
 }
 
 interface State {
-    authorized: boolean;
+    authorized?: boolean;
 }
 
 export class App extends React.Component<Props, State> {
-    state = {
-        authorized: false,
+    state: State = {
+
     };
 
+    componentWillMount() {
+        tg.authorized.subscribe(authorized => {
+            this.setState({
+                authorized: authorized,
+            })
+        });
+    }
+
     render() {
-        let Component = this.state.authorized ? Main : Auth;
+        const Component = this.state.authorized ? Main : Auth;
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
-                <Component/>
+                <div style={containerStyle}>
+                    {
+                        typeof this.state.authorized !== "undefined" &&
+                        <Component/>
+                    }
+                </div>
             </MuiThemeProvider>
         );
     }
@@ -47,6 +62,12 @@ const muiTheme = getMuiTheme({
     },
 });
 
+const containerStyle: CSSProperties = {
+    width: "100%",
+    height: "100%",
+    background: "linear-gradient(45deg, rgba(77,160,202,1) 0%, rgba(82,184,176,1) 100%)",
+};
+
 const appConfig = new AppConfig(
     17622,
     "4c8d4f23ccabc463551f8594e7ec6355",
@@ -64,3 +85,5 @@ const appConfig = new AppConfig(
 );
 
 export const tg = new TG(appConfig);
+
+moment.locale(navigator.language);

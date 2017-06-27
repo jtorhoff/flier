@@ -7,36 +7,38 @@ import { API } from "../Codegen/API/APISchema";
 import { MTProto } from "../Codegen/MTProto/MTProtoSchema";
 import { ByteStream } from "../DataStructures/ByteStream";
 import { HashMap } from "../DataStructures/HashMap/HashMap";
-import { SecureRandom } from "../SecureRandom/SecureRandom";
 import { TLFunction } from "../TL/Interfaces/TLFunction";
 import { TLObject } from "../TL/Interfaces/TLObject";
 import { deserializedObject } from "../TL/TLObjectDeserializer";
 import { TLInt } from "../TL/Types/TLInt";
-import { TLLong } from "../TL/Types/TLLong";
 import { TLString } from "../TL/Types/TLString";
 import { defer } from "../Utils/DeferOperator";
 import { DataCenterDelegate } from "./DataCenterDelegate";
-import { MonotonicClock } from "../MonotonicClock/MonotonicClock";
 
 export class DataCenter {
     private readonly worker: Worker;
     private readonly requests = new Subject<Request>();
     private readonly onResults = new HashMap<TLInt, (_: TLObject) => void>();
     private readonly sessionInitialized = new BehaviorSubject(false);
+    private readonly dcOptionsSubject = new BehaviorSubject<API.DcOption[]>([]);
+    private readonly authorizedSubject = new BehaviorSubject(false);
 
     private reqId = 0;
+    private host?: string;
     private authKey?: Uint8Array;
-
-    dcId?: number;
-    dcOptions: API.DcOption[] = [];
+    private dcId?: number;
 
     delegate?: DataCenterDelegate;
 
-    constructor(readonly apiId: number,
-                readonly rsaKeys: string[],
-                readonly host: string,
-                authKey: Observable<Uint8Array | undefined>,
-                readonly withUpdates: boolean = false) {
+    get dcOptions(): Observable<API.DcOption[]> {
+        return this.dcOptionsSubject.asObservable();
+    }
+
+    get authorized(): Observable<boolean> {
+        return this.authorizedSubject.skip(1);
+    }
+
+    constructor(readonly apiId: number) {
         this.worker = new SessionWorker();
         this.worker.addEventListener("message", event => {
             switch (event.data.type) {
@@ -76,13 +78,15 @@ export class DataCenter {
                 } break;
 
                 case "newServerSessionCreated": {
-                    if (this.delegate && this.withUpdates) {
+                    if (this.delegate &&
+                        this.authorizedSubject.value &&
+                        this.delegate.shouldSyncUpdatesState) {
                         this.delegate.shouldSyncUpdatesState();
                     }
                 } break;
 
                 case "updates": {
-                    if (this.delegate && this.withUpdates) {
+                    if (this.delegate && this.delegate.receivedUpdates) {
                         this.delegate.receivedUpdates(
                             deserializedObject(new ByteStream(event.data.obj))!)
                     }
@@ -104,27 +108,63 @@ export class DataCenter {
 
         this.requests
             .defer(this.sessionInitialized)
+            .defer(this.authorizedSubject, request => {
+                return methodsNotRequiringAuthorization
+                    .find(c => c === request.content.constructor)
+            })
             .subscribe(request => {
                 this.send(request.content, request.onResult);
             });
 
-        authKey.subscribe(key => {
-            this.authKey = key;
-            this.worker.postMessage({
-                type: "init",
-                obj: {
-                    host: this.host,
-                    keys: rsaKeys,
-                    authKey: this.authKey,
-                },
-            });
+
+    }
+
+    init(rsaKeys: string[],
+         host: string,
+         authKey?: ArrayBuffer) {
+        this.host = host;
+        this.authKey = authKey ? new Uint8Array(authKey) : undefined;
+        this.worker.postMessage({
+            type: "init",
+            obj: {
+                host: host,
+                keys: rsaKeys,
+                authKey: this.authKey,
+            },
         });
+        this.authorizedSubject.next(!!this.authKey);
     }
 
     close() {
         this.worker.postMessage({
             type: "close",
         });
+        this.worker.terminate();
+        this.requests.unsubscribe();
+        this.sessionInitialized.unsubscribe();
+        this.authorizedSubject.unsubscribe();
+    }
+
+    importAuthorization(dc: DataCenter) {
+        dc.sessionInitialized
+            .filter(inited => inited)
+            .subscribe(() => {
+                const thisIp = this.host!.split(":")[0];
+                const dcOption = dc.dcOptionsSubject.value.find(dc => {
+                    return dc.ipAddress.string === thisIp;
+                });
+                if (!dcOption) {
+                    throw new Error();
+                }
+
+                const exportAuth = new API.auth.ExportAuthorization(dcOption.id);
+                dc.call(exportAuth).subscribe(
+                    (exportedAuth: API.auth.ExportedAuthorization) => {
+                        const importAuth = new API.auth.ImportAuthorization(
+                            exportedAuth.id, exportedAuth.bytes);
+                        this.call(importAuth).subscribe();
+                    });
+            });
     }
 
     call<ResultType extends TLObject>(fun: TLFunction<ResultType>): Observable<ResultType> {
@@ -134,21 +174,25 @@ export class DataCenter {
                 onResult: (result) => {
                     if (result instanceof MTProto.RpcError) {
                         const error = errorForRpcError(result);
-                        if (typeof error === "number") {
+                        if (error.type === ErrorType.seeOther) {
                             // TODO migrate
-                        } else {
-                            observer.error(error);
+                        } else if (error.type === ErrorType.unauthorized) {
+                            this.authorizedSubject.next(false);
                         }
+                        observer.error(error);
                     } else {
                         if (result instanceof API.auth.Authorization) {
                             if (this.delegate) {
                                 this.delegate.authorized(
                                     result.user.id.value,
                                     this.dcId!,
-                                    this.host,
+                                    this.host!,
                                     this.authKey!);
-                                this.delegate.shouldSyncUpdatesState();
+                                if (this.delegate.shouldSyncUpdatesState) {
+                                    this.delegate.shouldSyncUpdatesState();
+                                }
                             }
+                            this.authorizedSubject.next(true);
                         }
                         observer.next(result as ResultType);
                     }
@@ -189,7 +233,7 @@ export class DataCenter {
         this.send(invokeWithLayer, result => {
             if (result instanceof API.Config) {
                 this.dcId = result.thisDc.value;
-                this.dcOptions = result.dcOptions.items;
+                this.dcOptionsSubject.next(result.dcOptions.items);
                 this.worker.postMessage({
                     type: "acceptLegacy",
                 });
@@ -201,14 +245,17 @@ export class DataCenter {
     }
 }
 
-const errorForRpcError = (rpcError: MTProto.RpcError): GenericError | number => {
+const errorForRpcError = (rpcError: MTProto.RpcError): GenericError => {
     let error: GenericError | number;
     const errorMessage = rpcError.errorMessage.string;
     switch (rpcError.errorCode.value) {
         case 303: {
             const dcId = parseInt(errorMessage.replace(/[^0-9]/g, ""));
             if (Number.isInteger(dcId)) {
-                error = dcId;
+                error = {
+                    type: ErrorType.seeOther,
+                    dcId: dcId,
+                };
             } else {
                 error = {
                     type: ErrorType.internal,
@@ -270,6 +317,7 @@ const errorForRpcError = (rpcError: MTProto.RpcError): GenericError | number => 
 };
 
 export const enum ErrorType {
+    seeOther = 303,
     badRequest = 400,
     unauthorized = 401,
     forbidden = 403,
@@ -282,12 +330,23 @@ export interface GenericError {
     type: ErrorType,
     details?: string,
     waitFor?: number,
+    dcId?: number,
 }
 
 interface Request {
     content: TLObject,
     onResult: (_: TLObject) => void,
 }
+
+const methodsNotRequiringAuthorization: any[] = [
+    API.auth.SendCode,
+    API.auth.CheckPhone,
+    API.auth.SignUp,
+    API.auth.SignIn,
+    API.account.GetPassword,
+    API.auth.CheckPassword,
+    API.auth.ImportAuthorization,
+];
 
 // Add custom defer operator to the observable.
 Observable.prototype.defer = defer;

@@ -167,8 +167,8 @@ export class Session {
         }
 
         const lostResponses = this.onResults.keys.filter(msgId => {
-            // No response in >5 seconds?
-            return this.serverTime() - Session.timestampForMessageId(msgId) > 5000
+            // No response in >10 seconds?
+            return this.serverTime() - Session.timestampForMessageId(msgId) > 10000
                 && !this.requests.entries.find(({reqMsgId}) => reqMsgId.equals(msgId))
                 && !this.messagesStateRequests.keys.find(reqMsgId => reqMsgId.equals(msgId));
         });

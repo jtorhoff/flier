@@ -11,8 +11,7 @@
     "lib": [
       "dom",
       "es5",
-      "es6",
-      "scripthost"
+      "es6"
     ],
     "jsx": "react"
   },

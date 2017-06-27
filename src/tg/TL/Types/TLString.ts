@@ -3,6 +3,8 @@ import { TLSerializable } from "../Interfaces/TLSerializable";
 import { TLBytes } from "./TLBytes";
 
 export class TLString implements TLSerializable {
+    static readonly empty = new TLString("");
+
     static deserialized(data: ByteStream): TLString | undefined {
         const bytes = TLBytes.deserialized(data);
         if (!bytes) return undefined;

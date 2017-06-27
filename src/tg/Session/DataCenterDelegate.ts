@@ -6,8 +6,8 @@ export interface DataCenterDelegate {
                dcId: number,
                host: string,
                authKey: Uint8Array): void;
-    migrated(from: DataCenter, to: DataCenter): void;
+    migrated?(from: DataCenter, to: DataCenter): void;
 
-    shouldSyncUpdatesState(): void;
-    receivedUpdates(updates: API.UpdatesType): void;
+    shouldSyncUpdatesState?(): void;
+    receivedUpdates?(updates: API.UpdatesType): void;
 }

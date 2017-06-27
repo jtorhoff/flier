@@ -40,34 +40,32 @@ export class SignUp extends React.Component<Props, State> {
             this.props.phoneCodeHash,
             this.props.phoneCode,
             this.state.firstName,
-            this.state.lastName).subscribe(
-                auth => {
-                    // TODO
-                },
-                (error: GenericError) => {
-                    switch (error.type) {
-                        case ErrorType.badRequest: {
-                            switch (error.details) {
-                                case "FIRSTNAME_INVALID":
-                                    this.setState({
-                                        firstNameError: "Invalid first name",
-                                    });
-                                    break;
+            this.state.lastName).subscribe({
+            error: (error) => {
+                switch (error.type) {
+                    case ErrorType.badRequest: {
+                        switch (error.details) {
+                            case "FIRSTNAME_INVALID":
+                                this.setState({
+                                    firstNameError: "Invalid first name",
+                                });
+                                break;
 
-                                case "LASTNAME_INVALID":
-                                    this.setState({
-                                        lastNameError: "Invalid last name",
-                                    });
-                                    break;
-                            }
-                        } break;
+                            case "LASTNAME_INVALID":
+                                this.setState({
+                                    lastNameError: "Invalid last name",
+                                });
+                                break;
+                        }
+                    } break;
 
-                        default:
-                            this.setState({
-                                lastNameError: `Unknown error occurred (${error.type}: ${error.details})`,
-                            });
-                    }
-                });
+                    default:
+                        this.setState({
+                            lastNameError: `Unknown error occurred (${error.type}: ${error.details})`,
+                        });
+                }
+            }
+        });
     }
 
     onInput(event: React.SyntheticEvent<TextFieldProps>, field: "first" | "last") {
@@ -98,7 +96,7 @@ export class SignUp extends React.Component<Props, State> {
 
     render() {
         return (
-            <div ref={ref => this.ref = ref}>
+            <div ref={ref => this.ref = ref!}>
                 <CardTitle title="Almost there"
                            subtitle="Please fill out your name so that your friends can recognize you, you can always change it later"/>
                 <CardText>
@@ -108,7 +106,7 @@ export class SignUp extends React.Component<Props, State> {
                                    errorText={this.state.firstNameError}
                                    value={this.state.firstName}
                                    onChange={e => this.onInput(e, "first")}
-                                   ref={input => this.firstNameInputRef = input}/>
+                                   ref={input => this.firstNameInputRef = input!}/>
                         <TextField floatingLabelText="Last name (optional)"
                                    fullWidth={true}
                                    errorText={this.state.lastNameError}
@@ -117,7 +115,8 @@ export class SignUp extends React.Component<Props, State> {
                         <div style={{
                             display: "flex",
                             justifyContent: "center",
-                            margin: "30px auto 0"}}>
+                            margin: "30px auto 0"
+                        }}>
                             <RaisedButton label="Sign up"
                                           type="submit"
                                           primary={true}
