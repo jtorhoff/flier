@@ -11,8 +11,9 @@ export class TLVector<T extends TLSerializable> implements TLObject {
     static deserialized<U extends TLSerializable>(
         data: ByteStream, prototype?: any): TLVector<U> | undefined {
         const constructor = TLInt.deserialized(data);
-        if (!constructor || !constructor.equals(this.cons))
+        if (!constructor || !constructor.equals(this.cons)) {
             return undefined;
+        }
 
         const count = TLInt.deserialized(data);
         if (!count) return undefined;
@@ -38,11 +39,11 @@ export class TLVector<T extends TLSerializable> implements TLObject {
     serialized(): Uint8Array {
         const constructor = TLVector.cons.serialized();
         const count = new TLInt(this.items.length).serialized();
-        const items: Uint8Array[] = [];
+        const items: Uint8Array[] = new Array(this.items.length);
 
-        this.items.forEach(item => {
-            items.push(item.serialized());
-        });
+        for (let i = 0; i < this.items.length; i++) {
+            items[i] = this.items[i].serialized();
+        }
 
         return concat(constructor, count, ...items);
     }
