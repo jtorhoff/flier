@@ -39,7 +39,7 @@ export class Session {
 
     private messageSequenceNumber = 0;
     private lastMessageProcessedAt = this.serverTime();
-    closed = false;
+    private closed = false;
 
     delegate?: SessionDelegate;
 

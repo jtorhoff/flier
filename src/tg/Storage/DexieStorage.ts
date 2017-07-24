@@ -6,6 +6,7 @@ import { Observable } from "rxjs/Observable";
 import { API } from "../Codegen/API/APISchema";
 import { ByteStream } from "../DataStructures/ByteStream";
 import { deserializedObject } from "../TL/TLObjectDeserializer";
+import { TLInt } from "../TL/Types/TLInt";
 import { concat } from "../Utils/BytesConcat";
 import { PersistentStorage } from "./PersistentStorage";
 
@@ -40,11 +41,11 @@ export class DexieStorage implements PersistentStorage.Storage {
 
     writeAuthorization(auth: PersistentStorage.Authorization): Observable<any> {
         return Observable.fromPromise(
-            this.db.authorizations.add(auth)
+            this.db.authorizations.put(auth)
         );
     }
 
-    removeAuthorization(dcId: number): Observable<any> {
+    deleteAuthorization(dcId: number): Observable<any> {
         return Observable.fromPromise(
             this.db.authorizations.delete(dcId)
         );
@@ -81,17 +82,17 @@ export class DexieStorage implements PersistentStorage.Storage {
     }
 
     readChats(...ids: number[]): Observable<Array<API.ChatType>> {
-        return Observable.fromPromise(this.db.chats.where({ id: ids }).toArray())
+        return Observable.fromPromise(this.db.chats.where("id").anyOf(ids).toArray())
             .map(chats => {
                 return chats.map(chat => {
-                    return deserializedObject(new ByteStream(new Uint8Array(chat.chat)))
+                    return deserializedObject(new ByteStream(new Uint8Array(chat.chat))) as API.ChatType
                 })
             });
     }
 
-    writeChats(chats: API.ChatType[]): Observable<any> {
+    writeChats(...chats: API.ChatType[]): Observable<any> {
         return Observable.fromPromise(
-            this.db.chats.bulkAdd(chats.map(chat => {
+            this.db.chats.bulkPut(chats.map(chat => {
                 return {
                     id: chat.id.value,
                     chat: chat.serialized().buffer,
@@ -100,44 +101,185 @@ export class DexieStorage implements PersistentStorage.Storage {
         );
     }
 
+    deleteChats(...ids: number[]): Observable<any> {
+        return Observable.fromPromise(
+            this.db.chats.bulkDelete(ids)
+        );
+    }
+
     readUsers(...ids: number[]): Observable<Array<API.UserType>> {
-        return Observable.fromPromise(this.db.users.where({ id: ids }).toArray())
+        return Observable.fromPromise(this.db.users.where("id").anyOf(ids).toArray())
             .map(users => {
                 return users.map(user => {
-                    return deserializedObject(new ByteStream(new Uint8Array(user.user)))
+                    return deserializedObject(new ByteStream(new Uint8Array(user.user))) as API.UserType
                 })
             });
     }
 
-    writeUsers(users: API.UserType[]): Observable<any> {
+    writeUsers(...users: API.UserType[]): Observable<any> {
         return Observable.fromPromise(
-            this.db.chats.bulkAdd(users.map(user => {
+            this.db.users.bulkPut(users.map(user => {
                 return {
                     id: user.id.value,
-                    chat: user.serialized().buffer,
+                    user: user.serialized().buffer,
                 }
             }))
+        );
+    }
+
+    deleteUsers(...ids: number[]): Observable<any> {
+        return Observable.fromPromise(
+            this.db.users.bulkDelete(ids)
+        );
+    }
+
+    updateUser(id: number, update: Partial<API.User>): Observable<API.User | undefined> {
+        return Observable.fromPromise(
+            this.db.transaction("rw!", this.db.users, async () => {
+                const user = await this.db.users.where("id").equals(id).first();
+                if (!user) return;
+
+                const apiUser = deserializedObject(
+                    new ByteStream(new Uint8Array(user.user)));
+                if (apiUser instanceof API.User) {
+                    partialAssign(apiUser, update);
+                    await this.db.users.put({
+                        id: id,
+                        user: apiUser.serialized().buffer,
+                    });
+
+                    return apiUser;
+                }
+
+                return undefined;
+            })
         );
     }
 
     readMessages(...ids: number[]): Observable<Array<API.MessageType>> {
-        return Observable.fromPromise(this.db.messages.where({ id: ids }).toArray())
+        return Observable.fromPromise(this.db.messages.where("id").anyOf(ids).toArray())
             .map(messages => {
                 return messages.map(msg => {
-                    return deserializedObject(new ByteStream(new Uint8Array(msg.message)))
+                    return deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType
                 })
             });
     }
 
-    writeMessages(messages: API.MessageType[]): Observable<any> {
+    writeMessages(...messages: API.MessageType[]): Observable<any> {
         return Observable.fromPromise(
-            this.db.chats.bulkAdd(messages.map(msg => {
+            this.db.messages.bulkPut(messages.map(msg => {
+                let peer: ["u" | "g" | "c", number] | undefined = undefined;
+                if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                    if (msg.toId instanceof API.PeerChat ||
+                        msg.toId instanceof API.PeerChannel ||
+                        (msg.toId && msg.out)) {
+                        if (msg.toId instanceof API.PeerChat) {
+                            peer = ["g", msg.toId.chatId.value];
+                            // peer = { chatId: msg.toId.chatId.value };
+                        } else if (msg.toId instanceof API.PeerChannel) {
+                            peer = ["c", msg.toId.channelId.value];
+                            // peer = { channelId: msg.toId.channelId.value };
+                        } else if (msg.toId instanceof API.PeerUser) {
+                            peer = ["u", msg.toId.userId.value];
+                            // peer = { userId: msg.toId.userId.value };
+                        }
+                    } else if (msg.fromId) {
+                        peer = ["u", msg.fromId.value];
+
+                        // peer = { userId: msg.fromId.value };
+                    }
+                }
+
                 return {
                     id: msg.id.value,
-                    chat: msg.serialized().buffer,
+                    // randomId: 0,
+                    message: msg.serialized().buffer,
+                    peer: peer,
                 }
             }))
         );
+    }
+
+    deleteMessages(...ids: number[]): Observable<any> {
+        return Observable.fromPromise(
+            this.db.transaction("rw!", this.db.messages, async () => {
+                const msgs = await this.db.messages.where("id").anyOf(ids).toArray();
+
+                const result: Array<{ peer: API.PeerType, msgId: number }> = [];
+                for (let msg of msgs) {
+                    if (!msg.peer) continue;
+                    let peer: API.PeerType;
+                    switch (msg.peer[0]) {
+                        case "u":
+                            peer = new API.PeerUser(new TLInt(msg.peer[1]));
+                            break;
+
+                        case "g":
+                            peer = new API.PeerChat(new TLInt(msg.peer[1]));
+                            break;
+
+                        case "c":
+                            peer = new API.PeerChannel(new TLInt(msg.peer[1]));
+                            break;
+                    }
+
+                    result.push({
+                        peer: peer!,
+                        msgId: msg.id,
+                    })
+                }
+
+                await this.db.messages.bulkDelete(ids);
+                return result;
+            })
+        );
+    }
+
+    updateMessage(id: number, update: Partial<API.Message & API.MessageService>): Observable<API.Message | API.MessageService | undefined> {
+        return Observable.fromPromise(
+            this.db.transaction("rw!", this.db.messages, async () => {
+                const message = await this.db.messages.where("id").equals(id).first();
+                if (!message) return;
+
+                const apiMessage = deserializedObject(
+                    new ByteStream(new Uint8Array(message.message)));
+                if (apiMessage instanceof API.Message) {
+                    partialAssign(apiMessage, update);
+                } else if (apiMessage instanceof API.MessageService) {
+                    partialAssign(apiMessage, update);
+                } else {
+                    return undefined;
+                }
+
+                await this.db.messages.put({
+                    id: id,
+                    message: apiMessage.serialized().buffer,
+                });
+
+                return apiMessage;
+            })
+        );
+    }
+
+    readTopMessage(peer: API.PeerType): Observable<API.MessageType | undefined> {
+        let dbPeer: ["u" | "g" | "c", number];
+        if (peer instanceof API.PeerUser) {
+            dbPeer = ["u", peer.userId.value];
+        } else if (peer instanceof API.PeerChat) {
+            dbPeer = ["g", peer.chatId.value];
+        } else if (peer instanceof API.PeerChannel) {
+            dbPeer = ["c", peer.channelId.value];
+        } else {
+            throw new Error();
+        }
+
+        return Observable.fromPromise(
+            this.db.messages.where("peer").equals(dbPeer).reverse().limit(1).sortBy("id")
+        ).map(messages => {
+            return messages.map(msg => {
+                return deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType
+            })
+        }).flatMap(messages => messages);
     }
 
     readFile(location: API.FileLocation): Observable<Blob | undefined> {
@@ -195,7 +337,7 @@ class Database extends Dexie {
             updatesState: "_,date,pts,qts,seq",
             chats: "id,chat",
             users: "id,user",
-            messages: "id,message",
+            messages: "id,message,randomId,peer",
             files: "key,data,complete",
         });
     }
@@ -207,3 +349,7 @@ class Database extends Dexie {
 interface constKey {
     _: 0,
 }
+
+const partialAssign = <T>(target: T, source: Partial<T>) => {
+    Object.assign(target, source);
+};

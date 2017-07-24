@@ -7,6 +7,7 @@
     "dexie": "^2.0.0-beta",
     "fast-sha256": "^1.0.0",
     "google-libphonenumber": "^2.0.15",
+    "immutable": "^3.8.1",
     "long": "^3.2.0",
     "material-ui": "^0.18.1",
     "moment": "^2.18.1",
@@ -41,7 +42,7 @@
     "mocha": "^3.4.1",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.13.1",
-    "typescript": "2.3.4",
+    "typescript": "^2.4.1",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5",
     "worker-loader": "^0.8.0"

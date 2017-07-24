@@ -12,7 +12,7 @@ import { TLObject } from "../TL/Interfaces/TLObject";
 import { deserializedObject } from "../TL/TLObjectDeserializer";
 import { TLInt } from "../TL/Types/TLInt";
 import { TLString } from "../TL/Types/TLString";
-import { defer } from "../Utils/DeferOperator";
+import "../Utils/DeferOperator";
 import { DataCenterDelegate } from "./DataCenterDelegate";
 
 export class DataCenter {
@@ -20,6 +20,7 @@ export class DataCenter {
     private readonly requests = new Subject<Request>();
     private readonly onResults = new HashMap<TLInt, (_: TLObject) => void>();
     private readonly sessionInitialized = new BehaviorSubject(false);
+    private readonly configSubject = new BehaviorSubject<API.Config | undefined>(undefined);
     private readonly dcOptionsSubject = new BehaviorSubject<API.DcOption[]>([]);
     private readonly authorizedSubject = new BehaviorSubject(false);
 
@@ -36,6 +37,10 @@ export class DataCenter {
 
     get authorized(): Observable<boolean> {
         return this.authorizedSubject.skip(1);
+    }
+
+    get config(): API.Config | undefined {
+        return this.configSubject.getValue();
     }
 
     constructor(readonly apiId: number) {
@@ -115,8 +120,6 @@ export class DataCenter {
             .subscribe(request => {
                 this.send(request.content, request.onResult);
             });
-
-
     }
 
     init(rsaKeys: string[],
@@ -233,6 +236,7 @@ export class DataCenter {
         this.send(invokeWithLayer, result => {
             if (result instanceof API.Config) {
                 this.dcId = result.thisDc.value;
+                this.configSubject.next(result);
                 this.dcOptionsSubject.next(result.dcOptions.items);
                 this.worker.postMessage({
                     type: "acceptLegacy",
@@ -347,11 +351,3 @@ const methodsNotRequiringAuthorization: any[] = [
     API.auth.CheckPassword,
     API.auth.ImportAuthorization,
 ];
-
-// Add custom defer operator to the observable.
-Observable.prototype.defer = defer;
-declare module "rxjs/Observable" {
-    interface Observable<T> {
-        defer: typeof defer;
-    }
-}

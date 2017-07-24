@@ -1,8 +1,8 @@
 import "rxjs/add/observable/of";
 import { Observable } from "rxjs/Observable";
 import { API } from "../Codegen/API/APISchema";
-import { Hashable } from "../DataStructures/HashMap/Hashable";
 import { HashMap } from "../DataStructures/HashMap/HashMap";
+import { HashableFileLocation } from "../Hashable/HashableFileLocation";
 import { DataCenter } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { FileDownloader } from "./FileDownloader";
@@ -11,7 +11,7 @@ export class FileManager {
     private downloaders = new HashMap<HashableFileLocation, FileDownloader>();
 
     constructor(private storage: PersistentStorage.Storage,
-                private requestDc: (dcId: number) => Observable<DataCenter | undefined>) {
+                private requestDc: (dcId: number) => Observable<DataCenter>) {
 
     }
 
@@ -58,22 +58,5 @@ export class FileManager {
                 downloader.dispatchDownload();
             }
         });
-    }
-}
-
-class HashableFileLocation extends API.FileLocation implements Hashable {
-    constructor(file: API.FileLocation) {
-        super(file.dcId, file.volumeId, file.localId, file.secret);
-    }
-
-    get hashValue(): number {
-        return this.volumeId.hashValue ^ this.localId.hashValue ^ this.secret.hashValue;
-    }
-
-    equals(to: HashableFileLocation): boolean {
-        return this.dcId.equals(to.dcId)
-            && this.volumeId.equals(to.volumeId)
-            && this.localId.equals(to.localId)
-            && this.secret.equals(to.secret);
     }
 }

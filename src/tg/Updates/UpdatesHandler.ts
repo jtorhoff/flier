@@ -1,10 +1,18 @@
+import * as moment from "moment";
+import "rxjs/add/observable/never";
+import "rxjs/add/operator/switchMap";
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import { tg } from "../../components/App";
+import { API } from "../Codegen/API/APISchema";
+import { convenienceMessageFor } from "../Convenience/MessageFor";
+import { HashMap } from "../DataStructures/HashMap/HashMap";
+import { HashablePeer } from "../Hashable/HashablePeer";
 import { DataCenter } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
-import { API } from "../Codegen/API/APISchema";
 import { TLVector } from "../TL/Types/TLVector";
 import { Update } from "./Update";
-import { Subject } from "rxjs/Subject";
 
 export class UpdatesHandler {
     private state: UpdatesState = {
@@ -52,7 +60,7 @@ export class UpdatesHandler {
                 this.applyUpdatesState({
                     date: update.date.value,
                 });
-                this.processUpdate(update);
+                this.processUpdate(update.update);
             } break;
 
             case API.UpdatesCombined: {
@@ -110,8 +118,8 @@ export class UpdatesHandler {
     }
 
     private applyUpdatesState(state: Partial<UpdatesState>) {
-        this.state = {...this.state, state};
-        this.storage.writeUpdatesState(this.state);
+        this.state = { ...this.state, ...state };
+        this.storage.writeUpdatesState(this.state).subscribe();
     }
 
     private obtainUpdatesDifference() {
@@ -164,13 +172,13 @@ export class UpdatesHandler {
         users: TLVector<API.UserType>
     }>) {
         if (updates.messages) {
-            this.storage.writeMessages(updates.messages.items);
+            this.storage.writeMessages(...updates.messages.items).subscribe();
         }
         if (updates.chats) {
-            this.storage.writeChats(updates.chats.items);
+            this.storage.writeChats(...updates.chats.items).subscribe();
         }
         if (updates.users) {
-            this.storage.writeUsers(updates.users.items);
+            this.storage.writeUsers(...updates.users.items).subscribe();
         }
         if (updates.updates) {
             for (let update of updates.updates.items) {
@@ -178,7 +186,45 @@ export class UpdatesHandler {
             }
         }
 
-        // TODO send notifications
+        if (updates.messages) {
+            for (let message of updates.messages.items) {
+                const fromId = (message as API.Message & API.MessageService)
+                    .fromId;
+                if (!fromId) continue;
+
+                this.storage.readUsers(fromId.value).subscribe(
+                    user => {
+                        if (user[0]) {
+                            const msg = convenienceMessageFor(message, user[0]);
+                            if (msg) {
+                                this.updates.next(new Update.NewMessage(msg));
+                            }
+                        }
+                    });
+            }
+        }
+
+        if (updates.chats) {
+            for (let chat of updates.chats.items) {
+                if (chat instanceof API.Chat) {
+                    this.updates.next(new Update.Chat(chat));
+                } else if (chat instanceof API.ChatForbidden) {
+                    this.updates.next(new Update.Chat(chat));
+                } else if (chat instanceof API.Channel) {
+                    this.updates.next(new Update.Channel(chat));
+                } else if (chat instanceof API.ChannelForbidden) {
+                    this.updates.next(new Update.Channel(chat));
+                }
+            }
+        }
+
+        if (updates.users) {
+            for (let user of updates.users.items) {
+                if (user instanceof API.User) {
+                    this.updates.next(new Update.User(user));
+                }
+            }
+        }
     }
 
     private processUpdate(update: API.UpdateType | API.UpdateShortSentMessage) {
@@ -187,7 +233,7 @@ export class UpdatesHandler {
             const pts = meta.pts;
             const ptsCount = meta.ptsCount;
 
-            if (pts <= this.state.pts) {
+            if (pts < this.state.pts) {
                 return;
             }
 
@@ -210,44 +256,121 @@ export class UpdatesHandler {
     }
 
     private applyUpdate(update: API.UpdateType | API.UpdateShortSentMessage) {
-        // TODO
-
         switch (update.constructor) {
-            case API.UpdateNewMessage:
-                break;
+            case API.UpdateNewMessage: {
+                const message = (update as API.UpdateNewMessage).message;
+                this.storage.writeMessages(message).subscribe();
 
-            case API.UpdateMessageID:
-                break;
+                const fromId = (message as API.Message & API.MessageService)
+                    .fromId;
+                if (!fromId) break;
 
-            case API.UpdateDeleteMessages:
-                break;
+                this.storage.readUsers(fromId.value).subscribe(
+                    user => {
+                        if (user[0]) {
+                            const msg = convenienceMessageFor(message, user[0]);
+                            if (msg) {
+                                this.updates.next(new Update.NewMessage(msg));
+                            }
+                        }
+                    });
+            } break;
+
+            case API.UpdateMessageID: {
+                // TODO
+            } break;
+
+            case API.UpdateDeleteMessages: {
+                const ids = (update as API.UpdateDeleteMessages).messages
+                    .items.map(id => id.value);
+                this.storage.deleteMessages(...ids).subscribe(msgs => {
+                    const map = new HashMap<HashablePeer, Array<number>>();
+                    for (let msg of msgs) {
+                        const peer = new HashablePeer(msg.peer);
+                        const list = map.get(peer);
+                        if (list) {
+                            list.push(msg.msgId);
+                        } else {
+                            map.put(peer, [msg.msgId]);
+                        }
+                    }
+                    this.updates.next(new Update.DeleteMessages(map));
+                });
+            } break;
 
             case API.UpdateUserTyping:
-                break;
+            case API.UpdateChatUserTyping: {
+                const upd = update as API.UpdateUserTyping & API.UpdateChatUserTyping;
+                let peer: API.PeerChat | API.PeerUser;
+                if (upd.chatId) {
+                    peer = new API.PeerChat(upd.chatId);
+                } else {
+                    peer = new API.PeerUser(upd.userId);
+                }
 
-            case API.UpdateChatUserTyping:
-                break;
+                this.storage.readUsers(upd.userId.value)
+                    .map(users => users[0])
+                    .subscribe(user => {
+                        if (user instanceof API.User) {
+                            this.updates.next(
+                                new Update.UserTyping(
+                                    peer,
+                                    user,
+                                    upd.action,
+                                    moment().unix() + tg.offlineBlurTimeout / 1000));
+                        }
+                    });
+            } break;
 
             case API.UpdateChatParticipants:
+                // TODO
                 break;
 
-            case API.UpdateUserStatus:
-                break;
+            case API.UpdateUserStatus: {
+                const upd = update as API.UpdateUserStatus;
+                this.storage.updateUser(upd.userId.value, { status: upd.status })
+                    .subscribe(user => {
+                        if (user) {
+                            this.updates.next(new Update.User(user));
+                        }
+                    });
+            } break;
 
-            case API.UpdateUserName:
-                break;
+            case API.UpdateUserName: {
+                const upd = update as API.UpdateUserName;
+                this.storage.updateUser(upd.userId.value, {
+                    firstName: upd.firstName,
+                    lastName: upd.lastName,
+                    username: upd.firstName,
+                }).subscribe(user => {
+                    if (user) {
+                        this.updates.next(new Update.User(user));
+                    }
+                });
+            } break;
 
-            case API.UpdateUserPhoto:
-                break;
+            case API.UpdateUserPhoto: {
+                const upd = update as API.UpdateUserPhoto;
+                this.storage.updateUser(upd.userId.value, {
+                    photo: upd.photo,
+                }).subscribe(user => {
+                    if (user) {
+                        this.updates.next(new Update.User(user));
+                    }
+                });
+            } break;
 
-            case API.UpdateContactRegistered:
-                break;
+            case API.UpdateContactRegistered: {
+                // TODO
+            } break;
 
-            case API.UpdateContactLink:
-                break;
+            case API.UpdateContactLink: {
+                // TODO
+            } break;
 
-            case API.UpdateNewAuthorization:
-                break;
+            case API.UpdateNewAuthorization: {
+                // TODO
+            } break;
 
             case API.UpdateNewEncryptedMessage:
                 break;
@@ -261,119 +384,206 @@ export class UpdatesHandler {
             case API.UpdateEncryptedMessagesRead:
                 break;
 
-            case API.UpdateChatParticipantAdd:
-                break;
+            case API.UpdateChatParticipantAdd: {
+                // TODO
+            } break;
 
-            case API.UpdateChatParticipantDelete:
-                break;
+            case API.UpdateChatParticipantDelete: {
+                // TODO
+            } break;
 
-            case API.UpdateDcOptions:
-                break;
+            case API.UpdateDcOptions: {
+                // TODO
+            } break;
 
-            case API.UpdateUserBlocked:
-                break;
+            case API.UpdateUserBlocked: {
+                // TODO
+            } break;
 
-            case API.UpdateNotifySettings:
-                break;
+            case API.UpdateNotifySettings: {
+                // TODO
+            } break;
 
-            case API.UpdateServiceNotification:
-                break;
+            case API.UpdateServiceNotification: {
+                // TODO
+            } break;
 
-            case API.UpdatePrivacy:
-                break;
+            case API.UpdatePrivacy: {
+                // TODO
+            } break;
 
-            case API.UpdateUserPhone:
-                break;
+            case API.UpdateUserPhone: {
+                const upd = update as API.UpdateUserPhone;
+                this.storage.updateUser(upd.userId.value, {
+                    phone: upd.phone,
+                }).subscribe(user => {
+                    if (user) {
+                        this.updates.next(new Update.User(user));
+                    }
+                });
+            } break;
 
-            case API.UpdateReadHistoryInbox:
-                break;
+            case API.UpdateReadHistoryInbox: {
+                const upd = update as API.UpdateReadHistoryInbox;
+                this.updates.next(new Update.ReadHistoryInbox(upd.peer, upd.maxId.value));
+            } break;
 
-            case API.UpdateReadHistoryOutbox:
-                break;
+            case API.UpdateReadHistoryOutbox: {
+                const upd = update as API.UpdateReadHistoryOutbox;
+                this.updates.next(new Update.ReadHistoryOutbox(upd.peer, upd.maxId.value));
+            } break;
 
-            case API.UpdateWebPage:
-                break;
+            case API.UpdateWebPage: {
+                // TODO
+            } break;
 
-            case API.UpdateReadMessagesContents:
-                break;
+            case API.UpdateReadMessagesContents: {
+                const upd = update as API.UpdateReadMessagesContents;
+                for (let msgId of upd.messages.items) {
+                    this.storage.updateMessage(msgId.value, {
+                        mediaUnread: false,
+                    }).switchMap(msg => {
+                        if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                            if (msg.fromId) {
+                                return this.storage.readUsers(msg.fromId.value)
+                                    .map(users => [msg, users[0]]);
+                            }
+                        }
+                        return Observable.never();
+                    }).map((msgUser: [API.MessageType, API.UserType]) => {
+                        if (msgUser && msgUser[1]) {
+                            return convenienceMessageFor(msgUser[0], msgUser[1]);
+                        }
+                        return undefined;
+                    }).subscribe(msg => {
+                        if (msg) {
+                            this.updates.next(new Update.EditMessage(msg));
+                        }
+                    });
+                }
+            } break;
 
-            case API.UpdateChannelTooLong:
-                break;
+            case API.UpdateChannelTooLong: {
+                // TODO
+            } break;
 
-            case API.UpdateChannel:
-                break;
+            case API.UpdateChannel: {
+                // TODO
+            } break;
 
-            case API.UpdateNewChannelMessage:
-                break;
+            case API.UpdateNewChannelMessage: {
+                // TODO
+            } break;
 
-            case API.UpdateReadChannelInbox:
-                break;
+            case API.UpdateReadChannelInbox: {
+                // TODO
+            } break;
 
-            case API.UpdateDeleteChannelMessages:
-                break;
+            case API.UpdateDeleteChannelMessages: {
+                // TODO
+            } break;
 
-            case API.UpdateChannelMessageViews:
-                break;
+            case API.UpdateChannelMessageViews: {
+                // TODO
+            } break;
 
-            case API.UpdateChatAdmins:
-                break;
+            case API.UpdateChatAdmins: {
+                // TODO
+            } break;
 
-            case API.UpdateChatParticipantAdmin:
-                break;
+            case API.UpdateChatParticipantAdmin: {
+                // TODO
+            } break;
 
-            case API.UpdateNewStickerSet:
-                break;
+            case API.UpdateNewStickerSet: {
+                // TODO
+            } break;
 
-            case API.UpdateStickerSetsOrder:
-                break;
+            case API.UpdateStickerSetsOrder: {
+                // TODO
+            } break;
 
-            case API.UpdateStickerSets:
-                break;
+            case API.UpdateStickerSets: {
+                // TODO
+            } break;
 
-            case API.UpdateSavedGifs:
-                break;
+            case API.UpdateSavedGifs: {
+                // TODO
+            } break;
 
-            case API.UpdateBotInlineQuery:
-                break;
+            case API.UpdateBotInlineQuery: {
+                // TODO
+            } break;
 
-            case API.UpdateBotInlineSend:
-                break;
+            case API.UpdateBotInlineSend: {
+                // TODO
+            } break;
 
-            case API.UpdateEditChannelMessage:
-                break;
+            case API.UpdateEditChannelMessage: {
+                // TODO
+            } break;
 
-            case API.UpdateChannelPinnedMessage:
-                break;
+            case API.UpdateChannelPinnedMessage: {
+                // TODO
+            } break;
 
-            case API.UpdateBotCallbackQuery:
-                break;
+            case API.UpdateBotCallbackQuery: {
+                // TODO
+            } break;
 
-            case API.UpdateEditMessage:
-                break;
+            case API.UpdateEditMessage: {
+                const upd = update as API.UpdateEditMessage;
+                this.storage.writeMessages(upd.message).switchMap(msg => {
+                    if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                        if (msg.fromId) {
+                            return this.storage.readUsers(msg.fromId.value)
+                                .map(users => [msg, users[0]]);
+                        }
+                    }
+                    return Observable.never();
+                }).map((msgUser: [API.MessageType, API.UserType]) => {
+                    if (msgUser && msgUser[1]) {
+                        return convenienceMessageFor(msgUser[0], msgUser[1]);
+                    }
+                    return undefined;
+                }).subscribe(msg => {
+                    if (msg) {
+                        this.updates.next(new Update.EditMessage(msg));
+                    }
+                });
+            } break;
 
-            case API.UpdateInlineBotCallbackQuery:
-                break;
+            case API.UpdateInlineBotCallbackQuery: {
+                // TODO
+            } break;
 
-            case API.UpdateReadChannelOutbox:
-                break;
+            case API.UpdateReadChannelOutbox: {
+                // TODO
+            } break;
 
-            case API.UpdateDraftMessage:
-                break;
+            case API.UpdateDraftMessage: {
+                const upd = update as API.UpdateDraftMessage;
+                this.updates.next(new Update.DraftMessage(upd.peer, upd.draft));
+            } break;
 
-            case API.UpdateReadFeaturedStickers:
-                break;
+            case API.UpdateReadFeaturedStickers: {
+                // TODO
+            } break;
 
-            case API.UpdateRecentStickers:
-                break;
+            case API.UpdateRecentStickers: {
+                // TODO
+            } break;
 
-            case API.UpdateConfig:
-                break;
+            case API.UpdateConfig: {
+                // TODO
+            } break;
 
             case API.UpdatePtsChanged:
                 break;
 
-            case API.UpdateShortSentMessage:
-                break;
+            case API.UpdateShortSentMessage: {
+                // TODO
+            } break;
 
             default:
                 throw new Error();
@@ -407,13 +617,13 @@ export class UpdatesHandler {
 
     private static metadataForUpdate(update: API.UpdateType | API.UpdateShortSentMessage): { pts: number, ptsCount: number, channel: boolean } | undefined {
         let channel = false;
-        let pts = (update as any).pts;
-        let ptsCount = (update as any).ptsCount || 0;
+        let pts: TLInt = (update as any).pts;
+        let ptsCount: TLInt = (update as any).ptsCount || new TLInt(0);
 
         if (pts) {
             return {
-                pts: pts,
-                ptsCount: ptsCount,
+                pts: pts.value,
+                ptsCount: ptsCount.value,
                 channel: channel,
             }
         }

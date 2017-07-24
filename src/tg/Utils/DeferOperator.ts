@@ -69,3 +69,11 @@ class DeferSubscriber<T> extends Subscriber<T> {
 
     }
 }
+
+// Add custom defer operator to the observable.
+Observable.prototype.defer = defer;
+declare module "rxjs/Observable" {
+    interface Observable<T> {
+        defer: typeof defer;
+    }
+}

@@ -3,11 +3,13 @@ import { lightBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";
+import { API } from "../../tg/Codegen/API/APISchema";
 import { Chat } from "../../tg/TG";
 import { Avatar } from "../misc/Avatar";
 
 interface Props {
     chat: Chat,
+    typing: Array<{ readonly user: API.User, readonly action: API.SendMessageActionType }>,
 }
 
 interface State {
@@ -15,24 +17,56 @@ interface State {
 }
 
 export class ChatsListItem extends React.Component<Props, State> {
+    title: string;
+    readableDate: string;
+    message: string;
+
+    constructor(props: Props) {
+        super(props);
+
+        this.title = this.props.chat.title;
+        this.readableDate = readableDate(this.props.chat.topMessage.date);
+        this.message = this.props.chat.topMessage.toString();
+    }
+
+    componentWillReceiveProps(props: Props) {
+        this.title = props.chat.title;
+        this.readableDate = readableDate(props.chat.topMessage.date);
+        this.message = props.chat.topMessage.toString();
+    }
+
     render() {
         return (
             <ListItem
                 leftAvatar={
                     <Avatar id={this.props.chat.peerId}
-                            title={this.props.chat.title}
+                            title={this.title}
                             photo={this.props.chat.photoSmall}/>
                 }
                 primaryText={
                     <span style={primaryTextStyle}>
-                        <span style={{ marginRight: 12, fontWeight: 500 }}>
+                        <span style={{
+                            marginRight: 12,
+                            fontWeight: 500,
+                            wordBreak: "break-all"
+                        }}>
                             {
-                                this.props.chat.title
+                                this.title
                             }
                         </span>
                         <span style={primaryTextDateStyle}>
+                            { !isLastMessageRead(this.props.chat) &&
+                                <span style={{
+                                    width: 8,
+                                    height: 8,
+                                    background: "rgba(42,174,245,1)",
+                                    display: "inline-flex",
+                                    marginRight: 8,
+                                    borderRadius: "50%",
+                                }}/>
+                            }
                             {
-                                readableDate(this.props.chat.topMessage.date)
+                                this.readableDate
                             }
                         </span>
                     </span>
@@ -45,7 +79,7 @@ export class ChatsListItem extends React.Component<Props, State> {
                             color: "rgb(117,117,117)"
                         }}>
                             {
-                                this.props.chat.topMessage.toString()
+                                this.props.typing && this.props.typing.length > 0 ? typingElement : this.message
                             }
                         </span>
                         {
@@ -61,6 +95,14 @@ export class ChatsListItem extends React.Component<Props, State> {
         );
     }
 }
+
+const typingElement = <span
+    className="typing"
+    style={{ fontStyle: "italic" }}>typing<span>.</span><span>.</span><span>.</span></span>;
+
+const isLastMessageRead = (chat: Chat): boolean => {
+    return chat.readOutboxMaxId === chat.topMessage.id || !chat.topMessage.out;
+};
 
 const readableDate = (timestamp: number): string => {
     const now = moment();
@@ -90,6 +132,7 @@ const primaryTextDateStyle: CSSProperties = {
     marginLeft: "auto",
     fontSize: 12,
     color: lightBlack,
+    flexShrink: 0,
 };
 
 const secondaryTextStyle: CSSProperties = {

@@ -9,14 +9,17 @@ export class TLString implements TLSerializable {
         const bytes = TLBytes.deserialized(data);
         if (!bytes) return undefined;
 
-        const string = new TextDecoder().decode(bytes.bytes);
+        const string = decoder.decode(bytes.bytes);
 
         return new TLString(string);
     }
 
     serialized(): Uint8Array {
-        return new TLBytes(new TextEncoder().encode(this.string)).serialized();
+        return new TLBytes(encoder.encode(this.string)).serialized();
     }
 
     constructor(readonly string: string) {}
 }
+
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();

@@ -42,6 +42,6 @@ export class TLInt implements TLSerializable, Hashable {
             throw new Error("value can't be NaN");
         }
         // Force value to a 32-bit integer
-        this.value = value >>> 0;
+        this.value = value | 0;
     }
 }

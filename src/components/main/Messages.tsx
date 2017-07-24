@@ -20,6 +20,6 @@ export class Messages extends React.Component<Props, State> {
 }
 
 const style: CSSProperties = {
-    flexGrow: 1,
-    width: "100%",
+    flexGrow: 2,
+    minWidth: 320,
 };

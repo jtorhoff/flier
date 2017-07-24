@@ -3,6 +3,7 @@ import * as moment from "moment";
 import "normalize.css";
 import * as React from "react";
 import { CSSProperties } from "react";
+import { Subscription } from "rxjs/Subscription";
 import { AppConfig } from "../tg/AppConfig";
 import { TG } from "../tg/TG";
 import { Auth } from "./auth/Auth";
@@ -17,16 +18,20 @@ interface State {
 }
 
 export class App extends React.Component<Props, State> {
-    state: State = {
+    state: State = {};
+    authorizedSubscription: Subscription;
 
-    };
+    componentDidMount() {
+        this.authorizedSubscription = tg.authorized
+            .subscribe(authorized => {
+                this.setState({
+                    authorized: authorized,
+                })
+            });
+    }
 
-    componentWillMount() {
-        tg.authorized.subscribe(authorized => {
-            this.setState({
-                authorized: authorized,
-            })
-        });
+    componentWillUnmount() {
+        this.authorizedSubscription.unsubscribe();
     }
 
     render() {

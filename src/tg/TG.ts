@@ -3,9 +3,13 @@ import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/skip";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
 import { AppConfig } from "./AppConfig";
 import { API } from "./Codegen/API/APISchema";
-import { Hashable } from "./DataStructures/HashMap/Hashable";
+import { ConvenienceChat } from "./Convenience/Chat";
+import { convenienceChatsArrayForDialogs } from "./Convenience/ChatsArrayForDialog";
+import { ConvenienceMessage } from "./Convenience/Message";
+import { convenienceMessageFor } from "./Convenience/MessageFor";
 import { FileManager } from "./Files/FileManager";
 import { DataCenter, ErrorType } from "./Session/DataCenter";
 import { sha256 } from "./SHA/SHA";
@@ -13,13 +17,18 @@ import { PersistentStorage } from "./Storage/PersistentStorage";
 import { TLBytes } from "./TL/Types/TLBytes";
 import { TLInt } from "./TL/Types/TLInt";
 import { TLString } from "./TL/Types/TLString";
+import { Update } from "./Updates/Update";
 import { UpdatesHandler } from "./Updates/UpdatesHandler";
 import { concat } from "./Utils/BytesConcat";
+
+export type Chat = ConvenienceChat;
+export type Message = ConvenienceMessage;
 
 export class TG {
     private readonly storage = PersistentStorage.defaultStorage;
     private readonly authorizedSubject = new BehaviorSubject(false);
     private readonly fileDataCenters: { [index: number]: DataCenter } = {};
+    private readonly updatesSubject = new Subject<Update>();
 
     private mainDataCenter: DataCenter;
     private updatesHandler: UpdatesHandler;
@@ -66,11 +75,12 @@ export class TG {
             });
 
         this.mainDataCenter.authorized.subscribe(this.authorizedSubject);
+        this.updatesHandler.updates.subscribe(this.updatesSubject);
     }
 
     private initFileManager() {
         this.fileManager = new FileManager(this.storage, (dcId) => {
-            return new Observable<DataCenter | undefined>(observer => {
+            return new Observable<DataCenter>(observer => {
                 this.mainDataCenter.dcOptions.subscribe(options => {
                     if (this.fileDataCenters[dcId]) {
                         observer.next(this.fileDataCenters[dcId]);
@@ -119,7 +129,7 @@ export class TG {
                     dc.authorized.skip(1).subscribe(auth => {
                         if (!auth) {
                             dc.close();
-                            this.storage.removeAuthorization(dcId);
+                            this.storage.deleteAuthorization(dcId);
                             delete this.fileDataCenters[dcId];
                         }
                     });
@@ -162,6 +172,19 @@ export class TG {
 
     get authorized(): Observable<boolean> {
         return this.authorizedSubject.skip(1);
+    }
+
+    get updates(): Observable<Update> {
+        return this.updatesSubject.asObservable();
+    }
+
+    get offlineBlurTimeout(): number {
+        const config = this.mainDataCenter.config;
+        if (config) {
+            return config.offlineBlurTimeoutMs.value;
+        }
+
+        return 0;
     }
 
     sendCode(phoneNumber: string): Observable<API.auth.SentCode> {
@@ -243,355 +266,30 @@ export class TG {
 
         return this.mainDataCenter.call(fun)
             .map((dialogs: API.messages.DialogsType) => {
-                return chatsArrayForDialogs(dialogs);
+                return convenienceChatsArrayForDialogs(dialogs);
             });
     }
 
     getFile(location: API.FileLocation): Observable<Blob> {
         return this.fileManager.getFile(location);
     }
-}
 
-export class Chat {
-    private _unreadCount: number;
-
-    constructor(readonly peer: API.PeerType,
-                readonly readInboxMaxId: number,
-                readonly readOutboxMaxId: number,
-                unreadCount: number,
-                readonly topMessage: Message,
-                readonly kind: ChatKind) {
-        this._unreadCount = unreadCount;
-    }
-
-    get unreadCount(): number {
-        return this._unreadCount;
-    }
-
-    get inputPeer(): API.InputPeerType {
-        switch (this.kind.kind) {
-            case "dialog": {
-                if (this.kind.user instanceof API.User &&
-                    this.kind.user.accessHash) {
-                    return new API.InputPeerUser(
-                        this.kind.user.id, this.kind.user.accessHash);
-                }
-            }
-                break;
-
-            case "group":
-                return new API.InputPeerChat(this.kind.chat.id);
-
-            case "channel": {
-                if (this.kind.channel instanceof API.User &&
-                    this.kind.channel.accessHash) {
-                    return new API.InputPeerChannel(
-                        this.kind.channel.id, this.kind.channel.accessHash);
-                }
-            }
-                break;
-        }
-
-        return new API.InputPeerEmpty();
-    }
-
-    get peerId(): number {
-        if (this.peer instanceof API.PeerUser) {
-            return this.peer.userId.value;
-        } else if (this.peer instanceof API.PeerChat) {
-            return this.peer.chatId.value;
-        } else if (this.peer instanceof API.PeerChannel) {
-            return this.peer.channelId.value;
-        }
-
-        return 0;
-    }
-
-    get photoSmall(): API.FileLocation | undefined {
-        switch (this.kind.kind) {
-            case "dialog": {
-                const user = this.kind.user;
-                if (user instanceof API.User) {
-                    if (user.photo instanceof API.UserProfilePhoto) {
-                        if (user.photo.photoSmall instanceof API.FileLocation) {
-                            return user.photo.photoSmall;
-                        }
+    getTopMessageForPeer(peer: API.PeerType): Observable<ConvenienceMessage | undefined> {
+        return this.storage.readTopMessage(peer)
+            .switchMap(msg => {
+                if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                    if (msg.fromId) {
+                        return this.storage.readUsers(msg.fromId.value)
+                            .map(users => [msg, users[0]]);
                     }
                 }
-            }
-                break;
 
-            case "group": {
-                const chat = this.kind.chat;
-                if (chat instanceof API.Chat) {
-                    if (chat.photo instanceof API.ChatPhoto) {
-                        if (chat.photo.photoSmall instanceof API.FileLocation) {
-                            return chat.photo.photoSmall;
-                        }
-                    }
+                return Observable.never();
+            }).map((msgUser: [API.MessageType, API.UserType]) => {
+                if (msgUser && msgUser[1]) {
+                    return convenienceMessageFor(msgUser[0], msgUser[1]);
                 }
-            }
-                break;
-
-            case "channel": {
-                const channel = this.kind.channel;
-                if (channel instanceof API.Channel) {
-                    if (channel.photo instanceof API.ChatPhoto) {
-                        if (channel.photo.photoSmall instanceof API.FileLocation) {
-                            return channel.photo.photoSmall;
-                        }
-                    }
-                }
-            }
-                break;
-        }
-
-        return undefined;
-    }
-
-    get title(): string {
-        let title: string | undefined;
-
-        switch (this.kind.kind) {
-            case "dialog": {
-                const user = this.kind.user;
-                if (user instanceof API.User) {
-                    const firstName = user.firstName || TLString.empty;
-                    const lastName = user.lastName || TLString.empty;
-                    title = [firstName.string, lastName.string]
-                        .join(" ")
-                        .trim();
-                }
-            }
-                break;
-
-            case "group": {
-                const group = this.kind.chat;
-                if (group instanceof API.Chat) {
-                    title = group.title.string;
-                } else if (group instanceof API.ChatForbidden) {
-                    title = group.title.string;
-                }
-            }
-                break;
-
-            case "channel": {
-                const channel = this.kind.channel;
-                if (channel instanceof API.Channel) {
-                    title = channel.title.string;
-                } else if (channel instanceof API.ChannelForbidden) {
-                    title = channel.title.string;
-                }
-            }
-                break;
-        }
-
-        if (title && title !== "") {
-            return title;
-        }
-
-        return "Not Available";
-    }
-}
-
-type ChatKind =
-    { kind: "dialog", user: API.UserType } |
-    { kind: "group", chat: API.ChatType } |
-    { kind: "channel", channel: API.ChatType };
-
-export class Message {
-    readonly id: number;
-    readonly date: number;
-    readonly out: boolean;
-    readonly mentioned: boolean;
-    readonly silent: boolean;
-    readonly post: boolean;
-    readonly from?: API.UserType;
-    readonly to?: API.PeerType;
-    readonly fwdFrom?: { userId: number, date: number } |
-        { channelId: number, postId: number, date: number };
-    readonly viaBotId?: number;
-    readonly replyToMsgId?: number;
-    readonly message?: string;
-    readonly media?: API.MessageMediaType;
-    readonly entities?: Array<API.MessageEntityType>;
-    readonly views?: number;
-    readonly editDate?: number;
-    readonly action?: API.MessageActionType;
-
-    constructor(message: {
-        id: number,
-        date: number,
-        out: boolean,
-        mentioned: boolean,
-        silent: boolean,
-        post: boolean,
-        from?: API.UserType,
-        to?: API.PeerType,
-        fwdFrom?: { userId: number, date: number } |
-            { channelId: number, postId: number, date: number },
-        viaBotId?: number,
-        replyToMsgId?: number,
-        message?: string,
-        media?: API.MessageMediaType,
-        entities?: Array<API.MessageEntityType>,
-        views?: number,
-        editDate?: number,
-        action?: API.MessageActionType,
-    }) {
-        this.id = message.id;
-        this.date = message.date;
-        this.out = message.out;
-        this.mentioned = message.mentioned;
-        this.silent = message.silent;
-        this.post = message.post;
-        this.from = message.from;
-        this.to = message.to;
-        this.fwdFrom = message.fwdFrom;
-        this.viaBotId = message.viaBotId;
-        this.replyToMsgId = message.replyToMsgId;
-        this.message = message.message;
-        this.media = message.media;
-        this.entities = message.entities;
-        this.views = message.views;
-        this.editDate = message.editDate;
-        this.action = message.action;
-    }
-
-    toString(): string {
-        if (this.message) {
-            return this.message;
-        }
-
-        return "Not supported yet";
-    }
-}
-
-const chatsArrayForDialogs = (dialogs: API.messages.DialogsType): Array<Chat> => {
-    const result: Chat[] = [];
-
-    for (let dialog of dialogs.dialogs.items) {
-        const message = dialogs.messages.items
-            .find(item => item.id.equals(dialog.topMessage));
-        if (!message) continue;
-
-        let kind: ChatKind;
-        switch (dialog.peer.constructor) {
-            case API.PeerUser: {
-                const peer = dialog.peer as API.PeerUser;
-                kind = {
-                    kind: "dialog",
-                    user: dialogs.users.items
-                        .find(item => item.id.equals(peer.userId))!
-                };
-            }
-                break;
-
-            case API.PeerChat: {
-                const peer = dialog.peer as API.PeerChat;
-                kind = {
-                    kind: "group",
-                    chat: dialogs.chats.items
-                        .find(item => item.id.equals(peer.chatId))!
-                };
-            }
-                break;
-
-            case API.PeerChannel: {
-                const peer = dialog.peer as API.PeerChannel;
-                kind = {
-                    kind: "channel",
-                    channel: dialogs.chats.items
-                        .find(item => item.id.equals(peer.channelId))!
-                };
-            }
-                break;
-
-            default:
-                continue;
-        }
-
-        let msg: Message | undefined;
-        let fromId = (message as API.Message & API.MessageService).fromId;
-        if (fromId) {
-            const from = dialogs.users.items
-                .find(item => item.id.equals(fromId!));
-            msg = messageFor(message, from);
-        } else {
-            msg = messageFor(message);
-        }
-        if (!msg) continue;
-
-        const chat = new Chat(
-            dialog.peer,
-            dialog.readInboxMaxId.value,
-            dialog.readOutboxMaxId.value,
-            dialog.unreadCount.value,
-            msg,
-            kind);
-
-        result.push(chat);
-    }
-
-    return result;
-};
-
-const messageFor = (message: API.MessageType, from?: API.UserType): Message | undefined => {
-    if (message instanceof API.MessageEmpty) {
-        return undefined;
-    }
-
-    const msg = message as (API.Message & API.MessageService);
-    let fwdFrom;
-    if (msg.fwdFrom) {
-        const fwd = msg.fwdFrom;
-        if (fwd.fromId) {
-            fwdFrom = { userId: fwd.fromId.value, date: fwd.date.value };
-        } else if (fwd.channelId && fwd.channelPost) {
-            fwdFrom = {
-                channelId: fwd.channelId.value,
-                postId: fwd.channelPost.value,
-                date: fwd.date.value
-            };
-        } else {
-            throw new Error();
-        }
-    }
-
-    return new Message({
-        id: msg.id.value,
-        date: msg.date.value,
-        out: msg.out,
-        mentioned: msg.mentioned,
-        silent: msg.silent,
-        post: msg.post,
-        from: from,
-        to: msg.toId,
-        fwdFrom: fwdFrom,
-        viaBotId: msg.viaBotId ? msg.viaBotId.value : undefined,
-        replyToMsgId: msg.replyToMsgId ? msg.replyToMsgId.value : undefined,
-        message: msg.message ? msg.message.string : undefined,
-        media: msg.media,
-        entities: msg.entities ? msg.entities.items : undefined,
-        views: msg.views ? msg.views.value : undefined,
-        editDate: msg.editDate ? msg.editDate.value : undefined,
-        action: msg.action,
-    });
-};
-
-class HashableFileLocation extends API.FileLocation implements Hashable {
-    constructor(file: API.FileLocation) {
-        super(file.dcId, file.volumeId, file.localId, file.secret);
-    }
-
-    get hashValue(): number {
-        return this.volumeId.hashValue ^ this.localId.hashValue ^ this.secret.hashValue;
-    }
-
-    equals(to: HashableFileLocation): boolean {
-        return this.dcId.equals(to.dcId)
-            && this.volumeId.equals(to.volumeId)
-            && this.localId.equals(to.localId)
-            && this.secret.equals(to.secret);
+                return undefined;
+            });
     }
 }

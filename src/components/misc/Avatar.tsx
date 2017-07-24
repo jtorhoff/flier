@@ -33,7 +33,7 @@ interface State {
 export class Avatar extends React.Component<Props, State> {
     initials: string;
     color: string;
-    photoSubscription: Subscription;
+    photoSubscription?: Subscription;
 
     state: State = {
         photoDataURL: undefined,
@@ -46,23 +46,35 @@ export class Avatar extends React.Component<Props, State> {
         this.color = hashColor(props.id);
     }
 
+    private loadPhoto(photo: API.FileLocation) {
+        if (this.photoSubscription) {
+            this.photoSubscription.unsubscribe();
+        }
+        this.photoSubscription = tg.getFile(photo)
+            .flatMap(blob => blobToDataURL(blob))
+            .subscribe(dataURL => {
+                this.setState({
+                    photoDataURL: dataURL,
+                });
+            });
+    }
+
     componentWillReceiveProps(props: Props) {
         this.initials = extractInitials(props.title);
         this.color = hashColor(props.id);
+
+        if (props.photo && !fileEqual(props.photo, this.props.photo)) {
+            this.loadPhoto(props.photo);
+        } else if (!props.photo && this.state.photoDataURL) {
+            this.setState({
+                photoDataURL: undefined,
+            });
+        }
     }
 
     componentDidMount() {
         if (this.props.photo) {
-            this.photoSubscription = tg.getFile(this.props.photo)
-                .flatMap(blob => blobToDataURL(blob))
-                .subscribe(dataURL => {
-                        this.setState({
-                            photoDataURL: dataURL,
-                        });
-                    },
-                    error => {
-                        console.log("!err", error);
-                    });
+            this.loadPhoto(this.props.photo);
         }
     }
 
@@ -75,13 +87,11 @@ export class Avatar extends React.Component<Props, State> {
     render() {
         return (
             <MuiAvatar style={style} backgroundColor={
-                this.state.photoDataURL ? "rgba(0,0,0,0)" : this.color
+                this.state.photoDataURL ? "#fff" : this.color
             }>
                 {this.state.photoDataURL ? (
-                    <img style={{
-                        width: "100%",
-                        height: "100%",
-                    }} src={this.state.photoDataURL}/>
+                    <img style={{ width: "100%", height: "100%", }}
+                         src={this.state.photoDataURL}/>
                 ) : (
                     this.initials
                 )}
@@ -128,4 +138,15 @@ const style: CSSProperties = {
     left: 16,
     top: 16,
     overflow: "hidden",
+};
+
+const fileEqual = (a?: API.FileLocation, b?: API.FileLocation): boolean => {
+    if (!a || !b) {
+        return false;
+    }
+
+    return a.dcId.equals(b.dcId)
+        && a.volumeId.equals(b.volumeId)
+        && a.localId.equals(b.localId)
+        && a.secret.equals(b.secret);
 };

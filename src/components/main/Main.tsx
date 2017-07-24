@@ -28,7 +28,9 @@ const style: CSSProperties = {
     left: "50%",
     top: "50%",
     transform: "translate(-50%, -50%)",
-    width: 960,
+    width: "80vw",
     height: "calc(100% - 68px)",
+    maxWidth: 960,
+    minWidth: 560,
     display: "flex",
 };

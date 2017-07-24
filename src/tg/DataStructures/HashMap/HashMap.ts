@@ -266,7 +266,7 @@ class HashFunction<K extends Hashable> {
 }
 
 const randomHashFunction = <K extends Hashable>(buckets: number): HashFunction<K> => {
-    return new HashFunction(randomInt(), randomInt(), Math.log2(buckets) >>> 0);
+    return new HashFunction(randomInt(), randomInt(), Math.log2(buckets) | 0);
 };
 
 const randomInt = (): number => {
