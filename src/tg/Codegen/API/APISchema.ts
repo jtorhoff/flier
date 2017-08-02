@@ -2298,7 +2298,7 @@ export namespace API {
             if (!notifySettings) return undefined;
             const exportedInvite = deserializedObject(_data) as ExportedChatInviteType;
             if (!exportedInvite) return undefined;
-            const botInfo = TLVector.deserialized(_data, BotInfo) as TLVector<BotInfo>;
+            const botInfo = TLVector.deserialized(_data, API.BotInfo) as TLVector<API.BotInfo>;
             if (!botInfo) return undefined;
             return new ChatFull(
                 id,
@@ -2328,7 +2328,7 @@ export namespace API {
             readonly chatPhoto: PhotoType,
             readonly notifySettings: PeerNotifySettingsType,
             readonly exportedInvite: ExportedChatInviteType,
-            readonly botInfo: TLVector<BotInfo>) {}
+            readonly botInfo: TLVector<API.BotInfo>) {}
     
     } // class ChatFull
     
@@ -2376,7 +2376,7 @@ export namespace API {
             if (!notifySettings) return undefined;
             const exportedInvite = deserializedObject(_data) as ExportedChatInviteType;
             if (!exportedInvite) return undefined;
-            const botInfo = TLVector.deserialized(_data, BotInfo) as TLVector<BotInfo>;
+            const botInfo = TLVector.deserialized(_data, API.BotInfo) as TLVector<API.BotInfo>;
             if (!botInfo) return undefined;
             let migratedFromChatId: TLInt | undefined;
             if ((flags.value & 16) !== 0) {
@@ -2462,7 +2462,7 @@ export namespace API {
             readonly chatPhoto: PhotoType,
             readonly notifySettings: PeerNotifySettingsType,
             readonly exportedInvite: ExportedChatInviteType,
-            readonly botInfo: TLVector<BotInfo>,
+            readonly botInfo: TLVector<API.BotInfo>,
             readonly migratedFromChatId: TLInt | undefined,
             readonly migratedFromMaxId: TLInt | undefined,
             readonly pinnedMsgId: TLInt | undefined) {}
@@ -2734,9 +2734,9 @@ export namespace API {
             }
             const toId = deserializedObject(_data) as PeerType;
             if (!toId) return undefined;
-            let fwdFrom: MessageFwdHeader | undefined;
+            let fwdFrom: API.MessageFwdHeader | undefined;
             if ((flags.value & 4) !== 0) {
-                const obj = deserializedObject(_data) as MessageFwdHeader;
+                const obj = deserializedObject(_data) as API.MessageFwdHeader;
                 if (!obj) return undefined;
                 fwdFrom = obj
             }
@@ -2852,7 +2852,7 @@ export namespace API {
             readonly id: TLInt,
             readonly fromId: TLInt | undefined,
             readonly toId: PeerType,
-            readonly fwdFrom: MessageFwdHeader | undefined,
+            readonly fwdFrom: API.MessageFwdHeader | undefined,
             readonly viaBotId: TLInt | undefined,
             readonly replyToMsgId: TLInt | undefined,
             readonly date: TLInt,
@@ -3186,7 +3186,7 @@ export namespace API {
         static deserialized(_data: ByteStream): MessageMediaGame | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(MessageMediaGame.cons)) return undefined;
-            const game = deserializedObject(_data) as Game;
+            const game = deserializedObject(_data) as API.Game;
             if (!game) return undefined;
             return new MessageMediaGame(
                 game)
@@ -3201,7 +3201,7 @@ export namespace API {
         }
     
         constructor(
-            readonly game: Game) {}
+            readonly game: API.Game) {}
     
     } // class MessageMediaGame
     
@@ -4475,9 +4475,9 @@ export namespace API {
             }
             const notifySettings = deserializedObject(_data) as PeerNotifySettingsType;
             if (!notifySettings) return undefined;
-            let botInfo: BotInfo | undefined;
+            let botInfo: API.BotInfo | undefined;
             if ((flags.value & 8) !== 0) {
-                const obj = deserializedObject(_data) as BotInfo;
+                const obj = deserializedObject(_data) as API.BotInfo;
                 if (!obj) return undefined;
                 botInfo = obj
             }
@@ -4517,7 +4517,7 @@ export namespace API {
             readonly link: contacts.Link,
             readonly profilePhoto: PhotoType | undefined,
             readonly notifySettings: PeerNotifySettingsType,
-            readonly botInfo: BotInfo | undefined) {}
+            readonly botInfo: API.BotInfo | undefined) {}
     
     } // class UserFull
     
@@ -4703,7 +4703,7 @@ export namespace API {
         static deserialized(_data: ByteStream): Contacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Contacts.cons)) return undefined;
-            const contacts = TLVector.deserialized(_data, Contact) as TLVector<Contact>;
+            const contacts = TLVector.deserialized(_data, API.Contact) as TLVector<API.Contact>;
             if (!contacts) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
             if (!users) return undefined;
@@ -4722,7 +4722,7 @@ export namespace API {
         }
     
         constructor(
-            readonly contacts: TLVector<Contact>,
+            readonly contacts: TLVector<API.Contact>,
             readonly users: TLVector<UserType>) {}
     
     } // class Contacts
@@ -4734,7 +4734,7 @@ export namespace API {
         static deserialized(_data: ByteStream): ImportedContacts | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ImportedContacts.cons)) return undefined;
-            const imported = TLVector.deserialized(_data, ImportedContact) as TLVector<ImportedContact>;
+            const imported = TLVector.deserialized(_data, API.ImportedContact) as TLVector<API.ImportedContact>;
             if (!imported) return undefined;
             const retryContacts = TLVector.deserialized(_data, TLLong) as TLVector<TLLong>;
             if (!retryContacts) return undefined;
@@ -4757,7 +4757,7 @@ export namespace API {
         }
     
         constructor(
-            readonly imported: TLVector<ImportedContact>,
+            readonly imported: TLVector<API.ImportedContact>,
             readonly retryContacts: TLVector<TLLong>,
             readonly users: TLVector<UserType>) {}
     
@@ -4770,7 +4770,7 @@ export namespace API {
         static deserialized(_data: ByteStream): Blocked | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Blocked.cons)) return undefined;
-            const blocked = TLVector.deserialized(_data, ContactBlocked) as TLVector<ContactBlocked>;
+            const blocked = TLVector.deserialized(_data, API.ContactBlocked) as TLVector<API.ContactBlocked>;
             if (!blocked) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
             if (!users) return undefined;
@@ -4789,7 +4789,7 @@ export namespace API {
         }
     
         constructor(
-            readonly blocked: TLVector<ContactBlocked>,
+            readonly blocked: TLVector<API.ContactBlocked>,
             readonly users: TLVector<UserType>) {}
     
     } // class Blocked
@@ -4803,7 +4803,7 @@ export namespace API {
             if (!constructor || !constructor.equals(BlockedSlice.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
-            const blocked = TLVector.deserialized(_data, ContactBlocked) as TLVector<ContactBlocked>;
+            const blocked = TLVector.deserialized(_data, API.ContactBlocked) as TLVector<API.ContactBlocked>;
             if (!blocked) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
             if (!users) return undefined;
@@ -4825,7 +4825,7 @@ export namespace API {
     
         constructor(
             readonly count: TLInt,
-            readonly blocked: TLVector<ContactBlocked>,
+            readonly blocked: TLVector<API.ContactBlocked>,
             readonly users: TLVector<UserType>) {}
     
     } // class BlockedSlice
@@ -4837,7 +4837,7 @@ export namespace API {
         static deserialized(_data: ByteStream): Dialogs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Dialogs.cons)) return undefined;
-            const dialogs = TLVector.deserialized(_data, Dialog) as TLVector<Dialog>;
+            const dialogs = TLVector.deserialized(_data, API.Dialog) as TLVector<API.Dialog>;
             if (!dialogs) return undefined;
             const messages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
             if (!messages) return undefined;
@@ -4864,7 +4864,7 @@ export namespace API {
         }
     
         constructor(
-            readonly dialogs: TLVector<Dialog>,
+            readonly dialogs: TLVector<API.Dialog>,
             readonly messages: TLVector<MessageType>,
             readonly chats: TLVector<ChatType>,
             readonly users: TLVector<UserType>) {}
@@ -4880,7 +4880,7 @@ export namespace API {
             if (!constructor || !constructor.equals(DialogsSlice.cons)) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
-            const dialogs = TLVector.deserialized(_data, Dialog) as TLVector<Dialog>;
+            const dialogs = TLVector.deserialized(_data, API.Dialog) as TLVector<API.Dialog>;
             if (!dialogs) return undefined;
             const messages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
             if (!messages) return undefined;
@@ -4910,7 +4910,7 @@ export namespace API {
     
         constructor(
             readonly count: TLInt,
-            readonly dialogs: TLVector<Dialog>,
+            readonly dialogs: TLVector<API.Dialog>,
             readonly messages: TLVector<MessageType>,
             readonly chats: TLVector<ChatType>,
             readonly users: TLVector<UserType>) {}
@@ -5951,7 +5951,7 @@ export namespace API {
         static deserialized(_data: ByteStream): UpdateDcOptions | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateDcOptions.cons)) return undefined;
-            const dcOptions = TLVector.deserialized(_data, DcOption) as TLVector<DcOption>;
+            const dcOptions = TLVector.deserialized(_data, API.DcOption) as TLVector<API.DcOption>;
             if (!dcOptions) return undefined;
             return new UpdateDcOptions(
                 dcOptions)
@@ -5966,7 +5966,7 @@ export namespace API {
         }
     
         constructor(
-            readonly dcOptions: TLVector<DcOption>) {}
+            readonly dcOptions: TLVector<API.DcOption>) {}
     
     } // class UpdateDcOptions
     
@@ -6727,9 +6727,9 @@ export namespace API {
             }
             const id = TLString.deserialized(_data);
             if (!id) return undefined;
-            let msgId: InputBotInlineMessageID | undefined;
+            let msgId: API.InputBotInlineMessageID | undefined;
             if ((flags.value & 2) !== 0) {
-                const obj = deserializedObject(_data) as InputBotInlineMessageID;
+                const obj = deserializedObject(_data) as API.InputBotInlineMessageID;
                 if (!obj) return undefined;
                 msgId = obj
             }
@@ -6762,7 +6762,7 @@ export namespace API {
             readonly query: TLString,
             readonly geo: GeoPointType | undefined,
             readonly id: TLString,
-            readonly msgId: InputBotInlineMessageID | undefined) {}
+            readonly msgId: API.InputBotInlineMessageID | undefined) {}
     
     } // class UpdateBotInlineSend
     
@@ -6947,7 +6947,7 @@ export namespace API {
             if (!queryId) return undefined;
             const userId = TLInt.deserialized(_data);
             if (!userId) return undefined;
-            const msgId = deserializedObject(_data) as InputBotInlineMessageID;
+            const msgId = deserializedObject(_data) as API.InputBotInlineMessageID;
             if (!msgId) return undefined;
             const chatInstance = TLLong.deserialized(_data);
             if (!chatInstance) return undefined;
@@ -6992,7 +6992,7 @@ export namespace API {
         constructor(
             readonly queryId: TLLong,
             readonly userId: TLInt,
-            readonly msgId: InputBotInlineMessageID,
+            readonly msgId: API.InputBotInlineMessageID,
             readonly chatInstance: TLLong,
             readonly data: TLBytes | undefined,
             readonly gameShortName: TLString | undefined) {}
@@ -7352,9 +7352,9 @@ export namespace API {
             if (!ptsCount) return undefined;
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
-            let fwdFrom: MessageFwdHeader | undefined;
+            let fwdFrom: API.MessageFwdHeader | undefined;
             if ((flags.value & 4) !== 0) {
-                const obj = deserializedObject(_data) as MessageFwdHeader;
+                const obj = deserializedObject(_data) as API.MessageFwdHeader;
                 if (!obj) return undefined;
                 fwdFrom = obj
             }
@@ -7431,7 +7431,7 @@ export namespace API {
             readonly pts: TLInt,
             readonly ptsCount: TLInt,
             readonly date: TLInt,
-            readonly fwdFrom: MessageFwdHeader | undefined,
+            readonly fwdFrom: API.MessageFwdHeader | undefined,
             readonly viaBotId: TLInt | undefined,
             readonly replyToMsgId: TLInt | undefined,
             readonly entities: TLVector<MessageEntityType> | undefined) {}
@@ -7464,9 +7464,9 @@ export namespace API {
             if (!ptsCount) return undefined;
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
-            let fwdFrom: MessageFwdHeader | undefined;
+            let fwdFrom: API.MessageFwdHeader | undefined;
             if ((flags.value & 4) !== 0) {
-                const obj = deserializedObject(_data) as MessageFwdHeader;
+                const obj = deserializedObject(_data) as API.MessageFwdHeader;
                 if (!obj) return undefined;
                 fwdFrom = obj
             }
@@ -7546,7 +7546,7 @@ export namespace API {
             readonly pts: TLInt,
             readonly ptsCount: TLInt,
             readonly date: TLInt,
-            readonly fwdFrom: MessageFwdHeader | undefined,
+            readonly fwdFrom: API.MessageFwdHeader | undefined,
             readonly viaBotId: TLInt | undefined,
             readonly replyToMsgId: TLInt | undefined,
             readonly entities: TLVector<MessageEntityType> | undefined) {}
@@ -7947,7 +7947,7 @@ export namespace API {
             if (!testMode) return undefined;
             const thisDc = TLInt.deserialized(_data);
             if (!thisDc) return undefined;
-            const dcOptions = TLVector.deserialized(_data, DcOption) as TLVector<DcOption>;
+            const dcOptions = TLVector.deserialized(_data, API.DcOption) as TLVector<API.DcOption>;
             if (!dcOptions) return undefined;
             const chatSizeMax = TLInt.deserialized(_data);
             if (!chatSizeMax) return undefined;
@@ -7987,7 +7987,7 @@ export namespace API {
                 if (!obj) return undefined;
                 tmpSessions = obj
             }
-            const disabledFeatures = TLVector.deserialized(_data, DisabledFeature) as TLVector<DisabledFeature>;
+            const disabledFeatures = TLVector.deserialized(_data, API.DisabledFeature) as TLVector<API.DisabledFeature>;
             if (!disabledFeatures) return undefined;
             return new Config(
                 date,
@@ -8053,7 +8053,7 @@ export namespace API {
             readonly expires: TLInt,
             readonly testMode: BoolType,
             readonly thisDc: TLInt,
-            readonly dcOptions: TLVector<DcOption>,
+            readonly dcOptions: TLVector<API.DcOption>,
             readonly chatSizeMax: TLInt,
             readonly megagroupSizeMax: TLInt,
             readonly forwardedCountMax: TLInt,
@@ -8071,7 +8071,7 @@ export namespace API {
             readonly ratingEDecay: TLInt,
             readonly stickersRecentLimit: TLInt,
             readonly tmpSessions: TLInt | undefined,
-            readonly disabledFeatures: TLVector<DisabledFeature>) {}
+            readonly disabledFeatures: TLVector<API.DisabledFeature>) {}
     
     } // class Config
     
@@ -9764,9 +9764,9 @@ export namespace API {
             if (!alt) return undefined;
             const stickerset = deserializedObject(_data) as InputStickerSetType;
             if (!stickerset) return undefined;
-            let maskCoords: MaskCoords | undefined;
+            let maskCoords: API.MaskCoords | undefined;
             if ((flags.value & 1) !== 0) {
-                const obj = deserializedObject(_data) as MaskCoords;
+                const obj = deserializedObject(_data) as API.MaskCoords;
                 if (!obj) return undefined;
                 maskCoords = obj
             }
@@ -9795,7 +9795,7 @@ export namespace API {
             readonly mask: boolean,
             readonly alt: TLString,
             readonly stickerset: InputStickerSetType,
-            readonly maskCoords: MaskCoords | undefined) {}
+            readonly maskCoords: API.MaskCoords | undefined) {}
     
     } // class DocumentAttributeSticker
     
@@ -10048,7 +10048,7 @@ export namespace API {
             if (!constructor || !constructor.equals(AllStickers.cons)) return undefined;
             const hash = TLInt.deserialized(_data);
             if (!hash) return undefined;
-            const sets = TLVector.deserialized(_data, StickerSet) as TLVector<StickerSet>;
+            const sets = TLVector.deserialized(_data, API.StickerSet) as TLVector<API.StickerSet>;
             if (!sets) return undefined;
             return new AllStickers(
                 hash,
@@ -10066,7 +10066,7 @@ export namespace API {
     
         constructor(
             readonly hash: TLInt,
-            readonly sets: TLVector<StickerSet>) {}
+            readonly sets: TLVector<API.StickerSet>) {}
     
     } // class AllStickers
     } // namespace messages
@@ -10509,7 +10509,7 @@ export namespace API {
         static deserialized(_data: ByteStream): Authorizations | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Authorizations.cons)) return undefined;
-            const authorizations = TLVector.deserialized(_data, Authorization) as TLVector<Authorization>;
+            const authorizations = TLVector.deserialized(_data, API.Authorization) as TLVector<API.Authorization>;
             if (!authorizations) return undefined;
             return new Authorizations(
                 authorizations)
@@ -10524,7 +10524,7 @@ export namespace API {
         }
     
         constructor(
-            readonly authorizations: TLVector<Authorization>) {}
+            readonly authorizations: TLVector<API.Authorization>) {}
     
     } // class Authorizations
     } // namespace account
@@ -11035,9 +11035,9 @@ export namespace API {
         static deserialized(_data: ByteStream): StickerSet | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSet.cons)) return undefined;
-            const set = deserializedObject(_data) as StickerSet;
+            const set = deserializedObject(_data) as API.StickerSet;
             if (!set) return undefined;
-            const packs = TLVector.deserialized(_data, StickerPack) as TLVector<StickerPack>;
+            const packs = TLVector.deserialized(_data, API.StickerPack) as TLVector<API.StickerPack>;
             if (!packs) return undefined;
             const documents = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
             if (!documents) return undefined;
@@ -11058,8 +11058,8 @@ export namespace API {
         }
     
         constructor(
-            readonly set: StickerSet,
-            readonly packs: TLVector<StickerPack>,
+            readonly set: API.StickerSet,
+            readonly packs: TLVector<API.StickerPack>,
             readonly documents: TLVector<DocumentType>) {}
     
     } // class StickerSet
@@ -11104,7 +11104,7 @@ export namespace API {
             if (!userId) return undefined;
             const description = TLString.deserialized(_data);
             if (!description) return undefined;
-            const commands = TLVector.deserialized(_data, BotCommand) as TLVector<BotCommand>;
+            const commands = TLVector.deserialized(_data, API.BotCommand) as TLVector<API.BotCommand>;
             if (!commands) return undefined;
             return new BotInfo(
                 userId,
@@ -11125,7 +11125,7 @@ export namespace API {
         constructor(
             readonly userId: TLInt,
             readonly description: TLString,
-            readonly commands: TLVector<BotCommand>) {}
+            readonly commands: TLVector<API.BotCommand>) {}
     
     } // class BotInfo
     
@@ -11423,7 +11423,7 @@ export namespace API {
             const resize = (flags.value & 1) !== 0;
             const singleUse = (flags.value & 2) !== 0;
             const selective = (flags.value & 4) !== 0;
-            const rows = TLVector.deserialized(_data, KeyboardButtonRow) as TLVector<KeyboardButtonRow>;
+            const rows = TLVector.deserialized(_data, API.KeyboardButtonRow) as TLVector<API.KeyboardButtonRow>;
             if (!rows) return undefined;
             return new ReplyKeyboardMarkup(
                 resize,
@@ -11449,7 +11449,7 @@ export namespace API {
             readonly resize: boolean,
             readonly singleUse: boolean,
             readonly selective: boolean,
-            readonly rows: TLVector<KeyboardButtonRow>) {}
+            readonly rows: TLVector<API.KeyboardButtonRow>) {}
     
     } // class ReplyKeyboardMarkup
     
@@ -11459,7 +11459,7 @@ export namespace API {
         static deserialized(_data: ByteStream): ReplyInlineMarkup | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ReplyInlineMarkup.cons)) return undefined;
-            const rows = TLVector.deserialized(_data, KeyboardButtonRow) as TLVector<KeyboardButtonRow>;
+            const rows = TLVector.deserialized(_data, API.KeyboardButtonRow) as TLVector<API.KeyboardButtonRow>;
             if (!rows) return undefined;
             return new ReplyInlineMarkup(
                 rows)
@@ -11474,7 +11474,7 @@ export namespace API {
         }
     
         constructor(
-            readonly rows: TLVector<KeyboardButtonRow>) {}
+            readonly rows: TLVector<API.KeyboardButtonRow>) {}
     
     } // class ReplyInlineMarkup
     
@@ -12261,7 +12261,7 @@ export namespace API {
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const excludeNewMessages = (flags.value & 2) !== 0;
-            const ranges = TLVector.deserialized(_data, MessageRange) as TLVector<MessageRange>;
+            const ranges = TLVector.deserialized(_data, API.MessageRange) as TLVector<API.MessageRange>;
             if (!ranges) return undefined;
             return new ChannelMessagesFilter(
                 excludeNewMessages,
@@ -12281,7 +12281,7 @@ export namespace API {
     
         constructor(
             readonly excludeNewMessages: boolean,
-            readonly ranges: TLVector<MessageRange>) {}
+            readonly ranges: TLVector<API.MessageRange>) {}
     
     } // class ChannelMessagesFilter
     
@@ -13871,9 +13871,9 @@ export namespace API {
                 if (!obj) return undefined;
                 nextOffset = obj
             }
-            let switchPm: InlineBotSwitchPM | undefined;
+            let switchPm: API.InlineBotSwitchPM | undefined;
             if ((flags.value & 4) !== 0) {
-                const obj = deserializedObject(_data) as InlineBotSwitchPM;
+                const obj = deserializedObject(_data) as API.InlineBotSwitchPM;
                 if (!obj) return undefined;
                 switchPm = obj
             }
@@ -13907,7 +13907,7 @@ export namespace API {
             readonly gallery: boolean,
             readonly queryId: TLLong,
             readonly nextOffset: TLString | undefined,
-            readonly switchPm: InlineBotSwitchPM | undefined,
+            readonly switchPm: API.InlineBotSwitchPM | undefined,
             readonly results: TLVector<BotInlineResultType>) {}
     
     } // class BotResults
@@ -14311,7 +14311,7 @@ export namespace API {
         static deserialized(_data: ByteStream): PeerDialogs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(PeerDialogs.cons)) return undefined;
-            const dialogs = TLVector.deserialized(_data, Dialog) as TLVector<Dialog>;
+            const dialogs = TLVector.deserialized(_data, API.Dialog) as TLVector<API.Dialog>;
             if (!dialogs) return undefined;
             const messages = TLVector.deserialized(_data, ) as TLVector<MessageType>;
             if (!messages) return undefined;
@@ -14342,7 +14342,7 @@ export namespace API {
         }
     
         constructor(
-            readonly dialogs: TLVector<Dialog>,
+            readonly dialogs: TLVector<API.Dialog>,
             readonly messages: TLVector<MessageType>,
             readonly chats: TLVector<ChatType>,
             readonly users: TLVector<UserType>,
@@ -14480,7 +14480,7 @@ export namespace API {
             if (!category) return undefined;
             const count = TLInt.deserialized(_data);
             if (!count) return undefined;
-            const peers = TLVector.deserialized(_data, TopPeer) as TLVector<TopPeer>;
+            const peers = TLVector.deserialized(_data, API.TopPeer) as TLVector<API.TopPeer>;
             if (!peers) return undefined;
             return new TopPeerCategoryPeers(
                 category,
@@ -14501,7 +14501,7 @@ export namespace API {
         constructor(
             readonly category: TopPeerCategoryType,
             readonly count: TLInt,
-            readonly peers: TLVector<TopPeer>) {}
+            readonly peers: TLVector<API.TopPeer>) {}
     
     } // class TopPeerCategoryPeers
     
@@ -14531,7 +14531,7 @@ export namespace API {
         static deserialized(_data: ByteStream): TopPeers | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(TopPeers.cons)) return undefined;
-            const categories = TLVector.deserialized(_data, TopPeerCategoryPeers) as TLVector<TopPeerCategoryPeers>;
+            const categories = TLVector.deserialized(_data, API.TopPeerCategoryPeers) as TLVector<API.TopPeerCategoryPeers>;
             if (!categories) return undefined;
             const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
             if (!chats) return undefined;
@@ -14554,7 +14554,7 @@ export namespace API {
         }
     
         constructor(
-            readonly categories: TLVector<TopPeerCategoryPeers>,
+            readonly categories: TLVector<API.TopPeerCategoryPeers>,
             readonly chats: TLVector<ChatType>,
             readonly users: TLVector<UserType>) {}
     
@@ -14823,7 +14823,7 @@ export namespace API {
         static deserialized(_data: ByteStream): StickerSetCovered | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSetCovered.cons)) return undefined;
-            const set = deserializedObject(_data) as StickerSet;
+            const set = deserializedObject(_data) as API.StickerSet;
             if (!set) return undefined;
             const cover = deserializedObject(_data) as DocumentType;
             if (!cover) return undefined;
@@ -14842,7 +14842,7 @@ export namespace API {
         }
     
         constructor(
-            readonly set: StickerSet,
+            readonly set: API.StickerSet,
             readonly cover: DocumentType) {}
     
     } // class StickerSetCovered
@@ -14853,7 +14853,7 @@ export namespace API {
         static deserialized(_data: ByteStream): StickerSetMultiCovered | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(StickerSetMultiCovered.cons)) return undefined;
-            const set = deserializedObject(_data) as StickerSet;
+            const set = deserializedObject(_data) as API.StickerSet;
             if (!set) return undefined;
             const covers = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
             if (!covers) return undefined;
@@ -14872,7 +14872,7 @@ export namespace API {
         }
     
         constructor(
-            readonly set: StickerSet,
+            readonly set: API.StickerSet,
             readonly covers: TLVector<DocumentType>) {}
     
     } // class StickerSetMultiCovered
@@ -15133,7 +15133,7 @@ export namespace API {
         static deserialized(_data: ByteStream): HighScores | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(HighScores.cons)) return undefined;
-            const scores = TLVector.deserialized(_data, HighScore) as TLVector<HighScore>;
+            const scores = TLVector.deserialized(_data, API.HighScore) as TLVector<API.HighScore>;
             if (!scores) return undefined;
             const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
             if (!users) return undefined;
@@ -15152,7 +15152,7 @@ export namespace API {
         }
     
         constructor(
-            readonly scores: TLVector<HighScore>,
+            readonly scores: TLVector<API.HighScore>,
             readonly users: TLVector<UserType>) {}
     
     } // class HighScores
@@ -15922,7 +15922,7 @@ export namespace API {
             if (!constructor || !constructor.equals(UpdateNotifySettings.cons)) return undefined;
             const peer = deserializedObject(_data) as InputNotifyPeerType;
             if (!peer) return undefined;
-            const settings = deserializedObject(_data) as InputPeerNotifySettings;
+            const settings = deserializedObject(_data) as API.InputPeerNotifySettings;
             if (!settings) return undefined;
             return new UpdateNotifySettings(
                 peer,
@@ -15940,7 +15940,7 @@ export namespace API {
     
         constructor(
             readonly peer: InputNotifyPeerType,
-            readonly settings: InputPeerNotifySettings) {}
+            readonly settings: API.InputPeerNotifySettings) {}
     
     } // class UpdateNotifySettings
     } // namespace account
@@ -16257,7 +16257,7 @@ export namespace API {
     } // namespace account
 
     export namespace account {
-    export class GetAccountTTL implements TLFunction<AccountDaysTTL> {
+    export class GetAccountTTL implements TLFunction<API.AccountDaysTTL> {
         static readonly cons = new TLInt(0x8fc711d);
         static deserialized(_data: ByteStream): GetAccountTTL | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -16281,7 +16281,7 @@ export namespace API {
         static deserialized(_data: ByteStream): SetAccountTTL | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SetAccountTTL.cons)) return undefined;
-            const ttl = deserializedObject(_data) as AccountDaysTTL;
+            const ttl = deserializedObject(_data) as API.AccountDaysTTL;
             if (!ttl) return undefined;
             return new SetAccountTTL(
                 ttl)
@@ -16296,7 +16296,7 @@ export namespace API {
         }
     
         constructor(
-            readonly ttl: AccountDaysTTL) {}
+            readonly ttl: API.AccountDaysTTL) {}
     
     } // class SetAccountTTL
     } // namespace account
@@ -16630,7 +16630,7 @@ export namespace API {
     } // namespace users
 
     export namespace users {
-    export class GetFullUser implements TLFunction<UserFull> {
+    export class GetFullUser implements TLFunction<API.UserFull> {
         static readonly cons = new TLInt(0xca30a5b1);
         static deserialized(_data: ByteStream): GetFullUser | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -16656,7 +16656,7 @@ export namespace API {
     } // namespace users
 
     export namespace contacts {
-    export class GetStatuses implements TLFunction<TLVector<ContactStatus>> {
+    export class GetStatuses implements TLFunction<TLVector<API.ContactStatus>> {
         static readonly cons = new TLInt(0xc4a353ee);
         static deserialized(_data: ByteStream): GetStatuses | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -17344,7 +17344,7 @@ export namespace API {
     } // namespace messages
 
     export namespace messages {
-    export class ReceivedMessages implements TLFunction<TLVector<ReceivedNotifyMessage>> {
+    export class ReceivedMessages implements TLFunction<TLVector<API.ReceivedNotifyMessage>> {
         static readonly cons = new TLInt(0x5a954c0);
         static deserialized(_data: ByteStream): ReceivedMessages | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -17668,7 +17668,7 @@ export namespace API {
     } // namespace messages
 
     export namespace messages {
-    export class GetPeerSettings implements TLFunction<PeerSettings> {
+    export class GetPeerSettings implements TLFunction<API.PeerSettings> {
         static readonly cons = new TLInt(0x3672e09c);
         static deserialized(_data: ByteStream): GetPeerSettings | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -18014,7 +18014,7 @@ export namespace API {
         static deserialized(_data: ByteStream): AcceptEncryption | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(AcceptEncryption.cons)) return undefined;
-            const peer = deserializedObject(_data) as InputEncryptedChat;
+            const peer = deserializedObject(_data) as API.InputEncryptedChat;
             if (!peer) return undefined;
             const gB = TLBytes.deserialized(_data);
             if (!gB) return undefined;
@@ -18037,7 +18037,7 @@ export namespace API {
         }
     
         constructor(
-            readonly peer: InputEncryptedChat,
+            readonly peer: API.InputEncryptedChat,
             readonly gB: TLBytes,
             readonly keyFingerprint: TLLong) {}
     
@@ -18076,7 +18076,7 @@ export namespace API {
         static deserialized(_data: ByteStream): SetEncryptedTyping | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SetEncryptedTyping.cons)) return undefined;
-            const peer = deserializedObject(_data) as InputEncryptedChat;
+            const peer = deserializedObject(_data) as API.InputEncryptedChat;
             if (!peer) return undefined;
             const typing = deserializedObject(_data) as BoolType;
             if (!typing) return undefined;
@@ -18095,7 +18095,7 @@ export namespace API {
         }
     
         constructor(
-            readonly peer: InputEncryptedChat,
+            readonly peer: API.InputEncryptedChat,
             readonly typing: BoolType) {}
     
     } // class SetEncryptedTyping
@@ -18107,7 +18107,7 @@ export namespace API {
         static deserialized(_data: ByteStream): ReadEncryptedHistory | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(ReadEncryptedHistory.cons)) return undefined;
-            const peer = deserializedObject(_data) as InputEncryptedChat;
+            const peer = deserializedObject(_data) as API.InputEncryptedChat;
             if (!peer) return undefined;
             const maxDate = TLInt.deserialized(_data);
             if (!maxDate) return undefined;
@@ -18126,7 +18126,7 @@ export namespace API {
         }
     
         constructor(
-            readonly peer: InputEncryptedChat,
+            readonly peer: API.InputEncryptedChat,
             readonly maxDate: TLInt) {}
     
     } // class ReadEncryptedHistory
@@ -18138,7 +18138,7 @@ export namespace API {
         static deserialized(_data: ByteStream): SendEncrypted | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendEncrypted.cons)) return undefined;
-            const peer = deserializedObject(_data) as InputEncryptedChat;
+            const peer = deserializedObject(_data) as API.InputEncryptedChat;
             if (!peer) return undefined;
             const randomId = TLLong.deserialized(_data);
             if (!randomId) return undefined;
@@ -18161,7 +18161,7 @@ export namespace API {
         }
     
         constructor(
-            readonly peer: InputEncryptedChat,
+            readonly peer: API.InputEncryptedChat,
             readonly randomId: TLLong,
             readonly data: TLBytes) {}
     
@@ -18174,7 +18174,7 @@ export namespace API {
         static deserialized(_data: ByteStream): SendEncryptedFile | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendEncryptedFile.cons)) return undefined;
-            const peer = deserializedObject(_data) as InputEncryptedChat;
+            const peer = deserializedObject(_data) as API.InputEncryptedChat;
             if (!peer) return undefined;
             const randomId = TLLong.deserialized(_data);
             if (!randomId) return undefined;
@@ -18201,7 +18201,7 @@ export namespace API {
         }
     
         constructor(
-            readonly peer: InputEncryptedChat,
+            readonly peer: API.InputEncryptedChat,
             readonly randomId: TLLong,
             readonly data: TLBytes,
             readonly file: InputEncryptedFileType) {}
@@ -18215,7 +18215,7 @@ export namespace API {
         static deserialized(_data: ByteStream): SendEncryptedService | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SendEncryptedService.cons)) return undefined;
-            const peer = deserializedObject(_data) as InputEncryptedChat;
+            const peer = deserializedObject(_data) as API.InputEncryptedChat;
             if (!peer) return undefined;
             const randomId = TLLong.deserialized(_data);
             if (!randomId) return undefined;
@@ -18238,7 +18238,7 @@ export namespace API {
         }
     
         constructor(
-            readonly peer: InputEncryptedChat,
+            readonly peer: API.InputEncryptedChat,
             readonly randomId: TLLong,
             readonly data: TLBytes) {}
     
@@ -18961,9 +18961,9 @@ export namespace API {
                 if (!obj) return undefined;
                 nextOffset = obj
             }
-            let switchPm: InlineBotSwitchPM | undefined;
+            let switchPm: API.InlineBotSwitchPM | undefined;
             if ((flags.value & 8) !== 0) {
-                const obj = deserializedObject(_data) as InlineBotSwitchPM;
+                const obj = deserializedObject(_data) as API.InlineBotSwitchPM;
                 if (!obj) return undefined;
                 switchPm = obj
             }
@@ -19002,7 +19002,7 @@ export namespace API {
             readonly results: TLVector<InputBotInlineResultType>,
             readonly cacheTime: TLInt,
             readonly nextOffset: TLString | undefined,
-            readonly switchPm: InlineBotSwitchPM | undefined) {}
+            readonly switchPm: API.InlineBotSwitchPM | undefined) {}
     
     } // class SetInlineBotResults
     } // namespace messages
@@ -19183,7 +19183,7 @@ export namespace API {
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const noWebpage = (flags.value & 2) !== 0;
-            const id = deserializedObject(_data) as InputBotInlineMessageID;
+            const id = deserializedObject(_data) as API.InputBotInlineMessageID;
             if (!id) return undefined;
             let message: TLString | undefined;
             if ((flags.value & 2048) !== 0) {
@@ -19230,7 +19230,7 @@ export namespace API {
     
         constructor(
             readonly noWebpage: boolean,
-            readonly id: InputBotInlineMessageID,
+            readonly id: API.InputBotInlineMessageID,
             readonly message: TLString | undefined,
             readonly replyMarkup: ReplyMarkupType | undefined,
             readonly entities: TLVector<MessageEntityType> | undefined) {}
@@ -19748,7 +19748,7 @@ export namespace API {
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const editMessage = (flags.value & 1) !== 0;
-            const id = deserializedObject(_data) as InputBotInlineMessageID;
+            const id = deserializedObject(_data) as API.InputBotInlineMessageID;
             if (!id) return undefined;
             const userId = deserializedObject(_data) as InputUserType;
             if (!userId) return undefined;
@@ -19776,7 +19776,7 @@ export namespace API {
     
         constructor(
             readonly editMessage: boolean,
-            readonly id: InputBotInlineMessageID,
+            readonly id: API.InputBotInlineMessageID,
             readonly userId: InputUserType,
             readonly score: TLInt) {}
     
@@ -19825,7 +19825,7 @@ export namespace API {
         static deserialized(_data: ByteStream): GetInlineGameHighScores | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(GetInlineGameHighScores.cons)) return undefined;
-            const id = deserializedObject(_data) as InputBotInlineMessageID;
+            const id = deserializedObject(_data) as API.InputBotInlineMessageID;
             if (!id) return undefined;
             const userId = deserializedObject(_data) as InputUserType;
             if (!userId) return undefined;
@@ -19844,7 +19844,7 @@ export namespace API {
         }
     
         constructor(
-            readonly id: InputBotInlineMessageID,
+            readonly id: API.InputBotInlineMessageID,
             readonly userId: InputUserType) {}
     
     } // class GetInlineGameHighScores
@@ -20179,7 +20179,7 @@ export namespace API {
     } // namespace upload
 
     export namespace help {
-    export class GetConfig implements TLFunction<Config> {
+    export class GetConfig implements TLFunction<API.Config> {
         static readonly cons = new TLInt(0xc4f9186b);
         static deserialized(_data: ByteStream): GetConfig | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -20198,7 +20198,7 @@ export namespace API {
     } // namespace help
 
     export namespace help {
-    export class GetNearestDc implements TLFunction<NearestDc> {
+    export class GetNearestDc implements TLFunction<API.NearestDc> {
         static readonly cons = new TLInt(0x1fb33026);
         static deserialized(_data: ByteStream): GetNearestDc | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -20241,7 +20241,7 @@ export namespace API {
         static deserialized(_data: ByteStream): SaveAppLog | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SaveAppLog.cons)) return undefined;
-            const events = TLVector.deserialized(_data, InputAppEvent) as TLVector<InputAppEvent>;
+            const events = TLVector.deserialized(_data, API.InputAppEvent) as TLVector<API.InputAppEvent>;
             if (!events) return undefined;
             return new SaveAppLog(
                 events)
@@ -20256,7 +20256,7 @@ export namespace API {
         }
     
         constructor(
-            readonly events: TLVector<InputAppEvent>) {}
+            readonly events: TLVector<API.InputAppEvent>) {}
     
     } // class SaveAppLog
     } // namespace help
@@ -21058,7 +21058,7 @@ export namespace API {
     } // namespace channels
 
     export namespace channels {
-    export class ExportMessageLink implements TLFunction<ExportedMessageLink> {
+    export class ExportMessageLink implements TLFunction<API.ExportedMessageLink> {
         static readonly cons = new TLInt(0xc846d22d);
         static deserialized(_data: ByteStream): ExportMessageLink | undefined {
             const constructor = TLInt.deserialized(_data);

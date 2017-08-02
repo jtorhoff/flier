@@ -16,6 +16,7 @@ import { Chat } from "../../tg/TG";
 import { Update } from "../../tg/Updates/Update";
 import { tg } from "../App";
 import { ChatsListItem } from "./ChatsListItem";
+import { faintBlack } from "material-ui/styles/colors";
 
 interface Props {
 
@@ -46,6 +47,8 @@ export class ChatsList extends React.Component<Props, State> {
     }
 
     loadMoreRows(params: IndexRange): Promise<any> {
+        if (this.loadingChats) return Promise.resolve();
+
         this.loadingChats = true;
         tg.getChats(30, this.state.chats.get(params.startIndex - 1))
             .subscribe(chats => {
@@ -219,8 +222,13 @@ export class ChatsList extends React.Component<Props, State> {
                         !!chat && chat.peerEquals(upd.peer));
                 if (index !== -1) {
                     if (this.state.typing.has(index)) {
-                        const typing = this.state.typing.get(index)
-                            .filter(typing => typing.user.id.equals(upd.user.id));
+                        let typing = this.state.typing.get(index);
+                        if (typing) {
+                            typing = typing.filter(typing =>
+                                typing.user.id.equals(upd.user.id));
+                        } else {
+                            typing = [];
+                        }
                         typing.push(upd);
 
                         this.setState({
@@ -327,9 +335,12 @@ const style: CSSProperties = {
     height: "100%",
     maxWidth: 320,
     minWidth: 240,
+    borderRight: `1px solid ${faintBlack}`,
     flexGrow: 1,
     flexShrink: 1,
-    overflow: "auto",
+    flexBasis: 240,
+    overflowY: "auto",
+    overflowX: "hidden",
     padding: 0,
 };
 

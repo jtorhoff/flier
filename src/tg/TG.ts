@@ -10,16 +10,31 @@ import { ConvenienceChat } from "./Convenience/Chat";
 import { convenienceChatsArrayForDialogs } from "./Convenience/ChatsArrayForDialog";
 import { ConvenienceMessage } from "./Convenience/Message";
 import { convenienceMessageFor } from "./Convenience/MessageFor";
-import { FileManager } from "./Files/FileManager";
+import {
+    FileManager,
+    FileLocation,
+    DocumentLocation
+} from "./Files/FileManager";
 import { DataCenter, ErrorType } from "./Session/DataCenter";
 import { sha256 } from "./SHA/SHA";
 import { PersistentStorage } from "./Storage/PersistentStorage";
 import { TLBytes } from "./TL/Types/TLBytes";
 import { TLInt } from "./TL/Types/TLInt";
+import { TLLong } from "./TL/Types/TLLong";
 import { TLString } from "./TL/Types/TLString";
 import { Update } from "./Updates/Update";
 import { UpdatesHandler } from "./Updates/UpdatesHandler";
 import { concat } from "./Utils/BytesConcat";
+import "rxjs/add/operator/concatAll";
+import "rxjs/add/operator/mergeAll";
+import "rxjs/add/operator/toArray";
+import "rxjs/add/operator/concatMap";
+import "rxjs/add/operator/single";
+import "rxjs/add/operator/combineLatest";
+import "rxjs/add/operator/reduce";
+import { observable } from "rxjs/symbol/observable";
+import "rxjs/add/operator/take";
+import "rxjs/add/operator/scan";
 
 export type Chat = ConvenienceChat;
 export type Message = ConvenienceMessage;
@@ -71,7 +86,7 @@ export class TG {
             .skip(1)
             .filter(auth => !auth)
             .subscribe(() => {
-                this.storage.clear();
+                this.storage.clear().subscribe();
             });
 
         this.mainDataCenter.authorized.subscribe(this.authorizedSubject);
@@ -270,8 +285,31 @@ export class TG {
             });
     }
 
-    getFile(location: API.FileLocation): Observable<Blob> {
-        return this.fileManager.getFile(location);
+    getFile(location: {
+        readonly dcId: TLInt,
+        readonly volumeId: TLLong,
+        readonly localId: TLInt,
+        readonly secret: TLLong,
+    } | {
+        readonly dcId: TLInt,
+        readonly id: TLLong,
+        readonly accessHash: TLLong,
+        readonly version: TLInt,
+    }): Observable<Blob> {
+        let fileLocation: FileLocation | DocumentLocation;
+        if (location.hasOwnProperty("volumeId")) {
+            const loc = location as FileLocation;
+            fileLocation = new FileLocation(
+                loc.dcId, loc.volumeId, loc.localId, loc.secret
+            );
+        } else {
+            const loc = location as DocumentLocation;
+            fileLocation = new DocumentLocation(
+                loc.dcId, loc.id, loc.accessHash, loc.version
+            );
+        }
+
+        return this.fileManager.getFile(fileLocation);
     }
 
     getTopMessageForPeer(peer: API.PeerType): Observable<ConvenienceMessage | undefined> {
@@ -291,5 +329,39 @@ export class TG {
                 }
                 return undefined;
             });
+    }
+
+    getRecentStickers(): Observable<Array<API.Document>> {
+        return this.mainDataCenter.call(new API.messages.GetRecentStickers(false, new TLInt(0)))
+            .map(stickers => {
+                if (stickers instanceof API.messages.RecentStickers) {
+                    return stickers.stickers.items
+                        .filter(doc => doc instanceof API.Document) as Array<API.Document>;
+                } else {
+                    return [];
+                }
+            });
+    }
+
+    getAllStickers(): Observable<API.messages.StickerSet[]> {
+        return this.mainDataCenter.call(new API.messages.GetAllStickers(new TLInt(0)))
+            .map(stickers => {
+                if (stickers instanceof API.messages.AllStickers) {
+                    return stickers.sets.items;
+                } else {
+                    return [];
+                }
+            })
+            .map(sets => {
+                return sets.map(set => {
+                    const inputStickerSet = new API.messages.GetStickerSet(
+                        new API.InputStickerSetID(set.id, set.accessHash));
+                    return this.mainDataCenter.call(inputStickerSet) as Observable<API.messages.StickerSet>;
+                });
+            })
+            .flatMap(sets => sets)
+            .mergeAll(1)
+            .combineLatest()
+            .reduce((list: API.messages.StickerSet[], value: API.messages.StickerSet) => list.concat(value)) as Observable<API.messages.StickerSet[]>
     }
 }

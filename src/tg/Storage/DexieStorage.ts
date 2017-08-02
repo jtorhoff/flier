@@ -5,9 +5,9 @@ import "rxjs/add/operator/map";
 import { Observable } from "rxjs/Observable";
 import { API } from "../Codegen/API/APISchema";
 import { ByteStream } from "../DataStructures/ByteStream";
+import { FileLocation, DocumentLocation } from "../Files/FileManager";
 import { deserializedObject } from "../TL/TLObjectDeserializer";
 import { TLInt } from "../TL/Types/TLInt";
-import { concat } from "../Utils/BytesConcat";
 import { PersistentStorage } from "./PersistentStorage";
 
 export class DexieStorage implements PersistentStorage.Storage {
@@ -175,18 +175,13 @@ export class DexieStorage implements PersistentStorage.Storage {
                         (msg.toId && msg.out)) {
                         if (msg.toId instanceof API.PeerChat) {
                             peer = ["g", msg.toId.chatId.value];
-                            // peer = { chatId: msg.toId.chatId.value };
                         } else if (msg.toId instanceof API.PeerChannel) {
                             peer = ["c", msg.toId.channelId.value];
-                            // peer = { channelId: msg.toId.channelId.value };
                         } else if (msg.toId instanceof API.PeerUser) {
                             peer = ["u", msg.toId.userId.value];
-                            // peer = { userId: msg.toId.userId.value };
                         }
                     } else if (msg.fromId) {
                         peer = ["u", msg.fromId.value];
-
-                        // peer = { userId: msg.fromId.value };
                     }
                 }
 
@@ -282,23 +277,16 @@ export class DexieStorage implements PersistentStorage.Storage {
         }).flatMap(messages => messages);
     }
 
-    readFile(location: API.FileLocation): Observable<Blob | undefined> {
-        const key = concat(
-            location.dcId.serialized(),
-            location.volumeId.serialized(),
-            location.localId.serialized(),
-            location.secret.serialized()).buffer;
+    readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined> {
+        const key = location.serialized().buffer;
 
-        return Observable.fromPromise(this.db.files.where({ key: key }).first())
-            .map(file => file && file.complete ? file.data : undefined);
+        return Observable
+            .fromPromise(this.db.files.where("key").equals(key).and(file => file.complete).first())
+            .map(file => file ? file.data : undefined);
     }
 
-    appendFile(location: API.FileLocation, data: Blob, complete: boolean): Observable<any> {
-        const key = concat(
-            location.dcId.serialized(),
-            location.volumeId.serialized(),
-            location.localId.serialized(),
-            location.secret.serialized()).buffer;
+    appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<boolean> {
+        const key = location.serialized().buffer;
 
         return Observable.fromPromise(
             this.db.transaction("rw!", this.db.files, async () => {
@@ -316,7 +304,22 @@ export class DexieStorage implements PersistentStorage.Storage {
                         complete: complete,
                     });
                 }
+
+                return complete;
             }));
+    }
+
+    readRecentStickers(): Observable<PersistentStorage.RecentStickers | undefined> {
+        return Observable.fromPromise(this.db.recentStickers.get(0));
+    }
+
+    writeRecentStickers(stickers: PersistentStorage.RecentStickers): Observable<any> {
+        return Observable.fromPromise(
+            this.db.recentStickers.put({
+                _: 0,
+                ...stickers,
+            })
+        );
     }
 }
 
@@ -328,17 +331,19 @@ class Database extends Dexie {
     users: Dexie.Table<PersistentStorage.User, number>;
     messages: Dexie.Table<PersistentStorage.Message, number>;
     files: Dexie.Table<PersistentStorage.File, number>;
+    recentStickers: Dexie.Table<PersistentStorage.RecentStickers & constKey, number>;
 
     constructor() {
         super("db");
         this.version(1).stores({
-            authorizations: "dcId,host,authKey,main",
-            authorizedUser: "_,userId",
-            updatesState: "_,date,pts,qts,seq",
-            chats: "id,chat",
-            users: "id,user",
-            messages: "id,message,randomId,peer",
-            files: "key,data,complete",
+            authorizations: "dcId,main",
+            authorizedUser: "_",
+            updatesState: "_",
+            chats: "id",
+            users: "id",
+            messages: "id,randomId,peer",
+            files: "key",
+            recentStickers: "_",
         });
     }
 }

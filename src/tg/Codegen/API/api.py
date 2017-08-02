@@ -149,6 +149,8 @@ for line in schema_objects.split("\n"):
             aggregate_types[type] = to_camel(type, first_lower=False) + "Type"
     else:
         ts_type = to_camel(type, first_lower=False)
+        if "." not in ts_type:
+            ts_type = "API." + ts_type
         if type not in types.keys():
             types[type] = ts_type
 

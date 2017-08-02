@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { CSSProperties } from "react";
 
@@ -9,17 +10,16 @@ interface State {
 
 }
 
-export class Messages extends React.Component<Props, State> {
+export class ChatMessages extends React.Component<Props, State> {
     render() {
         return (
             <div style={style}>
-
             </div>
         );
     }
 }
 
 const style: CSSProperties = {
-    flexGrow: 2,
-    minWidth: 320,
+    flexGrow: 1,
+    flexShrink: 1,
 };

@@ -16,7 +16,6 @@ import {
 import * as React from "react";
 import { CSSProperties } from "react";
 import { Subscription } from "rxjs/Subscription";
-import { blobToDataURL } from "../../misc/BlobToDataURL";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
 
@@ -51,7 +50,7 @@ export class Avatar extends React.Component<Props, State> {
             this.photoSubscription.unsubscribe();
         }
         this.photoSubscription = tg.getFile(photo)
-            .flatMap(blob => blobToDataURL(blob))
+            .map(blob => URL.createObjectURL(blob, { oneTimeOnly: true }))
             .subscribe(dataURL => {
                 this.setState({
                     photoDataURL: dataURL,
@@ -63,12 +62,14 @@ export class Avatar extends React.Component<Props, State> {
         this.initials = extractInitials(props.title);
         this.color = hashColor(props.id);
 
-        if (props.photo && !fileEqual(props.photo, this.props.photo)) {
-            this.loadPhoto(props.photo);
-        } else if (!props.photo && this.state.photoDataURL) {
-            this.setState({
-                photoDataURL: undefined,
-            });
+        if (!fileEqual(props.photo, this.props.photo)) {
+            if (props.photo) {
+                this.loadPhoto(props.photo);
+            } else {
+                this.setState({
+                    photoDataURL: undefined,
+                });
+            }
         }
     }
 
@@ -78,9 +79,20 @@ export class Avatar extends React.Component<Props, State> {
         }
     }
 
+    componentWillUpdate(_: any, nextState: State) {
+        if (nextState.photoDataURL !== this.state.photoDataURL) {
+            if (this.state.photoDataURL) {
+                URL.revokeObjectURL(this.state.photoDataURL);
+            }
+        }
+    }
+
     componentWillUnmount() {
         if (this.photoSubscription) {
             this.photoSubscription.unsubscribe();
+        }
+        if (this.state.photoDataURL) {
+            URL.revokeObjectURL(this.state.photoDataURL);
         }
     }
 

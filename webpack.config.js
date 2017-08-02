@@ -59,5 +59,10 @@ module.exports = {
                 }
             }
         })
-    ]
+    ],
+
+    // To prevent "Module not found: Error: Can't resolve 'fs' in 'webp'"
+    node: {
+        fs: "empty",
+    },
 };

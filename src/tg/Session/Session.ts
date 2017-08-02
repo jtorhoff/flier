@@ -1,6 +1,7 @@
 import { BN } from "bn.js";
 import * as Long from "long";
 import { Observable } from "rxjs/Observable";
+import { AtomicClock } from "../AtomicClock/AtomicClock";
 import { API } from "../Codegen/API/APISchema";
 import { MTProto } from "../Codegen/MTProto/MTProtoSchema";
 import { ByteStream } from "../DataStructures/ByteStream";
@@ -8,7 +9,6 @@ import { EvictingQueue } from "../DataStructures/EvictingQueue";
 import { HashMap } from "../DataStructures/HashMap/HashMap";
 import { Queue } from "../DataStructures/Queue";
 import { Gzip } from "../Gzip/Gzip";
-import { MonotonicClock } from "../MonotonicClock/MonotonicClock";
 import { SecureRandom } from "../SecureRandom/SecureRandom";
 import { sha1 } from "../SHA/SHA";
 import { TLObject } from "../TL/Interfaces/TLObject";
@@ -24,7 +24,7 @@ import { AuthKeyGenerator } from "./AuthKeyGenerator";
 
 export class Session {
     private readonly sessionId = SecureRandom.bytes(8);
-    private readonly clock = new MonotonicClock();
+    private readonly clock = new AtomicClock();
 
     private readonly pendingRequests = new HashMap<TLLong, XMLHttpRequest>();
     private readonly requests = new Queue<Request>();

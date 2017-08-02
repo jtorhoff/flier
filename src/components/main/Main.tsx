@@ -2,7 +2,7 @@ import { Paper } from "material-ui";
 import * as React from "react";
 import { CSSProperties } from "react";
 import { ChatsList } from "./ChatsList";
-import { Messages } from "./Messages";
+import { Chat } from "./Chat";
 
 interface Props {
 
@@ -17,7 +17,7 @@ export class Main extends React.Component<Props, State> {
         return (
             <Paper style={style} zDepth={1}>
                 <ChatsList/>
-                <Messages/>
+                <Chat/>
             </Paper>
         );
     }

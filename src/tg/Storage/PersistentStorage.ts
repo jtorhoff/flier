@@ -1,6 +1,7 @@
 import { Observable } from "rxjs/Observable";
-import { DexieStorage } from "./DexieStorage";
 import { API } from "../Codegen/API/APISchema";
+import { FileLocation, DocumentLocation } from "../Files/FileManager";
+import { DexieStorage } from "./DexieStorage";
 
 export namespace PersistentStorage {
     export interface Storage {
@@ -32,8 +33,11 @@ export namespace PersistentStorage {
         updateMessage(id: number, update: Partial<API.Message & API.MessageService>): Observable<API.Message | API.MessageService | undefined>;
         readTopMessage(peer: API.PeerType): Observable<API.MessageType | undefined>;
 
-        readFile(location: API.FileLocation): Observable<Blob | undefined>;
-        appendFile(location: API.FileLocation, data: Blob, complete: boolean): Observable<any>;
+        readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined>;
+        appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<boolean>;
+
+        readRecentStickers(): Observable<RecentStickers | undefined>;
+        writeRecentStickers(stickers: RecentStickers): Observable<any>;
     }
 
     export interface Authorization {
@@ -75,6 +79,11 @@ export namespace PersistentStorage {
         readonly key: ArrayBuffer;
         readonly data: Blob;
         readonly complete: boolean;
+    }
+
+    export interface RecentStickers {
+        readonly hash: number;
+        readonly documentIds: Array<number>;
     }
 
     export const defaultStorage: Storage = new DexieStorage();

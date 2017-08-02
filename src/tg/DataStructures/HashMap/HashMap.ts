@@ -142,7 +142,8 @@ export class HashMap<K extends Hashable, V> {
      * taking two arguments: key and value.
      */
     forEach(body: (key: K, value: V) => void): void {
-        for (const entry of this.entries) {
+        const entries = this.entries;
+        for (const entry of entries) {
             body(entry.key, entry.value);
         }
     }

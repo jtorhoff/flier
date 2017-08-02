@@ -49,6 +49,8 @@ export class App extends React.Component<Props, State> {
     }
 }
 
+export const primaryColor = "rgba(61, 129, 161, 1)";
+
 const muiTheme = getMuiTheme({
     // Grabbed from medium.com styles, 'cause it looks tight
     fontFamily: [
@@ -63,7 +65,7 @@ const muiTheme = getMuiTheme({
         "Helvetica Neue",
         "sans-serif"].join(","),
     palette: {
-        primary1Color: "rgba(61, 129, 161, 1)",
+        primary1Color: primaryColor,
     },
 });
 

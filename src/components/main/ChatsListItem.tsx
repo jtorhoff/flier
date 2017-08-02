@@ -45,25 +45,10 @@ export class ChatsListItem extends React.Component<Props, State> {
                 }
                 primaryText={
                     <span style={primaryTextStyle}>
-                        <span style={{
-                            marginRight: 12,
-                            fontWeight: 500,
-                            wordBreak: "break-all"
-                        }}>
-                            {
-                                this.title
-                            }
-                        </span>
+                        <span style={primaryTextTitleStyle}>{this.title}</span>
                         <span style={primaryTextDateStyle}>
-                            { !isLastMessageRead(this.props.chat) &&
-                                <span style={{
-                                    width: 8,
-                                    height: 8,
-                                    background: "rgba(42,174,245,1)",
-                                    display: "inline-flex",
-                                    marginRight: 8,
-                                    borderRadius: "50%",
-                                }}/>
+                            {!isLastMessageRead(this.props.chat) &&
+                            lastMessageNotReadElement
                             }
                             {
                                 this.readableDate
@@ -72,33 +57,23 @@ export class ChatsListItem extends React.Component<Props, State> {
                     </span>
                 }
                 secondaryText={
-                    <div style={secondaryTextStyle}>
-                        <span style={{
-                            wordBreak: "break-word",
-                            hyphens: "auto",
-                            color: "rgb(117,117,117)"
-                        }}>
-                            {
-                                this.props.typing && this.props.typing.length > 0 ? typingElement : this.message
-                            }
-                        </span>
+                    <span style={secondaryTextStyle}>
+                        {
+                            this.props.typing && this.props.typing.length > 0 ? typingElement : this.message
+                        }
                         {
                             this.props.chat.unreadCount > 0 &&
                             <Badge style={secondaryTextBadgeStyle}
                                    badgeContent={this.props.chat.unreadCount}
                                    primary={true}/>
                         }
-                    </div>
+                    </span>
                 }
                 secondaryTextLines={2}>
             </ListItem>
         );
     }
 }
-
-const typingElement = <span
-    className="typing"
-    style={{ fontStyle: "italic" }}>typing<span>.</span><span>.</span><span>.</span></span>;
 
 const isLastMessageRead = (chat: Chat): boolean => {
     return chat.readOutboxMaxId === chat.topMessage.id || !chat.topMessage.out;
@@ -121,11 +96,17 @@ const readableDate = (timestamp: number): string => {
 };
 
 const primaryTextStyle: CSSProperties = {
-    display: "flex",
+    display: "inline-flex",
     width: "100%",
     alignItems: "baseline",
     height: 18,
     overflow: "hidden",
+};
+
+const primaryTextTitleStyle: CSSProperties = {
+    marginRight: 12,
+    fontWeight: 500,
+    wordBreak: "break-all",
 };
 
 const primaryTextDateStyle: CSSProperties = {
@@ -136,8 +117,11 @@ const primaryTextDateStyle: CSSProperties = {
 };
 
 const secondaryTextStyle: CSSProperties = {
-    display: "flex",
+    display: "inline-flex",
     width: "100%",
+    wordBreak: "break-word",
+    hyphens: "auto",
+    color: "rgb(117,117,117)"
 };
 
 const secondaryTextBadgeStyle: CSSProperties = {
@@ -146,3 +130,16 @@ const secondaryTextBadgeStyle: CSSProperties = {
     padding: "0 0 0 32px",
     margin: "auto 0 auto auto",
 };
+
+const lastMessageNotReadElement = <span style={{
+    width: 8,
+    height: 8,
+    background: "rgba(42,174,245,1)",
+    display: "inline-flex",
+    marginRight: 8,
+    borderRadius: "50%",
+}}/>;
+
+const typingElement = <span
+    className="typing"
+    style={{ fontStyle: "italic" }}>typing<span>.</span><span>.</span><span>.</span></span>;

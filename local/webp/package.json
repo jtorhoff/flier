@@ -1,0 +1,7 @@
+{
+  "name": "webp",
+  "version": "0.0.1",
+  "private": true,
+  "main": "webp.js",
+  "homepage": "https://github.com/webmproject/libwebp/blob/master/README.webp_js"
+}

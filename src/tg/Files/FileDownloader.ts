@@ -4,9 +4,10 @@ import { API } from "../Codegen/API/APISchema";
 import { DataCenter } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
+import { FileLocation, DocumentLocation } from "./FileManager";
 
 export class FileDownloader {
-    private readonly inputLocation: API.InputFileLocation;
+    private readonly inputLocation: API.InputFileLocationType;
 
     private offset: number = 0;
     /**
@@ -17,13 +18,24 @@ export class FileDownloader {
     private lastRequestSentAt: number = 0;
     private subject = new Subject<Blob>();
 
-    constructor(readonly location: API.FileLocation,
+    constructor(readonly location: FileLocation | DocumentLocation,
                 private readonly storage: PersistentStorage.Storage,
                 private readonly dc: Observable<DataCenter>) {
-        this.inputLocation = new API.InputFileLocation(
-            location.volumeId,
-            location.localId,
-            location.secret);
+        if (location instanceof FileLocation) {
+            this.inputLocation = new API.InputFileLocation(
+                location.volumeId,
+                location.localId,
+                location.secret,
+            );
+        } else if (location instanceof DocumentLocation) {
+            this.inputLocation = new API.InputDocumentFileLocation(
+                location.id,
+                location.accessHash,
+                location.version,
+            );
+        } else {
+            throw new Error();
+        }
     }
 
     get downloading(): boolean {
@@ -57,12 +69,7 @@ export class FileDownloader {
         }
         this.lastRequestSentAt = now;
 
-        this.dc.subscribe(dc => {
-            this.downloadPartWithDc(dc);
-        },
-        error => {
-            this.subject.error(error);
-        });
+        this.dc.map(dc => this.downloadPartWithDc(dc)).subscribe();
     }
 
     private downloadPartWithDc(dc: DataCenter) {
@@ -74,41 +81,34 @@ export class FileDownloader {
 
         const curLimit = this.limit;
 
-        dc.call(fun).subscribe(
-            (file: API.upload.File) => {
-                const appendFile = this.storage.appendFile(
+        dc.call(fun)
+            .flatMap((file: API.upload.File) =>
+                this.storage.appendFile(
                     this.location,
                     new Blob([file.bytes.bytes], {
                         type: mimeTypeForFileType(file.type)
                     }),
-                    file.bytes.bytes.length < curLimit);
-
-                appendFile.subscribe({
-                    complete: () => {
-                        if (file.bytes.bytes.length < curLimit) {
-                            this.storage.readFile(this.location).subscribe(
-                                blob => {
-                                    if (blob) {
-                                        this.subject.next(blob);
-                                    } else {
-                                        this.subject.error(new Error());
-                                    }
-                                },
-                                error => {
-                                    this.subject.error(error);
-                                },
-                                () => {
-                                    this.subject.complete();
-                                });
-                        } else {
-                            this.downloadPart();
-                        }
+                    file.bytes.bytes.length < curLimit))
+            .switchMap(complete => {
+                if (complete) {
+                    return this.storage.readFile(this.location);
+                } else {
+                    return Observable.of(undefined);
+                }
+            })
+            .subscribe(
+                blob => {
+                    if (blob) {
+                        this.subject.next(blob);
+                        this.subject.complete();
+                    } else {
+                        this.downloadPart();
                     }
+                },
+                error => {
+                    this.subject.error(error);
+                    this.subject.complete();
                 });
-            },
-            error => {
-                this.subject.error(error);
-            });
     }
 }
 
