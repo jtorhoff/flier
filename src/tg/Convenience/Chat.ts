@@ -3,9 +3,9 @@ import { TLString } from "../TL/Types/TLString";
 import { ConvenienceMessage } from "./Message";
 
 export type ConvenienceChatKind =
-    { kind: "dialog", user: API.UserType } |
-    { kind: "chat", chat: API.ChatType } |
-    { kind: "channel", channel: API.ChatType };
+    { kind: "dialog", user: API.User } |
+    { kind: "chat", chat: API.Chat | API.ChatForbidden } |
+    { kind: "channel", channel: API.Channel | API.ChannelForbidden };
 
 export class ConvenienceChat {
     constructor(readonly peer: API.PeerType,

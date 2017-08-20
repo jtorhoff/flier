@@ -30,17 +30,10 @@ export class FileManager {
                     downloader = new FileDownloader(
                         location,
                         this.storage,
-                        this.requestDc(file.dcId.value)!);
-                    downloader.observable.subscribe({
-                        complete: () => {
-                            this.downloaders.remove(file);
-                            this.dispatchDownload();
-                        }
-                    });
+                        this.requestDc(file.dcId.value));
                     this.downloaders.put(file, downloader);
                 }
                 this.dispatchDownload();
-
                 return downloader.observable;
             }
         });
@@ -48,14 +41,18 @@ export class FileManager {
 
     private dispatchDownload() {
         const maxConcurrentDownloadsPerDC = 3;
-
         this.downloaders.forEach((file, downloader) => {
-            if (downloader.downloading) {
-                return;
-            }
             const busyDownloaders = this.downloaders.entries
-                .filter(entry => entry.key.dcId.equals(file.dcId) && entry.value.downloading);
+                .filter(entry =>
+                    entry.key.dcId.equals(file.dcId) && entry.value.downloading);
             if (busyDownloaders.length < maxConcurrentDownloadsPerDC) {
+                downloader.observable
+                    .subscribe({
+                        complete: () => {
+                            this.downloaders.remove(file);
+                            this.dispatchDownload();
+                        }
+                    });
                 downloader.dispatchDownload();
             }
         });

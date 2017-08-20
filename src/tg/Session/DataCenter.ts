@@ -23,6 +23,7 @@ export class DataCenter {
     private readonly configSubject = new BehaviorSubject<API.Config | undefined>(undefined);
     private readonly dcOptionsSubject = new BehaviorSubject<API.DcOption[]>([]);
     private readonly authorizedSubject = new BehaviorSubject(false);
+    private readonly stateSubject = new BehaviorSubject(NetworkState.waitingForNetwork);
 
     private reqId = 0;
     private host?: string;
@@ -41,6 +42,10 @@ export class DataCenter {
 
     get config(): API.Config | undefined {
         return this.configSubject.getValue();
+    }
+
+    get state(): Observable<NetworkState> {
+        return this.stateSubject.asObservable();
     }
 
     constructor(readonly apiId: number) {
@@ -96,20 +101,40 @@ export class DataCenter {
                             deserializedObject(new ByteStream(event.data.obj))!)
                     }
                 } break;
+
+                case "waitingForNetwork": {
+                    this.stateSubject.next(NetworkState.waitingForNetwork);
+                } break;
+
+                case "connecting": {
+                    this.stateSubject.next(NetworkState.connecting);
+                } break;
             }
         });
 
-        addEventListener("online", () => {
+        window.ononline = () => {
             this.worker.postMessage({
                 type: "open",
             });
-        });
+        };
 
-        addEventListener("offline", () => {
+        window.onoffline = () => {
             this.worker.postMessage({
                 type: "close",
             });
-        });
+        };
+
+        // addEventListener("online", () => {
+        //     this.worker.postMessage({
+        //         type: "open",
+        //     });
+        // });
+        //
+        // addEventListener("offline", () => {
+        //     this.worker.postMessage({
+        //         type: "close",
+        //     });
+        // });
 
         this.requests
             .defer(this.sessionInitialized)
@@ -146,6 +171,7 @@ export class DataCenter {
         this.requests.unsubscribe();
         this.sessionInitialized.unsubscribe();
         this.authorizedSubject.unsubscribe();
+        this.stateSubject.unsubscribe();
     }
 
     importAuthorization(dc: DataCenter) {
@@ -242,6 +268,7 @@ export class DataCenter {
                     type: "acceptLegacy",
                 });
                 this.sessionInitialized.next(true);
+                this.stateSubject.next(NetworkState.idling);
             } else {
                 this.close();
             }
@@ -335,6 +362,12 @@ export interface GenericError {
     details?: string,
     waitFor?: number,
     dcId?: number,
+}
+
+export const enum NetworkState {
+    waitingForNetwork,
+    connecting,
+    idling,
 }
 
 interface Request {

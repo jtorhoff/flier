@@ -30,20 +30,11 @@ interface State {
 }
 
 export class Avatar extends React.Component<Props, State> {
-    initials: string;
-    color: string;
     photoSubscription?: Subscription;
 
     state: State = {
         photoDataURL: undefined,
     };
-
-    constructor(props: Props) {
-        super(props);
-
-        this.initials = extractInitials(props.title);
-        this.color = hashColor(props.id);
-    }
 
     private loadPhoto(photo: API.FileLocation) {
         if (this.photoSubscription) {
@@ -52,25 +43,14 @@ export class Avatar extends React.Component<Props, State> {
         this.photoSubscription = tg.getFile(photo)
             .map(blob => URL.createObjectURL(blob, { oneTimeOnly: true }))
             .subscribe(dataURL => {
+                const prevPhotoDataURL = this.state.photoDataURL;
                 this.setState({
                     photoDataURL: dataURL,
                 });
+                if (prevPhotoDataURL) {
+                    URL.revokeObjectURL(prevPhotoDataURL);
+                }
             });
-    }
-
-    componentWillReceiveProps(props: Props) {
-        this.initials = extractInitials(props.title);
-        this.color = hashColor(props.id);
-
-        if (!fileEqual(props.photo, this.props.photo)) {
-            if (props.photo) {
-                this.loadPhoto(props.photo);
-            } else {
-                this.setState({
-                    photoDataURL: undefined,
-                });
-            }
-        }
     }
 
     componentDidMount() {
@@ -79,10 +59,21 @@ export class Avatar extends React.Component<Props, State> {
         }
     }
 
-    componentWillUpdate(_: any, nextState: State) {
-        if (nextState.photoDataURL !== this.state.photoDataURL) {
-            if (this.state.photoDataURL) {
-                URL.revokeObjectURL(this.state.photoDataURL);
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextProps.id !== this.props.id
+            || nextProps.title !== this.props.title
+            || nextProps.photo !== this.props.photo
+            || nextState.photoDataURL !== this.state.photoDataURL;
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.photo !== prevProps.photo) {
+            if (this.props.photo) {
+                this.loadPhoto(this.props.photo);
+            } else if (this.state.photoDataURL) {
+                this.setState({
+                    photoDataURL: undefined,
+                });
             }
         }
     }
@@ -99,13 +90,13 @@ export class Avatar extends React.Component<Props, State> {
     render() {
         return (
             <MuiAvatar style={style} backgroundColor={
-                this.state.photoDataURL ? "#fff" : this.color
+                this.state.photoDataURL ? "#fff" : hashColor(this.props.id)
             }>
                 {this.state.photoDataURL ? (
                     <img style={{ width: "100%", height: "100%", }}
                          src={this.state.photoDataURL}/>
                 ) : (
-                    this.initials
+                    extractInitials(this.props.title)
                 )}
             </MuiAvatar>
         );
@@ -146,19 +137,5 @@ const hashColor = (x: number): string => {
 };
 
 const style: CSSProperties = {
-    position: "absolute",
-    left: 16,
-    top: 16,
     overflow: "hidden",
-};
-
-const fileEqual = (a?: API.FileLocation, b?: API.FileLocation): boolean => {
-    if (!a || !b) {
-        return false;
-    }
-
-    return a.dcId.equals(b.dcId)
-        && a.volumeId.equals(b.volumeId)
-        && a.localId.equals(b.localId)
-        && a.secret.equals(b.secret);
 };

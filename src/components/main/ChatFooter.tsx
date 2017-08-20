@@ -25,8 +25,6 @@ interface State {
 }
 
 export class ChatFooter extends React.Component<Props, State> {
-    // private stickerPopupAnchorRef: React.ReactInstance;
-
     state: State = {
         message: undefined,
         stickersPopupOpen: false,
@@ -65,7 +63,8 @@ export class ChatFooter extends React.Component<Props, State> {
             </IconButton> :
             <IconButton key={"mic"}
                         style={iconButtonStyle}
-                        iconStyle={iconButtonIconStyle}>
+                        iconStyle={iconButtonIconStyle}
+                        disabled={true}>
                 <AvMicNone
                     color={"rgba(0,0,0,0.4)"}
                     hoverColor={primaryColor}/>
@@ -74,7 +73,8 @@ export class ChatFooter extends React.Component<Props, State> {
             <div style={style}>
                 <style type="text/css">{transitionStyle}</style>
                 <IconButton style={iconButtonStyle}
-                            iconStyle={iconButtonIconStyle}>
+                            iconStyle={iconButtonIconStyle}
+                            disabled={true}>
                     <EditorAttachFile color={"rgba(0,0,0,0.4)"}
                                       hoverColor={primaryColor}/>
                 </IconButton>

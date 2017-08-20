@@ -1,6 +1,15 @@
+import "rxjs/add/operator/combineLatest";
+import "rxjs/add/operator/concatAll";
+import "rxjs/add/operator/concatMap";
 import "rxjs/add/operator/filter";
+import "rxjs/add/operator/mergeAll";
 import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/reduce";
+import "rxjs/add/operator/scan";
+import "rxjs/add/operator/single";
 import "rxjs/add/operator/skip";
+import "rxjs/add/operator/take";
+import "rxjs/add/operator/toArray";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
@@ -15,7 +24,7 @@ import {
     FileLocation,
     DocumentLocation
 } from "./Files/FileManager";
-import { DataCenter, ErrorType } from "./Session/DataCenter";
+import { DataCenter, ErrorType, NetworkState } from "./Session/DataCenter";
 import { sha256 } from "./SHA/SHA";
 import { PersistentStorage } from "./Storage/PersistentStorage";
 import { TLBytes } from "./TL/Types/TLBytes";
@@ -25,16 +34,8 @@ import { TLString } from "./TL/Types/TLString";
 import { Update } from "./Updates/Update";
 import { UpdatesHandler } from "./Updates/UpdatesHandler";
 import { concat } from "./Utils/BytesConcat";
-import "rxjs/add/operator/concatAll";
-import "rxjs/add/operator/mergeAll";
-import "rxjs/add/operator/toArray";
-import "rxjs/add/operator/concatMap";
-import "rxjs/add/operator/single";
-import "rxjs/add/operator/combineLatest";
-import "rxjs/add/operator/reduce";
-import { observable } from "rxjs/symbol/observable";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/scan";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/combineAll";
 
 export type Chat = ConvenienceChat;
 export type Message = ConvenienceMessage;
@@ -44,6 +45,7 @@ export class TG {
     private readonly authorizedSubject = new BehaviorSubject(false);
     private readonly fileDataCenters: { [index: number]: DataCenter } = {};
     private readonly updatesSubject = new Subject<Update>();
+    private readonly stateSubject = new BehaviorSubject(NetworkState.waitingForNetwork);
 
     private mainDataCenter: DataCenter;
     private updatesHandler: UpdatesHandler;
@@ -91,6 +93,7 @@ export class TG {
 
         this.mainDataCenter.authorized.subscribe(this.authorizedSubject);
         this.updatesHandler.updates.subscribe(this.updatesSubject);
+        this.mainDataCenter.state.subscribe(this.stateSubject);
     }
 
     private initFileManager() {
@@ -199,7 +202,15 @@ export class TG {
             return config.offlineBlurTimeoutMs.value;
         }
 
-        return 0;
+        return 5000;
+    }
+
+    get state(): Observable<NetworkState> {
+        return this.stateSubject.asObservable();
+    }
+
+    get stateValue(): NetworkState {
+        return this.stateSubject.value;
     }
 
     sendCode(phoneNumber: string): Observable<API.auth.SentCode> {
@@ -280,8 +291,86 @@ export class TG {
         );
 
         return this.mainDataCenter.call(fun)
+            .do((dialogs: API.messages.DialogsType) => {
+                Observable.merge(
+                    this.storage.writeDialogs(...dialogs.dialogs.items),
+                    this.storage.writeMessages(...dialogs.messages.items),
+                    this.storage.writeChats(...dialogs.chats.items),
+                    this.storage.writeUsers(...dialogs.users.items))
+                    .subscribe();
+            })
             .map((dialogs: API.messages.DialogsType) => {
-                return convenienceChatsArrayForDialogs(dialogs);
+                return convenienceChatsArrayForDialogs({
+                    dialogs: dialogs.dialogs.items,
+                    messages: dialogs.messages.items,
+                    chats: dialogs.chats.items,
+                    users: dialogs.users.items,
+                });
+            });
+    }
+
+    getChat(peer: API.PeerType): Observable<Chat> {
+        return this.storage.readDialogs(peer)
+            .flatMap(dialog => dialog)
+            .flatMap(dialog => {
+                let peerObservable: Observable<API.ChatType> | Observable<API.UserType> | Observable<API.MessageType>;
+                if (dialog.peer instanceof API.PeerChannel) {
+                    peerObservable = this.storage
+                        .readChats(dialog.peer.channelId.value)
+                        .map(chats => chats[0]);
+                } else if (dialog.peer instanceof API.PeerChat) {
+                    peerObservable = this.storage
+                        .readChats(dialog.peer.chatId.value)
+                        .map(chats => chats[0]);
+                } else if (dialog.peer instanceof API.PeerUser) {
+                    peerObservable = this.storage
+                        .readUsers(dialog.peer.userId.value)
+                        .map(users => users[0]);
+                } else {
+                    throw new Error();
+                }
+                const msgObservable = this.storage
+                    .readMessages(dialog.topMessage.value)
+                    .map(msgs => msgs[0]);
+
+                return Observable.merge(
+                    Observable.of(dialog),
+                    peerObservable,
+                    msgObservable
+                        .flatMap(msg => {
+                            if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                                if (msg.fromId) {
+                                    return Observable.merge(
+                                        Observable.of(msg),
+                                        this.storage.readUsers(msg.fromId.value)
+                                            .map(users => users[0]));
+                                }
+                            }
+                            return Observable.of(msg);
+                        })
+                )
+            })
+            .combineLatest()
+            .reduce((list: any[], value) => list.concat(value))
+            .map((dialog: [API.Dialog, API.ChatType | API.UserType, API.MessageType, API.UserType | undefined]) => {
+                const dialogs = [dialog[0]];
+                const messages = [dialog[2]];
+                let chats: API.ChatType[] = [];
+                let users: API.UserType[] = [];
+                if (dialog[1] instanceof API.User || dialog[1] instanceof API.UserEmpty) {
+                    users = users.concat(dialog[1]);
+                } else {
+                    chats = chats.concat(dialog[1]);
+                }
+                if (dialog[3]) {
+                    users = users.concat(dialog[3]!);
+                }
+                return convenienceChatsArrayForDialogs({
+                    dialogs: dialogs,
+                    messages: messages,
+                    chats: chats,
+                    users: users,
+                })[0]
             });
     }
 
@@ -314,7 +403,7 @@ export class TG {
 
     getTopMessageForPeer(peer: API.PeerType): Observable<ConvenienceMessage | undefined> {
         return this.storage.readTopMessage(peer)
-            .switchMap(msg => {
+            .flatMap(msg => {
                 if (msg instanceof API.Message || msg instanceof API.MessageService) {
                     if (msg.fromId) {
                         return this.storage.readUsers(msg.fromId.value)

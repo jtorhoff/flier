@@ -25,16 +25,16 @@ interface Props {
 interface State {
     stickers: List<StickerSet>,
     activeSet: number,
-    scrollToSet: number,
+    scrollToSet: number | undefined,
 }
 
 export class ChatStickersPopup extends React.Component<Props, State> {
-    stickersSubscription?: Subscription;
+    stickersSubscription: Subscription;
 
     state: State = {
         stickers: List(),
         activeSet: 0,
-        scrollToSet: 0,
+        scrollToSet: undefined,
     };
 
     componentDidMount() {
@@ -70,10 +70,25 @@ export class ChatStickersPopup extends React.Component<Props, State> {
             })
     }
 
-    componentWillUnmount() {
-        if (this.stickersSubscription) {
-            this.stickersSubscription.unsubscribe();
+    componentWillReceiveProps(nextProps: Props) {
+        if (!nextProps.open) {
+            this.setState({
+                scrollToSet: this.state.activeSet,
+            });
         }
+    }
+
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextProps.open !== this.props.open
+            || nextProps.onClose !== this.props.onClose
+            || nextProps.anchorEl !== this.props.anchorEl
+            || nextState.stickers !== this.state.stickers
+            || nextState.activeSet !== this.state.activeSet
+            || nextState.scrollToSet !== this.state.scrollToSet;
+    }
+
+    componentWillUnmount() {
+        this.stickersSubscription.unsubscribe();
     }
 
     renderCell(params: CollectionCellRendererParams): React.ReactNode {
@@ -97,13 +112,14 @@ export class ChatStickersPopup extends React.Component<Props, State> {
             index = (params.index - total) % lengths[group];
         }
 
+        const sticker = this.state.stickers.get(group).stickers[index];
         let element: JSX.Element;
-        if (this.state.stickers.get(group).stickers[index] instanceof API.Document) {
+        if (sticker instanceof API.Document) {
             element =
                 <TouchRipple>
                     <Sticker width={stickerSize}
                              height={stickerSize}
-                             sticker={this.state.stickers.get(group).stickers[index]!}
+                             sticker={sticker}
                              thumb={true}/>
                 </TouchRipple>
         } else {
@@ -148,9 +164,12 @@ export class ChatStickersPopup extends React.Component<Props, State> {
             }
         }
 
-        this.setState({
-            activeSet: set,
-        });
+        if (this.state.activeSet !== set) {
+            this.setState({
+                activeSet: set,
+                scrollToSet: undefined,
+            });
+        }
     }
 
     renderStripCell(params: CollectionCellRendererParams): React.ReactNode {
@@ -208,9 +227,12 @@ export class ChatStickersPopup extends React.Component<Props, State> {
         const stickersCount = this.state.stickers
             .map(set => set!.stickers.length)
             .reduce((acc, val) => acc! + val!, 0);
-        const scrollToCell = this.state.stickers.slice(0, this.state.scrollToSet)
-            .reduce((acc, set) => set!.stickers.length + acc!, 0);
-        const scrollTop = scrollToCell * (stickerSize + gutterSize) / columnCount;
+        let scrollTop: number | undefined = undefined;
+        if (this.state.scrollToSet !== undefined) {
+            const scrollToCell = this.state.stickers.slice(0, this.state.scrollToSet)
+                .reduce((acc, set) => set!.stickers.length + acc!, 0);
+            scrollTop = scrollToCell * (stickerSize + gutterSize) / columnCount;
+        }
 
         return (
             <Popover
@@ -284,9 +306,9 @@ export class ChatStickersPopup extends React.Component<Props, State> {
 }
 
 interface StickerSet {
-    thumbnail?: JSX.Element,
-    title: string,
-    stickers: Array<API.Document | undefined>,
+    readonly thumbnail?: JSX.Element,
+    readonly title: string,
+    readonly stickers: Array<API.Document | undefined>,
 }
 
 const dummySticker: JSX.Element = <span/>;

@@ -38,6 +38,9 @@ export namespace PersistentStorage {
 
         readRecentStickers(): Observable<RecentStickers | undefined>;
         writeRecentStickers(stickers: RecentStickers): Observable<any>;
+
+        writeDialogs(...dialogs: API.Dialog[]): Observable<any>;
+        readDialogs(...peers: API.PeerType[]): Observable<Array<API.Dialog>>;
     }
 
     export interface Authorization {
@@ -84,6 +87,12 @@ export namespace PersistentStorage {
     export interface RecentStickers {
         readonly hash: number;
         readonly documentIds: Array<number>;
+    }
+
+    export interface Dialogs {
+        readonly peer: ["u" | "g" | "c", number],
+        readonly topMessageId: number,
+        readonly dialog: ArrayBuffer,
     }
 
     export const defaultStorage: Storage = new DexieStorage();

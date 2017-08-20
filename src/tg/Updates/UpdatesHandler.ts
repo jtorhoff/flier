@@ -1,6 +1,5 @@
 import * as moment from "moment";
 import "rxjs/add/observable/never";
-import "rxjs/add/operator/switchMap";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { tg } from "../../components/App";
@@ -13,6 +12,8 @@ import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
 import { TLVector } from "../TL/Types/TLVector";
 import { Update } from "./Update";
+import "rxjs/add/operator/delay";
+import { Subscription } from "rxjs/Subscription";
 
 export class UpdatesHandler {
     private state: UpdatesState = {
@@ -27,6 +28,7 @@ export class UpdatesHandler {
         ptsCount: number,
         update: API.UpdatesType | API.UpdateShortSentMessage
     }[] = [];
+    private lastUserStatusExpirations = new HashMap<TLInt, Subscription>();
 
     readonly updates = new Subject<Update>();
 
@@ -334,6 +336,22 @@ export class UpdatesHandler {
                             this.updates.next(new Update.User(user));
                         }
                     });
+                let subscription = this.lastUserStatusExpirations.get(upd.userId);
+                if (subscription) {
+                    subscription.unsubscribe();
+                }
+                if (upd.status instanceof API.UserStatusOnline) {
+                    subscription = Observable.of(new API.UserStatusOffline(upd.status.expires))
+                        .delay(moment.unix(upd.status.expires.value).toDate())
+                        .flatMap(status => this.storage.updateUser(
+                            upd.userId.value, { status: status }))
+                        .subscribe(user => {
+                            if (user) {
+                                this.updates.next(new Update.User(user));
+                            }
+                        });
+                    this.lastUserStatusExpirations.put(upd.userId, subscription);
+                }
             } break;
 
             case API.UpdateUserName: {
@@ -442,7 +460,7 @@ export class UpdatesHandler {
                 for (let msgId of upd.messages.items) {
                     this.storage.updateMessage(msgId.value, {
                         mediaUnread: false,
-                    }).switchMap(msg => {
+                    }).flatMap(msg => {
                         if (msg instanceof API.Message || msg instanceof API.MessageService) {
                             if (msg.fromId) {
                                 return this.storage.readUsers(msg.fromId.value)
@@ -533,7 +551,7 @@ export class UpdatesHandler {
 
             case API.UpdateEditMessage: {
                 const upd = update as API.UpdateEditMessage;
-                this.storage.writeMessages(upd.message).switchMap(msg => {
+                this.storage.writeMessages(upd.message).flatMap(msg => {
                     if (msg instanceof API.Message || msg instanceof API.MessageService) {
                         if (msg.fromId) {
                             return this.storage.readUsers(msg.fromId.value)

@@ -1,5 +1,5 @@
 import { ListItem, Badge } from "material-ui";
-import { lightBlack } from "material-ui/styles/colors";
+import { lightBlack, faintBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";
@@ -8,8 +8,13 @@ import { Chat } from "../../tg/TG";
 import { Avatar } from "../misc/Avatar";
 
 interface Props {
+    onSelect: (peer: API.PeerType) => void,
+    selected: boolean,
     chat: Chat,
-    typing: Array<{ readonly user: API.User, readonly action: API.SendMessageActionType }>,
+    typing: Array<{
+        readonly user: API.User,
+        readonly action: API.SendMessageActionType
+    }>,
 }
 
 interface State {
@@ -17,60 +22,75 @@ interface State {
 }
 
 export class ChatsListItem extends React.Component<Props, State> {
-    title: string;
-    readableDate: string;
-    message: string;
-
-    constructor(props: Props) {
-        super(props);
-
-        this.title = this.props.chat.title;
-        this.readableDate = readableDate(this.props.chat.topMessage.date);
-        this.message = this.props.chat.topMessage.toString();
-    }
-
-    componentWillReceiveProps(props: Props) {
-        this.title = props.chat.title;
-        this.readableDate = readableDate(props.chat.topMessage.date);
-        this.message = props.chat.topMessage.toString();
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextProps.selected !== this.props.selected
+            || nextProps.chat !== this.props.chat
+            || nextProps.typing !== this.props.typing;
     }
 
     render() {
+        const title = this.props.chat.title;
+        const selectablePrimaryTextTitleStyle = this.props.selected ?
+            { ...primaryTextTitleStyle, color: "#fff" } : primaryTextTitleStyle;
+        const selectablePrimaryTextDateStyle = this.props.selected ?
+            { ...primaryTextDateStyle, color: "#fff" } : primaryTextDateStyle;
+        const selectableSecondaryTextStyle = this.props.selected ?
+            { ...secondaryTextStyle, color: "#fff" } : secondaryTextStyle;
+        const selectableLastMessageNotReadStyle = this.props.selected ?
+            { ...lastMessageNotReadStyle, background: "#fff" } : lastMessageNotReadStyle;
         return (
-            <ListItem
-                leftAvatar={
-                    <Avatar id={this.props.chat.peerId}
-                            title={this.title}
-                            photo={this.props.chat.photoSmall}/>
-                }
-                primaryText={
-                    <span style={primaryTextStyle}>
-                        <span style={primaryTextTitleStyle}>{this.title}</span>
-                        <span style={primaryTextDateStyle}>
-                            {!isLastMessageRead(this.props.chat) &&
-                            lastMessageNotReadElement
+            <div style={{
+                background: this.props.selected ? "rgba(61, 129, 161, 0.67)" : "none",
+                transition: "background 300ms ease",
+            }}>
+                <ListItem
+                    onTouchTap={() => this.props.onSelect(this.props.chat.peer)}
+                    leftAvatar={
+                        <div style={{
+                            position: "absolute",
+                            left: 16,
+                            top: 16,
+                        }}>
+                            <Avatar id={this.props.chat.peerId}
+                                    title={title}
+                                    photo={this.props.chat.photoSmall}/>
+                        </div>
+                    }
+                    primaryText={
+                        <span style={primaryTextStyle}>
+                            <span style={selectablePrimaryTextTitleStyle}>{title}</span>
+                            <span style={selectablePrimaryTextDateStyle}>
+                                {
+                                    !isLastMessageRead(this.props.chat) &&
+                                    <span style={selectableLastMessageNotReadStyle}/>
+                                }
+                                {
+                                    readableDate(this.props.chat.topMessage.date)
+                                }
+                            </span>
+                        </span>
+                    }
+                    secondaryText={
+                        <span style={selectableSecondaryTextStyle}>
+                            {
+                                this.props.typing && this.props.typing.length > 0 ?
+                                    typingElement(
+                                        this.props.chat,
+                                        this.props.typing
+                                            .map(typing => typing.user)) :
+                                    this.props.chat.topMessage.toString()
                             }
                             {
-                                this.readableDate
+                                this.props.chat.unreadCount > 0 &&
+                                <Badge style={secondaryTextBadgeStyle}
+                                       badgeContent={this.props.chat.unreadCount}
+                                       primary={true}/>
                             }
                         </span>
-                    </span>
-                }
-                secondaryText={
-                    <span style={secondaryTextStyle}>
-                        {
-                            this.props.typing && this.props.typing.length > 0 ? typingElement : this.message
-                        }
-                        {
-                            this.props.chat.unreadCount > 0 &&
-                            <Badge style={secondaryTextBadgeStyle}
-                                   badgeContent={this.props.chat.unreadCount}
-                                   primary={true}/>
-                        }
-                    </span>
-                }
-                secondaryTextLines={2}>
-            </ListItem>
+                    }
+                    secondaryTextLines={2}>
+                </ListItem>
+            </div>
         );
     }
 }
@@ -100,6 +120,7 @@ const primaryTextStyle: CSSProperties = {
     width: "100%",
     alignItems: "baseline",
     height: 18,
+    lineHeight: "17px",
     overflow: "hidden",
 };
 
@@ -131,15 +152,29 @@ const secondaryTextBadgeStyle: CSSProperties = {
     margin: "auto 0 auto auto",
 };
 
-const lastMessageNotReadElement = <span style={{
+const lastMessageNotReadStyle: CSSProperties = {
     width: 8,
     height: 8,
     background: "rgba(42,174,245,1)",
     display: "inline-flex",
     marginRight: 8,
     borderRadius: "50%",
-}}/>;
+};
 
-const typingElement = <span
-    className="typing"
-    style={{ fontStyle: "italic" }}>typing<span>.</span><span>.</span><span>.</span></span>;
+const typingElement = (chat: Chat, users: Array<API.User>) => {
+    return (
+        <span
+            className="typing"
+            style={{ fontStyle: "italic" }}>
+            {
+                chat.peer instanceof API.PeerUser ?
+                    "typing" :
+                    `${users.map(user => user.firstName!.string)
+                        .join(", ")} typing`
+            }
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+        </span>
+    );
+};

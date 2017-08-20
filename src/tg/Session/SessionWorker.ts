@@ -17,6 +17,10 @@ const openSession = () => {
     session = new Session(host!);
     session.delegate = delegate;
     generateKey(!!authKey);
+
+    sendMessage({
+        type: "connecting",
+    });
 };
 
 const sessionClosed = (legacy: SessionLegacy) => {
@@ -28,9 +32,15 @@ const sessionClosed = (legacy: SessionLegacy) => {
         type: "closed",
     });
 
-    if (navigator.onLine) {
-        openSession();
-    }
+    setTimeout(() => {
+        if (navigator.onLine) {
+            openSession();
+        } else {
+            sendMessage({
+                type: "waitingForNetwork",
+            });
+        }
+    }, 300);
 };
 
 const newServerSessionCreated = () => {

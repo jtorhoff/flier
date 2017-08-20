@@ -34,7 +34,7 @@ export namespace Update {
     }
 
     export class User extends Update {
-        constructor(readonly user: API.UserType) {
+        constructor(readonly user: API.User) {
             super();
         }
     }

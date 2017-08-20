@@ -17,6 +17,7 @@ export class FileDownloader {
     private limit: number = 1 << 15;
     private lastRequestSentAt: number = 0;
     private subject = new Subject<Blob>();
+    private _downloading = false;
 
     constructor(readonly location: FileLocation | DocumentLocation,
                 private readonly storage: PersistentStorage.Storage,
@@ -39,7 +40,7 @@ export class FileDownloader {
     }
 
     get downloading(): boolean {
-        return this.lastRequestSentAt > 0;
+        return this._downloading;
     }
 
     get observable(): Observable<Blob> {
@@ -47,7 +48,8 @@ export class FileDownloader {
     }
 
     dispatchDownload() {
-        if (!this.downloading) {
+        if (!this._downloading) {
+            this._downloading = true;
             this.downloadPart();
         }
     }
@@ -89,7 +91,7 @@ export class FileDownloader {
                         type: mimeTypeForFileType(file.type)
                     }),
                     file.bytes.bytes.length < curLimit))
-            .switchMap(complete => {
+            .flatMap(complete => {
                 if (complete) {
                     return this.storage.readFile(this.location);
                 } else {
@@ -101,6 +103,7 @@ export class FileDownloader {
                     if (blob) {
                         this.subject.next(blob);
                         this.subject.complete();
+                        this._downloading = false;
                     } else {
                         this.downloadPart();
                     }
@@ -108,6 +111,7 @@ export class FileDownloader {
                 error => {
                     this.subject.error(error);
                     this.subject.complete();
+                    this._downloading = false;
                 });
     }
 }

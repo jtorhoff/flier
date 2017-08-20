@@ -6,6 +6,7 @@ import { nativeWebPSupport } from "../../misc/NativeWebPSupport";
 import { renderWebpToCanvas } from "../../misc/RenderWebpToCanvas";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
+import "rxjs/add/operator/switchMap";
 
 interface Props {
     width: number,
@@ -59,7 +60,7 @@ export class Sticker extends React.Component<Props, State> {
                         stickerLoaded: true,
                         stickerDataURL: data,
                     });
-                } else if (data instanceof ArrayBuffer) {
+                } else {
                     this.setState({
                         stickerLoaded: true,
                     }, () => {
@@ -67,6 +68,15 @@ export class Sticker extends React.Component<Props, State> {
                     });
                 }
             });
+    }
+
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextProps.width !== this.props.width
+            || nextProps.height !== this.props.height
+            || nextProps.sticker !== this.props.sticker
+            || nextProps.thumb !== this.props.thumb
+            || nextState.stickerLoaded !== this.state.stickerLoaded
+            || nextState.stickerDataURL !== this.state.stickerDataURL;
     }
 
     componentWillUnmount() {

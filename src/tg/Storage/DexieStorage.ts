@@ -321,6 +321,51 @@ export class DexieStorage implements PersistentStorage.Storage {
             })
         );
     }
+
+    writeDialogs(...dialogs: API.Dialog[]): Observable<any> {
+        return Observable.fromPromise(
+            this.db.dialogs.bulkPut(dialogs.map(dialog => {
+                let peer: ["u" | "g" | "c", number];
+                if (dialog.peer instanceof API.PeerUser) {
+                    peer = ["u", dialog.peer.userId.value];
+                } else if (dialog.peer instanceof API.PeerChat) {
+                    peer = ["g", dialog.peer.chatId.value];
+                } else if (dialog.peer instanceof API.PeerChannel) {
+                    peer = ["c", dialog.peer.channelId.value];
+                } else {
+                    throw new Error();
+                }
+
+                return {
+                    peer: peer,
+                    topMessageId: dialog.topMessage.value,
+                    dialog: dialog.serialized().buffer,
+                }
+            }))
+        )
+    }
+
+    readDialogs(...peers: API.PeerType[]): Observable<Array<API.Dialog>> {
+        const dbPeers = peers.map(peer => {
+            if (peer instanceof API.PeerUser) {
+                return ["u", peer.userId.value];
+            } else if (peer instanceof API.PeerChat) {
+                return ["g", peer.chatId.value];
+            } else if (peer instanceof API.PeerChannel) {
+                return ["c", peer.channelId.value];
+            } else {
+                throw new Error();
+            }
+        });
+
+        return Observable.fromPromise(
+            this.db.dialogs.where("peer").anyOf(dbPeers as Array<Array<any>>).toArray())
+            .map(dialogs => {
+                return dialogs.map(dialog => {
+                    return deserializedObject(new ByteStream(new Uint8Array(dialog.dialog))) as API.Dialog
+                })
+            });
+    }
 }
 
 class Database extends Dexie {
@@ -332,6 +377,7 @@ class Database extends Dexie {
     messages: Dexie.Table<PersistentStorage.Message, number>;
     files: Dexie.Table<PersistentStorage.File, number>;
     recentStickers: Dexie.Table<PersistentStorage.RecentStickers & constKey, number>;
+    dialogs: Dexie.Table<PersistentStorage.Dialogs, number>;
 
     constructor() {
         super("db");
@@ -344,6 +390,7 @@ class Database extends Dexie {
             messages: "id,randomId,peer",
             files: "key",
             recentStickers: "_",
+            dialogs: "peer,topMessageId",
         });
     }
 }
