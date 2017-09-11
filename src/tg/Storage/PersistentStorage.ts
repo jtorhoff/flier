@@ -31,7 +31,7 @@ export namespace PersistentStorage {
         writeMessages(...messages: API.MessageType[]): Observable<any>;
         deleteMessages(...ids: number[]): Observable<Array<{ peer: API.PeerType, msgId: number}>>;
         updateMessage(id: number, update: Partial<API.Message & API.MessageService>): Observable<API.Message | API.MessageService | undefined>;
-        readTopMessage(peer: API.PeerType): Observable<API.MessageType | undefined>;
+        readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number): Observable<Array<API.MessageType>>;
 
         readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined>;
         appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<boolean>;
@@ -39,8 +39,9 @@ export namespace PersistentStorage {
         readRecentStickers(): Observable<RecentStickers | undefined>;
         writeRecentStickers(stickers: RecentStickers): Observable<any>;
 
-        writeDialogs(...dialogs: API.Dialog[]): Observable<any>;
         readDialogs(...peers: API.PeerType[]): Observable<Array<API.Dialog>>;
+        writeDialogs(...dialogs: API.Dialog[]): Observable<any>;
+        updateDialog(peer: API.PeerType, update: Partial<API.Dialog>): Observable<API.Dialog | undefined>;
     }
 
     export interface Authorization {

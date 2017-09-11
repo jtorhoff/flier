@@ -80,14 +80,15 @@ export class ChatFooter extends React.Component<Props, State> {
                 </IconButton>
                 <div style={{
                     flexGrow: 1,
-                    margin: `0 ${spacing.desktopGutterMini}px`
+                    margin: `0 ${spacing.desktopGutterMini}px -6px ${spacing.desktopGutterMini}px`,
                 }}>
                     <TextField hintText={"Write a message\u2026"}
                                onChange={e => this.onInput(e)}
                                fullWidth={true}
                                multiLine={true}
                                rowsMax={3}
-                               underlineShow={false}/>
+                               underlineShow={false}
+                               ref={ref => ref && ref.focus()}/>
                 </div>
                 <IconButton style={iconButtonStyle}
                             iconStyle={iconButtonIconStyle}
@@ -120,16 +121,15 @@ export class ChatFooter extends React.Component<Props, State> {
 
 const style: CSSProperties = {
     height: "fit-content",
-    minHeight: spacing.desktopToolbarHeight,
+    // minus bottom padding
+    minHeight: `calc(${spacing.desktopToolbarHeight}px - 10px)`,
     borderTop: `1px solid ${faintBlack}`,
-    padding: `0 12px`,
+    padding: "0 12px 10px 12px",
     display: "flex",
-    flexGrow: 0,
-    flexShrink: 0,
     flexBasis: "auto",
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
 };
 
 const transitionStyle = `

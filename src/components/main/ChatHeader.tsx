@@ -9,6 +9,9 @@ import { Chat } from "../../tg/TG";
 import { tg } from "../App";
 import { ReadableStatus } from "../misc/ReadableStatus";
 import { API } from "../../tg/Codegen/API/APISchema";
+import { Update } from "../../tg/Updates/Update";
+import moment = require("moment");
+import { List } from "immutable";
 
 interface Props {
     chat: Chat,
@@ -16,14 +19,57 @@ interface Props {
 
 interface State {
     networkState: NetworkState,
+    typing: List<{
+        readonly user: API.User,
+        readonly action: API.SendMessageActionType,
+        readonly expires: number
+    }>,
 }
 
 export class ChatHeader extends React.Component<Props, State> {
     private networkStateSubscription: Subscription;
+    private updatesSubscription: Subscription;
+    private typingIntervalId: number;
 
     state: State = {
         networkState: tg.stateValue,
+        typing: List(),
     };
+
+    handleUpdate(update: Update) {
+        switch (update.constructor) {
+            case Update.UserTyping: {
+                const upd = update as Update.UserTyping;
+                if (this.props.chat.peerEquals(upd.peer)) {
+                    this.setState({
+                        typing: this.state.typing
+                            .filter(typing =>
+                                !typing!.user.id.equals(upd.user.id))
+                            .concat(upd)
+                            .toList()
+                    });
+                }
+            } break;
+
+            case Update.NewMessage: {
+                const upd = update as Update.NewMessage;
+                if (upd.message.peer && this.props.chat.peerEquals(upd.message.peer)) {
+                    this.setState({
+                        typing: this.state.typing.clear(),
+                    });
+                }
+            } break;
+        }
+    }
+
+    clearTypingActions() {
+        const now = moment().unix();
+        this.setState({
+            typing: this.state.typing
+                .filter(typing => typing!.expires > now)
+                .toList(),
+        });
+    }
 
     componentDidMount() {
         this.networkStateSubscription = tg.state.subscribe(state => {
@@ -31,15 +77,31 @@ export class ChatHeader extends React.Component<Props, State> {
                 networkState: state,
             });
         });
+        this.updatesSubscription = tg.updates
+            .subscribe(update => this.handleUpdate(update));
+        this.typingIntervalId = setInterval(
+            () => this.clearTypingActions(),
+            5000);
+    }
+
+    componentWillReceiveProps(nextProps: Props) {
+        if (!nextProps.chat.peerEquals(this.props.chat.peer)) {
+            this.setState({
+                typing: this.state.typing.clear(),
+            });
+        }
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
         return nextProps.chat !== this.props.chat
-            || nextState.networkState !== this.state.networkState;
+            || nextState.networkState !== this.state.networkState
+            || !nextState.typing.equals(this.state.typing);
     }
 
     componentWillUnmount() {
         this.networkStateSubscription.unsubscribe();
+        this.updatesSubscription.unsubscribe();
+        clearInterval(this.typingIntervalId);
     }
 
     render() {
@@ -89,10 +151,21 @@ export class ChatHeader extends React.Component<Props, State> {
                     <span style={{
                         fontSize: 16,
                         fontWeight: 500
-                    }}>{this.props.chat.title}</span>
-                    <span style={{ fontSize: 13, color: lightBlack }}>
-                        <ReadableStatus of={of}/>
+                    }}>
+                        {
+                            this.props.chat.title
+                        }
                     </span>
+                    {
+                        this.state.typing.size > 0 ?
+                            typingElement(
+                                this.props.chat,
+                                this.state.typing
+                                    .map(typing => typing!.user).toArray()) :
+                            <span style={{ fontSize: 13, color: lightBlack }}>
+                                <ReadableStatus of={of}/>
+                            </span>
+                    }
                 </div>;
         } else {
             element =
@@ -146,6 +219,25 @@ export class ChatHeader extends React.Component<Props, State> {
         );
     }
 }
+
+const typingElement = (chat: Chat, users: Array<API.User>) => {
+    return (
+        <span style={{
+            fontSize: 13,
+            color: "rgba(61,129,161,1)",
+        }}>
+            <style type="text/css">{typingStyle}</style>
+            {
+                typingDots
+            }
+            {
+                chat.peer instanceof API.PeerUser ?
+                    "typing" :
+                    `${users.map(user => user.firstName!.string).join(", ")} typing`
+            }
+        </span>
+    );
+};
 
 const containerTransitionStyle = `
 .container-transition-enter {
@@ -254,3 +346,58 @@ const progressKeyframes = `
     }
 }
 `;
+
+const typingDotStyle: CSSProperties = {
+    width: 5,
+    height: 5,
+    background: "rgba(61,129,161,1)",
+    marginRight: 3,
+    borderRadius: "50%",
+    display: "block",
+    float: "left",
+};
+
+const typingDots = (
+    <span className="typing" style={{
+        marginRight: 6,
+        display: "inline-block",
+        height: 5,
+        marginBottom: 1,
+    }}>
+        <span style={typingDotStyle}/>
+        <span style={typingDotStyle}/>
+        <span style={typingDotStyle}/>
+    </span>
+);
+
+const typingStyle = `
+.typing span {
+    animation-name: blink;
+    animation-duration: 1200ms;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-timing-function: steps(16, end);
+}
+
+.typing span:nth-child(2) {
+    animation-delay: 200ms;
+}
+
+.typing span:nth-child(3) {
+    animation-delay: 400ms;
+}
+
+@keyframes blink {
+    0% {
+        opacity: .67;
+        transform: scale(0.67);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: .67;
+        transform: scale(0.67);
+    }
+}`;

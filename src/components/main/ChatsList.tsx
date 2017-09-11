@@ -1,8 +1,6 @@
 import { List } from "immutable";
-import {
-    List as MaterialList, makeSelectable, Divider,
-    TouchTapEvent
-} from "material-ui";
+import { List as MaterialList, makeSelectable, Divider } from "material-ui";
+import { faintBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";
@@ -19,8 +17,6 @@ import { Chat } from "../../tg/TG";
 import { Update } from "../../tg/Updates/Update";
 import { tg } from "../App";
 import { ChatsListItem } from "./ChatsListItem";
-import { faintBlack } from "material-ui/styles/colors";
-import SelectableProps = __MaterialUI.List.SelectableProps;
 
 interface Props {
     selectedPeer: (peer: API.PeerType) => void,
@@ -33,7 +29,7 @@ interface State {
         readonly action: API.SendMessageActionType,
         readonly expires: number
     }>>,
-    selectedIndex?: number,
+    selectedPeer?: API.PeerType,
 }
 
 export class ChatsList extends React.Component<Props, State> {
@@ -82,23 +78,29 @@ export class ChatsList extends React.Component<Props, State> {
     }
 
     renderRow(params: ListRowProps): React.ReactNode {
+        const chat = this.state.chats.get(params.index);
+        const selectedIndex = this.state.chats.findIndex(chat =>
+            !!this.state.selectedPeer && chat!.peerEquals(this.state.selectedPeer));
         return (
             <div key={params.key} style={params.style}>
                 <ChatsListItem
-                    selected={this.state.selectedIndex === params.index}
-                    onSelect={peer => {
-                        this.props.selectedPeer(peer);
-                        this.setState({ selectedIndex: params.index });
+                    selected={!!this.state.selectedPeer && chat.peerEquals(this.state.selectedPeer)}
+                    onTouchTap={() => {
+                        this.setState({
+                            selectedPeer: chat.peer
+                        }, () => {
+                            this.props.selectedPeer(chat.peer);
+                        });
                     }}
-                    chat={this.state.chats.get(params.index)}
+                    chat={chat}
                     typing={this.state.typing.get(params.index)}/>
                 {
                     // Don't show divider for the last item
                     params.index < this.state.chats.size - 1 &&
                     // Don't show for the current item when selected...
-                    this.state.selectedIndex !== params.index &&
+                    selectedIndex !== params.index &&
                     // ...and for the item above
-                    this.state.selectedIndex !== params.index + 1 &&
+                    selectedIndex !== params.index + 1 &&
                     <Divider inset={true}/>
                 }
             </div>
@@ -123,6 +125,20 @@ export class ChatsList extends React.Component<Props, State> {
                     });
                 } else {
                     // TODO insert at top
+                }
+            } break;
+
+            case Update.TopMessage: {
+                const message = (update as Update.TopMessage).message;
+                const index = this.state.chats
+                    .findIndex(chat =>
+                        !!message.peer && !!chat && chat.peerEquals(message.peer));
+                if (index !== -1) {
+                    const chat = this.state.chats.get(index)
+                        .setTopMessage(message);
+                    this.setState({
+                        chats: this.state.chats.set(index, chat),
+                    });
                 }
             } break;
 
@@ -207,30 +223,6 @@ export class ChatsList extends React.Component<Props, State> {
                 }
             } break;
 
-            case Update.DeleteMessages: {
-                const upd = update as Update.DeleteMessages;
-                upd.messages.forEach(peer => {
-                    const index = this.state.chats
-                        .findIndex(chat =>
-                            !!chat && chat.peerEquals(peer.peer));
-                    if (index === -1) return;
-
-                    tg.getTopMessageForPeer(peer.peer).subscribe(msg => {
-                        if (!msg) return;
-                        const index = this.state.chats
-                            .findIndex(chat =>
-                                !!chat && chat.peerEquals(peer.peer));
-                        if (index === -1) return;
-                        const chat = this.state.chats.get(index)
-                            .setTopMessage(msg);
-
-                        this.setState({
-                            chats: this.state.chats.set(index, chat),
-                        });
-                    });
-                });
-            } break;
-
             case Update.UserTyping: {
                 const upd = update as Update.UserTyping;
                 const index = this.state.chats
@@ -241,7 +233,7 @@ export class ChatsList extends React.Component<Props, State> {
                         let typing = this.state.typing.get(index);
                         if (typing) {
                             typing = typing.filter(typing =>
-                                typing.user.id.equals(upd.user.id));
+                                !typing.user.id.equals(upd.user.id));
                         } else {
                             typing = [];
                         }
@@ -311,6 +303,13 @@ export class ChatsList extends React.Component<Props, State> {
             5000);
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextProps.selectedPeer !== this.props.selectedPeer
+            || !nextState.chats.equals(this.state.chats)
+            || !nextState.typing.equals(this.state.typing)
+            || nextState.selectedPeer !== this.state.selectedPeer;
+    }
+
     componentWillUnmount() {
         this.updatesSubscription.unsubscribe();
         clearInterval(this.typingIntervalId);
@@ -363,7 +362,6 @@ const style: CSSProperties = {
     padding: 0,
 };
 
-
 const typingStyle = `
 .typing span {
     animation-name: blink;
@@ -391,5 +389,4 @@ const typingStyle = `
     100% {
         opacity: .1;
     }
-}
-`;
+}`;

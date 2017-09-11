@@ -1,6 +1,9 @@
+import "rxjs/add/observable/interval";
+import "rxjs/add/operator/combineAll";
 import "rxjs/add/operator/combineLatest";
 import "rxjs/add/operator/concatAll";
 import "rxjs/add/operator/concatMap";
+import "rxjs/add/operator/do";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/mergeAll";
 import "rxjs/add/operator/mergeMap";
@@ -34,8 +37,6 @@ import { TLString } from "./TL/Types/TLString";
 import { Update } from "./Updates/Update";
 import { UpdatesHandler } from "./Updates/UpdatesHandler";
 import { concat } from "./Utils/BytesConcat";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/combineAll";
 
 export type Chat = ConvenienceChat;
 export type Message = ConvenienceMessage;
@@ -127,12 +128,13 @@ export class TG {
                     };
 
                     this.storage.readAuthorization(dcId)
-                        .subscribe(auth => {
+                        .map(auth => {
                             dc.init(
                                 this.appConfig.rsaKeys,
                                 `${option.ipAddress.string}:${option.port.value}`,
                                 auth ? auth.authKey : undefined);
-                        });
+                        })
+                        .subscribe();
 
                     dc.authorized
                         .filter(auth => !auth)
@@ -203,6 +205,14 @@ export class TG {
         }
 
         return 5000;
+    }
+
+    get onlineUpdatePeriod(): number {
+        if (this.mainDataCenter.config) {
+            return this.mainDataCenter.config.onlineUpdatePeriodMs.value;
+        }
+
+        return 0;
     }
 
     get state(): Observable<NetworkState> {
@@ -313,7 +323,7 @@ export class TG {
         return this.storage.readDialogs(peer)
             .flatMap(dialog => dialog)
             .flatMap(dialog => {
-                let peerObservable: Observable<API.ChatType> | Observable<API.UserType> | Observable<API.MessageType>;
+                let peerObservable: Observable<API.ChatType> | Observable<API.UserType>;
                 if (dialog.peer instanceof API.PeerChannel) {
                     peerObservable = this.storage
                         .readChats(dialog.peer.channelId.value)
@@ -374,6 +384,96 @@ export class TG {
             });
     }
 
+    getMessageHistory(peer: API.PeerType, limit: number, offsetId?: number): Observable<Array<Message>> {
+        let observable: Observable<any>;
+        if (peer instanceof API.PeerUser) {
+            observable = this.storage.readUsers(peer.userId.value);
+        } else if (peer instanceof API.PeerChat) {
+            observable = this.storage.readChats(peer.chatId.value);
+        } else if (peer instanceof API.PeerChannel) {
+            observable = this.storage.readChats(peer.channelId.value);
+        } else {
+            throw new Error();
+        }
+
+        return observable
+            .map(data => data[0])
+            .map(data => {
+                let inputPeer: API.InputPeerType;
+                if (data instanceof API.User) {
+                    inputPeer = new API.InputPeerUser(data.id, data.accessHash!);
+                } else if (data instanceof API.ChatEmpty || data instanceof API.Chat || data instanceof API.ChatForbidden) {
+                    inputPeer = new API.InputPeerChat(data.id);
+                } else if (data instanceof API.Channel || data instanceof API.ChannelForbidden) {
+                    inputPeer = new API.InputPeerChannel(data.id, data.accessHash!);
+                } else {
+                    throw new Error();
+                }
+                return inputPeer;
+            })
+            .flatMap(inputPeer => {
+                return this.storage.readMessageHistory(peer, limit, offsetId)
+                    .map(msgs => [inputPeer, msgs]);
+            })
+            .switchMap((inputPeerMsgs: [API.InputPeerUser | API.InputPeerChat | API.InputPeerChannel, API.MessageType[]]) => {
+                const inputPeer = inputPeerMsgs[0];
+                const msgs = inputPeerMsgs[1];
+                if (msgs.length > 0) {
+                    return Observable.of(msgs);
+                } else {
+                    return this.mainDataCenter.call(
+                        new API.messages.GetHistory(
+                            inputPeer,
+                            new TLInt(offsetId || 0),
+                            new TLInt(0),
+                            new TLInt(0),
+                            new TLInt(limit),
+                            new TLInt(0),
+                            new TLInt(0)))
+                        .do((messages: API.messages.MessagesType) => {
+                            Observable.merge(
+                                this.storage.writeMessages(...messages.messages.items),
+                                this.storage.writeUsers(...messages.users.items),
+                                this.storage.writeChats(...messages.chats.items),
+                            ).subscribe();
+                        })
+                        .map((messages: API.messages.MessagesType) => {
+                            return messages.messages.items;
+                        });
+                }
+            })
+            .switchMap(msgs => {
+                const users = msgs.map(msg => {
+                    if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                        if (msg.fromId) {
+                            return msg.fromId.value;
+                        }
+                    }
+                    return 0;
+                });
+                return Observable.merge(
+                    Observable.of(msgs),
+                    this.storage.readUsers(...users));
+            })
+            .combineLatest()
+            .reduce((list: any[], value: API.MessageType[] | API.UserType[]) => list.concat(value))
+            .map((msgsUsers: Array<API.MessageType[] | API.UserType[]>) => {
+                const msgs: API.MessageType[] = msgsUsers[0];
+                const users: API.UserType[] = msgsUsers[1];
+
+                return msgs.map(msg => {
+                    let user: API.UserType | undefined = undefined;
+                    if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                        if (msg.fromId) {
+                            const fromId = msg.fromId;
+                            user = users.find(u => u.id.equals(fromId));
+                        }
+                    }
+                    return convenienceMessageFor(msg, user);
+                }).filter(msg => typeof msg !== "undefined") as Array<Message>
+            })
+    }
+
     getFile(location: {
         readonly dcId: TLInt,
         readonly volumeId: TLLong,
@@ -399,25 +499,6 @@ export class TG {
         }
 
         return this.fileManager.getFile(fileLocation);
-    }
-
-    getTopMessageForPeer(peer: API.PeerType): Observable<ConvenienceMessage | undefined> {
-        return this.storage.readTopMessage(peer)
-            .flatMap(msg => {
-                if (msg instanceof API.Message || msg instanceof API.MessageService) {
-                    if (msg.fromId) {
-                        return this.storage.readUsers(msg.fromId.value)
-                            .map(users => [msg, users[0]]);
-                    }
-                }
-
-                return Observable.never();
-            }).map((msgUser: [API.MessageType, API.UserType]) => {
-                if (msgUser && msgUser[1]) {
-                    return convenienceMessageFor(msgUser[0], msgUser[1]);
-                }
-                return undefined;
-            });
     }
 
     getRecentStickers(): Observable<Array<API.Document>> {
@@ -452,5 +533,10 @@ export class TG {
             .mergeAll(1)
             .combineLatest()
             .reduce((list: API.messages.StickerSet[], value: API.messages.StickerSet) => list.concat(value)) as Observable<API.messages.StickerSet[]>
+    }
+
+    setStatus(online: boolean): Observable<any> {
+        const offline = online ? new API.BoolFalse() : new API.BoolTrue();
+        return this.mainDataCenter.call(new API.account.UpdateStatus(offline));
     }
 }

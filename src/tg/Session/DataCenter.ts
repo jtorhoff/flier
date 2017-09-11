@@ -25,6 +25,18 @@ export class DataCenter {
     private readonly authorizedSubject = new BehaviorSubject(false);
     private readonly stateSubject = new BehaviorSubject(NetworkState.waitingForNetwork);
 
+    private readonly onlineEventListener = () => {
+        this.worker.postMessage({
+            type: "open",
+        });
+    };
+
+    private readonly offlineEventListener = () => {
+        this.worker.postMessage({
+            type: "close",
+        });
+    };
+
     private reqId = 0;
     private host?: string;
     private authKey?: Uint8Array;
@@ -112,29 +124,8 @@ export class DataCenter {
             }
         });
 
-        window.ononline = () => {
-            this.worker.postMessage({
-                type: "open",
-            });
-        };
-
-        window.onoffline = () => {
-            this.worker.postMessage({
-                type: "close",
-            });
-        };
-
-        // addEventListener("online", () => {
-        //     this.worker.postMessage({
-        //         type: "open",
-        //     });
-        // });
-        //
-        // addEventListener("offline", () => {
-        //     this.worker.postMessage({
-        //         type: "close",
-        //     });
-        // });
+        window.addEventListener("online", this.onlineEventListener);
+        window.addEventListener("offline", this.offlineEventListener);
 
         this.requests
             .defer(this.sessionInitialized)
@@ -164,12 +155,18 @@ export class DataCenter {
     }
 
     close() {
+        window.removeEventListener("online", this.onlineEventListener);
+        window.removeEventListener("offline", this.offlineEventListener);
+
         this.worker.postMessage({
             type: "close",
         });
+        this.worker.removeEventListener("message");
         this.worker.terminate();
         this.requests.unsubscribe();
         this.sessionInitialized.unsubscribe();
+        this.configSubject.unsubscribe();
+        this.dcOptionsSubject.unsubscribe();
         this.authorizedSubject.unsubscribe();
         this.stateSubject.unsubscribe();
     }
@@ -177,23 +174,17 @@ export class DataCenter {
     importAuthorization(dc: DataCenter) {
         dc.sessionInitialized
             .filter(inited => inited)
-            .subscribe(() => {
-                const thisIp = this.host!.split(":")[0];
-                const dcOption = dc.dcOptionsSubject.value.find(dc => {
-                    return dc.ipAddress.string === thisIp;
-                });
-                if (!dcOption) {
-                    throw new Error();
-                }
-
-                const exportAuth = new API.auth.ExportAuthorization(dcOption.id);
-                dc.call(exportAuth).subscribe(
-                    (exportedAuth: API.auth.ExportedAuthorization) => {
-                        const importAuth = new API.auth.ImportAuthorization(
-                            exportedAuth.id, exportedAuth.bytes);
-                        this.call(importAuth).subscribe();
-                    });
-            });
+            .defer(this.sessionInitialized)
+            .flatMap(() => {
+                const exportAuth = new API.auth.ExportAuthorization(new TLInt(this.dcId!));
+                return dc.call(exportAuth);
+            })
+            .flatMap((exportedAuth: API.auth.ExportedAuthorization) => {
+                const importAuth = new API.auth.ImportAuthorization(
+                    exportedAuth.id, exportedAuth.bytes);
+                return this.call(importAuth);
+            })
+            .subscribe();
     }
 
     call<ResultType extends TLObject>(fun: TLFunction<ResultType>): Observable<ResultType> {

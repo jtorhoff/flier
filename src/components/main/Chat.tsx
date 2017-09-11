@@ -31,8 +31,8 @@ export class Chat extends React.Component<Props, State> {
             .subscribe(chat => {
                 this.setState({
                     chat: chat,
-                })
-            })
+                });
+            });
     }
 
     handleUpdate(update: Update) {
@@ -102,6 +102,11 @@ export class Chat extends React.Component<Props, State> {
         this.loadChat(this.props.peer);
         this.updatesSubscription = tg.updates
             .subscribe(update => this.handleUpdate(update));
+    }
+
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextProps.peer !== this.props.peer
+            || nextState.chat !== this.state.chat;
     }
 
     componentDidUpdate(prevProps: Props) {

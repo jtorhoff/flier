@@ -1,7 +1,9 @@
 import * as moment from "moment";
 import "rxjs/add/observable/never";
+import "rxjs/add/operator/delay";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
+import { Subscription } from "rxjs/Subscription";
 import { tg } from "../../components/App";
 import { API } from "../Codegen/API/APISchema";
 import { convenienceMessageFor } from "../Convenience/MessageFor";
@@ -12,8 +14,6 @@ import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
 import { TLVector } from "../TL/Types/TLVector";
 import { Update } from "./Update";
-import "rxjs/add/operator/delay";
-import { Subscription } from "rxjs/Subscription";
 
 export class UpdatesHandler {
     private state: UpdatesState = {
@@ -261,21 +261,26 @@ export class UpdatesHandler {
         switch (update.constructor) {
             case API.UpdateNewMessage: {
                 const message = (update as API.UpdateNewMessage).message;
-                this.storage.writeMessages(message).subscribe();
-
                 const fromId = (message as API.Message & API.MessageService)
                     .fromId;
                 if (!fromId) break;
 
-                this.storage.readUsers(fromId.value).subscribe(
-                    user => {
-                        if (user[0]) {
-                            const msg = convenienceMessageFor(message, user[0]);
-                            if (msg) {
-                                this.updates.next(new Update.NewMessage(msg));
+                this.storage.writeMessages(message)
+                    .flatMap(any => this.storage.readUsers(fromId.value))
+                    .flatMap(users => users)
+                    .map(user => {
+                        return convenienceMessageFor(message, user);
+                    })
+                    .do(msg => {
+                        if (msg) {
+                            if (msg.peer) {
+                                this.storage.updateDialog(msg.peer, { topMessage: new TLInt(msg.id) })
+                                    .subscribe();
                             }
+                            this.updates.next(new Update.NewMessage(msg));
                         }
-                    });
+                    })
+                    .subscribe();
             } break;
 
             case API.UpdateMessageID: {
@@ -285,19 +290,41 @@ export class UpdatesHandler {
             case API.UpdateDeleteMessages: {
                 const ids = (update as API.UpdateDeleteMessages).messages
                     .items.map(id => id.value);
-                this.storage.deleteMessages(...ids).subscribe(msgs => {
-                    const map = new HashMap<HashablePeer, Array<number>>();
-                    for (let msg of msgs) {
-                        const peer = new HashablePeer(msg.peer);
-                        const list = map.get(peer);
-                        if (list) {
-                            list.push(msg.msgId);
-                        } else {
-                            map.put(peer, [msg.msgId]);
+                this.storage.deleteMessages(...ids)
+                    .map(msgs => {
+                        const map = new HashMap<HashablePeer, Array<number>>();
+                        for (let msg of msgs) {
+                            const peer = new HashablePeer(msg.peer);
+                            const list = map.get(peer);
+                            if (list) {
+                                list.push(msg.msgId);
+                            } else {
+                                map.put(peer, [msg.msgId]);
+                            }
                         }
-                    }
-                    this.updates.next(new Update.DeleteMessages(map));
-                });
+                        return map;
+                    })
+                    .do(map => {
+                        map.keys.map(peer => {
+                            tg.getMessageHistory(peer.peer, 1)
+                                .flatMap(msgs => msgs)
+                                .flatMap(msg => {
+                                    const update = {
+                                        topMessage: new TLInt(msg.id),
+                                    };
+                                    return this.storage.updateDialog(peer.peer, update)
+                                        .map(dialog => msg);
+                                })
+                                .subscribe(msg => {
+                                    if (msg) {
+                                        this.updates.next(new Update.TopMessage(msg));
+                                    }
+                                })
+                        });
+                    })
+                    .subscribe(map => {
+                        this.updates.next(new Update.DeleteMessages(map));
+                    });
             } break;
 
             case API.UpdateUserTyping:
@@ -443,12 +470,18 @@ export class UpdatesHandler {
 
             case API.UpdateReadHistoryInbox: {
                 const upd = update as API.UpdateReadHistoryInbox;
-                this.updates.next(new Update.ReadHistoryInbox(upd.peer, upd.maxId.value));
+                this.storage.updateDialog(upd.peer, { readInboxMaxId: upd.maxId })
+                    .subscribe(() => {
+                        this.updates.next(new Update.ReadHistoryInbox(upd.peer, upd.maxId.value));
+                    });
             } break;
 
             case API.UpdateReadHistoryOutbox: {
                 const upd = update as API.UpdateReadHistoryOutbox;
-                this.updates.next(new Update.ReadHistoryOutbox(upd.peer, upd.maxId.value));
+                this.storage.updateDialog(upd.peer, { readOutboxMaxId: upd.maxId })
+                    .subscribe(() => {
+                        this.updates.next(new Update.ReadHistoryOutbox(upd.peer, upd.maxId.value));
+                    });
             } break;
 
             case API.UpdateWebPage: {
@@ -467,8 +500,8 @@ export class UpdatesHandler {
                                     .map(users => [msg, users[0]]);
                             }
                         }
-                        return Observable.never();
-                    }).map((msgUser: [API.MessageType, API.UserType]) => {
+                        throw new Error();
+                    }).map(msgUser => {
                         if (msgUser && msgUser[1]) {
                             return convenienceMessageFor(msgUser[0], msgUser[1]);
                         }
@@ -550,25 +583,22 @@ export class UpdatesHandler {
             } break;
 
             case API.UpdateEditMessage: {
-                const upd = update as API.UpdateEditMessage;
-                this.storage.writeMessages(upd.message).flatMap(msg => {
-                    if (msg instanceof API.Message || msg instanceof API.MessageService) {
-                        if (msg.fromId) {
-                            return this.storage.readUsers(msg.fromId.value)
-                                .map(users => [msg, users[0]]);
+                const message = (update as API.UpdateEditMessage).message;
+                const fromId = (message as API.Message & API.MessageService)
+                    .fromId;
+                if (!fromId) break;
+
+                this.storage.writeMessages(message)
+                    .flatMap(any => this.storage.readUsers(fromId.value))
+                    .flatMap(users => users)
+                    .map(user => {
+                        return convenienceMessageFor(message, user);
+                    })
+                    .subscribe(msg => {
+                        if (msg) {
+                            this.updates.next(new Update.EditMessage(msg));
                         }
-                    }
-                    return Observable.never();
-                }).map((msgUser: [API.MessageType, API.UserType]) => {
-                    if (msgUser && msgUser[1]) {
-                        return convenienceMessageFor(msgUser[0], msgUser[1]);
-                    }
-                    return undefined;
-                }).subscribe(msg => {
-                    if (msg) {
-                        this.updates.next(new Update.EditMessage(msg));
-                    }
-                });
+                    });
             } break;
 
             case API.UpdateInlineBotCallbackQuery: {

@@ -43,9 +43,10 @@ export class SendCode extends React.Component<Props, State> {
                 });
                 return;
             }
+            const timeout = moment.unix(this.floodWaitFor--);
+            const format = timeout.hours() === 0 ? "m:ss" : "H:m:ss";
             this.setState({
-                error: `Too many attempts, try again in ${
-                    moment.unix(this.floodWaitFor--).format("m:ss")}`,
+                error: `Too many attempts, try again in ${timeout.format(format)}`,
             });
         };
 

@@ -256,7 +256,7 @@ export class DexieStorage implements PersistentStorage.Storage {
         );
     }
 
-    readTopMessage(peer: API.PeerType): Observable<API.MessageType | undefined> {
+    readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number): Observable<Array<API.MessageType>> {
         let dbPeer: ["u" | "g" | "c", number];
         if (peer instanceof API.PeerUser) {
             dbPeer = ["u", peer.userId.value];
@@ -269,12 +269,16 @@ export class DexieStorage implements PersistentStorage.Storage {
         }
 
         return Observable.fromPromise(
-            this.db.messages.where("peer").equals(dbPeer).reverse().limit(1).sortBy("id")
+            this.db.messages.where("peer").equals(dbPeer)
+                .and(msg => offsetId ? msg.id < offsetId : true)
+                .reverse()
+                .limit(limit)
+                .sortBy("id")
         ).map(messages => {
             return messages.map(msg => {
                 return deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType
             })
-        }).flatMap(messages => messages);
+        });
     }
 
     readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined> {
@@ -322,6 +326,28 @@ export class DexieStorage implements PersistentStorage.Storage {
         );
     }
 
+    readDialogs(...peers: API.PeerType[]): Observable<Array<API.Dialog>> {
+        const dbPeers = peers.map(peer => {
+            if (peer instanceof API.PeerUser) {
+                return ["u", peer.userId.value];
+            } else if (peer instanceof API.PeerChat) {
+                return ["g", peer.chatId.value];
+            } else if (peer instanceof API.PeerChannel) {
+                return ["c", peer.channelId.value];
+            } else {
+                throw new Error();
+            }
+        });
+
+        return Observable.fromPromise(
+            this.db.dialogs.where("peer").anyOf(dbPeers as Array<any>).toArray())
+            .map(dialogs => {
+                return dialogs.map(dialog => {
+                    return deserializedObject(new ByteStream(new Uint8Array(dialog.dialog))) as API.Dialog
+                })
+            });
+    }
+
     writeDialogs(...dialogs: API.Dialog[]): Observable<any> {
         return Observable.fromPromise(
             this.db.dialogs.bulkPut(dialogs.map(dialog => {
@@ -345,26 +371,36 @@ export class DexieStorage implements PersistentStorage.Storage {
         )
     }
 
-    readDialogs(...peers: API.PeerType[]): Observable<Array<API.Dialog>> {
-        const dbPeers = peers.map(peer => {
-            if (peer instanceof API.PeerUser) {
-                return ["u", peer.userId.value];
-            } else if (peer instanceof API.PeerChat) {
-                return ["g", peer.chatId.value];
-            } else if (peer instanceof API.PeerChannel) {
-                return ["c", peer.channelId.value];
-            } else {
-                throw new Error();
-            }
-        });
-
+    updateDialog(peer: API.PeerType, update: Partial<API.Dialog>): Observable<API.Dialog | undefined> {
         return Observable.fromPromise(
-            this.db.dialogs.where("peer").anyOf(dbPeers as Array<Array<any>>).toArray())
-            .map(dialogs => {
-                return dialogs.map(dialog => {
-                    return deserializedObject(new ByteStream(new Uint8Array(dialog.dialog))) as API.Dialog
-                })
-            });
+            this.db.transaction("rw!", this.db.dialogs, async () => {
+                let dbPeer: ["u" | "g" | "c", number];
+                if (peer instanceof API.PeerUser) {
+                    dbPeer = ["u", peer.userId.value];
+                } else if (peer instanceof API.PeerChat) {
+                    dbPeer = ["g", peer.chatId.value];
+                } else if (peer instanceof API.PeerChannel) {
+                    dbPeer = ["c", peer.channelId.value];
+                } else {
+                    throw new Error();
+                }
+                const dialog = await this.db.dialogs.where("peer").equals(dbPeer).first();
+                if (!dialog) return;
+
+                const apiDialog = deserializedObject(
+                    new ByteStream(new Uint8Array(dialog.dialog)));
+                if (apiDialog instanceof API.Dialog) {
+                    partialAssign(apiDialog, update);
+                    await this.db.dialogs.put({
+                        peer: dbPeer,
+                        topMessageId: apiDialog.topMessage.value,
+                        dialog: apiDialog.serialized().buffer,
+                    });
+                    return apiDialog;
+                }
+                return undefined;
+            })
+        );
     }
 }
 

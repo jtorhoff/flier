@@ -70,7 +70,7 @@ export class Avatar extends React.Component<Props, State> {
         if (this.props.photo !== prevProps.photo) {
             if (this.props.photo) {
                 this.loadPhoto(this.props.photo);
-            } else if (this.state.photoDataURL) {
+            } else {
                 this.setState({
                     photoDataURL: undefined,
                 });

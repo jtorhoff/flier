@@ -1,10 +1,11 @@
 import { Paper } from "material-ui";
 import * as React from "react";
 import { CSSProperties } from "react";
-import { ChatsList } from "./ChatsList";
-import { Chat } from "./Chat";
-import { Chat as TgChat } from "../../tg/TG";
 import { API } from "../../tg/Codegen/API/APISchema";
+import { tg } from "../App";
+import { Chat } from "./Chat";
+import { ChatsList } from "./ChatsList";
+import moment = require("moment");
 
 interface Props {
 
@@ -12,10 +13,61 @@ interface Props {
 
 interface State {
     peer?: API.PeerType,
+    online: [boolean, number],
 }
 
 export class Main extends React.Component<Props, State> {
-    state: State = {};
+    private windowOnFocusListener = () => {
+        this.setState({
+            online: [true, moment().valueOf()],
+        });
+    };
+
+    private windowOnBlurListener = () => {
+        this.setState({
+            online: [false, moment().valueOf()],
+        });
+    };
+
+    private statusUpdateIntervalId = 0;
+
+    state: State = {
+        online: [false, 0],
+    };
+
+    componentDidMount() {
+        window.addEventListener("focus", this.windowOnFocusListener);
+        window.addEventListener("blur", this.windowOnBlurListener);
+
+        this.statusUpdateIntervalId = setInterval(() => {
+            if (this.state.online[0] &&
+                tg.onlineUpdatePeriod > 0 &&
+                moment().valueOf() > this.state.online[1] + tg.onlineUpdatePeriod) {
+                this.setState({
+                    online: [true, moment().valueOf()],
+                });
+                tg.setStatus(true)
+                    .subscribe();
+            }
+        }, 5000);
+
+        this.setState({
+            online: [document.hasFocus(), moment().valueOf()],
+        });
+    }
+
+    componentDidUpdate(prevPops: Props, prevState: State) {
+        if (this.state.online[0] !== prevState.online[0]) {
+            tg.setStatus(this.state.online[0])
+                .subscribe();
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("focus", this.windowOnFocusListener);
+        window.removeEventListener("blur", this.windowOnBlurListener);
+        clearInterval(this.statusUpdateIntervalId);
+    }
 
     render() {
         const child = this.state.peer ? <Chat peer={this.state.peer}/> : <div/>;

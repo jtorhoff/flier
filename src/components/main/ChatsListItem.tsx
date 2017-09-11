@@ -8,7 +8,7 @@ import { Chat } from "../../tg/TG";
 import { Avatar } from "../misc/Avatar";
 
 interface Props {
-    onSelect: (peer: API.PeerType) => void,
+    onTouchTap: () => void,
     selected: boolean,
     chat: Chat,
     typing: Array<{
@@ -42,9 +42,11 @@ export class ChatsListItem extends React.Component<Props, State> {
             <div style={{
                 background: this.props.selected ? "rgba(61, 129, 161, 0.67)" : "none",
                 transition: "background 300ms ease",
+                height: 91,
+                overflow: "hidden",
             }}>
                 <ListItem
-                    onTouchTap={() => this.props.onSelect(this.props.chat.peer)}
+                    onTouchTap={() => this.props.onTouchTap()}
                     leftAvatar={
                         <div style={{
                             position: "absolute",

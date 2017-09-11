@@ -21,6 +21,12 @@ export namespace Update {
         }
     }
 
+    export class TopMessage extends Update {
+        constructor(readonly message: Message) {
+            super();
+        }
+    }
+
     export class Chat extends Update {
         constructor(readonly chat: API.Chat | API.ChatForbidden) {
             super();
