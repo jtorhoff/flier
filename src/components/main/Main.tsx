@@ -38,6 +38,7 @@ export class Main extends React.Component<Props, State> {
     componentDidMount() {
         window.addEventListener("focus", this.windowOnFocusListener);
         window.addEventListener("blur", this.windowOnBlurListener);
+        window.addEventListener("beforeunload", this.windowOnBlurListener);
 
         this.statusUpdateIntervalId = setInterval(() => {
             if (this.state.online[0] &&
@@ -56,6 +57,11 @@ export class Main extends React.Component<Props, State> {
         });
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextState.peer !== this.state.peer
+            || nextState.online !== this.state.online;
+    }
+
     componentDidUpdate(prevPops: Props, prevState: State) {
         if (this.state.online[0] !== prevState.online[0]) {
             tg.setStatus(this.state.online[0])
@@ -66,6 +72,7 @@ export class Main extends React.Component<Props, State> {
     componentWillUnmount() {
         window.removeEventListener("focus", this.windowOnFocusListener);
         window.removeEventListener("blur", this.windowOnBlurListener);
+        window.removeEventListener("beforeunload", this.windowOnBlurListener);
         clearInterval(this.statusUpdateIntervalId);
     }
 

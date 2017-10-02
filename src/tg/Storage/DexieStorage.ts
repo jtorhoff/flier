@@ -268,17 +268,24 @@ export class DexieStorage implements PersistentStorage.Storage {
             throw new Error();
         }
 
-        return Observable.fromPromise(
-            this.db.messages.where("peer").equals(dbPeer)
-                .and(msg => offsetId ? msg.id < offsetId : true)
-                .reverse()
-                .limit(limit)
-                .sortBy("id")
-        ).map(messages => {
-            return messages.map(msg => {
-                return deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType
-            })
-        });
+        // Observable.fromPromise(this.db.messages.where("peer").equals(dbPeer).count())
+        //     .subscribe(count => {
+        //         console.log(count)
+        //     });
+
+        let collection = this.db.messages.where("peer").equals(dbPeer)
+            .limit(limit)
+            .reverse();
+        if (offsetId) {
+            collection = collection.filter(msg => msg.id < offsetId);
+        }
+
+        return Observable.fromPromise(collection.toArray())
+            .map(messages =>
+                messages.map(msg => {
+                    return deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType
+                })
+            );
     }
 
     readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined> {

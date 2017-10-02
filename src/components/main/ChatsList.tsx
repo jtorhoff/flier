@@ -35,6 +35,7 @@ interface State {
 export class ChatsList extends React.Component<Props, State> {
     private loadingChats = false;
     private allChatsLoaded = false;
+    private chatsSubscriptions: Subscription;
     private updatesSubscription: Subscription;
     private typingIntervalId: number;
 
@@ -51,21 +52,22 @@ export class ChatsList extends React.Component<Props, State> {
         if (this.loadingChats) return Promise.resolve();
 
         this.loadingChats = true;
-        tg.getChats(30, this.state.chats.get(params.startIndex - 1))
-            .subscribe(chats => {
-                if (chats.length === 0) {
-                    this.allChatsLoaded = true;
-                } else {
-                    this.setState({
-                        chats: this.state.chats.concat(chats).toList(),
-                    });
+        this.chatsSubscriptions = tg.getChats(30, this.state.chats.get(params.startIndex - 1))
+            .subscribe({
+                next: chats => {
+                    if (chats.length === 0) {
+                        this.allChatsLoaded = true;
+                    } else {
+                        this.setState(state => {
+                            return {
+                                chats: state.chats.concat(chats).toList(),
+                            }
+                        });
+                    }
+                },
+                complete: () => {
+                    this.loadingChats = false;
                 }
-            },
-            error => {
-
-            },
-            () => {
-                this.loadingChats = false;
             });
 
         return Promise.resolve();
@@ -85,7 +87,7 @@ export class ChatsList extends React.Component<Props, State> {
             <div key={params.key} style={params.style}>
                 <ChatsListItem
                     selected={!!this.state.selectedPeer && chat.peerEquals(this.state.selectedPeer)}
-                    onTouchTap={() => {
+                    onClick={() => {
                         this.setState({
                             selectedPeer: chat.peer
                         }, () => {
@@ -115,13 +117,15 @@ export class ChatsList extends React.Component<Props, State> {
                     .findIndex(chat =>
                         !!message.peer && !!chat && chat.peerEquals(message.peer));
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setTopMessage(message);
-                    this.setState({
-                        chats: this.state.chats
-                            .remove(index)
-                            .insert(0, chat),
-                        typing: this.state.typing.set(index, []),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setTopMessage(message);
+                        return {
+                            chats: state.chats
+                                .remove(index)
+                                .insert(0, chat),
+                            typing: state.typing.set(index, []),
+                        }
                     });
                 } else {
                     // TODO insert at top
@@ -134,10 +138,12 @@ export class ChatsList extends React.Component<Props, State> {
                     .findIndex(chat =>
                         !!message.peer && !!chat && chat.peerEquals(message.peer));
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setTopMessage(message);
-                    this.setState({
-                        chats: this.state.chats.set(index, chat),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setTopMessage(message);
+                        return {
+                            chats: state.chats.set(index, chat),
+                        }
                     });
                 }
             } break;
@@ -148,11 +154,12 @@ export class ChatsList extends React.Component<Props, State> {
                     .findIndex(chat =>
                         !!chat && chat.peerEquals(upd.peer));
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setReadInboxMaxId(upd.maxId);
-
-                    this.setState({
-                        chats: this.state.chats.set(index, chat),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setReadInboxMaxId(upd.maxId);
+                        return {
+                            chats: state.chats.set(index, chat),
+                        }
                     });
                 }
             } break;
@@ -163,11 +170,12 @@ export class ChatsList extends React.Component<Props, State> {
                     .findIndex(chat =>
                         !!chat && chat.peerEquals(upd.peer));
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setReadOutboxMaxId(upd.maxId);
-
-                    this.setState({
-                        chats: this.state.chats.set(index, chat),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setReadOutboxMaxId(upd.maxId);
+                        return {
+                            chats: state.chats.set(index, chat),
+                        }
                     });
                 }
             } break;
@@ -180,11 +188,12 @@ export class ChatsList extends React.Component<Props, State> {
                         chat.kind.kind === "dialog" &&
                         chat.kind.user.id.equals(upd.user.id));
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setKind({ kind: "dialog", user: upd.user });
-
-                    this.setState({
-                        chats: this.state.chats.set(index, chat),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setKind({ kind: "dialog", user: upd.user });
+                        return {
+                            chats: state.chats.set(index, chat),
+                        }
                     });
                 }
             } break;
@@ -197,11 +206,12 @@ export class ChatsList extends React.Component<Props, State> {
                         chat.kind.kind === "chat" &&
                         chat.kind.chat.id.equals(upd.chat.id));
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setKind({ kind: "chat", chat: upd.chat });
-
-                    this.setState({
-                        chats: this.state.chats.set(index, chat),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setKind({ kind: "chat", chat: upd.chat });
+                        return {
+                            chats: state.chats.set(index, chat),
+                        }
                     });
                 }
             } break;
@@ -214,11 +224,12 @@ export class ChatsList extends React.Component<Props, State> {
                         chat.kind.kind === "channel" &&
                         chat.kind.channel.id.equals(upd.channel.id));
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setKind({ kind: "channel", channel: upd.channel });
-
-                    this.setState({
-                        chats: this.state.chats.set(index, chat),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setKind({ kind: "channel", channel: upd.channel });
+                        return {
+                            chats: state.chats.set(index, chat),
+                        }
                     });
                 }
             } break;
@@ -230,21 +241,25 @@ export class ChatsList extends React.Component<Props, State> {
                         !!chat && chat.peerEquals(upd.peer));
                 if (index !== -1) {
                     if (this.state.typing.has(index)) {
-                        let typing = this.state.typing.get(index);
-                        if (typing) {
-                            typing = typing.filter(typing =>
-                                !typing.user.id.equals(upd.user.id));
-                        } else {
-                            typing = [];
-                        }
-                        typing.push(upd);
+                        this.setState(state => {
+                            let typing = state.typing.get(index);
+                            if (typing) {
+                                typing = typing.filter(typing =>
+                                    !typing.user.id.equals(upd.user.id));
+                            } else {
+                                typing = [];
+                            }
+                            typing.push(upd);
 
-                        this.setState({
-                            typing: this.state.typing.set(index, typing),
+                            return {
+                                typing: state.typing.set(index, typing),
+                            }
                         });
                     } else {
-                        this.setState({
-                            typing: this.state.typing.set(index, [upd]),
+                        this.setState(state => {
+                            return {
+                                typing: state.typing.set(index, [upd]),
+                            }
                         });
                     }
                 }
@@ -256,11 +271,12 @@ export class ChatsList extends React.Component<Props, State> {
                     .findIndex(chat =>
                         !!chat && chat.topMessage.id === upd.message.id);
                 if (index !== -1) {
-                    const chat = this.state.chats.get(index)
-                        .setTopMessage(upd.message);
-
-                    this.setState({
-                        chats: this.state.chats.set(index, chat),
+                    this.setState(state => {
+                        const chat = state.chats.get(index)
+                            .setTopMessage(upd.message);
+                        return {
+                            chats: state.chats.set(index, chat),
+                        }
                     });
                 }
             } break;
@@ -272,7 +288,12 @@ export class ChatsList extends React.Component<Props, State> {
         const typing = this.state.typing.withMutations(typings => {
             typings.forEach((typing, index) => {
                 if (typing) {
-                    typings.set(index!, typing.filter(typing => typing.expires > now));
+                    typings.set(
+                        index!,
+                        typing.length > 0 ?
+                            typing.filter(typing => typing.expires > now) :
+                            typing
+                    );
                 }
             });
         });
@@ -286,16 +307,18 @@ export class ChatsList extends React.Component<Props, State> {
             .subscribe(update => this.handleUpdate(update));
 
         this.loadingChats = true;
-        tg.getChats(30).subscribe(chats => {
-                this.setState({
-                    chats: this.state.chats.concat(chats).toList(),
-                });
-            },
-            error => {
-
-            },
-            () => {
-                this.loadingChats = false;
+        this.chatsSubscriptions = tg.getChats(30)
+            .subscribe({
+                next: chats => {
+                    this.setState(state => {
+                        return {
+                            chats: state.chats.concat(chats).toList(),
+                        }
+                    });
+                },
+                complete: () => {
+                    this.loadingChats = false;
+                }
             });
 
         this.typingIntervalId = setInterval(
@@ -304,13 +327,13 @@ export class ChatsList extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return nextProps.selectedPeer !== this.props.selectedPeer
-            || !nextState.chats.equals(this.state.chats)
+        return !nextState.chats.equals(this.state.chats)
             || !nextState.typing.equals(this.state.typing)
             || nextState.selectedPeer !== this.state.selectedPeer;
     }
 
     componentWillUnmount() {
+        this.chatsSubscriptions.unsubscribe();
         this.updatesSubscription.unsubscribe();
         clearInterval(this.typingIntervalId);
     }
@@ -331,7 +354,7 @@ export class ChatsList extends React.Component<Props, State> {
                                     width={width}
                                     height={height}
                                     rowHeight={90}
-                                    overscanRowCount={5}
+                                    overscanRowCount={0}
                                     rowCount={this.state.chats.size}
                                     rowRenderer={params => this.renderRow(params)}
                                     onRowsRendered={onRowsRendered}

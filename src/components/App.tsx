@@ -51,7 +51,7 @@ export class App extends React.Component<Props, State> {
 
 export const primaryColor = "rgba(61, 129, 161, 1)";
 
-const muiTheme = getMuiTheme({
+export const muiTheme = getMuiTheme({
     // Grabbed from medium.com styles, 'cause it looks tight
     fontFamily: [
         "-apple-system",

@@ -53,6 +53,12 @@ export class ChatFooter extends React.Component<Props, State> {
         });
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+        return nextState.message !== this.state.message
+            || nextState.stickersPopupOpen !== this.state.stickersPopupOpen
+            || nextState.stickersPopupAnchor !== this.state.stickersPopupAnchor;
+    }
+
     render() {
         const action = this.state.message ?
             <IconButton key={"send"}
@@ -120,16 +126,18 @@ export class ChatFooter extends React.Component<Props, State> {
 }
 
 const style: CSSProperties = {
-    height: "fit-content",
     // minus bottom padding
-    minHeight: `calc(${spacing.desktopToolbarHeight}px - 10px)`,
+    minHeight: spacing.desktopToolbarHeight,
     borderTop: `1px solid ${faintBlack}`,
     padding: "0 12px 10px 12px",
+    flexGrow: 0,
+    flexShrink: 0,
     display: "flex",
     flexBasis: "auto",
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "flex-end",
+    boxSizing: "border-box",
 };
 
 const transitionStyle = `

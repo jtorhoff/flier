@@ -29,8 +29,7 @@ export class HashMap<K extends Hashable, V> {
      * hold before having to grow and rehash.
      */
     constructor(initialCapacity: number = HashMap.initialCapacity) {
-        const capacity = Math.floor(
-            initialCapacity / HashMap.maxLoadFactor / HashMap.numHashFunctions);
+        const capacity = Math.floor(initialCapacity / HashMap.maxLoadFactor);
 
         for (let i = 0; i < HashMap.numHashFunctions; i++) {
             this.tables[i] = new Array(capacity);

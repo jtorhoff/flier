@@ -5,7 +5,7 @@ import re
 from typing import Dict, List, Optional, Tuple, Union, cast
 from jinja2 import Template
 
-layer = 57
+layer = 66
 
 types = {
     "int": "TLInt",
@@ -144,7 +144,7 @@ for line in schema_objects.split("\n"):
     type = re.search("=\s(.+);$", line).group(1)
     if type in ignored_types:
         continue
-    if type in types.keys() or type == "InputContact":
+    if type in types.keys() or type == "InputContact" or type == "PaymentSavedCredentials":
         if type not in base_types and type not in aggregate_types.keys():
             aggregate_types[type] = to_camel(type, first_lower=False) + "Type"
     else:

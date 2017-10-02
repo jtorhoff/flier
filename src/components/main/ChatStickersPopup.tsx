@@ -29,7 +29,11 @@ interface State {
 }
 
 export class ChatStickersPopup extends React.Component<Props, State> {
-    stickersSubscription: Subscription;
+    // private stickerSetsStripOnScroll: any;
+    private stickerSetsStrip: Collection;
+
+    private recentStickersSubscription: Subscription;
+    private allStickersSubscription: Subscription;
 
     state: State = {
         stickers: List(),
@@ -38,20 +42,22 @@ export class ChatStickersPopup extends React.Component<Props, State> {
     };
 
     componentDidMount() {
-        this.stickersSubscription = tg.getRecentStickers()
+        this.recentStickersSubscription = tg.getRecentStickers()
             .subscribe(stickers => {
-                this.setState({
-                    stickers: this.state.stickers.insert(0, {
-                        thumbnail: <DeviceAccessTime
-                            color={"rgba(0,0,0,0.4)"}/>,
-                        title: "Recent stickers",
-                        stickers: (stickers as Array<API.Document | undefined>)
-                            .concat(dummyStickerData(stickers.length)),
-                    })
-                })
+                this.setState(state => {
+                    return {
+                        stickers: state.stickers.insert(0, {
+                            thumbnail: <DeviceAccessTime
+                                color={"rgba(0,0,0,0.4)"}/>,
+                            title: "Recent stickers",
+                            stickers: (stickers as Array<API.Document | undefined>)
+                                .concat(dummyStickerData(stickers.length)),
+                        })
+                    }
+                });
             });
 
-        tg.getAllStickers()
+        this.allStickersSubscription = tg.getAllStickers()
             .map(sets => sets.map(set => [
                 set.set.title.string,
                 set.documents.items.filter(doc => doc instanceof API.Document)
@@ -64,16 +70,20 @@ export class ChatStickersPopup extends React.Component<Props, State> {
                 }
             }))
             .subscribe(stickers => {
-                this.setState({
-                    stickers: this.state.stickers.concat(stickers).toList(),
+                this.setState(state => {
+                    return {
+                        stickers: state.stickers.concat(stickers).toList(),
+                    }
                 });
             })
     }
 
     componentWillReceiveProps(nextProps: Props) {
         if (!nextProps.open) {
-            this.setState({
-                scrollToSet: this.state.activeSet,
+            this.setState(state => {
+                return {
+                    scrollToSet: state.activeSet,
+                }
             });
         }
     }
@@ -82,13 +92,14 @@ export class ChatStickersPopup extends React.Component<Props, State> {
         return nextProps.open !== this.props.open
             || nextProps.onClose !== this.props.onClose
             || nextProps.anchorEl !== this.props.anchorEl
-            || nextState.stickers !== this.state.stickers
+            || !nextState.stickers.equals(this.state.stickers)
             || nextState.activeSet !== this.state.activeSet
             || nextState.scrollToSet !== this.state.scrollToSet;
     }
 
     componentWillUnmount() {
-        this.stickersSubscription.unsubscribe();
+        this.recentStickersSubscription.unsubscribe();
+        this.allStickersSubscription.unsubscribe();
     }
 
     renderCell(params: CollectionCellRendererParams): React.ReactNode {
@@ -196,7 +207,7 @@ export class ChatStickersPopup extends React.Component<Props, State> {
                         marginTop: 7,
                     }}
                     iconStyle={{ width: 24, height: 24 }}
-                    onTouchTap={() => this.setState({
+                    onClick={() => this.setState({
                         scrollToSet: params.index,
                     })}>
                     {
@@ -251,6 +262,8 @@ export class ChatStickersPopup extends React.Component<Props, State> {
                 useLayerForClickAway={false}
                 style={{
                     overflow: "hidden",
+                    width: popupWidth,
+                    height: popupHeight,
                 }}>
                 <div style={{
                     display: "block",
@@ -268,6 +281,8 @@ export class ChatStickersPopup extends React.Component<Props, State> {
                             cellCount={stickersCount}
                             cellRenderer={params => this.renderCell(params)}
                             cellSizeAndPositionGetter={params => this.getCellSizeAndPosition(params)}
+                            horizontalOverscanSize={0}
+                            verticalOverscanSize={0}
                             scrollToAlignment={"start"}
                             onScroll={params => this.onScroll(params)}
                             scrollTop={scrollTop}
@@ -280,12 +295,14 @@ export class ChatStickersPopup extends React.Component<Props, State> {
                     <style type="text/css">{stickerSetStripNoScrollbar}</style>
                     <div style={stickerSetsStripStyle}>
                         <Collection
+                            ref={ref => this.stickerSetsStrip = ref!}
                             width={popupWidth}
                             height={stickerSetsStripHeight}
                             cellCount={this.state.stickers.size}
                             cellRenderer={params => this.renderStripCell(params)}
                             cellSizeAndPositionGetter={params => this.getStripCellSizeAndPosition(params)}
                             horizontalOverscanSize={10}
+                            verticalOverscanSize={0}
                             scrollToAlignment={"center"}
                             scrollToCell={this.state.activeSet}
                             scrollLeft={
@@ -321,7 +338,7 @@ const padding = (num: number, multiple: number) => {
     return ((num + (multiple - 1)) & ~(multiple - 1)) - num;
 };
 
-const stickerSetsStripHeight = 46;
+const stickerSetsStripHeight = 45;
 const stickerSetsStripStyle: CSSProperties = {
     height: stickerSetsStripHeight,
     position: "absolute",

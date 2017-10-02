@@ -26,7 +26,6 @@ export class Sticker extends React.Component<Props, State> {
 
     state: State = {
         stickerLoaded: false,
-        stickerDataURL: undefined,
     };
 
     componentDidMount() {
@@ -48,8 +47,7 @@ export class Sticker extends React.Component<Props, State> {
             .flatMap(blob =>
                 nativeWebPSupport.switchMap(nativeWebP => {
                     if (nativeWebP) {
-                        return Observable.of(URL.createObjectURL(
-                            blob, { oneTimeOnly: true }));
+                        return Observable.of(URL.createObjectURL(blob));
                     } else {
                         return blobToArrayBuffer(blob);
                     }

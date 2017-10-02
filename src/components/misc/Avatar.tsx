@@ -23,6 +23,7 @@ interface Props {
     id: number,
     title: string,
     photo?: API.FileLocation,
+    onLoad?: () => void,
 }
 
 interface State {
@@ -41,7 +42,7 @@ export class Avatar extends React.Component<Props, State> {
             this.photoSubscription.unsubscribe();
         }
         this.photoSubscription = tg.getFile(photo)
-            .map(blob => URL.createObjectURL(blob, { oneTimeOnly: true }))
+            .map(blob => URL.createObjectURL(blob))
             .subscribe(dataURL => {
                 const prevPhotoDataURL = this.state.photoDataURL;
                 this.setState({
@@ -59,23 +60,21 @@ export class Avatar extends React.Component<Props, State> {
         }
     }
 
+    componentWillReceiveProps(nextProps: Props) {
+        if (nextProps.photo) {
+            this.loadPhoto(nextProps.photo);
+        } else {
+            this.setState({
+                photoDataURL: undefined,
+            });
+        }
+    }
+
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
         return nextProps.id !== this.props.id
             || nextProps.title !== this.props.title
             || nextProps.photo !== this.props.photo
             || nextState.photoDataURL !== this.state.photoDataURL;
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.photo !== prevProps.photo) {
-            if (this.props.photo) {
-                this.loadPhoto(this.props.photo);
-            } else {
-                this.setState({
-                    photoDataURL: undefined,
-                });
-            }
-        }
     }
 
     componentWillUnmount() {
@@ -89,15 +88,15 @@ export class Avatar extends React.Component<Props, State> {
 
     render() {
         return (
-            <MuiAvatar style={style} backgroundColor={
-                this.state.photoDataURL ? "#fff" : hashColor(this.props.id)
-            }>
-                {this.state.photoDataURL ? (
-                    <img style={{ width: "100%", height: "100%", }}
-                         src={this.state.photoDataURL}/>
-                ) : (
+            <MuiAvatar style={style} backgroundColor={hashColor(this.props.id)}>
+                {
                     extractInitials(this.props.title)
-                )}
+                }
+                <img src={this.state.photoDataURL}
+                     style={{
+                         ...imgStyle,
+                         opacity: this.state.photoDataURL ? 1 : 0,
+                     }}/>
             </MuiAvatar>
         );
     }
@@ -138,4 +137,15 @@ const hashColor = (x: number): string => {
 
 const style: CSSProperties = {
     overflow: "hidden",
+    position: "relative",
+};
+
+const imgStyle: CSSProperties = {
+    width: 40,
+    height: 40,
+    top: 0,
+    left: 0,
+    position: "absolute",
+    transition: "opacity 200ms ease",
+    borderRadius: "50%",
 };

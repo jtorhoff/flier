@@ -1,11 +1,10 @@
 import * as moment from "moment";
 import * as React from "react";
-import { API } from "../../tg/Codegen/API/APISchema";
 import { CSSTransitionGroup } from "react-transition-group";
-import { tg } from "../App";
+import { API } from "../../tg/Codegen/API/APISchema";
 
 interface Props {
-    of: API.User | API.Chat | API.ChatForbidden | API.Channel | API.ChatForbidden,
+    of: API.User | API.Chat | API.ChatForbidden | API.Channel | API.ChannelForbidden,
 }
 
 interface State {
@@ -72,32 +71,15 @@ export const readableStatus = (user: API.User): JSX.Element | string => {
     }
 
     if (user.status instanceof API.UserStatusOnline) {
-        return <span style={{ color: "rgba(61,129,161,1)" }}>online</span>;
-    } else if (user.status instanceof API.UserStatusOffline) {
-        const minutesDiff = moment()
-            .diff(moment.unix(user.status.wasOnline.value), "minutes");
-        if (minutesDiff === 0) {
-            return "last seen just now";
-        } else if (minutesDiff === 1) {
-            return "last seen one minute ago";
-        } else if (minutesDiff <= 59) {
-            return `last seen ${minutesDiff} minutes ago`;
+        const now = moment();
+        if (now.isBefore(user.status.expires.value * 1000)) {
+            // Online
+            return <span style={{ color: "rgba(61,129,161,1)" }}>online</span>;
         } else {
-            const daysDiff = moment()
-                .diff(moment.unix(user.status.wasOnline.value), "days");
-            if (daysDiff === 0) {
-                const hoursDiff = moment()
-                    .diff(moment.unix(user.status.wasOnline.value), "hours");
-                if (hoursDiff === 1) {
-                    return "last seen one hour ago";
-                } else {
-                    return `last seen ${hoursDiff} hours ago`;
-                }
-            } else {
-                return `last seen ${
-                    moment.unix(user.status.wasOnline.value).format("L")}`;
-            }
+            return readableOfflineStatus(user.status.expires.value);
         }
+    } else if (user.status instanceof API.UserStatusOffline) {
+        return readableOfflineStatus(user.status.wasOnline.value);
     } else if (user.status instanceof API.UserStatusRecently) {
         return "last seen recently";
     } else if (user.status instanceof API.UserStatusLastWeek) {
@@ -107,6 +89,33 @@ export const readableStatus = (user: API.User): JSX.Element | string => {
     }
 
     return "last seen a long time ago";
+};
+
+const readableOfflineStatus = (wasOnline: number): string => {
+    const wasOnlineMoment = moment.unix(wasOnline);
+    const minutesDiff = moment()
+        .diff(wasOnlineMoment, "minutes");
+    if (minutesDiff === 0) {
+        return "last seen just now";
+    } else if (minutesDiff === 1) {
+        return "last seen one minute ago";
+    } else if (minutesDiff <= 59) {
+        return `last seen ${minutesDiff} minutes ago`;
+    } else {
+        const daysDiff = moment()
+            .diff(wasOnlineMoment, "days");
+        if (daysDiff === 0) {
+            const hoursDiff = moment()
+                .diff(wasOnlineMoment, "hours");
+            if (hoursDiff === 1) {
+                return "last seen one hour ago";
+            } else {
+                return `last seen ${hoursDiff} hours ago`;
+            }
+        } else {
+            return `last seen ${wasOnlineMoment.format("L")}`;
+        }
+    }
 };
 
 const statusStyle = `

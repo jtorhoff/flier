@@ -16,21 +16,21 @@ import { TLVector } from "../../TL/Types/TLVector";
 import { concat } from "../../Utils/BytesConcat";
 
 export namespace API {
-    export const layer = 57;
+    export const layer = 66;
 
     export type BoolType = BoolFalse | BoolTrue;
     export type InputPeerType = InputPeerEmpty | InputPeerSelf | InputPeerChat | InputPeerUser | InputPeerChannel;
     export type InputUserType = InputUserEmpty | InputUserSelf | InputUser;
     export type InputContactType = InputPhoneContact;
     export type InputFileType = InputFile | InputFileBig;
-    export type InputMediaType = InputMediaEmpty | InputMediaUploadedPhoto | InputMediaPhoto | InputMediaGeoPoint | InputMediaContact | InputMediaUploadedDocument | InputMediaUploadedThumbDocument | InputMediaDocument | InputMediaVenue | InputMediaGifExternal | InputMediaPhotoExternal | InputMediaDocumentExternal | InputMediaGame;
+    export type InputMediaType = InputMediaEmpty | InputMediaUploadedPhoto | InputMediaPhoto | InputMediaGeoPoint | InputMediaContact | InputMediaUploadedDocument | InputMediaUploadedThumbDocument | InputMediaDocument | InputMediaVenue | InputMediaGifExternal | InputMediaPhotoExternal | InputMediaDocumentExternal | InputMediaGame | InputMediaInvoice;
     export type InputChatPhotoType = InputChatPhotoEmpty | InputChatUploadedPhoto | InputChatPhoto;
     export type InputGeoPointType = InputGeoPointEmpty | InputGeoPoint;
     export type InputPhotoType = InputPhotoEmpty | InputPhoto;
     export type InputFileLocationType = InputFileLocation | InputEncryptedFileLocation | InputDocumentFileLocation;
     export type PeerType = PeerUser | PeerChat | PeerChannel;
     export namespace storage {
-    	export type FileTypeType = storage.FileUnknown | storage.FileJpeg | storage.FileGif | storage.FilePng | storage.FilePdf | storage.FileMp3 | storage.FileMov | storage.FilePartial | storage.FileMp4 | storage.FileWebp;
+    	export type FileTypeType = storage.FileUnknown | storage.FilePartial | storage.FileJpeg | storage.FileGif | storage.FilePng | storage.FilePdf | storage.FileMp3 | storage.FileMov | storage.FileMp4 | storage.FileWebp;
     }
     export type FileLocationType = FileLocationUnavailable | FileLocation;
     export type UserType = UserEmpty | User;
@@ -42,8 +42,8 @@ export namespace API {
     export type ChatParticipantsType = ChatParticipantsForbidden | ChatParticipants;
     export type ChatPhotoType = ChatPhotoEmpty | ChatPhoto;
     export type MessageType = MessageEmpty | Message | MessageService;
-    export type MessageMediaType = MessageMediaEmpty | MessageMediaPhoto | MessageMediaGeo | MessageMediaContact | MessageMediaUnsupported | MessageMediaDocument | MessageMediaWebPage | MessageMediaVenue | MessageMediaGame;
-    export type MessageActionType = MessageActionEmpty | MessageActionChatCreate | MessageActionChatEditTitle | MessageActionChatEditPhoto | MessageActionChatDeletePhoto | MessageActionChatAddUser | MessageActionChatDeleteUser | MessageActionChatJoinedByLink | MessageActionChannelCreate | MessageActionChatMigrateTo | MessageActionChannelMigrateFrom | MessageActionPinMessage | MessageActionHistoryClear | MessageActionGameScore;
+    export type MessageMediaType = MessageMediaEmpty | MessageMediaPhoto | MessageMediaGeo | MessageMediaContact | MessageMediaUnsupported | MessageMediaDocument | MessageMediaWebPage | MessageMediaVenue | MessageMediaGame | MessageMediaInvoice;
+    export type MessageActionType = MessageActionEmpty | MessageActionChatCreate | MessageActionChatEditTitle | MessageActionChatEditPhoto | MessageActionChatDeletePhoto | MessageActionChatAddUser | MessageActionChatDeleteUser | MessageActionChatJoinedByLink | MessageActionChannelCreate | MessageActionChatMigrateTo | MessageActionChannelMigrateFrom | MessageActionPinMessage | MessageActionHistoryClear | MessageActionGameScore | MessageActionPaymentSentMe | MessageActionPaymentSent | MessageActionPhoneCall;
     export type PhotoType = PhotoEmpty | Photo;
     export type PhotoSizeType = PhotoSizeEmpty | PhotoSize | PhotoCachedSize;
     export type GeoPointType = GeoPointEmpty | GeoPoint;
@@ -65,14 +65,20 @@ export namespace API {
     export namespace messages {
     	export type MessagesType = messages.Messages | messages.MessagesSlice | messages.ChannelMessages;
     }
-    export type MessagesFilterType = InputMessagesFilterEmpty | InputMessagesFilterPhotos | InputMessagesFilterVideo | InputMessagesFilterPhotoVideo | InputMessagesFilterPhotoVideoDocuments | InputMessagesFilterDocument | InputMessagesFilterUrl | InputMessagesFilterGif | InputMessagesFilterVoice | InputMessagesFilterMusic | InputMessagesFilterChatPhotos;
-    export type UpdateType = UpdateNewMessage | UpdateMessageID | UpdateDeleteMessages | UpdateUserTyping | UpdateChatUserTyping | UpdateChatParticipants | UpdateUserStatus | UpdateUserName | UpdateUserPhoto | UpdateContactRegistered | UpdateContactLink | UpdateNewAuthorization | UpdateNewEncryptedMessage | UpdateEncryptedChatTyping | UpdateEncryption | UpdateEncryptedMessagesRead | UpdateChatParticipantAdd | UpdateChatParticipantDelete | UpdateDcOptions | UpdateUserBlocked | UpdateNotifySettings | UpdateServiceNotification | UpdatePrivacy | UpdateUserPhone | UpdateReadHistoryInbox | UpdateReadHistoryOutbox | UpdateWebPage | UpdateReadMessagesContents | UpdateChannelTooLong | UpdateChannel | UpdateNewChannelMessage | UpdateReadChannelInbox | UpdateDeleteChannelMessages | UpdateChannelMessageViews | UpdateChatAdmins | UpdateChatParticipantAdmin | UpdateNewStickerSet | UpdateStickerSetsOrder | UpdateStickerSets | UpdateSavedGifs | UpdateBotInlineQuery | UpdateBotInlineSend | UpdateEditChannelMessage | UpdateChannelPinnedMessage | UpdateBotCallbackQuery | UpdateEditMessage | UpdateInlineBotCallbackQuery | UpdateReadChannelOutbox | UpdateDraftMessage | UpdateReadFeaturedStickers | UpdateRecentStickers | UpdateConfig | UpdatePtsChanged;
+    export namespace messages {
+    	export type ChatsType = messages.Chats | messages.ChatsSlice;
+    }
+    export type MessagesFilterType = InputMessagesFilterEmpty | InputMessagesFilterPhotos | InputMessagesFilterVideo | InputMessagesFilterPhotoVideo | InputMessagesFilterPhotoVideoDocuments | InputMessagesFilterDocument | InputMessagesFilterUrl | InputMessagesFilterGif | InputMessagesFilterVoice | InputMessagesFilterMusic | InputMessagesFilterChatPhotos | InputMessagesFilterPhoneCalls | InputMessagesFilterRoundVoice | InputMessagesFilterRoundVideo;
+    export type UpdateType = UpdateNewMessage | UpdateMessageID | UpdateDeleteMessages | UpdateUserTyping | UpdateChatUserTyping | UpdateChatParticipants | UpdateUserStatus | UpdateUserName | UpdateUserPhoto | UpdateContactRegistered | UpdateContactLink | UpdateNewEncryptedMessage | UpdateEncryptedChatTyping | UpdateEncryption | UpdateEncryptedMessagesRead | UpdateChatParticipantAdd | UpdateChatParticipantDelete | UpdateDcOptions | UpdateUserBlocked | UpdateNotifySettings | UpdateServiceNotification | UpdatePrivacy | UpdateUserPhone | UpdateReadHistoryInbox | UpdateReadHistoryOutbox | UpdateWebPage | UpdateReadMessagesContents | UpdateChannelTooLong | UpdateChannel | UpdateNewChannelMessage | UpdateReadChannelInbox | UpdateDeleteChannelMessages | UpdateChannelMessageViews | UpdateChatAdmins | UpdateChatParticipantAdmin | UpdateNewStickerSet | UpdateStickerSetsOrder | UpdateStickerSets | UpdateSavedGifs | UpdateBotInlineQuery | UpdateBotInlineSend | UpdateEditChannelMessage | UpdateChannelPinnedMessage | UpdateBotCallbackQuery | UpdateEditMessage | UpdateInlineBotCallbackQuery | UpdateReadChannelOutbox | UpdateDraftMessage | UpdateReadFeaturedStickers | UpdateRecentStickers | UpdateConfig | UpdatePtsChanged | UpdateChannelWebPage | UpdateDialogPinned | UpdatePinnedDialogs | UpdateBotWebhookJSON | UpdateBotWebhookJSONQuery | UpdateBotShippingQuery | UpdateBotPrecheckoutQuery | UpdatePhoneCall;
     export namespace updates {
-    	export type DifferenceType = updates.DifferenceEmpty | updates.Difference | updates.DifferenceSlice;
+    	export type DifferenceType = updates.DifferenceEmpty | updates.Difference | updates.DifferenceSlice | updates.DifferenceTooLong;
     }
     export type UpdatesType = UpdatesTooLong | UpdateShortMessage | UpdateShortChatMessage | UpdateShort | UpdatesCombined | Updates | UpdateShortSentMessage;
     export namespace photos {
     	export type PhotosType = photos.Photos | photos.PhotosSlice;
+    }
+    export namespace upload {
+    	export type FileType = upload.File | upload.FileCdnRedirect;
     }
     export namespace help {
     	export type AppUpdateType = help.AppUpdate | help.NoAppUpdate;
@@ -90,9 +96,9 @@ export namespace API {
     export type InputDocumentType = InputDocumentEmpty | InputDocument;
     export type DocumentType = DocumentEmpty | Document;
     export type NotifyPeerType = NotifyPeer | NotifyUsers | NotifyChats | NotifyAll;
-    export type SendMessageActionType = SendMessageTypingAction | SendMessageCancelAction | SendMessageRecordVideoAction | SendMessageUploadVideoAction | SendMessageRecordAudioAction | SendMessageUploadAudioAction | SendMessageUploadPhotoAction | SendMessageUploadDocumentAction | SendMessageGeoLocationAction | SendMessageChooseContactAction | SendMessageGamePlayAction;
-    export type InputPrivacyKeyType = InputPrivacyKeyStatusTimestamp | InputPrivacyKeyChatInvite;
-    export type PrivacyKeyType = PrivacyKeyStatusTimestamp | PrivacyKeyChatInvite;
+    export type SendMessageActionType = SendMessageTypingAction | SendMessageCancelAction | SendMessageRecordVideoAction | SendMessageUploadVideoAction | SendMessageRecordAudioAction | SendMessageUploadAudioAction | SendMessageUploadPhotoAction | SendMessageUploadDocumentAction | SendMessageGeoLocationAction | SendMessageChooseContactAction | SendMessageGamePlayAction | SendMessageRecordRoundAction | SendMessageUploadRoundAction;
+    export type InputPrivacyKeyType = InputPrivacyKeyStatusTimestamp | InputPrivacyKeyChatInvite | InputPrivacyKeyPhoneCall;
+    export type PrivacyKeyType = PrivacyKeyStatusTimestamp | PrivacyKeyChatInvite | PrivacyKeyPhoneCall;
     export type InputPrivacyRuleType = InputPrivacyValueAllowContacts | InputPrivacyValueAllowAll | InputPrivacyValueAllowUsers | InputPrivacyValueDisallowContacts | InputPrivacyValueDisallowAll | InputPrivacyValueDisallowUsers;
     export type PrivacyRuleType = PrivacyValueAllowContacts | PrivacyValueAllowAll | PrivacyValueAllowUsers | PrivacyValueDisallowContacts | PrivacyValueDisallowAll | PrivacyValueDisallowUsers;
     export type DocumentAttributeType = DocumentAttributeImageSize | DocumentAttributeAnimated | DocumentAttributeSticker | DocumentAttributeVideo | DocumentAttributeAudio | DocumentAttributeFilename | DocumentAttributeHasStickers;
@@ -103,18 +109,15 @@ export namespace API {
     	export type AllStickersType = messages.AllStickersNotModified | messages.AllStickers;
     }
     export type ContactLinkType = ContactLinkUnknown | ContactLinkNone | ContactLinkHasPhone | ContactLinkContact;
-    export type WebPageType = WebPageEmpty | WebPagePending | WebPage;
+    export type WebPageType = WebPageEmpty | WebPagePending | WebPage | WebPageNotModified;
     export namespace account {
     	export type PasswordType = account.NoPassword | account.Password;
     }
     export type ExportedChatInviteType = ChatInviteEmpty | ChatInviteExported;
     export type ChatInviteType = ChatInviteAlready | ChatInvite;
     export type InputStickerSetType = InputStickerSetEmpty | InputStickerSetID | InputStickerSetShortName;
-    export type KeyboardButtonType = KeyboardButton | KeyboardButtonUrl | KeyboardButtonCallback | KeyboardButtonRequestPhone | KeyboardButtonRequestGeoLocation | KeyboardButtonSwitchInline | KeyboardButtonGame;
+    export type KeyboardButtonType = KeyboardButton | KeyboardButtonUrl | KeyboardButtonCallback | KeyboardButtonRequestPhone | KeyboardButtonRequestGeoLocation | KeyboardButtonSwitchInline | KeyboardButtonGame | KeyboardButtonBuy;
     export type ReplyMarkupType = ReplyKeyboardHide | ReplyKeyboardForceReply | ReplyKeyboardMarkup | ReplyInlineMarkup;
-    export namespace help {
-    	export type AppChangelogType = help.AppChangelogEmpty | help.AppChangelog;
-    }
     export type MessageEntityType = MessageEntityUnknown | MessageEntityMention | MessageEntityHashtag | MessageEntityBotCommand | MessageEntityUrl | MessageEntityEmail | MessageEntityBold | MessageEntityItalic | MessageEntityCode | MessageEntityPre | MessageEntityTextUrl | MessageEntityMentionName | InputMessageEntityMentionName;
     export type InputChannelType = InputChannelEmpty | InputChannel;
     export namespace updates {
@@ -155,6 +158,19 @@ export namespace API {
     export type StickerSetCoveredType = StickerSetCovered | StickerSetMultiCovered;
     export type InputStickeredMediaType = InputStickeredMediaPhoto | InputStickeredMediaDocument;
     export type InputGameType = InputGameID | InputGameShortName;
+    export type RichTextType = TextEmpty | TextPlain | TextBold | TextItalic | TextUnderline | TextStrike | TextFixed | TextUrl | TextEmail | TextConcat;
+    export type PageBlockType = PageBlockUnsupported | PageBlockTitle | PageBlockSubtitle | PageBlockAuthorDate | PageBlockHeader | PageBlockSubheader | PageBlockParagraph | PageBlockPreformatted | PageBlockFooter | PageBlockDivider | PageBlockAnchor | PageBlockList | PageBlockBlockquote | PageBlockPullquote | PageBlockPhoto | PageBlockVideo | PageBlockCover | PageBlockEmbed | PageBlockEmbedPost | PageBlockCollage | PageBlockSlideshow | PageBlockChannel;
+    export type PageType = PagePart | PageFull;
+    export type PhoneCallDiscardReasonType = PhoneCallDiscardReasonMissed | PhoneCallDiscardReasonDisconnect | PhoneCallDiscardReasonHangup | PhoneCallDiscardReasonBusy;
+    export type PaymentSavedCredentialsType = PaymentSavedCredentialsCard;
+    export namespace payments {
+    	export type PaymentResultType = payments.PaymentResult | payments.PaymentVerficationNeeded;
+    }
+    export type InputPaymentCredentialsType = InputPaymentCredentialsSaved | InputPaymentCredentials;
+    export type PhoneCallType = PhoneCallEmpty | PhoneCallWaiting | PhoneCallRequested | PhoneCallAccepted | PhoneCall | PhoneCallDiscarded;
+    export namespace upload {
+    	export type CdnFileType = upload.CdnFileReuploadNeeded | upload.CdnFile;
+    }
 
     export class BoolFalse implements TLObject {
         static readonly cons = new TLInt(0xbc799737);
@@ -949,6 +965,70 @@ export namespace API {
     } // class InputMediaGame
     
 
+    export class InputMediaInvoice implements TLObject {
+        static readonly cons = new TLInt(0x92153685);
+        static deserialized(_data: ByteStream): InputMediaInvoice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputMediaInvoice.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            const description = TLString.deserialized(_data);
+            if (!description) return undefined;
+            let photo: API.InputWebDocument | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.InputWebDocument;
+                if (!obj) return undefined;
+                photo = obj
+            }
+            const invoice = deserializedObject(_data) as API.Invoice;
+            if (!invoice) return undefined;
+            const payload = TLBytes.deserialized(_data);
+            if (!payload) return undefined;
+            const provider = TLString.deserialized(_data);
+            if (!provider) return undefined;
+            const startParam = TLString.deserialized(_data);
+            if (!startParam) return undefined;
+            return new InputMediaInvoice(
+                title,
+                description,
+                photo,
+                invoice,
+                payload,
+                provider,
+                startParam)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputMediaInvoice.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.photo) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.title.serialized());
+            data.push(this.description.serialized());
+            if (this.photo) data.push(this.photo.serialized());
+            data.push(this.invoice.serialized());
+            data.push(this.payload.serialized());
+            data.push(this.provider.serialized());
+            data.push(this.startParam.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly title: TLString,
+            readonly description: TLString,
+            readonly photo: API.InputWebDocument | undefined,
+            readonly invoice: API.Invoice,
+            readonly payload: TLBytes,
+            readonly provider: TLString,
+            readonly startParam: TLString) {}
+    
+    } // class InputMediaInvoice
+    
+
     export class InputChatPhotoEmpty implements TLObject {
         static readonly cons = new TLInt(0x1ca48f57);
         static deserialized(_data: ByteStream): InputChatPhotoEmpty | undefined {
@@ -1348,6 +1428,25 @@ export namespace API {
     } // namespace storage
 
     export namespace storage {
+    export class FilePartial implements TLObject {
+        static readonly cons = new TLInt(0x40bc6f52);
+        static deserialized(_data: ByteStream): FilePartial | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(FilePartial.cons)) return undefined;
+            return new FilePartial()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = FilePartial.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class FilePartial
+    } // namespace storage
+
+    export namespace storage {
     export class FileJpeg implements TLObject {
         static readonly cons = new TLInt(0x7efe0e);
         static deserialized(_data: ByteStream): FileJpeg | undefined {
@@ -1459,25 +1558,6 @@ export namespace API {
         }
     
     } // class FileMov
-    } // namespace storage
-
-    export namespace storage {
-    export class FilePartial implements TLObject {
-        static readonly cons = new TLInt(0x40bc6f52);
-        static deserialized(_data: ByteStream): FilePartial | undefined {
-            const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(FilePartial.cons)) return undefined;
-            return new FilePartial()
-        }
-        
-        serialized(): Uint8Array {
-            const constructor = FilePartial.cons.serialized();
-            const data: Uint8Array[] = [constructor];
-    
-            return concat(...data);
-        }
-    
-    } // class FilePartial
     } // namespace storage
 
     export namespace storage {
@@ -1619,7 +1699,7 @@ export namespace API {
     
 
     export class User implements TLObject {
-        static readonly cons = new TLInt(0xd10d979a);
+        static readonly cons = new TLInt(0x2e13f4c3);
         static deserialized(_data: ByteStream): User | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(User.cons)) return undefined;
@@ -1698,6 +1778,12 @@ export namespace API {
                 if (!obj) return undefined;
                 botInlinePlaceholder = obj
             }
+            let langCode: TLString | undefined;
+            if ((flags.value & 4194304) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                langCode = obj
+            }
             return new User(
                 self,
                 contact,
@@ -1720,7 +1806,8 @@ export namespace API {
                 status,
                 botInfoVersion,
                 restrictionReason,
-                botInlinePlaceholder)
+                botInlinePlaceholder,
+                langCode)
         }
         
         serialized(): Uint8Array {
@@ -1748,6 +1835,7 @@ export namespace API {
             flags = (this.botInfoVersion) ? (flags | 16384) : (flags & ~16384);
             flags = (this.restrictionReason) ? (flags | 262144) : (flags & ~262144);
             flags = (this.botInlinePlaceholder) ? (flags | 524288) : (flags & ~524288);
+            flags = (this.langCode) ? (flags | 4194304) : (flags & ~4194304);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             if (this.accessHash) data.push(this.accessHash.serialized());
@@ -1760,6 +1848,7 @@ export namespace API {
             if (this.botInfoVersion) data.push(this.botInfoVersion.serialized());
             if (this.restrictionReason) data.push(this.restrictionReason.serialized());
             if (this.botInlinePlaceholder) data.push(this.botInlinePlaceholder.serialized());
+            if (this.langCode) data.push(this.langCode.serialized());
     
             return concat(...data);
         }
@@ -1786,7 +1875,8 @@ export namespace API {
             readonly status: UserStatusType | undefined,
             readonly botInfoVersion: TLInt | undefined,
             readonly restrictionReason: TLString | undefined,
-            readonly botInlinePlaceholder: TLString | undefined) {}
+            readonly botInlinePlaceholder: TLString | undefined,
+            readonly langCode: TLString | undefined) {}
     
     } // class User
     
@@ -3206,6 +3296,83 @@ export namespace API {
     } // class MessageMediaGame
     
 
+    export class MessageMediaInvoice implements TLObject {
+        static readonly cons = new TLInt(0x84551347);
+        static deserialized(_data: ByteStream): MessageMediaInvoice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(MessageMediaInvoice.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const shippingAddressRequested = (flags.value & 2) !== 0;
+            const test = (flags.value & 8) !== 0;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            const description = TLString.deserialized(_data);
+            if (!description) return undefined;
+            let photo: API.WebDocument | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.WebDocument;
+                if (!obj) return undefined;
+                photo = obj
+            }
+            let receiptMsgId: TLInt | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                receiptMsgId = obj
+            }
+            const currency = TLString.deserialized(_data);
+            if (!currency) return undefined;
+            const totalAmount = TLLong.deserialized(_data);
+            if (!totalAmount) return undefined;
+            const startParam = TLString.deserialized(_data);
+            if (!startParam) return undefined;
+            return new MessageMediaInvoice(
+                shippingAddressRequested,
+                test,
+                title,
+                description,
+                photo,
+                receiptMsgId,
+                currency,
+                totalAmount,
+                startParam)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = MessageMediaInvoice.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.shippingAddressRequested) ? (flags | 2) : (flags & ~2);
+            flags = (this.test) ? (flags | 8) : (flags & ~8);
+            flags = (this.photo) ? (flags | 1) : (flags & ~1);
+            flags = (this.receiptMsgId) ? (flags | 4) : (flags & ~4);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.title.serialized());
+            data.push(this.description.serialized());
+            if (this.photo) data.push(this.photo.serialized());
+            if (this.receiptMsgId) data.push(this.receiptMsgId.serialized());
+            data.push(this.currency.serialized());
+            data.push(this.totalAmount.serialized());
+            data.push(this.startParam.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly shippingAddressRequested: boolean,
+            readonly test: boolean,
+            readonly title: TLString,
+            readonly description: TLString,
+            readonly photo: API.WebDocument | undefined,
+            readonly receiptMsgId: TLInt | undefined,
+            readonly currency: TLString,
+            readonly totalAmount: TLLong,
+            readonly startParam: TLString) {}
+    
+    } // class MessageMediaInvoice
+    
+
     export class MessageActionEmpty implements TLObject {
         static readonly cons = new TLInt(0xb6aef7b0);
         static deserialized(_data: ByteStream): MessageActionEmpty | undefined {
@@ -3543,6 +3710,149 @@ export namespace API {
     } // class MessageActionGameScore
     
 
+    export class MessageActionPaymentSentMe implements TLObject {
+        static readonly cons = new TLInt(0x8f31b327);
+        static deserialized(_data: ByteStream): MessageActionPaymentSentMe | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(MessageActionPaymentSentMe.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const currency = TLString.deserialized(_data);
+            if (!currency) return undefined;
+            const totalAmount = TLLong.deserialized(_data);
+            if (!totalAmount) return undefined;
+            const payload = TLBytes.deserialized(_data);
+            if (!payload) return undefined;
+            let info: API.PaymentRequestedInfo | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.PaymentRequestedInfo;
+                if (!obj) return undefined;
+                info = obj
+            }
+            let shippingOptionId: TLString | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                shippingOptionId = obj
+            }
+            const charge = deserializedObject(_data) as API.PaymentCharge;
+            if (!charge) return undefined;
+            return new MessageActionPaymentSentMe(
+                currency,
+                totalAmount,
+                payload,
+                info,
+                shippingOptionId,
+                charge)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = MessageActionPaymentSentMe.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.info) ? (flags | 1) : (flags & ~1);
+            flags = (this.shippingOptionId) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.currency.serialized());
+            data.push(this.totalAmount.serialized());
+            data.push(this.payload.serialized());
+            if (this.info) data.push(this.info.serialized());
+            if (this.shippingOptionId) data.push(this.shippingOptionId.serialized());
+            data.push(this.charge.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly currency: TLString,
+            readonly totalAmount: TLLong,
+            readonly payload: TLBytes,
+            readonly info: API.PaymentRequestedInfo | undefined,
+            readonly shippingOptionId: TLString | undefined,
+            readonly charge: API.PaymentCharge) {}
+    
+    } // class MessageActionPaymentSentMe
+    
+
+    export class MessageActionPaymentSent implements TLObject {
+        static readonly cons = new TLInt(0x40699cd0);
+        static deserialized(_data: ByteStream): MessageActionPaymentSent | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(MessageActionPaymentSent.cons)) return undefined;
+            const currency = TLString.deserialized(_data);
+            if (!currency) return undefined;
+            const totalAmount = TLLong.deserialized(_data);
+            if (!totalAmount) return undefined;
+            return new MessageActionPaymentSent(
+                currency,
+                totalAmount)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = MessageActionPaymentSent.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.currency.serialized());
+            data.push(this.totalAmount.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly currency: TLString,
+            readonly totalAmount: TLLong) {}
+    
+    } // class MessageActionPaymentSent
+    
+
+    export class MessageActionPhoneCall implements TLObject {
+        static readonly cons = new TLInt(0x80e11a7f);
+        static deserialized(_data: ByteStream): MessageActionPhoneCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(MessageActionPhoneCall.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const callId = TLLong.deserialized(_data);
+            if (!callId) return undefined;
+            let reason: PhoneCallDiscardReasonType | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as PhoneCallDiscardReasonType;
+                if (!obj) return undefined;
+                reason = obj
+            }
+            let duration: TLInt | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                duration = obj
+            }
+            return new MessageActionPhoneCall(
+                callId,
+                reason,
+                duration)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = MessageActionPhoneCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.reason) ? (flags | 1) : (flags & ~1);
+            flags = (this.duration) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.callId.serialized());
+            if (this.reason) data.push(this.reason.serialized());
+            if (this.duration) data.push(this.duration.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly callId: TLLong,
+            readonly reason: PhoneCallDiscardReasonType | undefined,
+            readonly duration: TLInt | undefined) {}
+    
+    } // class MessageActionPhoneCall
+    
+
     export class Dialog implements TLObject {
         static readonly cons = new TLInt(0x66ffba14);
         static deserialized(_data: ByteStream): Dialog | undefined {
@@ -3550,6 +3860,7 @@ export namespace API {
             if (!constructor || !constructor.equals(Dialog.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
+            const pinned = (flags.value & 4) !== 0;
             const peer = deserializedObject(_data) as PeerType;
             if (!peer) return undefined;
             const topMessage = TLInt.deserialized(_data);
@@ -3575,6 +3886,7 @@ export namespace API {
                 draft = obj
             }
             return new Dialog(
+                pinned,
                 peer,
                 topMessage,
                 readInboxMaxId,
@@ -3589,6 +3901,7 @@ export namespace API {
             const constructor = Dialog.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
+            flags = (this.pinned) ? (flags | 4) : (flags & ~4);
             flags = (this.pts) ? (flags | 1) : (flags & ~1);
             flags = (this.draft) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
@@ -3605,6 +3918,7 @@ export namespace API {
         }
     
         constructor(
+            readonly pinned: boolean,
             readonly peer: PeerType,
             readonly topMessage: TLInt,
             readonly readInboxMaxId: TLInt,
@@ -4450,13 +4764,15 @@ export namespace API {
     
 
     export class UserFull implements TLObject {
-        static readonly cons = new TLInt(0x5932fc03);
+        static readonly cons = new TLInt(0xf220f3f);
         static deserialized(_data: ByteStream): UserFull | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UserFull.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const blocked = (flags.value & 1) !== 0;
+            const phoneCallsAvailable = (flags.value & 16) !== 0;
+            const phoneCallsPrivate = (flags.value & 32) !== 0;
             const user = deserializedObject(_data) as UserType;
             if (!user) return undefined;
             let about: TLString | undefined;
@@ -4481,14 +4797,19 @@ export namespace API {
                 if (!obj) return undefined;
                 botInfo = obj
             }
+            const commonChatsCount = TLInt.deserialized(_data);
+            if (!commonChatsCount) return undefined;
             return new UserFull(
                 blocked,
+                phoneCallsAvailable,
+                phoneCallsPrivate,
                 user,
                 about,
                 link,
                 profilePhoto,
                 notifySettings,
-                botInfo)
+                botInfo,
+                commonChatsCount)
         }
         
         serialized(): Uint8Array {
@@ -4496,6 +4817,8 @@ export namespace API {
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.blocked) ? (flags | 1) : (flags & ~1);
+            flags = (this.phoneCallsAvailable) ? (flags | 16) : (flags & ~16);
+            flags = (this.phoneCallsPrivate) ? (flags | 32) : (flags & ~32);
             flags = (this.about) ? (flags | 2) : (flags & ~2);
             flags = (this.profilePhoto) ? (flags | 4) : (flags & ~4);
             flags = (this.botInfo) ? (flags | 8) : (flags & ~8);
@@ -4506,18 +4829,22 @@ export namespace API {
             if (this.profilePhoto) data.push(this.profilePhoto.serialized());
             data.push(this.notifySettings.serialized());
             if (this.botInfo) data.push(this.botInfo.serialized());
+            data.push(this.commonChatsCount.serialized());
     
             return concat(...data);
         }
     
         constructor(
             readonly blocked: boolean,
+            readonly phoneCallsAvailable: boolean,
+            readonly phoneCallsPrivate: boolean,
             readonly user: UserType,
             readonly about: TLString | undefined,
             readonly link: contacts.Link,
             readonly profilePhoto: PhotoType | undefined,
             readonly notifySettings: PeerNotifySettingsType,
-            readonly botInfo: API.BotInfo | undefined) {}
+            readonly botInfo: API.BotInfo | undefined,
+            readonly commonChatsCount: TLInt) {}
     
     } // class UserFull
     
@@ -5072,6 +5399,37 @@ export namespace API {
     } // namespace messages
 
     export namespace messages {
+    export class ChatsSlice implements TLObject {
+        static readonly cons = new TLInt(0x9cd81144);
+        static deserialized(_data: ByteStream): ChatsSlice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ChatsSlice.cons)) return undefined;
+            const count = TLInt.deserialized(_data);
+            if (!count) return undefined;
+            const chats = TLVector.deserialized(_data, ) as TLVector<ChatType>;
+            if (!chats) return undefined;
+            return new ChatsSlice(
+                count,
+                chats)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ChatsSlice.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.count.serialized());
+            data.push(this.chats.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly count: TLInt,
+            readonly chats: TLVector<ChatType>) {}
+    
+    } // class ChatsSlice
+    } // namespace messages
+
+    export namespace messages {
     export class ChatFull implements TLObject {
         static readonly cons = new TLInt(0xe5d7d19c);
         static deserialized(_data: ByteStream): ChatFull | undefined {
@@ -5339,6 +5697,70 @@ export namespace API {
         }
     
     } // class InputMessagesFilterChatPhotos
+    
+
+    export class InputMessagesFilterPhoneCalls implements TLObject {
+        static readonly cons = new TLInt(0x80c99768);
+        static deserialized(_data: ByteStream): InputMessagesFilterPhoneCalls | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputMessagesFilterPhoneCalls.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const missed = (flags.value & 1) !== 0;
+            return new InputMessagesFilterPhoneCalls(
+                missed)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputMessagesFilterPhoneCalls.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.missed) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly missed: boolean) {}
+    
+    } // class InputMessagesFilterPhoneCalls
+    
+
+    export class InputMessagesFilterRoundVoice implements TLObject {
+        static readonly cons = new TLInt(0x7a7c17a4);
+        static deserialized(_data: ByteStream): InputMessagesFilterRoundVoice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputMessagesFilterRoundVoice.cons)) return undefined;
+            return new InputMessagesFilterRoundVoice()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputMessagesFilterRoundVoice.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class InputMessagesFilterRoundVoice
+    
+
+    export class InputMessagesFilterRoundVideo implements TLObject {
+        static readonly cons = new TLInt(0xb549da53);
+        static deserialized(_data: ByteStream): InputMessagesFilterRoundVideo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputMessagesFilterRoundVideo.cons)) return undefined;
+            return new InputMessagesFilterRoundVideo()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputMessagesFilterRoundVideo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class InputMessagesFilterRoundVideo
     
 
     export class UpdateNewMessage implements TLObject {
@@ -5706,46 +6128,6 @@ export namespace API {
     } // class UpdateContactLink
     
 
-    export class UpdateNewAuthorization implements TLObject {
-        static readonly cons = new TLInt(0x8f06529a);
-        static deserialized(_data: ByteStream): UpdateNewAuthorization | undefined {
-            const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(UpdateNewAuthorization.cons)) return undefined;
-            const authKeyId = TLLong.deserialized(_data);
-            if (!authKeyId) return undefined;
-            const date = TLInt.deserialized(_data);
-            if (!date) return undefined;
-            const device = TLString.deserialized(_data);
-            if (!device) return undefined;
-            const location = TLString.deserialized(_data);
-            if (!location) return undefined;
-            return new UpdateNewAuthorization(
-                authKeyId,
-                date,
-                device,
-                location)
-        }
-        
-        serialized(): Uint8Array {
-            const constructor = UpdateNewAuthorization.cons.serialized();
-            const data: Uint8Array[] = [constructor];
-            data.push(this.authKeyId.serialized());
-            data.push(this.date.serialized());
-            data.push(this.device.serialized());
-            data.push(this.location.serialized());
-    
-            return concat(...data);
-        }
-    
-        constructor(
-            readonly authKeyId: TLLong,
-            readonly date: TLInt,
-            readonly device: TLString,
-            readonly location: TLString) {}
-    
-    } // class UpdateNewAuthorization
-    
-
     export class UpdateNewEncryptedMessage implements TLObject {
         static readonly cons = new TLInt(0x12bcbd9a);
         static deserialized(_data: ByteStream): UpdateNewEncryptedMessage | undefined {
@@ -6032,41 +6414,59 @@ export namespace API {
     
 
     export class UpdateServiceNotification implements TLObject {
-        static readonly cons = new TLInt(0x382dd3e4);
+        static readonly cons = new TLInt(0xebe46819);
         static deserialized(_data: ByteStream): UpdateServiceNotification | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(UpdateServiceNotification.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const popup = (flags.value & 1) !== 0;
+            let inboxDate: TLInt | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                inboxDate = obj
+            }
             const type = TLString.deserialized(_data);
             if (!type) return undefined;
             const message = TLString.deserialized(_data);
             if (!message) return undefined;
             const media = deserializedObject(_data) as MessageMediaType;
             if (!media) return undefined;
-            const popup = deserializedObject(_data) as BoolType;
-            if (!popup) return undefined;
+            const entities = TLVector.deserialized(_data, ) as TLVector<MessageEntityType>;
+            if (!entities) return undefined;
             return new UpdateServiceNotification(
+                popup,
+                inboxDate,
                 type,
                 message,
                 media,
-                popup)
+                entities)
         }
         
         serialized(): Uint8Array {
             const constructor = UpdateServiceNotification.cons.serialized();
             const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.popup) ? (flags | 1) : (flags & ~1);
+            flags = (this.inboxDate) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            if (this.inboxDate) data.push(this.inboxDate.serialized());
             data.push(this.type.serialized());
             data.push(this.message.serialized());
             data.push(this.media.serialized());
-            data.push(this.popup.serialized());
+            data.push(this.entities.serialized());
     
             return concat(...data);
         }
     
         constructor(
+            readonly popup: boolean,
+            readonly inboxDate: TLInt | undefined,
             readonly type: TLString,
             readonly message: TLString,
             readonly media: MessageMediaType,
-            readonly popup: BoolType) {}
+            readonly entities: TLVector<MessageEntityType>) {}
     
     } // class UpdateServiceNotification
     
@@ -7132,6 +7532,307 @@ export namespace API {
     } // class UpdatePtsChanged
     
 
+    export class UpdateChannelWebPage implements TLObject {
+        static readonly cons = new TLInt(0x40771900);
+        static deserialized(_data: ByteStream): UpdateChannelWebPage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateChannelWebPage.cons)) return undefined;
+            const channelId = TLInt.deserialized(_data);
+            if (!channelId) return undefined;
+            const webpage = deserializedObject(_data) as WebPageType;
+            if (!webpage) return undefined;
+            const pts = TLInt.deserialized(_data);
+            if (!pts) return undefined;
+            const ptsCount = TLInt.deserialized(_data);
+            if (!ptsCount) return undefined;
+            return new UpdateChannelWebPage(
+                channelId,
+                webpage,
+                pts,
+                ptsCount)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdateChannelWebPage.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.channelId.serialized());
+            data.push(this.webpage.serialized());
+            data.push(this.pts.serialized());
+            data.push(this.ptsCount.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly channelId: TLInt,
+            readonly webpage: WebPageType,
+            readonly pts: TLInt,
+            readonly ptsCount: TLInt) {}
+    
+    } // class UpdateChannelWebPage
+    
+
+    export class UpdateDialogPinned implements TLObject {
+        static readonly cons = new TLInt(0xd711a2cc);
+        static deserialized(_data: ByteStream): UpdateDialogPinned | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateDialogPinned.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const pinned = (flags.value & 1) !== 0;
+            const peer = deserializedObject(_data) as PeerType;
+            if (!peer) return undefined;
+            return new UpdateDialogPinned(
+                pinned,
+                peer)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdateDialogPinned.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.pinned) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.peer.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly pinned: boolean,
+            readonly peer: PeerType) {}
+    
+    } // class UpdateDialogPinned
+    
+
+    export class UpdatePinnedDialogs implements TLObject {
+        static readonly cons = new TLInt(0xd8caf68d);
+        static deserialized(_data: ByteStream): UpdatePinnedDialogs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdatePinnedDialogs.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            let order: TLVector<PeerType> | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLVector.deserialized(_data, ) as TLVector<PeerType>;
+                if (!obj) return undefined;
+                order = obj
+            }
+            return new UpdatePinnedDialogs(
+                order)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdatePinnedDialogs.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.order) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            if (this.order) data.push(this.order.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly order: TLVector<PeerType> | undefined) {}
+    
+    } // class UpdatePinnedDialogs
+    
+
+    export class UpdateBotWebhookJSON implements TLObject {
+        static readonly cons = new TLInt(0x8317c0c3);
+        static deserialized(_data: ByteStream): UpdateBotWebhookJSON | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateBotWebhookJSON.cons)) return undefined;
+            const data = deserializedObject(_data) as API.DataJSON;
+            if (!data) return undefined;
+            return new UpdateBotWebhookJSON(
+                data)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdateBotWebhookJSON.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.data.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly data: API.DataJSON) {}
+    
+    } // class UpdateBotWebhookJSON
+    
+
+    export class UpdateBotWebhookJSONQuery implements TLObject {
+        static readonly cons = new TLInt(0x9b9240a6);
+        static deserialized(_data: ByteStream): UpdateBotWebhookJSONQuery | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateBotWebhookJSONQuery.cons)) return undefined;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            const data = deserializedObject(_data) as API.DataJSON;
+            if (!data) return undefined;
+            const timeout = TLInt.deserialized(_data);
+            if (!timeout) return undefined;
+            return new UpdateBotWebhookJSONQuery(
+                queryId,
+                data,
+                timeout)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdateBotWebhookJSONQuery.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.queryId.serialized());
+            data.push(this.data.serialized());
+            data.push(this.timeout.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly queryId: TLLong,
+            readonly data: API.DataJSON,
+            readonly timeout: TLInt) {}
+    
+    } // class UpdateBotWebhookJSONQuery
+    
+
+    export class UpdateBotShippingQuery implements TLObject {
+        static readonly cons = new TLInt(0xe0cdc940);
+        static deserialized(_data: ByteStream): UpdateBotShippingQuery | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateBotShippingQuery.cons)) return undefined;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            const userId = TLInt.deserialized(_data);
+            if (!userId) return undefined;
+            const payload = TLBytes.deserialized(_data);
+            if (!payload) return undefined;
+            const shippingAddress = deserializedObject(_data) as API.PostAddress;
+            if (!shippingAddress) return undefined;
+            return new UpdateBotShippingQuery(
+                queryId,
+                userId,
+                payload,
+                shippingAddress)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdateBotShippingQuery.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.queryId.serialized());
+            data.push(this.userId.serialized());
+            data.push(this.payload.serialized());
+            data.push(this.shippingAddress.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly queryId: TLLong,
+            readonly userId: TLInt,
+            readonly payload: TLBytes,
+            readonly shippingAddress: API.PostAddress) {}
+    
+    } // class UpdateBotShippingQuery
+    
+
+    export class UpdateBotPrecheckoutQuery implements TLObject {
+        static readonly cons = new TLInt(0x5d2f3aa9);
+        static deserialized(_data: ByteStream): UpdateBotPrecheckoutQuery | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdateBotPrecheckoutQuery.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            const userId = TLInt.deserialized(_data);
+            if (!userId) return undefined;
+            const payload = TLBytes.deserialized(_data);
+            if (!payload) return undefined;
+            let info: API.PaymentRequestedInfo | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.PaymentRequestedInfo;
+                if (!obj) return undefined;
+                info = obj
+            }
+            let shippingOptionId: TLString | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                shippingOptionId = obj
+            }
+            const currency = TLString.deserialized(_data);
+            if (!currency) return undefined;
+            const totalAmount = TLLong.deserialized(_data);
+            if (!totalAmount) return undefined;
+            return new UpdateBotPrecheckoutQuery(
+                queryId,
+                userId,
+                payload,
+                info,
+                shippingOptionId,
+                currency,
+                totalAmount)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdateBotPrecheckoutQuery.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.info) ? (flags | 1) : (flags & ~1);
+            flags = (this.shippingOptionId) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.queryId.serialized());
+            data.push(this.userId.serialized());
+            data.push(this.payload.serialized());
+            if (this.info) data.push(this.info.serialized());
+            if (this.shippingOptionId) data.push(this.shippingOptionId.serialized());
+            data.push(this.currency.serialized());
+            data.push(this.totalAmount.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly queryId: TLLong,
+            readonly userId: TLInt,
+            readonly payload: TLBytes,
+            readonly info: API.PaymentRequestedInfo | undefined,
+            readonly shippingOptionId: TLString | undefined,
+            readonly currency: TLString,
+            readonly totalAmount: TLLong) {}
+    
+    } // class UpdateBotPrecheckoutQuery
+    
+
+    export class UpdatePhoneCall implements TLObject {
+        static readonly cons = new TLInt(0xab0f6b1e);
+        static deserialized(_data: ByteStream): UpdatePhoneCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UpdatePhoneCall.cons)) return undefined;
+            const phoneCall = deserializedObject(_data) as PhoneCallType;
+            if (!phoneCall) return undefined;
+            return new UpdatePhoneCall(
+                phoneCall)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UpdatePhoneCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.phoneCall.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly phoneCall: PhoneCallType) {}
+    
+    } // class UpdatePhoneCall
+    
+
     export namespace updates {
     export class State implements TLObject {
         static readonly cons = new TLInt(0xa56c2a3e);
@@ -7309,6 +8010,32 @@ export namespace API {
             readonly intermediateState: updates.State) {}
     
     } // class DifferenceSlice
+    } // namespace updates
+
+    export namespace updates {
+    export class DifferenceTooLong implements TLObject {
+        static readonly cons = new TLInt(0x4afe8f6d);
+        static deserialized(_data: ByteStream): DifferenceTooLong | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DifferenceTooLong.cons)) return undefined;
+            const pts = TLInt.deserialized(_data);
+            if (!pts) return undefined;
+            return new DifferenceTooLong(
+                pts)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = DifferenceTooLong.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.pts.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly pts: TLInt) {}
+    
+    } // class DifferenceTooLong
     } // namespace updates
 
     export class UpdatesTooLong implements TLObject {
@@ -7881,6 +8608,47 @@ export namespace API {
     } // class File
     } // namespace upload
 
+    export namespace upload {
+    export class FileCdnRedirect implements TLObject {
+        static readonly cons = new TLInt(0x1508485a);
+        static deserialized(_data: ByteStream): FileCdnRedirect | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(FileCdnRedirect.cons)) return undefined;
+            const dcId = TLInt.deserialized(_data);
+            if (!dcId) return undefined;
+            const fileToken = TLBytes.deserialized(_data);
+            if (!fileToken) return undefined;
+            const encryptionKey = TLBytes.deserialized(_data);
+            if (!encryptionKey) return undefined;
+            const encryptionIv = TLBytes.deserialized(_data);
+            if (!encryptionIv) return undefined;
+            return new FileCdnRedirect(
+                dcId,
+                fileToken,
+                encryptionKey,
+                encryptionIv)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = FileCdnRedirect.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.dcId.serialized());
+            data.push(this.fileToken.serialized());
+            data.push(this.encryptionKey.serialized());
+            data.push(this.encryptionIv.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly dcId: TLInt,
+            readonly fileToken: TLBytes,
+            readonly encryptionKey: TLBytes,
+            readonly encryptionIv: TLBytes) {}
+    
+    } // class FileCdnRedirect
+    } // namespace upload
+
     export class DcOption implements TLObject {
         static readonly cons = new TLInt(0x5d8c6cc);
         static deserialized(_data: ByteStream): DcOption | undefined {
@@ -7891,6 +8659,7 @@ export namespace API {
             const ipv6 = (flags.value & 1) !== 0;
             const mediaOnly = (flags.value & 2) !== 0;
             const tcpoOnly = (flags.value & 4) !== 0;
+            const cdn = (flags.value & 8) !== 0;
             const id = TLInt.deserialized(_data);
             if (!id) return undefined;
             const ipAddress = TLString.deserialized(_data);
@@ -7901,6 +8670,7 @@ export namespace API {
                 ipv6,
                 mediaOnly,
                 tcpoOnly,
+                cdn,
                 id,
                 ipAddress,
                 port)
@@ -7913,6 +8683,7 @@ export namespace API {
             flags = (this.ipv6) ? (flags | 1) : (flags & ~1);
             flags = (this.mediaOnly) ? (flags | 2) : (flags & ~2);
             flags = (this.tcpoOnly) ? (flags | 4) : (flags & ~4);
+            flags = (this.cdn) ? (flags | 8) : (flags & ~8);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.ipAddress.serialized());
@@ -7925,6 +8696,7 @@ export namespace API {
             readonly ipv6: boolean,
             readonly mediaOnly: boolean,
             readonly tcpoOnly: boolean,
+            readonly cdn: boolean,
             readonly id: TLInt,
             readonly ipAddress: TLString,
             readonly port: TLInt) {}
@@ -7933,12 +8705,13 @@ export namespace API {
     
 
     export class Config implements TLObject {
-        static readonly cons = new TLInt(0x9a6b2e2a);
+        static readonly cons = new TLInt(0xcb601684);
         static deserialized(_data: ByteStream): Config | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(Config.cons)) return undefined;
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
+            const phonecallsEnabled = (flags.value & 2) !== 0;
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             const expires = TLInt.deserialized(_data);
@@ -7987,9 +8760,22 @@ export namespace API {
                 if (!obj) return undefined;
                 tmpSessions = obj
             }
+            const pinnedDialogsCountMax = TLInt.deserialized(_data);
+            if (!pinnedDialogsCountMax) return undefined;
+            const callReceiveTimeoutMs = TLInt.deserialized(_data);
+            if (!callReceiveTimeoutMs) return undefined;
+            const callRingTimeoutMs = TLInt.deserialized(_data);
+            if (!callRingTimeoutMs) return undefined;
+            const callConnectTimeoutMs = TLInt.deserialized(_data);
+            if (!callConnectTimeoutMs) return undefined;
+            const callPacketTimeoutMs = TLInt.deserialized(_data);
+            if (!callPacketTimeoutMs) return undefined;
+            const meUrlPrefix = TLString.deserialized(_data);
+            if (!meUrlPrefix) return undefined;
             const disabledFeatures = TLVector.deserialized(_data, API.DisabledFeature) as TLVector<API.DisabledFeature>;
             if (!disabledFeatures) return undefined;
             return new Config(
+                phonecallsEnabled,
                 date,
                 expires,
                 testMode,
@@ -8012,6 +8798,12 @@ export namespace API {
                 ratingEDecay,
                 stickersRecentLimit,
                 tmpSessions,
+                pinnedDialogsCountMax,
+                callReceiveTimeoutMs,
+                callRingTimeoutMs,
+                callConnectTimeoutMs,
+                callPacketTimeoutMs,
+                meUrlPrefix,
                 disabledFeatures)
         }
         
@@ -8019,6 +8811,7 @@ export namespace API {
             const constructor = Config.cons.serialized();
             const data: Uint8Array[] = [constructor];
             let flags = 0;
+            flags = (this.phonecallsEnabled) ? (flags | 2) : (flags & ~2);
             flags = (this.tmpSessions) ? (flags | 1) : (flags & ~1);
             data.push(new TLInt(flags).serialized());
             data.push(this.date.serialized());
@@ -8043,12 +8836,19 @@ export namespace API {
             data.push(this.ratingEDecay.serialized());
             data.push(this.stickersRecentLimit.serialized());
             if (this.tmpSessions) data.push(this.tmpSessions.serialized());
+            data.push(this.pinnedDialogsCountMax.serialized());
+            data.push(this.callReceiveTimeoutMs.serialized());
+            data.push(this.callRingTimeoutMs.serialized());
+            data.push(this.callConnectTimeoutMs.serialized());
+            data.push(this.callPacketTimeoutMs.serialized());
+            data.push(this.meUrlPrefix.serialized());
             data.push(this.disabledFeatures.serialized());
     
             return concat(...data);
         }
     
         constructor(
+            readonly phonecallsEnabled: boolean,
             readonly date: TLInt,
             readonly expires: TLInt,
             readonly testMode: BoolType,
@@ -8071,6 +8871,12 @@ export namespace API {
             readonly ratingEDecay: TLInt,
             readonly stickersRecentLimit: TLInt,
             readonly tmpSessions: TLInt | undefined,
+            readonly pinnedDialogsCountMax: TLInt,
+            readonly callReceiveTimeoutMs: TLInt,
+            readonly callRingTimeoutMs: TLInt,
+            readonly callConnectTimeoutMs: TLInt,
+            readonly callPacketTimeoutMs: TLInt,
+            readonly meUrlPrefix: TLString,
             readonly disabledFeatures: TLVector<API.DisabledFeature>) {}
     
     } // class Config
@@ -9296,6 +10102,49 @@ export namespace API {
     } // class SendMessageGamePlayAction
     
 
+    export class SendMessageRecordRoundAction implements TLObject {
+        static readonly cons = new TLInt(0x88f27fbc);
+        static deserialized(_data: ByteStream): SendMessageRecordRoundAction | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendMessageRecordRoundAction.cons)) return undefined;
+            return new SendMessageRecordRoundAction()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SendMessageRecordRoundAction.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class SendMessageRecordRoundAction
+    
+
+    export class SendMessageUploadRoundAction implements TLObject {
+        static readonly cons = new TLInt(0x243e1c66);
+        static deserialized(_data: ByteStream): SendMessageUploadRoundAction | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendMessageUploadRoundAction.cons)) return undefined;
+            const progress = TLInt.deserialized(_data);
+            if (!progress) return undefined;
+            return new SendMessageUploadRoundAction(
+                progress)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SendMessageUploadRoundAction.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.progress.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly progress: TLInt) {}
+    
+    } // class SendMessageUploadRoundAction
+    
+
     export namespace contacts {
     export class Found implements TLObject {
         static readonly cons = new TLInt(0x1aa1f784);
@@ -9368,6 +10217,24 @@ export namespace API {
     } // class InputPrivacyKeyChatInvite
     
 
+    export class InputPrivacyKeyPhoneCall implements TLObject {
+        static readonly cons = new TLInt(0xfabadc5f);
+        static deserialized(_data: ByteStream): InputPrivacyKeyPhoneCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputPrivacyKeyPhoneCall.cons)) return undefined;
+            return new InputPrivacyKeyPhoneCall()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputPrivacyKeyPhoneCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class InputPrivacyKeyPhoneCall
+    
+
     export class PrivacyKeyStatusTimestamp implements TLObject {
         static readonly cons = new TLInt(0xbc2eab30);
         static deserialized(_data: ByteStream): PrivacyKeyStatusTimestamp | undefined {
@@ -9402,6 +10269,24 @@ export namespace API {
         }
     
     } // class PrivacyKeyChatInvite
+    
+
+    export class PrivacyKeyPhoneCall implements TLObject {
+        static readonly cons = new TLInt(0x3d662b7b);
+        static deserialized(_data: ByteStream): PrivacyKeyPhoneCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PrivacyKeyPhoneCall.cons)) return undefined;
+            return new PrivacyKeyPhoneCall()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PrivacyKeyPhoneCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class PrivacyKeyPhoneCall
     
 
     export class InputPrivacyValueAllowContacts implements TLObject {
@@ -9801,10 +10686,13 @@ export namespace API {
     
 
     export class DocumentAttributeVideo implements TLObject {
-        static readonly cons = new TLInt(0x5910cccb);
+        static readonly cons = new TLInt(0xef02ce6);
         static deserialized(_data: ByteStream): DocumentAttributeVideo | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DocumentAttributeVideo.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const roundMessage = (flags.value & 1) !== 0;
             const duration = TLInt.deserialized(_data);
             if (!duration) return undefined;
             const w = TLInt.deserialized(_data);
@@ -9812,6 +10700,7 @@ export namespace API {
             const h = TLInt.deserialized(_data);
             if (!h) return undefined;
             return new DocumentAttributeVideo(
+                roundMessage,
                 duration,
                 w,
                 h)
@@ -9820,6 +10709,9 @@ export namespace API {
         serialized(): Uint8Array {
             const constructor = DocumentAttributeVideo.cons.serialized();
             const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.roundMessage) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
             data.push(this.duration.serialized());
             data.push(this.w.serialized());
             data.push(this.h.serialized());
@@ -9828,6 +10720,7 @@ export namespace API {
         }
     
         constructor(
+            readonly roundMessage: boolean,
             readonly duration: TLInt,
             readonly w: TLInt,
             readonly h: TLInt) {}
@@ -10260,7 +11153,7 @@ export namespace API {
     
 
     export class WebPage implements TLObject {
-        static readonly cons = new TLInt(0xca820ed7);
+        static readonly cons = new TLInt(0x5f07b4bc);
         static deserialized(_data: ByteStream): WebPage | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(WebPage.cons)) return undefined;
@@ -10272,6 +11165,8 @@ export namespace API {
             if (!url) return undefined;
             const displayUrl = TLString.deserialized(_data);
             if (!displayUrl) return undefined;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
             let type: TLString | undefined;
             if ((flags.value & 1) !== 0) {
                 const obj = TLString.deserialized(_data);
@@ -10344,10 +11239,17 @@ export namespace API {
                 if (!obj) return undefined;
                 document = obj
             }
+            let cachedPage: PageType | undefined;
+            if ((flags.value & 1024) !== 0) {
+                const obj = deserializedObject(_data) as PageType;
+                if (!obj) return undefined;
+                cachedPage = obj
+            }
             return new WebPage(
                 id,
                 url,
                 displayUrl,
+                hash,
                 type,
                 siteName,
                 title,
@@ -10359,7 +11261,8 @@ export namespace API {
                 embedHeight,
                 duration,
                 author,
-                document)
+                document,
+                cachedPage)
         }
         
         serialized(): Uint8Array {
@@ -10378,10 +11281,12 @@ export namespace API {
             flags = (this.duration) ? (flags | 128) : (flags & ~128);
             flags = (this.author) ? (flags | 256) : (flags & ~256);
             flags = (this.document) ? (flags | 512) : (flags & ~512);
+            flags = (this.cachedPage) ? (flags | 1024) : (flags & ~1024);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.url.serialized());
             data.push(this.displayUrl.serialized());
+            data.push(this.hash.serialized());
             if (this.type) data.push(this.type.serialized());
             if (this.siteName) data.push(this.siteName.serialized());
             if (this.title) data.push(this.title.serialized());
@@ -10394,6 +11299,7 @@ export namespace API {
             if (this.duration) data.push(this.duration.serialized());
             if (this.author) data.push(this.author.serialized());
             if (this.document) data.push(this.document.serialized());
+            if (this.cachedPage) data.push(this.cachedPage.serialized());
     
             return concat(...data);
         }
@@ -10402,6 +11308,7 @@ export namespace API {
             readonly id: TLLong,
             readonly url: TLString,
             readonly displayUrl: TLString,
+            readonly hash: TLInt,
             readonly type: TLString | undefined,
             readonly siteName: TLString | undefined,
             readonly title: TLString | undefined,
@@ -10413,9 +11320,28 @@ export namespace API {
             readonly embedHeight: TLInt | undefined,
             readonly duration: TLInt | undefined,
             readonly author: TLString | undefined,
-            readonly document: DocumentType | undefined) {}
+            readonly document: DocumentType | undefined,
+            readonly cachedPage: PageType | undefined) {}
     
     } // class WebPage
+    
+
+    export class WebPageNotModified implements TLObject {
+        static readonly cons = new TLInt(0x85849473);
+        static deserialized(_data: ByteStream): WebPageNotModified | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(WebPageNotModified.cons)) return undefined;
+            return new WebPageNotModified()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = WebPageNotModified.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class WebPageNotModified
     
 
     export class Authorization implements TLObject {
@@ -11328,6 +12254,31 @@ export namespace API {
     } // class KeyboardButtonGame
     
 
+    export class KeyboardButtonBuy implements TLObject {
+        static readonly cons = new TLInt(0xafd93fbb);
+        static deserialized(_data: ByteStream): KeyboardButtonBuy | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(KeyboardButtonBuy.cons)) return undefined;
+            const text = TLString.deserialized(_data);
+            if (!text) return undefined;
+            return new KeyboardButtonBuy(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = KeyboardButtonBuy.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: TLString) {}
+    
+    } // class KeyboardButtonBuy
+    
+
     export class KeyboardButtonRow implements TLObject {
         static readonly cons = new TLInt(0x77608b83);
         static deserialized(_data: ByteStream): KeyboardButtonRow | undefined {
@@ -11478,51 +12429,6 @@ export namespace API {
     
     } // class ReplyInlineMarkup
     
-
-    export namespace help {
-    export class AppChangelogEmpty implements TLObject {
-        static readonly cons = new TLInt(0xaf7e0394);
-        static deserialized(_data: ByteStream): AppChangelogEmpty | undefined {
-            const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(AppChangelogEmpty.cons)) return undefined;
-            return new AppChangelogEmpty()
-        }
-        
-        serialized(): Uint8Array {
-            const constructor = AppChangelogEmpty.cons.serialized();
-            const data: Uint8Array[] = [constructor];
-    
-            return concat(...data);
-        }
-    
-    } // class AppChangelogEmpty
-    } // namespace help
-
-    export namespace help {
-    export class AppChangelog implements TLObject {
-        static readonly cons = new TLInt(0x4668e6bd);
-        static deserialized(_data: ByteStream): AppChangelog | undefined {
-            const constructor = TLInt.deserialized(_data);
-            if (!constructor || !constructor.equals(AppChangelog.cons)) return undefined;
-            const text = TLString.deserialized(_data);
-            if (!text) return undefined;
-            return new AppChangelog(
-                text)
-        }
-        
-        serialized(): Uint8Array {
-            const constructor = AppChangelog.cons.serialized();
-            const data: Uint8Array[] = [constructor];
-            data.push(this.text.serialized());
-    
-            return concat(...data);
-        }
-    
-        constructor(
-            readonly text: TLString) {}
-    
-    } // class AppChangelog
-    } // namespace help
 
     export class MessageEntityUnknown implements TLObject {
         static readonly cons = new TLInt(0xbb92ba95);
@@ -13856,7 +14762,7 @@ export namespace API {
 
     export namespace messages {
     export class BotResults implements TLObject {
-        static readonly cons = new TLInt(0x256709a6);
+        static readonly cons = new TLInt(0xccd3563d);
         static deserialized(_data: ByteStream): BotResults | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotResults.cons)) return undefined;
@@ -13879,12 +14785,15 @@ export namespace API {
             }
             const results = TLVector.deserialized(_data, ) as TLVector<BotInlineResultType>;
             if (!results) return undefined;
+            const cacheTime = TLInt.deserialized(_data);
+            if (!cacheTime) return undefined;
             return new BotResults(
                 gallery,
                 queryId,
                 nextOffset,
                 switchPm,
-                results)
+                results,
+                cacheTime)
         }
         
         serialized(): Uint8Array {
@@ -13899,6 +14808,7 @@ export namespace API {
             if (this.nextOffset) data.push(this.nextOffset.serialized());
             if (this.switchPm) data.push(this.switchPm.serialized());
             data.push(this.results.serialized());
+            data.push(this.cacheTime.serialized());
     
             return concat(...data);
         }
@@ -13908,7 +14818,8 @@ export namespace API {
             readonly queryId: TLLong,
             readonly nextOffset: TLString | undefined,
             readonly switchPm: API.InlineBotSwitchPM | undefined,
-            readonly results: TLVector<BotInlineResultType>) {}
+            readonly results: TLVector<BotInlineResultType>,
+            readonly cacheTime: TLInt) {}
     
     } // class BotResults
     } // namespace messages
@@ -14160,7 +15071,7 @@ export namespace API {
 
     export namespace messages {
     export class BotCallbackAnswer implements TLObject {
-        static readonly cons = new TLInt(0xb10df1fb);
+        static readonly cons = new TLInt(0x36585ea4);
         static deserialized(_data: ByteStream): BotCallbackAnswer | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(BotCallbackAnswer.cons)) return undefined;
@@ -14180,11 +15091,14 @@ export namespace API {
                 if (!obj) return undefined;
                 url = obj
             }
+            const cacheTime = TLInt.deserialized(_data);
+            if (!cacheTime) return undefined;
             return new BotCallbackAnswer(
                 alert,
                 hasUrl,
                 message,
-                url)
+                url,
+                cacheTime)
         }
         
         serialized(): Uint8Array {
@@ -14198,6 +15112,7 @@ export namespace API {
             data.push(new TLInt(flags).serialized());
             if (this.message) data.push(this.message.serialized());
             if (this.url) data.push(this.url.serialized());
+            data.push(this.cacheTime.serialized());
     
             return concat(...data);
         }
@@ -14206,7 +15121,8 @@ export namespace API {
             readonly alert: boolean,
             readonly hasUrl: boolean,
             readonly message: TLString | undefined,
-            readonly url: TLString | undefined) {}
+            readonly url: TLString | undefined,
+            readonly cacheTime: TLInt) {}
     
     } // class BotCallbackAnswer
     } // namespace messages
@@ -15157,6 +16073,2612 @@ export namespace API {
     
     } // class HighScores
     } // namespace messages
+
+    export class TextEmpty implements TLObject {
+        static readonly cons = new TLInt(0xdc3d824f);
+        static deserialized(_data: ByteStream): TextEmpty | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextEmpty.cons)) return undefined;
+            return new TextEmpty()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextEmpty.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class TextEmpty
+    
+
+    export class TextPlain implements TLObject {
+        static readonly cons = new TLInt(0x744694e0);
+        static deserialized(_data: ByteStream): TextPlain | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextPlain.cons)) return undefined;
+            const text = TLString.deserialized(_data);
+            if (!text) return undefined;
+            return new TextPlain(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextPlain.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: TLString) {}
+    
+    } // class TextPlain
+    
+
+    export class TextBold implements TLObject {
+        static readonly cons = new TLInt(0x6724abc4);
+        static deserialized(_data: ByteStream): TextBold | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextBold.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new TextBold(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextBold.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class TextBold
+    
+
+    export class TextItalic implements TLObject {
+        static readonly cons = new TLInt(0xd912a59c);
+        static deserialized(_data: ByteStream): TextItalic | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextItalic.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new TextItalic(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextItalic.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class TextItalic
+    
+
+    export class TextUnderline implements TLObject {
+        static readonly cons = new TLInt(0xc12622c4);
+        static deserialized(_data: ByteStream): TextUnderline | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextUnderline.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new TextUnderline(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextUnderline.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class TextUnderline
+    
+
+    export class TextStrike implements TLObject {
+        static readonly cons = new TLInt(0x9bf8bb95);
+        static deserialized(_data: ByteStream): TextStrike | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextStrike.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new TextStrike(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextStrike.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class TextStrike
+    
+
+    export class TextFixed implements TLObject {
+        static readonly cons = new TLInt(0x6c3f19b9);
+        static deserialized(_data: ByteStream): TextFixed | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextFixed.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new TextFixed(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextFixed.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class TextFixed
+    
+
+    export class TextUrl implements TLObject {
+        static readonly cons = new TLInt(0x3c2884c1);
+        static deserialized(_data: ByteStream): TextUrl | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextUrl.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            const webpageId = TLLong.deserialized(_data);
+            if (!webpageId) return undefined;
+            return new TextUrl(
+                text,
+                url,
+                webpageId)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextUrl.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+            data.push(this.url.serialized());
+            data.push(this.webpageId.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType,
+            readonly url: TLString,
+            readonly webpageId: TLLong) {}
+    
+    } // class TextUrl
+    
+
+    export class TextEmail implements TLObject {
+        static readonly cons = new TLInt(0xde5a0dd6);
+        static deserialized(_data: ByteStream): TextEmail | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextEmail.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            const email = TLString.deserialized(_data);
+            if (!email) return undefined;
+            return new TextEmail(
+                text,
+                email)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextEmail.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+            data.push(this.email.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType,
+            readonly email: TLString) {}
+    
+    } // class TextEmail
+    
+
+    export class TextConcat implements TLObject {
+        static readonly cons = new TLInt(0x7e6260d7);
+        static deserialized(_data: ByteStream): TextConcat | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TextConcat.cons)) return undefined;
+            const texts = TLVector.deserialized(_data, ) as TLVector<RichTextType>;
+            if (!texts) return undefined;
+            return new TextConcat(
+                texts)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TextConcat.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.texts.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly texts: TLVector<RichTextType>) {}
+    
+    } // class TextConcat
+    
+
+    export class PageBlockUnsupported implements TLObject {
+        static readonly cons = new TLInt(0x13567e8a);
+        static deserialized(_data: ByteStream): PageBlockUnsupported | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockUnsupported.cons)) return undefined;
+            return new PageBlockUnsupported()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockUnsupported.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class PageBlockUnsupported
+    
+
+    export class PageBlockTitle implements TLObject {
+        static readonly cons = new TLInt(0x70abc3fd);
+        static deserialized(_data: ByteStream): PageBlockTitle | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockTitle.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new PageBlockTitle(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockTitle.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class PageBlockTitle
+    
+
+    export class PageBlockSubtitle implements TLObject {
+        static readonly cons = new TLInt(0x8ffa9a1f);
+        static deserialized(_data: ByteStream): PageBlockSubtitle | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockSubtitle.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new PageBlockSubtitle(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockSubtitle.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class PageBlockSubtitle
+    
+
+    export class PageBlockAuthorDate implements TLObject {
+        static readonly cons = new TLInt(0xbaafe5e0);
+        static deserialized(_data: ByteStream): PageBlockAuthorDate | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockAuthorDate.cons)) return undefined;
+            const author = deserializedObject(_data) as RichTextType;
+            if (!author) return undefined;
+            const publishedDate = TLInt.deserialized(_data);
+            if (!publishedDate) return undefined;
+            return new PageBlockAuthorDate(
+                author,
+                publishedDate)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockAuthorDate.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.author.serialized());
+            data.push(this.publishedDate.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly author: RichTextType,
+            readonly publishedDate: TLInt) {}
+    
+    } // class PageBlockAuthorDate
+    
+
+    export class PageBlockHeader implements TLObject {
+        static readonly cons = new TLInt(0xbfd064ec);
+        static deserialized(_data: ByteStream): PageBlockHeader | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockHeader.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new PageBlockHeader(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockHeader.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class PageBlockHeader
+    
+
+    export class PageBlockSubheader implements TLObject {
+        static readonly cons = new TLInt(0xf12bb6e1);
+        static deserialized(_data: ByteStream): PageBlockSubheader | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockSubheader.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new PageBlockSubheader(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockSubheader.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class PageBlockSubheader
+    
+
+    export class PageBlockParagraph implements TLObject {
+        static readonly cons = new TLInt(0x467a0766);
+        static deserialized(_data: ByteStream): PageBlockParagraph | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockParagraph.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new PageBlockParagraph(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockParagraph.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class PageBlockParagraph
+    
+
+    export class PageBlockPreformatted implements TLObject {
+        static readonly cons = new TLInt(0xc070d93e);
+        static deserialized(_data: ByteStream): PageBlockPreformatted | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockPreformatted.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            const language = TLString.deserialized(_data);
+            if (!language) return undefined;
+            return new PageBlockPreformatted(
+                text,
+                language)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockPreformatted.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+            data.push(this.language.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType,
+            readonly language: TLString) {}
+    
+    } // class PageBlockPreformatted
+    
+
+    export class PageBlockFooter implements TLObject {
+        static readonly cons = new TLInt(0x48870999);
+        static deserialized(_data: ByteStream): PageBlockFooter | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockFooter.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            return new PageBlockFooter(
+                text)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockFooter.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType) {}
+    
+    } // class PageBlockFooter
+    
+
+    export class PageBlockDivider implements TLObject {
+        static readonly cons = new TLInt(0xdb20b188);
+        static deserialized(_data: ByteStream): PageBlockDivider | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockDivider.cons)) return undefined;
+            return new PageBlockDivider()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockDivider.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class PageBlockDivider
+    
+
+    export class PageBlockAnchor implements TLObject {
+        static readonly cons = new TLInt(0xce0d37b0);
+        static deserialized(_data: ByteStream): PageBlockAnchor | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockAnchor.cons)) return undefined;
+            const name = TLString.deserialized(_data);
+            if (!name) return undefined;
+            return new PageBlockAnchor(
+                name)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockAnchor.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.name.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly name: TLString) {}
+    
+    } // class PageBlockAnchor
+    
+
+    export class PageBlockList implements TLObject {
+        static readonly cons = new TLInt(0x3a58c7f4);
+        static deserialized(_data: ByteStream): PageBlockList | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockList.cons)) return undefined;
+            const ordered = deserializedObject(_data) as BoolType;
+            if (!ordered) return undefined;
+            const items = TLVector.deserialized(_data, ) as TLVector<RichTextType>;
+            if (!items) return undefined;
+            return new PageBlockList(
+                ordered,
+                items)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockList.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.ordered.serialized());
+            data.push(this.items.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly ordered: BoolType,
+            readonly items: TLVector<RichTextType>) {}
+    
+    } // class PageBlockList
+    
+
+    export class PageBlockBlockquote implements TLObject {
+        static readonly cons = new TLInt(0x263d7c26);
+        static deserialized(_data: ByteStream): PageBlockBlockquote | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockBlockquote.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockBlockquote(
+                text,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockBlockquote.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockBlockquote
+    
+
+    export class PageBlockPullquote implements TLObject {
+        static readonly cons = new TLInt(0x4f4456d3);
+        static deserialized(_data: ByteStream): PageBlockPullquote | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockPullquote.cons)) return undefined;
+            const text = deserializedObject(_data) as RichTextType;
+            if (!text) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockPullquote(
+                text,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockPullquote.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.text.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly text: RichTextType,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockPullquote
+    
+
+    export class PageBlockPhoto implements TLObject {
+        static readonly cons = new TLInt(0xe9c69982);
+        static deserialized(_data: ByteStream): PageBlockPhoto | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockPhoto.cons)) return undefined;
+            const photoId = TLLong.deserialized(_data);
+            if (!photoId) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockPhoto(
+                photoId,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockPhoto.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.photoId.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly photoId: TLLong,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockPhoto
+    
+
+    export class PageBlockVideo implements TLObject {
+        static readonly cons = new TLInt(0xd9d71866);
+        static deserialized(_data: ByteStream): PageBlockVideo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockVideo.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const autoplay = (flags.value & 1) !== 0;
+            const loop = (flags.value & 2) !== 0;
+            const videoId = TLLong.deserialized(_data);
+            if (!videoId) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockVideo(
+                autoplay,
+                loop,
+                videoId,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockVideo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.autoplay) ? (flags | 1) : (flags & ~1);
+            flags = (this.loop) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.videoId.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly autoplay: boolean,
+            readonly loop: boolean,
+            readonly videoId: TLLong,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockVideo
+    
+
+    export class PageBlockCover implements TLObject {
+        static readonly cons = new TLInt(0x39f23300);
+        static deserialized(_data: ByteStream): PageBlockCover | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockCover.cons)) return undefined;
+            const cover = deserializedObject(_data) as PageBlockType;
+            if (!cover) return undefined;
+            return new PageBlockCover(
+                cover)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockCover.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.cover.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly cover: PageBlockType) {}
+    
+    } // class PageBlockCover
+    
+
+    export class PageBlockEmbed implements TLObject {
+        static readonly cons = new TLInt(0xcde200d1);
+        static deserialized(_data: ByteStream): PageBlockEmbed | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockEmbed.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const fullWidth = (flags.value & 1) !== 0;
+            const allowScrolling = (flags.value & 8) !== 0;
+            let url: TLString | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                url = obj
+            }
+            let html: TLString | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                html = obj
+            }
+            let posterPhotoId: TLLong | undefined;
+            if ((flags.value & 16) !== 0) {
+                const obj = TLLong.deserialized(_data);
+                if (!obj) return undefined;
+                posterPhotoId = obj
+            }
+            const w = TLInt.deserialized(_data);
+            if (!w) return undefined;
+            const h = TLInt.deserialized(_data);
+            if (!h) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockEmbed(
+                fullWidth,
+                allowScrolling,
+                url,
+                html,
+                posterPhotoId,
+                w,
+                h,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockEmbed.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.fullWidth) ? (flags | 1) : (flags & ~1);
+            flags = (this.allowScrolling) ? (flags | 8) : (flags & ~8);
+            flags = (this.url) ? (flags | 2) : (flags & ~2);
+            flags = (this.html) ? (flags | 4) : (flags & ~4);
+            flags = (this.posterPhotoId) ? (flags | 16) : (flags & ~16);
+            data.push(new TLInt(flags).serialized());
+            if (this.url) data.push(this.url.serialized());
+            if (this.html) data.push(this.html.serialized());
+            if (this.posterPhotoId) data.push(this.posterPhotoId.serialized());
+            data.push(this.w.serialized());
+            data.push(this.h.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly fullWidth: boolean,
+            readonly allowScrolling: boolean,
+            readonly url: TLString | undefined,
+            readonly html: TLString | undefined,
+            readonly posterPhotoId: TLLong | undefined,
+            readonly w: TLInt,
+            readonly h: TLInt,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockEmbed
+    
+
+    export class PageBlockEmbedPost implements TLObject {
+        static readonly cons = new TLInt(0x292c7be9);
+        static deserialized(_data: ByteStream): PageBlockEmbedPost | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockEmbedPost.cons)) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            const webpageId = TLLong.deserialized(_data);
+            if (!webpageId) return undefined;
+            const authorPhotoId = TLLong.deserialized(_data);
+            if (!authorPhotoId) return undefined;
+            const author = TLString.deserialized(_data);
+            if (!author) return undefined;
+            const date = TLInt.deserialized(_data);
+            if (!date) return undefined;
+            const blocks = TLVector.deserialized(_data, ) as TLVector<PageBlockType>;
+            if (!blocks) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockEmbedPost(
+                url,
+                webpageId,
+                authorPhotoId,
+                author,
+                date,
+                blocks,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockEmbedPost.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.url.serialized());
+            data.push(this.webpageId.serialized());
+            data.push(this.authorPhotoId.serialized());
+            data.push(this.author.serialized());
+            data.push(this.date.serialized());
+            data.push(this.blocks.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly url: TLString,
+            readonly webpageId: TLLong,
+            readonly authorPhotoId: TLLong,
+            readonly author: TLString,
+            readonly date: TLInt,
+            readonly blocks: TLVector<PageBlockType>,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockEmbedPost
+    
+
+    export class PageBlockCollage implements TLObject {
+        static readonly cons = new TLInt(0x8b31c4f);
+        static deserialized(_data: ByteStream): PageBlockCollage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockCollage.cons)) return undefined;
+            const items = TLVector.deserialized(_data, ) as TLVector<PageBlockType>;
+            if (!items) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockCollage(
+                items,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockCollage.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.items.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly items: TLVector<PageBlockType>,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockCollage
+    
+
+    export class PageBlockSlideshow implements TLObject {
+        static readonly cons = new TLInt(0x130c8963);
+        static deserialized(_data: ByteStream): PageBlockSlideshow | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockSlideshow.cons)) return undefined;
+            const items = TLVector.deserialized(_data, ) as TLVector<PageBlockType>;
+            if (!items) return undefined;
+            const caption = deserializedObject(_data) as RichTextType;
+            if (!caption) return undefined;
+            return new PageBlockSlideshow(
+                items,
+                caption)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockSlideshow.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.items.serialized());
+            data.push(this.caption.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly items: TLVector<PageBlockType>,
+            readonly caption: RichTextType) {}
+    
+    } // class PageBlockSlideshow
+    
+
+    export class PageBlockChannel implements TLObject {
+        static readonly cons = new TLInt(0xef1751b5);
+        static deserialized(_data: ByteStream): PageBlockChannel | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageBlockChannel.cons)) return undefined;
+            const channel = deserializedObject(_data) as ChatType;
+            if (!channel) return undefined;
+            return new PageBlockChannel(
+                channel)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageBlockChannel.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.channel.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly channel: ChatType) {}
+    
+    } // class PageBlockChannel
+    
+
+    export class PagePart implements TLObject {
+        static readonly cons = new TLInt(0x8dee6c44);
+        static deserialized(_data: ByteStream): PagePart | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PagePart.cons)) return undefined;
+            const blocks = TLVector.deserialized(_data, ) as TLVector<PageBlockType>;
+            if (!blocks) return undefined;
+            const photos = TLVector.deserialized(_data, ) as TLVector<PhotoType>;
+            if (!photos) return undefined;
+            const videos = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
+            if (!videos) return undefined;
+            return new PagePart(
+                blocks,
+                photos,
+                videos)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PagePart.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.blocks.serialized());
+            data.push(this.photos.serialized());
+            data.push(this.videos.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly blocks: TLVector<PageBlockType>,
+            readonly photos: TLVector<PhotoType>,
+            readonly videos: TLVector<DocumentType>) {}
+    
+    } // class PagePart
+    
+
+    export class PageFull implements TLObject {
+        static readonly cons = new TLInt(0xd7a19d69);
+        static deserialized(_data: ByteStream): PageFull | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PageFull.cons)) return undefined;
+            const blocks = TLVector.deserialized(_data, ) as TLVector<PageBlockType>;
+            if (!blocks) return undefined;
+            const photos = TLVector.deserialized(_data, ) as TLVector<PhotoType>;
+            if (!photos) return undefined;
+            const videos = TLVector.deserialized(_data, ) as TLVector<DocumentType>;
+            if (!videos) return undefined;
+            return new PageFull(
+                blocks,
+                photos,
+                videos)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PageFull.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.blocks.serialized());
+            data.push(this.photos.serialized());
+            data.push(this.videos.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly blocks: TLVector<PageBlockType>,
+            readonly photos: TLVector<PhotoType>,
+            readonly videos: TLVector<DocumentType>) {}
+    
+    } // class PageFull
+    
+
+    export class PhoneCallDiscardReasonMissed implements TLObject {
+        static readonly cons = new TLInt(0x85e42301);
+        static deserialized(_data: ByteStream): PhoneCallDiscardReasonMissed | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallDiscardReasonMissed.cons)) return undefined;
+            return new PhoneCallDiscardReasonMissed()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallDiscardReasonMissed.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class PhoneCallDiscardReasonMissed
+    
+
+    export class PhoneCallDiscardReasonDisconnect implements TLObject {
+        static readonly cons = new TLInt(0xe095c1a0);
+        static deserialized(_data: ByteStream): PhoneCallDiscardReasonDisconnect | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallDiscardReasonDisconnect.cons)) return undefined;
+            return new PhoneCallDiscardReasonDisconnect()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallDiscardReasonDisconnect.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class PhoneCallDiscardReasonDisconnect
+    
+
+    export class PhoneCallDiscardReasonHangup implements TLObject {
+        static readonly cons = new TLInt(0x57adc690);
+        static deserialized(_data: ByteStream): PhoneCallDiscardReasonHangup | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallDiscardReasonHangup.cons)) return undefined;
+            return new PhoneCallDiscardReasonHangup()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallDiscardReasonHangup.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class PhoneCallDiscardReasonHangup
+    
+
+    export class PhoneCallDiscardReasonBusy implements TLObject {
+        static readonly cons = new TLInt(0xfaf7e8c9);
+        static deserialized(_data: ByteStream): PhoneCallDiscardReasonBusy | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallDiscardReasonBusy.cons)) return undefined;
+            return new PhoneCallDiscardReasonBusy()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallDiscardReasonBusy.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class PhoneCallDiscardReasonBusy
+    
+
+    export class DataJSON implements TLObject {
+        static readonly cons = new TLInt(0x7d748d04);
+        static deserialized(_data: ByteStream): DataJSON | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DataJSON.cons)) return undefined;
+            const data = TLString.deserialized(_data);
+            if (!data) return undefined;
+            return new DataJSON(
+                data)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = DataJSON.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.data.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly data: TLString) {}
+    
+    } // class DataJSON
+    
+
+    export class LabeledPrice implements TLObject {
+        static readonly cons = new TLInt(0xcb296bf8);
+        static deserialized(_data: ByteStream): LabeledPrice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(LabeledPrice.cons)) return undefined;
+            const label = TLString.deserialized(_data);
+            if (!label) return undefined;
+            const amount = TLLong.deserialized(_data);
+            if (!amount) return undefined;
+            return new LabeledPrice(
+                label,
+                amount)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = LabeledPrice.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.label.serialized());
+            data.push(this.amount.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly label: TLString,
+            readonly amount: TLLong) {}
+    
+    } // class LabeledPrice
+    
+
+    export class Invoice implements TLObject {
+        static readonly cons = new TLInt(0xc30aa358);
+        static deserialized(_data: ByteStream): Invoice | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(Invoice.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const test = (flags.value & 1) !== 0;
+            const nameRequested = (flags.value & 2) !== 0;
+            const phoneRequested = (flags.value & 4) !== 0;
+            const emailRequested = (flags.value & 8) !== 0;
+            const shippingAddressRequested = (flags.value & 16) !== 0;
+            const flexible = (flags.value & 32) !== 0;
+            const currency = TLString.deserialized(_data);
+            if (!currency) return undefined;
+            const prices = TLVector.deserialized(_data, API.LabeledPrice) as TLVector<API.LabeledPrice>;
+            if (!prices) return undefined;
+            return new Invoice(
+                test,
+                nameRequested,
+                phoneRequested,
+                emailRequested,
+                shippingAddressRequested,
+                flexible,
+                currency,
+                prices)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = Invoice.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.test) ? (flags | 1) : (flags & ~1);
+            flags = (this.nameRequested) ? (flags | 2) : (flags & ~2);
+            flags = (this.phoneRequested) ? (flags | 4) : (flags & ~4);
+            flags = (this.emailRequested) ? (flags | 8) : (flags & ~8);
+            flags = (this.shippingAddressRequested) ? (flags | 16) : (flags & ~16);
+            flags = (this.flexible) ? (flags | 32) : (flags & ~32);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.currency.serialized());
+            data.push(this.prices.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly test: boolean,
+            readonly nameRequested: boolean,
+            readonly phoneRequested: boolean,
+            readonly emailRequested: boolean,
+            readonly shippingAddressRequested: boolean,
+            readonly flexible: boolean,
+            readonly currency: TLString,
+            readonly prices: TLVector<API.LabeledPrice>) {}
+    
+    } // class Invoice
+    
+
+    export class PaymentCharge implements TLObject {
+        static readonly cons = new TLInt(0xea02c27e);
+        static deserialized(_data: ByteStream): PaymentCharge | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PaymentCharge.cons)) return undefined;
+            const id = TLString.deserialized(_data);
+            if (!id) return undefined;
+            const providerChargeId = TLString.deserialized(_data);
+            if (!providerChargeId) return undefined;
+            return new PaymentCharge(
+                id,
+                providerChargeId)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PaymentCharge.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.providerChargeId.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLString,
+            readonly providerChargeId: TLString) {}
+    
+    } // class PaymentCharge
+    
+
+    export class PostAddress implements TLObject {
+        static readonly cons = new TLInt(0x1e8caaeb);
+        static deserialized(_data: ByteStream): PostAddress | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PostAddress.cons)) return undefined;
+            const streetLine1 = TLString.deserialized(_data);
+            if (!streetLine1) return undefined;
+            const streetLine2 = TLString.deserialized(_data);
+            if (!streetLine2) return undefined;
+            const city = TLString.deserialized(_data);
+            if (!city) return undefined;
+            const state = TLString.deserialized(_data);
+            if (!state) return undefined;
+            const countryIso2 = TLString.deserialized(_data);
+            if (!countryIso2) return undefined;
+            const postCode = TLString.deserialized(_data);
+            if (!postCode) return undefined;
+            return new PostAddress(
+                streetLine1,
+                streetLine2,
+                city,
+                state,
+                countryIso2,
+                postCode)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PostAddress.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.streetLine1.serialized());
+            data.push(this.streetLine2.serialized());
+            data.push(this.city.serialized());
+            data.push(this.state.serialized());
+            data.push(this.countryIso2.serialized());
+            data.push(this.postCode.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly streetLine1: TLString,
+            readonly streetLine2: TLString,
+            readonly city: TLString,
+            readonly state: TLString,
+            readonly countryIso2: TLString,
+            readonly postCode: TLString) {}
+    
+    } // class PostAddress
+    
+
+    export class PaymentRequestedInfo implements TLObject {
+        static readonly cons = new TLInt(0x909c3f94);
+        static deserialized(_data: ByteStream): PaymentRequestedInfo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PaymentRequestedInfo.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            let name: TLString | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                name = obj
+            }
+            let phone: TLString | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                phone = obj
+            }
+            let email: TLString | undefined;
+            if ((flags.value & 4) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                email = obj
+            }
+            let shippingAddress: API.PostAddress | undefined;
+            if ((flags.value & 8) !== 0) {
+                const obj = deserializedObject(_data) as API.PostAddress;
+                if (!obj) return undefined;
+                shippingAddress = obj
+            }
+            return new PaymentRequestedInfo(
+                name,
+                phone,
+                email,
+                shippingAddress)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PaymentRequestedInfo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.name) ? (flags | 1) : (flags & ~1);
+            flags = (this.phone) ? (flags | 2) : (flags & ~2);
+            flags = (this.email) ? (flags | 4) : (flags & ~4);
+            flags = (this.shippingAddress) ? (flags | 8) : (flags & ~8);
+            data.push(new TLInt(flags).serialized());
+            if (this.name) data.push(this.name.serialized());
+            if (this.phone) data.push(this.phone.serialized());
+            if (this.email) data.push(this.email.serialized());
+            if (this.shippingAddress) data.push(this.shippingAddress.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly name: TLString | undefined,
+            readonly phone: TLString | undefined,
+            readonly email: TLString | undefined,
+            readonly shippingAddress: API.PostAddress | undefined) {}
+    
+    } // class PaymentRequestedInfo
+    
+
+    export class PaymentSavedCredentialsCard implements TLObject {
+        static readonly cons = new TLInt(0xcdc27a1f);
+        static deserialized(_data: ByteStream): PaymentSavedCredentialsCard | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PaymentSavedCredentialsCard.cons)) return undefined;
+            const id = TLString.deserialized(_data);
+            if (!id) return undefined;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            return new PaymentSavedCredentialsCard(
+                id,
+                title)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PaymentSavedCredentialsCard.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.title.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLString,
+            readonly title: TLString) {}
+    
+    } // class PaymentSavedCredentialsCard
+    
+
+    export class WebDocument implements TLObject {
+        static readonly cons = new TLInt(0xc61acbd8);
+        static deserialized(_data: ByteStream): WebDocument | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(WebDocument.cons)) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            const accessHash = TLLong.deserialized(_data);
+            if (!accessHash) return undefined;
+            const size = TLInt.deserialized(_data);
+            if (!size) return undefined;
+            const mimeType = TLString.deserialized(_data);
+            if (!mimeType) return undefined;
+            const attributes = TLVector.deserialized(_data, ) as TLVector<DocumentAttributeType>;
+            if (!attributes) return undefined;
+            const dcId = TLInt.deserialized(_data);
+            if (!dcId) return undefined;
+            return new WebDocument(
+                url,
+                accessHash,
+                size,
+                mimeType,
+                attributes,
+                dcId)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = WebDocument.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.url.serialized());
+            data.push(this.accessHash.serialized());
+            data.push(this.size.serialized());
+            data.push(this.mimeType.serialized());
+            data.push(this.attributes.serialized());
+            data.push(this.dcId.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly url: TLString,
+            readonly accessHash: TLLong,
+            readonly size: TLInt,
+            readonly mimeType: TLString,
+            readonly attributes: TLVector<DocumentAttributeType>,
+            readonly dcId: TLInt) {}
+    
+    } // class WebDocument
+    
+
+    export class InputWebDocument implements TLObject {
+        static readonly cons = new TLInt(0x9bed434d);
+        static deserialized(_data: ByteStream): InputWebDocument | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputWebDocument.cons)) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            const size = TLInt.deserialized(_data);
+            if (!size) return undefined;
+            const mimeType = TLString.deserialized(_data);
+            if (!mimeType) return undefined;
+            const attributes = TLVector.deserialized(_data, ) as TLVector<DocumentAttributeType>;
+            if (!attributes) return undefined;
+            return new InputWebDocument(
+                url,
+                size,
+                mimeType,
+                attributes)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputWebDocument.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.url.serialized());
+            data.push(this.size.serialized());
+            data.push(this.mimeType.serialized());
+            data.push(this.attributes.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly url: TLString,
+            readonly size: TLInt,
+            readonly mimeType: TLString,
+            readonly attributes: TLVector<DocumentAttributeType>) {}
+    
+    } // class InputWebDocument
+    
+
+    export class InputWebFileLocation implements TLObject {
+        static readonly cons = new TLInt(0xc239d686);
+        static deserialized(_data: ByteStream): InputWebFileLocation | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputWebFileLocation.cons)) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            const accessHash = TLLong.deserialized(_data);
+            if (!accessHash) return undefined;
+            return new InputWebFileLocation(
+                url,
+                accessHash)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputWebFileLocation.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.url.serialized());
+            data.push(this.accessHash.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly url: TLString,
+            readonly accessHash: TLLong) {}
+    
+    } // class InputWebFileLocation
+    
+
+    export namespace upload {
+    export class WebFile implements TLObject {
+        static readonly cons = new TLInt(0x21e753bc);
+        static deserialized(_data: ByteStream): WebFile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(WebFile.cons)) return undefined;
+            const size = TLInt.deserialized(_data);
+            if (!size) return undefined;
+            const mimeType = TLString.deserialized(_data);
+            if (!mimeType) return undefined;
+            const fileType = deserializedObject(_data) as storage.FileTypeType;
+            if (!fileType) return undefined;
+            const mtime = TLInt.deserialized(_data);
+            if (!mtime) return undefined;
+            const bytes = TLBytes.deserialized(_data);
+            if (!bytes) return undefined;
+            return new WebFile(
+                size,
+                mimeType,
+                fileType,
+                mtime,
+                bytes)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = WebFile.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.size.serialized());
+            data.push(this.mimeType.serialized());
+            data.push(this.fileType.serialized());
+            data.push(this.mtime.serialized());
+            data.push(this.bytes.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly size: TLInt,
+            readonly mimeType: TLString,
+            readonly fileType: storage.FileTypeType,
+            readonly mtime: TLInt,
+            readonly bytes: TLBytes) {}
+    
+    } // class WebFile
+    } // namespace upload
+
+    export namespace payments {
+    export class PaymentForm implements TLObject {
+        static readonly cons = new TLInt(0x3f56aea3);
+        static deserialized(_data: ByteStream): PaymentForm | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PaymentForm.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const canSaveCredentials = (flags.value & 4) !== 0;
+            const passwordMissing = (flags.value & 8) !== 0;
+            const botId = TLInt.deserialized(_data);
+            if (!botId) return undefined;
+            const invoice = deserializedObject(_data) as API.Invoice;
+            if (!invoice) return undefined;
+            const providerId = TLInt.deserialized(_data);
+            if (!providerId) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            let nativeProvider: TLString | undefined;
+            if ((flags.value & 16) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                nativeProvider = obj
+            }
+            let nativeParams: API.DataJSON | undefined;
+            if ((flags.value & 16) !== 0) {
+                const obj = deserializedObject(_data) as API.DataJSON;
+                if (!obj) return undefined;
+                nativeParams = obj
+            }
+            let savedInfo: API.PaymentRequestedInfo | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.PaymentRequestedInfo;
+                if (!obj) return undefined;
+                savedInfo = obj
+            }
+            let savedCredentials: PaymentSavedCredentialsType | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = deserializedObject(_data) as PaymentSavedCredentialsType;
+                if (!obj) return undefined;
+                savedCredentials = obj
+            }
+            const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
+            if (!users) return undefined;
+            return new PaymentForm(
+                canSaveCredentials,
+                passwordMissing,
+                botId,
+                invoice,
+                providerId,
+                url,
+                nativeProvider,
+                nativeParams,
+                savedInfo,
+                savedCredentials,
+                users)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PaymentForm.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.canSaveCredentials) ? (flags | 4) : (flags & ~4);
+            flags = (this.passwordMissing) ? (flags | 8) : (flags & ~8);
+            flags = (this.nativeProvider) ? (flags | 16) : (flags & ~16);
+            flags = (this.nativeParams) ? (flags | 16) : (flags & ~16);
+            flags = (this.savedInfo) ? (flags | 1) : (flags & ~1);
+            flags = (this.savedCredentials) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.botId.serialized());
+            data.push(this.invoice.serialized());
+            data.push(this.providerId.serialized());
+            data.push(this.url.serialized());
+            if (this.nativeProvider) data.push(this.nativeProvider.serialized());
+            if (this.nativeParams) data.push(this.nativeParams.serialized());
+            if (this.savedInfo) data.push(this.savedInfo.serialized());
+            if (this.savedCredentials) data.push(this.savedCredentials.serialized());
+            data.push(this.users.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly canSaveCredentials: boolean,
+            readonly passwordMissing: boolean,
+            readonly botId: TLInt,
+            readonly invoice: API.Invoice,
+            readonly providerId: TLInt,
+            readonly url: TLString,
+            readonly nativeProvider: TLString | undefined,
+            readonly nativeParams: API.DataJSON | undefined,
+            readonly savedInfo: API.PaymentRequestedInfo | undefined,
+            readonly savedCredentials: PaymentSavedCredentialsType | undefined,
+            readonly users: TLVector<UserType>) {}
+    
+    } // class PaymentForm
+    } // namespace payments
+
+    export namespace payments {
+    export class ValidatedRequestedInfo implements TLObject {
+        static readonly cons = new TLInt(0xd1451883);
+        static deserialized(_data: ByteStream): ValidatedRequestedInfo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ValidatedRequestedInfo.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            let id: TLString | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                id = obj
+            }
+            let shippingOptions: TLVector<API.ShippingOption> | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLVector.deserialized(_data, API.ShippingOption) as TLVector<API.ShippingOption>;
+                if (!obj) return undefined;
+                shippingOptions = obj
+            }
+            return new ValidatedRequestedInfo(
+                id,
+                shippingOptions)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ValidatedRequestedInfo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.id) ? (flags | 1) : (flags & ~1);
+            flags = (this.shippingOptions) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            if (this.id) data.push(this.id.serialized());
+            if (this.shippingOptions) data.push(this.shippingOptions.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLString | undefined,
+            readonly shippingOptions: TLVector<API.ShippingOption> | undefined) {}
+    
+    } // class ValidatedRequestedInfo
+    } // namespace payments
+
+    export namespace payments {
+    export class PaymentResult implements TLObject {
+        static readonly cons = new TLInt(0x4e5f810d);
+        static deserialized(_data: ByteStream): PaymentResult | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PaymentResult.cons)) return undefined;
+            const updates = deserializedObject(_data) as UpdatesType;
+            if (!updates) return undefined;
+            return new PaymentResult(
+                updates)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PaymentResult.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.updates.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly updates: UpdatesType) {}
+    
+    } // class PaymentResult
+    } // namespace payments
+
+    export namespace payments {
+    export class PaymentVerficationNeeded implements TLObject {
+        static readonly cons = new TLInt(0x6b56b921);
+        static deserialized(_data: ByteStream): PaymentVerficationNeeded | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PaymentVerficationNeeded.cons)) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            return new PaymentVerficationNeeded(
+                url)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PaymentVerficationNeeded.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.url.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly url: TLString) {}
+    
+    } // class PaymentVerficationNeeded
+    } // namespace payments
+
+    export namespace payments {
+    export class PaymentReceipt implements TLObject {
+        static readonly cons = new TLInt(0x500911e1);
+        static deserialized(_data: ByteStream): PaymentReceipt | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PaymentReceipt.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const date = TLInt.deserialized(_data);
+            if (!date) return undefined;
+            const botId = TLInt.deserialized(_data);
+            if (!botId) return undefined;
+            const invoice = deserializedObject(_data) as API.Invoice;
+            if (!invoice) return undefined;
+            const providerId = TLInt.deserialized(_data);
+            if (!providerId) return undefined;
+            let info: API.PaymentRequestedInfo | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.PaymentRequestedInfo;
+                if (!obj) return undefined;
+                info = obj
+            }
+            let shipping: API.ShippingOption | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = deserializedObject(_data) as API.ShippingOption;
+                if (!obj) return undefined;
+                shipping = obj
+            }
+            const currency = TLString.deserialized(_data);
+            if (!currency) return undefined;
+            const totalAmount = TLLong.deserialized(_data);
+            if (!totalAmount) return undefined;
+            const credentialsTitle = TLString.deserialized(_data);
+            if (!credentialsTitle) return undefined;
+            const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
+            if (!users) return undefined;
+            return new PaymentReceipt(
+                date,
+                botId,
+                invoice,
+                providerId,
+                info,
+                shipping,
+                currency,
+                totalAmount,
+                credentialsTitle,
+                users)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PaymentReceipt.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.info) ? (flags | 1) : (flags & ~1);
+            flags = (this.shipping) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.date.serialized());
+            data.push(this.botId.serialized());
+            data.push(this.invoice.serialized());
+            data.push(this.providerId.serialized());
+            if (this.info) data.push(this.info.serialized());
+            if (this.shipping) data.push(this.shipping.serialized());
+            data.push(this.currency.serialized());
+            data.push(this.totalAmount.serialized());
+            data.push(this.credentialsTitle.serialized());
+            data.push(this.users.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly date: TLInt,
+            readonly botId: TLInt,
+            readonly invoice: API.Invoice,
+            readonly providerId: TLInt,
+            readonly info: API.PaymentRequestedInfo | undefined,
+            readonly shipping: API.ShippingOption | undefined,
+            readonly currency: TLString,
+            readonly totalAmount: TLLong,
+            readonly credentialsTitle: TLString,
+            readonly users: TLVector<UserType>) {}
+    
+    } // class PaymentReceipt
+    } // namespace payments
+
+    export namespace payments {
+    export class SavedInfo implements TLObject {
+        static readonly cons = new TLInt(0xfb8fe43c);
+        static deserialized(_data: ByteStream): SavedInfo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SavedInfo.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const hasSavedCredentials = (flags.value & 2) !== 0;
+            let savedInfo: API.PaymentRequestedInfo | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.PaymentRequestedInfo;
+                if (!obj) return undefined;
+                savedInfo = obj
+            }
+            return new SavedInfo(
+                hasSavedCredentials,
+                savedInfo)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SavedInfo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.hasSavedCredentials) ? (flags | 2) : (flags & ~2);
+            flags = (this.savedInfo) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            if (this.savedInfo) data.push(this.savedInfo.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly hasSavedCredentials: boolean,
+            readonly savedInfo: API.PaymentRequestedInfo | undefined) {}
+    
+    } // class SavedInfo
+    } // namespace payments
+
+    export class InputPaymentCredentialsSaved implements TLObject {
+        static readonly cons = new TLInt(0xc10eb2cf);
+        static deserialized(_data: ByteStream): InputPaymentCredentialsSaved | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputPaymentCredentialsSaved.cons)) return undefined;
+            const id = TLString.deserialized(_data);
+            if (!id) return undefined;
+            const tmpPassword = TLBytes.deserialized(_data);
+            if (!tmpPassword) return undefined;
+            return new InputPaymentCredentialsSaved(
+                id,
+                tmpPassword)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputPaymentCredentialsSaved.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.tmpPassword.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLString,
+            readonly tmpPassword: TLBytes) {}
+    
+    } // class InputPaymentCredentialsSaved
+    
+
+    export class InputPaymentCredentials implements TLObject {
+        static readonly cons = new TLInt(0x3417d728);
+        static deserialized(_data: ByteStream): InputPaymentCredentials | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputPaymentCredentials.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const save = (flags.value & 1) !== 0;
+            const data = deserializedObject(_data) as API.DataJSON;
+            if (!data) return undefined;
+            return new InputPaymentCredentials(
+                save,
+                data)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputPaymentCredentials.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.save) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.data.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly save: boolean,
+            readonly data: API.DataJSON) {}
+    
+    } // class InputPaymentCredentials
+    
+
+    export namespace account {
+    export class TmpPassword implements TLObject {
+        static readonly cons = new TLInt(0xdb64fd34);
+        static deserialized(_data: ByteStream): TmpPassword | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(TmpPassword.cons)) return undefined;
+            const tmpPassword = TLBytes.deserialized(_data);
+            if (!tmpPassword) return undefined;
+            const validUntil = TLInt.deserialized(_data);
+            if (!validUntil) return undefined;
+            return new TmpPassword(
+                tmpPassword,
+                validUntil)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = TmpPassword.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.tmpPassword.serialized());
+            data.push(this.validUntil.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly tmpPassword: TLBytes,
+            readonly validUntil: TLInt) {}
+    
+    } // class TmpPassword
+    } // namespace account
+
+    export class ShippingOption implements TLObject {
+        static readonly cons = new TLInt(0xb6213cdf);
+        static deserialized(_data: ByteStream): ShippingOption | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ShippingOption.cons)) return undefined;
+            const id = TLString.deserialized(_data);
+            if (!id) return undefined;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            const prices = TLVector.deserialized(_data, API.LabeledPrice) as TLVector<API.LabeledPrice>;
+            if (!prices) return undefined;
+            return new ShippingOption(
+                id,
+                title,
+                prices)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ShippingOption.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.title.serialized());
+            data.push(this.prices.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLString,
+            readonly title: TLString,
+            readonly prices: TLVector<API.LabeledPrice>) {}
+    
+    } // class ShippingOption
+    
+
+    export class InputStickerSetItem implements TLObject {
+        static readonly cons = new TLInt(0xffa0a496);
+        static deserialized(_data: ByteStream): InputStickerSetItem | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputStickerSetItem.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const document = deserializedObject(_data) as InputDocumentType;
+            if (!document) return undefined;
+            const emoji = TLString.deserialized(_data);
+            if (!emoji) return undefined;
+            let maskCoords: API.MaskCoords | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as API.MaskCoords;
+                if (!obj) return undefined;
+                maskCoords = obj
+            }
+            return new InputStickerSetItem(
+                document,
+                emoji,
+                maskCoords)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputStickerSetItem.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.maskCoords) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.document.serialized());
+            data.push(this.emoji.serialized());
+            if (this.maskCoords) data.push(this.maskCoords.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly document: InputDocumentType,
+            readonly emoji: TLString,
+            readonly maskCoords: API.MaskCoords | undefined) {}
+    
+    } // class InputStickerSetItem
+    
+
+    export class InputPhoneCall implements TLObject {
+        static readonly cons = new TLInt(0x1e36fded);
+        static deserialized(_data: ByteStream): InputPhoneCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(InputPhoneCall.cons)) return undefined;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            const accessHash = TLLong.deserialized(_data);
+            if (!accessHash) return undefined;
+            return new InputPhoneCall(
+                id,
+                accessHash)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = InputPhoneCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.accessHash.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLLong,
+            readonly accessHash: TLLong) {}
+    
+    } // class InputPhoneCall
+    
+
+    export class PhoneCallEmpty implements TLObject {
+        static readonly cons = new TLInt(0x5366c915);
+        static deserialized(_data: ByteStream): PhoneCallEmpty | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallEmpty.cons)) return undefined;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            return new PhoneCallEmpty(
+                id)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallEmpty.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLLong) {}
+    
+    } // class PhoneCallEmpty
+    
+
+    export class PhoneCallWaiting implements TLObject {
+        static readonly cons = new TLInt(0x1b8f4ad1);
+        static deserialized(_data: ByteStream): PhoneCallWaiting | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallWaiting.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            const accessHash = TLLong.deserialized(_data);
+            if (!accessHash) return undefined;
+            const date = TLInt.deserialized(_data);
+            if (!date) return undefined;
+            const adminId = TLInt.deserialized(_data);
+            if (!adminId) return undefined;
+            const participantId = TLInt.deserialized(_data);
+            if (!participantId) return undefined;
+            const protocol = deserializedObject(_data) as API.PhoneCallProtocol;
+            if (!protocol) return undefined;
+            let receiveDate: TLInt | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                receiveDate = obj
+            }
+            return new PhoneCallWaiting(
+                id,
+                accessHash,
+                date,
+                adminId,
+                participantId,
+                protocol,
+                receiveDate)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallWaiting.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.receiveDate) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.id.serialized());
+            data.push(this.accessHash.serialized());
+            data.push(this.date.serialized());
+            data.push(this.adminId.serialized());
+            data.push(this.participantId.serialized());
+            data.push(this.protocol.serialized());
+            if (this.receiveDate) data.push(this.receiveDate.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLLong,
+            readonly accessHash: TLLong,
+            readonly date: TLInt,
+            readonly adminId: TLInt,
+            readonly participantId: TLInt,
+            readonly protocol: API.PhoneCallProtocol,
+            readonly receiveDate: TLInt | undefined) {}
+    
+    } // class PhoneCallWaiting
+    
+
+    export class PhoneCallRequested implements TLObject {
+        static readonly cons = new TLInt(0x83761ce4);
+        static deserialized(_data: ByteStream): PhoneCallRequested | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallRequested.cons)) return undefined;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            const accessHash = TLLong.deserialized(_data);
+            if (!accessHash) return undefined;
+            const date = TLInt.deserialized(_data);
+            if (!date) return undefined;
+            const adminId = TLInt.deserialized(_data);
+            if (!adminId) return undefined;
+            const participantId = TLInt.deserialized(_data);
+            if (!participantId) return undefined;
+            const gAHash = TLBytes.deserialized(_data);
+            if (!gAHash) return undefined;
+            const protocol = deserializedObject(_data) as API.PhoneCallProtocol;
+            if (!protocol) return undefined;
+            return new PhoneCallRequested(
+                id,
+                accessHash,
+                date,
+                adminId,
+                participantId,
+                gAHash,
+                protocol)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallRequested.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.accessHash.serialized());
+            data.push(this.date.serialized());
+            data.push(this.adminId.serialized());
+            data.push(this.participantId.serialized());
+            data.push(this.gAHash.serialized());
+            data.push(this.protocol.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLLong,
+            readonly accessHash: TLLong,
+            readonly date: TLInt,
+            readonly adminId: TLInt,
+            readonly participantId: TLInt,
+            readonly gAHash: TLBytes,
+            readonly protocol: API.PhoneCallProtocol) {}
+    
+    } // class PhoneCallRequested
+    
+
+    export class PhoneCallAccepted implements TLObject {
+        static readonly cons = new TLInt(0x6d003d3f);
+        static deserialized(_data: ByteStream): PhoneCallAccepted | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallAccepted.cons)) return undefined;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            const accessHash = TLLong.deserialized(_data);
+            if (!accessHash) return undefined;
+            const date = TLInt.deserialized(_data);
+            if (!date) return undefined;
+            const adminId = TLInt.deserialized(_data);
+            if (!adminId) return undefined;
+            const participantId = TLInt.deserialized(_data);
+            if (!participantId) return undefined;
+            const gB = TLBytes.deserialized(_data);
+            if (!gB) return undefined;
+            const protocol = deserializedObject(_data) as API.PhoneCallProtocol;
+            if (!protocol) return undefined;
+            return new PhoneCallAccepted(
+                id,
+                accessHash,
+                date,
+                adminId,
+                participantId,
+                gB,
+                protocol)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallAccepted.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.accessHash.serialized());
+            data.push(this.date.serialized());
+            data.push(this.adminId.serialized());
+            data.push(this.participantId.serialized());
+            data.push(this.gB.serialized());
+            data.push(this.protocol.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLLong,
+            readonly accessHash: TLLong,
+            readonly date: TLInt,
+            readonly adminId: TLInt,
+            readonly participantId: TLInt,
+            readonly gB: TLBytes,
+            readonly protocol: API.PhoneCallProtocol) {}
+    
+    } // class PhoneCallAccepted
+    
+
+    export class PhoneCall implements TLObject {
+        static readonly cons = new TLInt(0xffe6ab67);
+        static deserialized(_data: ByteStream): PhoneCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCall.cons)) return undefined;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            const accessHash = TLLong.deserialized(_data);
+            if (!accessHash) return undefined;
+            const date = TLInt.deserialized(_data);
+            if (!date) return undefined;
+            const adminId = TLInt.deserialized(_data);
+            if (!adminId) return undefined;
+            const participantId = TLInt.deserialized(_data);
+            if (!participantId) return undefined;
+            const gAOrB = TLBytes.deserialized(_data);
+            if (!gAOrB) return undefined;
+            const keyFingerprint = TLLong.deserialized(_data);
+            if (!keyFingerprint) return undefined;
+            const protocol = deserializedObject(_data) as API.PhoneCallProtocol;
+            if (!protocol) return undefined;
+            const connection = deserializedObject(_data) as API.PhoneConnection;
+            if (!connection) return undefined;
+            const alternativeConnections = TLVector.deserialized(_data, API.PhoneConnection) as TLVector<API.PhoneConnection>;
+            if (!alternativeConnections) return undefined;
+            const startDate = TLInt.deserialized(_data);
+            if (!startDate) return undefined;
+            return new PhoneCall(
+                id,
+                accessHash,
+                date,
+                adminId,
+                participantId,
+                gAOrB,
+                keyFingerprint,
+                protocol,
+                connection,
+                alternativeConnections,
+                startDate)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.accessHash.serialized());
+            data.push(this.date.serialized());
+            data.push(this.adminId.serialized());
+            data.push(this.participantId.serialized());
+            data.push(this.gAOrB.serialized());
+            data.push(this.keyFingerprint.serialized());
+            data.push(this.protocol.serialized());
+            data.push(this.connection.serialized());
+            data.push(this.alternativeConnections.serialized());
+            data.push(this.startDate.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLLong,
+            readonly accessHash: TLLong,
+            readonly date: TLInt,
+            readonly adminId: TLInt,
+            readonly participantId: TLInt,
+            readonly gAOrB: TLBytes,
+            readonly keyFingerprint: TLLong,
+            readonly protocol: API.PhoneCallProtocol,
+            readonly connection: API.PhoneConnection,
+            readonly alternativeConnections: TLVector<API.PhoneConnection>,
+            readonly startDate: TLInt) {}
+    
+    } // class PhoneCall
+    
+
+    export class PhoneCallDiscarded implements TLObject {
+        static readonly cons = new TLInt(0x50ca4de1);
+        static deserialized(_data: ByteStream): PhoneCallDiscarded | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallDiscarded.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const needRating = (flags.value & 4) !== 0;
+            const needDebug = (flags.value & 8) !== 0;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            let reason: PhoneCallDiscardReasonType | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = deserializedObject(_data) as PhoneCallDiscardReasonType;
+                if (!obj) return undefined;
+                reason = obj
+            }
+            let duration: TLInt | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                duration = obj
+            }
+            return new PhoneCallDiscarded(
+                needRating,
+                needDebug,
+                id,
+                reason,
+                duration)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallDiscarded.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.needRating) ? (flags | 4) : (flags & ~4);
+            flags = (this.needDebug) ? (flags | 8) : (flags & ~8);
+            flags = (this.reason) ? (flags | 1) : (flags & ~1);
+            flags = (this.duration) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.id.serialized());
+            if (this.reason) data.push(this.reason.serialized());
+            if (this.duration) data.push(this.duration.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly needRating: boolean,
+            readonly needDebug: boolean,
+            readonly id: TLLong,
+            readonly reason: PhoneCallDiscardReasonType | undefined,
+            readonly duration: TLInt | undefined) {}
+    
+    } // class PhoneCallDiscarded
+    
+
+    export class PhoneConnection implements TLObject {
+        static readonly cons = new TLInt(0x9d4c17c0);
+        static deserialized(_data: ByteStream): PhoneConnection | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneConnection.cons)) return undefined;
+            const id = TLLong.deserialized(_data);
+            if (!id) return undefined;
+            const ip = TLString.deserialized(_data);
+            if (!ip) return undefined;
+            const ipv6 = TLString.deserialized(_data);
+            if (!ipv6) return undefined;
+            const port = TLInt.deserialized(_data);
+            if (!port) return undefined;
+            const peerTag = TLBytes.deserialized(_data);
+            if (!peerTag) return undefined;
+            return new PhoneConnection(
+                id,
+                ip,
+                ipv6,
+                port,
+                peerTag)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneConnection.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.id.serialized());
+            data.push(this.ip.serialized());
+            data.push(this.ipv6.serialized());
+            data.push(this.port.serialized());
+            data.push(this.peerTag.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly id: TLLong,
+            readonly ip: TLString,
+            readonly ipv6: TLString,
+            readonly port: TLInt,
+            readonly peerTag: TLBytes) {}
+    
+    } // class PhoneConnection
+    
+
+    export class PhoneCallProtocol implements TLObject {
+        static readonly cons = new TLInt(0xa2bb35cb);
+        static deserialized(_data: ByteStream): PhoneCallProtocol | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCallProtocol.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const udpP2p = (flags.value & 1) !== 0;
+            const udpReflector = (flags.value & 2) !== 0;
+            const minLayer = TLInt.deserialized(_data);
+            if (!minLayer) return undefined;
+            const maxLayer = TLInt.deserialized(_data);
+            if (!maxLayer) return undefined;
+            return new PhoneCallProtocol(
+                udpP2p,
+                udpReflector,
+                minLayer,
+                maxLayer)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCallProtocol.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.udpP2p) ? (flags | 1) : (flags & ~1);
+            flags = (this.udpReflector) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.minLayer.serialized());
+            data.push(this.maxLayer.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly udpP2p: boolean,
+            readonly udpReflector: boolean,
+            readonly minLayer: TLInt,
+            readonly maxLayer: TLInt) {}
+    
+    } // class PhoneCallProtocol
+    
+
+    export namespace phone {
+    export class PhoneCall implements TLObject {
+        static readonly cons = new TLInt(0xec82e140);
+        static deserialized(_data: ByteStream): PhoneCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(PhoneCall.cons)) return undefined;
+            const phoneCall = deserializedObject(_data) as PhoneCallType;
+            if (!phoneCall) return undefined;
+            const users = TLVector.deserialized(_data, ) as TLVector<UserType>;
+            if (!users) return undefined;
+            return new PhoneCall(
+                phoneCall,
+                users)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = PhoneCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.phoneCall.serialized());
+            data.push(this.users.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly phoneCall: PhoneCallType,
+            readonly users: TLVector<UserType>) {}
+    
+    } // class PhoneCall
+    } // namespace phone
+
+    export namespace upload {
+    export class CdnFileReuploadNeeded implements TLObject {
+        static readonly cons = new TLInt(0xeea8e46e);
+        static deserialized(_data: ByteStream): CdnFileReuploadNeeded | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CdnFileReuploadNeeded.cons)) return undefined;
+            const requestToken = TLBytes.deserialized(_data);
+            if (!requestToken) return undefined;
+            return new CdnFileReuploadNeeded(
+                requestToken)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = CdnFileReuploadNeeded.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.requestToken.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly requestToken: TLBytes) {}
+    
+    } // class CdnFileReuploadNeeded
+    } // namespace upload
+
+    export namespace upload {
+    export class CdnFile implements TLObject {
+        static readonly cons = new TLInt(0xa99fca4f);
+        static deserialized(_data: ByteStream): CdnFile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CdnFile.cons)) return undefined;
+            const bytes = TLBytes.deserialized(_data);
+            if (!bytes) return undefined;
+            return new CdnFile(
+                bytes)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = CdnFile.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.bytes.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly bytes: TLBytes) {}
+    
+    } // class CdnFile
+    } // namespace upload
+
+    export class CdnPublicKey implements TLObject {
+        static readonly cons = new TLInt(0xc982eaba);
+        static deserialized(_data: ByteStream): CdnPublicKey | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CdnPublicKey.cons)) return undefined;
+            const dcId = TLInt.deserialized(_data);
+            if (!dcId) return undefined;
+            const publicKey = TLString.deserialized(_data);
+            if (!publicKey) return undefined;
+            return new CdnPublicKey(
+                dcId,
+                publicKey)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = CdnPublicKey.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.dcId.serialized());
+            data.push(this.publicKey.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly dcId: TLInt,
+            readonly publicKey: TLString) {}
+    
+    } // class CdnPublicKey
+    
+
+    export class CdnConfig implements TLObject {
+        static readonly cons = new TLInt(0x5725e40a);
+        static deserialized(_data: ByteStream): CdnConfig | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CdnConfig.cons)) return undefined;
+            const publicKeys = TLVector.deserialized(_data, API.CdnPublicKey) as TLVector<API.CdnPublicKey>;
+            if (!publicKeys) return undefined;
+            return new CdnConfig(
+                publicKeys)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = CdnConfig.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.publicKeys.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly publicKeys: TLVector<API.CdnPublicKey>) {}
+    
+    } // class CdnConfig
+    
 
     export class InvokeAfterMsg implements TLFunction<TLObject> {
         static readonly cons = new TLInt(0xcb9f372d);
@@ -16603,6 +20125,37 @@ export namespace API {
     } // class ConfirmPhone
     } // namespace account
 
+    export namespace account {
+    export class GetTmpPassword implements TLFunction<account.TmpPassword> {
+        static readonly cons = new TLInt(0x4a82327e);
+        static deserialized(_data: ByteStream): GetTmpPassword | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetTmpPassword.cons)) return undefined;
+            const passwordHash = TLBytes.deserialized(_data);
+            if (!passwordHash) return undefined;
+            const period = TLInt.deserialized(_data);
+            if (!period) return undefined;
+            return new GetTmpPassword(
+                passwordHash,
+                period)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetTmpPassword.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.passwordHash.serialized());
+            data.push(this.period.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly passwordHash: TLBytes,
+            readonly period: TLInt) {}
+    
+    } // class GetTmpPassword
+    } // namespace account
+
     export namespace users {
     export class GetUsers implements TLFunction<TLVector<UserType>> {
         static readonly cons = new TLInt(0xd91a548);
@@ -16979,6 +20532,7 @@ export namespace API {
             const correspondents = (flags.value & 1) !== 0;
             const botsPm = (flags.value & 2) !== 0;
             const botsInline = (flags.value & 4) !== 0;
+            const phoneCalls = (flags.value & 8) !== 0;
             const groups = (flags.value & 1024) !== 0;
             const channels = (flags.value & 32768) !== 0;
             const offset = TLInt.deserialized(_data);
@@ -16991,6 +20545,7 @@ export namespace API {
                 correspondents,
                 botsPm,
                 botsInline,
+                phoneCalls,
                 groups,
                 channels,
                 offset,
@@ -17005,6 +20560,7 @@ export namespace API {
             flags = (this.correspondents) ? (flags | 1) : (flags & ~1);
             flags = (this.botsPm) ? (flags | 2) : (flags & ~2);
             flags = (this.botsInline) ? (flags | 4) : (flags & ~4);
+            flags = (this.phoneCalls) ? (flags | 8) : (flags & ~8);
             flags = (this.groups) ? (flags | 1024) : (flags & ~1024);
             flags = (this.channels) ? (flags | 32768) : (flags & ~32768);
             data.push(new TLInt(flags).serialized());
@@ -17019,6 +20575,7 @@ export namespace API {
             readonly correspondents: boolean,
             readonly botsPm: boolean,
             readonly botsInline: boolean,
+            readonly phoneCalls: boolean,
             readonly groups: boolean,
             readonly channels: boolean,
             readonly offset: TLInt,
@@ -17087,10 +20644,13 @@ export namespace API {
 
     export namespace messages {
     export class GetDialogs implements TLFunction<messages.DialogsType> {
-        static readonly cons = new TLInt(0x6b47f94d);
+        static readonly cons = new TLInt(0x191ba9c5);
         static deserialized(_data: ByteStream): GetDialogs | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(GetDialogs.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const excludePinned = (flags.value & 1) !== 0;
             const offsetDate = TLInt.deserialized(_data);
             if (!offsetDate) return undefined;
             const offsetId = TLInt.deserialized(_data);
@@ -17100,6 +20660,7 @@ export namespace API {
             const limit = TLInt.deserialized(_data);
             if (!limit) return undefined;
             return new GetDialogs(
+                excludePinned,
                 offsetDate,
                 offsetId,
                 offsetPeer,
@@ -17109,6 +20670,9 @@ export namespace API {
         serialized(): Uint8Array {
             const constructor = GetDialogs.cons.serialized();
             const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.excludePinned) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
             data.push(this.offsetDate.serialized());
             data.push(this.offsetId.serialized());
             data.push(this.offsetPeer.serialized());
@@ -17118,6 +20682,7 @@ export namespace API {
         }
     
         constructor(
+            readonly excludePinned: boolean,
             readonly offsetDate: TLInt,
             readonly offsetId: TLInt,
             readonly offsetPeer: InputPeerType,
@@ -17319,25 +20884,33 @@ export namespace API {
 
     export namespace messages {
     export class DeleteMessages implements TLFunction<messages.AffectedMessages> {
-        static readonly cons = new TLInt(0xa5f18925);
+        static readonly cons = new TLInt(0xe58e95d2);
         static deserialized(_data: ByteStream): DeleteMessages | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(DeleteMessages.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const revoke = (flags.value & 1) !== 0;
             const id = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
             if (!id) return undefined;
             return new DeleteMessages(
+                revoke,
                 id)
         }
         
         serialized(): Uint8Array {
             const constructor = DeleteMessages.cons.serialized();
             const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.revoke) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
     
             return concat(...data);
         }
     
         constructor(
+            readonly revoke: boolean,
             readonly id: TLVector<TLInt>) {}
     
     } // class DeleteMessages
@@ -17694,7 +21267,7 @@ export namespace API {
     } // namespace messages
 
     export namespace messages {
-    export class GetChats implements TLFunction<messages.Chats> {
+    export class GetChats implements TLFunction<messages.ChatsType> {
         static readonly cons = new TLInt(0x3c6aa187);
         static deserialized(_data: ByteStream): GetChats | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -18269,6 +21842,32 @@ export namespace API {
             readonly maxQts: TLInt) {}
     
     } // class ReceivedQueue
+    } // namespace messages
+
+    export namespace messages {
+    export class ReportEncryptedSpam implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x4b0c8c0f);
+        static deserialized(_data: ByteStream): ReportEncryptedSpam | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReportEncryptedSpam.cons)) return undefined;
+            const peer = deserializedObject(_data) as API.InputEncryptedChat;
+            if (!peer) return undefined;
+            return new ReportEncryptedSpam(
+                peer)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ReportEncryptedSpam.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: API.InputEncryptedChat) {}
+    
+    } // class ReportEncryptedSpam
     } // namespace messages
 
     export namespace messages {
@@ -19289,7 +22888,7 @@ export namespace API {
 
     export namespace messages {
     export class SetBotCallbackAnswer implements TLFunction<BoolType> {
-        static readonly cons = new TLInt(0xc927d44b);
+        static readonly cons = new TLInt(0xd58f130a);
         static deserialized(_data: ByteStream): SetBotCallbackAnswer | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(SetBotCallbackAnswer.cons)) return undefined;
@@ -19310,11 +22909,14 @@ export namespace API {
                 if (!obj) return undefined;
                 url = obj
             }
+            const cacheTime = TLInt.deserialized(_data);
+            if (!cacheTime) return undefined;
             return new SetBotCallbackAnswer(
                 alert,
                 queryId,
                 message,
-                url)
+                url,
+                cacheTime)
         }
         
         serialized(): Uint8Array {
@@ -19328,6 +22930,7 @@ export namespace API {
             data.push(this.queryId.serialized());
             if (this.message) data.push(this.message.serialized());
             if (this.url) data.push(this.url.serialized());
+            data.push(this.cacheTime.serialized());
     
             return concat(...data);
         }
@@ -19336,7 +22939,8 @@ export namespace API {
             readonly alert: boolean,
             readonly queryId: TLLong,
             readonly message: TLString | undefined,
-            readonly url: TLString | undefined) {}
+            readonly url: TLString | undefined,
+            readonly cacheTime: TLInt) {}
     
     } // class SetBotCallbackAnswer
     } // namespace messages
@@ -19699,6 +23303,7 @@ export namespace API {
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const editMessage = (flags.value & 1) !== 0;
+            const force = (flags.value & 2) !== 0;
             const peer = deserializedObject(_data) as InputPeerType;
             if (!peer) return undefined;
             const id = TLInt.deserialized(_data);
@@ -19709,6 +23314,7 @@ export namespace API {
             if (!score) return undefined;
             return new SetGameScore(
                 editMessage,
+                force,
                 peer,
                 id,
                 userId,
@@ -19720,6 +23326,7 @@ export namespace API {
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.editMessage) ? (flags | 1) : (flags & ~1);
+            flags = (this.force) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.peer.serialized());
             data.push(this.id.serialized());
@@ -19731,6 +23338,7 @@ export namespace API {
     
         constructor(
             readonly editMessage: boolean,
+            readonly force: boolean,
             readonly peer: InputPeerType,
             readonly id: TLInt,
             readonly userId: InputUserType,
@@ -19748,6 +23356,7 @@ export namespace API {
             const flags = TLInt.deserialized(_data);
             if (!flags) return undefined;
             const editMessage = (flags.value & 1) !== 0;
+            const force = (flags.value & 2) !== 0;
             const id = deserializedObject(_data) as API.InputBotInlineMessageID;
             if (!id) return undefined;
             const userId = deserializedObject(_data) as InputUserType;
@@ -19756,6 +23365,7 @@ export namespace API {
             if (!score) return undefined;
             return new SetInlineGameScore(
                 editMessage,
+                force,
                 id,
                 userId,
                 score)
@@ -19766,6 +23376,7 @@ export namespace API {
             const data: Uint8Array[] = [constructor];
             let flags = 0;
             flags = (this.editMessage) ? (flags | 1) : (flags & ~1);
+            flags = (this.force) ? (flags | 2) : (flags & ~2);
             data.push(new TLInt(flags).serialized());
             data.push(this.id.serialized());
             data.push(this.userId.serialized());
@@ -19776,6 +23387,7 @@ export namespace API {
     
         constructor(
             readonly editMessage: boolean,
+            readonly force: boolean,
             readonly id: API.InputBotInlineMessageID,
             readonly userId: InputUserType,
             readonly score: TLInt) {}
@@ -19850,6 +23462,311 @@ export namespace API {
     } // class GetInlineGameHighScores
     } // namespace messages
 
+    export namespace messages {
+    export class GetCommonChats implements TLFunction<messages.ChatsType> {
+        static readonly cons = new TLInt(0xd0a48c4);
+        static deserialized(_data: ByteStream): GetCommonChats | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetCommonChats.cons)) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const maxId = TLInt.deserialized(_data);
+            if (!maxId) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetCommonChats(
+                userId,
+                maxId,
+                limit)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetCommonChats.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.userId.serialized());
+            data.push(this.maxId.serialized());
+            data.push(this.limit.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly userId: InputUserType,
+            readonly maxId: TLInt,
+            readonly limit: TLInt) {}
+    
+    } // class GetCommonChats
+    } // namespace messages
+
+    export namespace messages {
+    export class GetAllChats implements TLFunction<messages.ChatsType> {
+        static readonly cons = new TLInt(0xeba80ff0);
+        static deserialized(_data: ByteStream): GetAllChats | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetAllChats.cons)) return undefined;
+            const exceptIds = TLVector.deserialized(_data, TLInt) as TLVector<TLInt>;
+            if (!exceptIds) return undefined;
+            return new GetAllChats(
+                exceptIds)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetAllChats.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.exceptIds.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly exceptIds: TLVector<TLInt>) {}
+    
+    } // class GetAllChats
+    } // namespace messages
+
+    export namespace messages {
+    export class GetWebPage implements TLFunction<WebPageType> {
+        static readonly cons = new TLInt(0x32ca8f91);
+        static deserialized(_data: ByteStream): GetWebPage | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetWebPage.cons)) return undefined;
+            const url = TLString.deserialized(_data);
+            if (!url) return undefined;
+            const hash = TLInt.deserialized(_data);
+            if (!hash) return undefined;
+            return new GetWebPage(
+                url,
+                hash)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetWebPage.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.url.serialized());
+            data.push(this.hash.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly url: TLString,
+            readonly hash: TLInt) {}
+    
+    } // class GetWebPage
+    } // namespace messages
+
+    export namespace messages {
+    export class ToggleDialogPin implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x3289be6a);
+        static deserialized(_data: ByteStream): ToggleDialogPin | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ToggleDialogPin.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const pinned = (flags.value & 1) !== 0;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            return new ToggleDialogPin(
+                pinned,
+                peer)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ToggleDialogPin.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.pinned) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.peer.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly pinned: boolean,
+            readonly peer: InputPeerType) {}
+    
+    } // class ToggleDialogPin
+    } // namespace messages
+
+    export namespace messages {
+    export class ReorderPinnedDialogs implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x959ff644);
+        static deserialized(_data: ByteStream): ReorderPinnedDialogs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReorderPinnedDialogs.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const force = (flags.value & 1) !== 0;
+            const order = TLVector.deserialized(_data, ) as TLVector<InputPeerType>;
+            if (!order) return undefined;
+            return new ReorderPinnedDialogs(
+                force,
+                order)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ReorderPinnedDialogs.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.force) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.order.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly force: boolean,
+            readonly order: TLVector<InputPeerType>) {}
+    
+    } // class ReorderPinnedDialogs
+    } // namespace messages
+
+    export namespace messages {
+    export class GetPinnedDialogs implements TLFunction<messages.PeerDialogs> {
+        static readonly cons = new TLInt(0xe254d64e);
+        static deserialized(_data: ByteStream): GetPinnedDialogs | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPinnedDialogs.cons)) return undefined;
+            return new GetPinnedDialogs()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetPinnedDialogs.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class GetPinnedDialogs
+    } // namespace messages
+
+    export namespace messages {
+    export class SetBotShippingResults implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0xe5f672fa);
+        static deserialized(_data: ByteStream): SetBotShippingResults | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetBotShippingResults.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            let error: TLString | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                error = obj
+            }
+            let shippingOptions: TLVector<API.ShippingOption> | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLVector.deserialized(_data, API.ShippingOption) as TLVector<API.ShippingOption>;
+                if (!obj) return undefined;
+                shippingOptions = obj
+            }
+            return new SetBotShippingResults(
+                queryId,
+                error,
+                shippingOptions)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SetBotShippingResults.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.error) ? (flags | 1) : (flags & ~1);
+            flags = (this.shippingOptions) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.queryId.serialized());
+            if (this.error) data.push(this.error.serialized());
+            if (this.shippingOptions) data.push(this.shippingOptions.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly queryId: TLLong,
+            readonly error: TLString | undefined,
+            readonly shippingOptions: TLVector<API.ShippingOption> | undefined) {}
+    
+    } // class SetBotShippingResults
+    } // namespace messages
+
+    export namespace messages {
+    export class SetBotPrecheckoutResults implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x9c2dd95);
+        static deserialized(_data: ByteStream): SetBotPrecheckoutResults | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetBotPrecheckoutResults.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const success = (flags.value & 2) !== 0;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            let error: TLString | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                error = obj
+            }
+            return new SetBotPrecheckoutResults(
+                success,
+                queryId,
+                error)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SetBotPrecheckoutResults.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.success) ? (flags | 2) : (flags & ~2);
+            flags = (this.error) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.queryId.serialized());
+            if (this.error) data.push(this.error.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly success: boolean,
+            readonly queryId: TLLong,
+            readonly error: TLString | undefined) {}
+    
+    } // class SetBotPrecheckoutResults
+    } // namespace messages
+
+    export namespace messages {
+    export class UploadMedia implements TLFunction<MessageMediaType> {
+        static readonly cons = new TLInt(0x519bc2b1);
+        static deserialized(_data: ByteStream): UploadMedia | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(UploadMedia.cons)) return undefined;
+            const peer = deserializedObject(_data) as InputPeerType;
+            if (!peer) return undefined;
+            const media = deserializedObject(_data) as InputMediaType;
+            if (!media) return undefined;
+            return new UploadMedia(
+                peer,
+                media)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = UploadMedia.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+            data.push(this.media.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: InputPeerType,
+            readonly media: InputMediaType) {}
+    
+    } // class UploadMedia
+    } // namespace messages
+
     export namespace updates {
     export class GetState implements TLFunction<updates.State> {
         static readonly cons = new TLInt(0xedd4882a);
@@ -19871,18 +23788,27 @@ export namespace API {
 
     export namespace updates {
     export class GetDifference implements TLFunction<updates.DifferenceType> {
-        static readonly cons = new TLInt(0xa041495);
+        static readonly cons = new TLInt(0x25939651);
         static deserialized(_data: ByteStream): GetDifference | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(GetDifference.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
             const pts = TLInt.deserialized(_data);
             if (!pts) return undefined;
+            let ptsTotalLimit: TLInt | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLInt.deserialized(_data);
+                if (!obj) return undefined;
+                ptsTotalLimit = obj
+            }
             const date = TLInt.deserialized(_data);
             if (!date) return undefined;
             const qts = TLInt.deserialized(_data);
             if (!qts) return undefined;
             return new GetDifference(
                 pts,
+                ptsTotalLimit,
                 date,
                 qts)
         }
@@ -19890,7 +23816,11 @@ export namespace API {
         serialized(): Uint8Array {
             const constructor = GetDifference.cons.serialized();
             const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.ptsTotalLimit) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
             data.push(this.pts.serialized());
+            if (this.ptsTotalLimit) data.push(this.ptsTotalLimit.serialized());
             data.push(this.date.serialized());
             data.push(this.qts.serialized());
     
@@ -19899,6 +23829,7 @@ export namespace API {
     
         constructor(
             readonly pts: TLInt,
+            readonly ptsTotalLimit: TLInt | undefined,
             readonly date: TLInt,
             readonly qts: TLInt) {}
     
@@ -19907,10 +23838,13 @@ export namespace API {
 
     export namespace updates {
     export class GetChannelDifference implements TLFunction<updates.ChannelDifferenceType> {
-        static readonly cons = new TLInt(0xbb32d7c0);
+        static readonly cons = new TLInt(0x3173d78);
         static deserialized(_data: ByteStream): GetChannelDifference | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(GetChannelDifference.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const force = (flags.value & 1) !== 0;
             const channel = deserializedObject(_data) as InputChannelType;
             if (!channel) return undefined;
             const filter = deserializedObject(_data) as ChannelMessagesFilterType;
@@ -19920,6 +23854,7 @@ export namespace API {
             const limit = TLInt.deserialized(_data);
             if (!limit) return undefined;
             return new GetChannelDifference(
+                force,
                 channel,
                 filter,
                 pts,
@@ -19929,6 +23864,9 @@ export namespace API {
         serialized(): Uint8Array {
             const constructor = GetChannelDifference.cons.serialized();
             const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.force) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
             data.push(this.channel.serialized());
             data.push(this.filter.serialized());
             data.push(this.pts.serialized());
@@ -19938,6 +23876,7 @@ export namespace API {
         }
     
         constructor(
+            readonly force: boolean,
             readonly channel: InputChannelType,
             readonly filter: ChannelMessagesFilterType,
             readonly pts: TLInt,
@@ -20102,7 +24041,7 @@ export namespace API {
     } // namespace upload
 
     export namespace upload {
-    export class GetFile implements TLFunction<upload.File> {
+    export class GetFile implements TLFunction<upload.FileType> {
         static readonly cons = new TLInt(0xe3a6cfb5);
         static deserialized(_data: ByteStream): GetFile | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -20176,6 +24115,109 @@ export namespace API {
             readonly bytes: TLBytes) {}
     
     } // class SaveBigFilePart
+    } // namespace upload
+
+    export namespace upload {
+    export class GetWebFile implements TLFunction<upload.WebFile> {
+        static readonly cons = new TLInt(0x24e6818d);
+        static deserialized(_data: ByteStream): GetWebFile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetWebFile.cons)) return undefined;
+            const location = deserializedObject(_data) as API.InputWebFileLocation;
+            if (!location) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetWebFile(
+                location,
+                offset,
+                limit)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetWebFile.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.location.serialized());
+            data.push(this.offset.serialized());
+            data.push(this.limit.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly location: API.InputWebFileLocation,
+            readonly offset: TLInt,
+            readonly limit: TLInt) {}
+    
+    } // class GetWebFile
+    } // namespace upload
+
+    export namespace upload {
+    export class GetCdnFile implements TLFunction<upload.CdnFileType> {
+        static readonly cons = new TLInt(0x2000bcc3);
+        static deserialized(_data: ByteStream): GetCdnFile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetCdnFile.cons)) return undefined;
+            const fileToken = TLBytes.deserialized(_data);
+            if (!fileToken) return undefined;
+            const offset = TLInt.deserialized(_data);
+            if (!offset) return undefined;
+            const limit = TLInt.deserialized(_data);
+            if (!limit) return undefined;
+            return new GetCdnFile(
+                fileToken,
+                offset,
+                limit)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetCdnFile.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.fileToken.serialized());
+            data.push(this.offset.serialized());
+            data.push(this.limit.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly fileToken: TLBytes,
+            readonly offset: TLInt,
+            readonly limit: TLInt) {}
+    
+    } // class GetCdnFile
+    } // namespace upload
+
+    export namespace upload {
+    export class ReuploadCdnFile implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x2e7a2020);
+        static deserialized(_data: ByteStream): ReuploadCdnFile | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReuploadCdnFile.cons)) return undefined;
+            const fileToken = TLBytes.deserialized(_data);
+            if (!fileToken) return undefined;
+            const requestToken = TLBytes.deserialized(_data);
+            if (!requestToken) return undefined;
+            return new ReuploadCdnFile(
+                fileToken,
+                requestToken)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ReuploadCdnFile.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.fileToken.serialized());
+            data.push(this.requestToken.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly fileToken: TLBytes,
+            readonly requestToken: TLBytes) {}
+    
+    } // class ReuploadCdnFile
     } // namespace upload
 
     export namespace help {
@@ -20300,20 +24342,27 @@ export namespace API {
     } // namespace help
 
     export namespace help {
-    export class GetAppChangelog implements TLFunction<help.AppChangelogType> {
-        static readonly cons = new TLInt(0xb921197a);
+    export class GetAppChangelog implements TLFunction<UpdatesType> {
+        static readonly cons = new TLInt(0x9010ef6f);
         static deserialized(_data: ByteStream): GetAppChangelog | undefined {
             const constructor = TLInt.deserialized(_data);
             if (!constructor || !constructor.equals(GetAppChangelog.cons)) return undefined;
-            return new GetAppChangelog()
+            const prevAppVersion = TLString.deserialized(_data);
+            if (!prevAppVersion) return undefined;
+            return new GetAppChangelog(
+                prevAppVersion)
         }
         
         serialized(): Uint8Array {
             const constructor = GetAppChangelog.cons.serialized();
             const data: Uint8Array[] = [constructor];
+            data.push(this.prevAppVersion.serialized());
     
             return concat(...data);
         }
+    
+        constructor(
+            readonly prevAppVersion: TLString) {}
     
     } // class GetAppChangelog
     } // namespace help
@@ -20335,6 +24384,56 @@ export namespace API {
         }
     
     } // class GetTermsOfService
+    } // namespace help
+
+    export namespace help {
+    export class SetBotUpdatesStatus implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0xec22cfcd);
+        static deserialized(_data: ByteStream): SetBotUpdatesStatus | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetBotUpdatesStatus.cons)) return undefined;
+            const pendingUpdatesCount = TLInt.deserialized(_data);
+            if (!pendingUpdatesCount) return undefined;
+            const message = TLString.deserialized(_data);
+            if (!message) return undefined;
+            return new SetBotUpdatesStatus(
+                pendingUpdatesCount,
+                message)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SetBotUpdatesStatus.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.pendingUpdatesCount.serialized());
+            data.push(this.message.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly pendingUpdatesCount: TLInt,
+            readonly message: TLString) {}
+    
+    } // class SetBotUpdatesStatus
+    } // namespace help
+
+    export namespace help {
+    export class GetCdnConfig implements TLFunction<API.CdnConfig> {
+        static readonly cons = new TLInt(0x52029342);
+        static deserialized(_data: ByteStream): GetCdnConfig | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetCdnConfig.cons)) return undefined;
+            return new GetCdnConfig()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetCdnConfig.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class GetCdnConfig
     } // namespace help
 
     export namespace channels {
@@ -20570,7 +24669,7 @@ export namespace API {
     } // namespace channels
 
     export namespace channels {
-    export class GetChannels implements TLFunction<messages.Chats> {
+    export class GetChannels implements TLFunction<messages.ChatsType> {
         static readonly cons = new TLInt(0xa7f6bbb);
         static deserialized(_data: ByteStream): GetChannels | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -21159,7 +25258,7 @@ export namespace API {
     } // namespace channels
 
     export namespace channels {
-    export class GetAdminedPublicChannels implements TLFunction<messages.Chats> {
+    export class GetAdminedPublicChannels implements TLFunction<messages.ChatsType> {
         static readonly cons = new TLInt(0x8d8d82d7);
         static deserialized(_data: ByteStream): GetAdminedPublicChannels | undefined {
             const constructor = TLInt.deserialized(_data);
@@ -21177,8 +25276,676 @@ export namespace API {
     } // class GetAdminedPublicChannels
     } // namespace channels
 
+    export namespace bots {
+    export class SendCustomRequest implements TLFunction<API.DataJSON> {
+        static readonly cons = new TLInt(0xaa2769ed);
+        static deserialized(_data: ByteStream): SendCustomRequest | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendCustomRequest.cons)) return undefined;
+            const customMethod = TLString.deserialized(_data);
+            if (!customMethod) return undefined;
+            const params = deserializedObject(_data) as API.DataJSON;
+            if (!params) return undefined;
+            return new SendCustomRequest(
+                customMethod,
+                params)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SendCustomRequest.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.customMethod.serialized());
+            data.push(this.params.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly customMethod: TLString,
+            readonly params: API.DataJSON) {}
+    
+    } // class SendCustomRequest
+    } // namespace bots
+
+    export namespace bots {
+    export class AnswerWebhookJSONQuery implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0xe6213f4d);
+        static deserialized(_data: ByteStream): AnswerWebhookJSONQuery | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(AnswerWebhookJSONQuery.cons)) return undefined;
+            const queryId = TLLong.deserialized(_data);
+            if (!queryId) return undefined;
+            const data = deserializedObject(_data) as API.DataJSON;
+            if (!data) return undefined;
+            return new AnswerWebhookJSONQuery(
+                queryId,
+                data)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = AnswerWebhookJSONQuery.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.queryId.serialized());
+            data.push(this.data.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly queryId: TLLong,
+            readonly data: API.DataJSON) {}
+    
+    } // class AnswerWebhookJSONQuery
+    } // namespace bots
+
+    export namespace payments {
+    export class GetPaymentForm implements TLFunction<payments.PaymentForm> {
+        static readonly cons = new TLInt(0x99f09745);
+        static deserialized(_data: ByteStream): GetPaymentForm | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPaymentForm.cons)) return undefined;
+            const msgId = TLInt.deserialized(_data);
+            if (!msgId) return undefined;
+            return new GetPaymentForm(
+                msgId)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetPaymentForm.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.msgId.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly msgId: TLInt) {}
+    
+    } // class GetPaymentForm
+    } // namespace payments
+
+    export namespace payments {
+    export class GetPaymentReceipt implements TLFunction<payments.PaymentReceipt> {
+        static readonly cons = new TLInt(0xa092a980);
+        static deserialized(_data: ByteStream): GetPaymentReceipt | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetPaymentReceipt.cons)) return undefined;
+            const msgId = TLInt.deserialized(_data);
+            if (!msgId) return undefined;
+            return new GetPaymentReceipt(
+                msgId)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetPaymentReceipt.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.msgId.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly msgId: TLInt) {}
+    
+    } // class GetPaymentReceipt
+    } // namespace payments
+
+    export namespace payments {
+    export class ValidateRequestedInfo implements TLFunction<payments.ValidatedRequestedInfo> {
+        static readonly cons = new TLInt(0x770a8e74);
+        static deserialized(_data: ByteStream): ValidateRequestedInfo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ValidateRequestedInfo.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const save = (flags.value & 1) !== 0;
+            const msgId = TLInt.deserialized(_data);
+            if (!msgId) return undefined;
+            const info = deserializedObject(_data) as API.PaymentRequestedInfo;
+            if (!info) return undefined;
+            return new ValidateRequestedInfo(
+                save,
+                msgId,
+                info)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ValidateRequestedInfo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.save) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.msgId.serialized());
+            data.push(this.info.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly save: boolean,
+            readonly msgId: TLInt,
+            readonly info: API.PaymentRequestedInfo) {}
+    
+    } // class ValidateRequestedInfo
+    } // namespace payments
+
+    export namespace payments {
+    export class SendPaymentForm implements TLFunction<payments.PaymentResultType> {
+        static readonly cons = new TLInt(0x2b8879b3);
+        static deserialized(_data: ByteStream): SendPaymentForm | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SendPaymentForm.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const msgId = TLInt.deserialized(_data);
+            if (!msgId) return undefined;
+            let requestedInfoId: TLString | undefined;
+            if ((flags.value & 1) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                requestedInfoId = obj
+            }
+            let shippingOptionId: TLString | undefined;
+            if ((flags.value & 2) !== 0) {
+                const obj = TLString.deserialized(_data);
+                if (!obj) return undefined;
+                shippingOptionId = obj
+            }
+            const credentials = deserializedObject(_data) as InputPaymentCredentialsType;
+            if (!credentials) return undefined;
+            return new SendPaymentForm(
+                msgId,
+                requestedInfoId,
+                shippingOptionId,
+                credentials)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SendPaymentForm.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.requestedInfoId) ? (flags | 1) : (flags & ~1);
+            flags = (this.shippingOptionId) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.msgId.serialized());
+            if (this.requestedInfoId) data.push(this.requestedInfoId.serialized());
+            if (this.shippingOptionId) data.push(this.shippingOptionId.serialized());
+            data.push(this.credentials.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly msgId: TLInt,
+            readonly requestedInfoId: TLString | undefined,
+            readonly shippingOptionId: TLString | undefined,
+            readonly credentials: InputPaymentCredentialsType) {}
+    
+    } // class SendPaymentForm
+    } // namespace payments
+
+    export namespace payments {
+    export class GetSavedInfo implements TLFunction<payments.SavedInfo> {
+        static readonly cons = new TLInt(0x227d824b);
+        static deserialized(_data: ByteStream): GetSavedInfo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetSavedInfo.cons)) return undefined;
+            return new GetSavedInfo()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetSavedInfo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class GetSavedInfo
+    } // namespace payments
+
+    export namespace payments {
+    export class ClearSavedInfo implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0xd83d70c1);
+        static deserialized(_data: ByteStream): ClearSavedInfo | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ClearSavedInfo.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const credentials = (flags.value & 1) !== 0;
+            const info = (flags.value & 2) !== 0;
+            return new ClearSavedInfo(
+                credentials,
+                info)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ClearSavedInfo.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.credentials) ? (flags | 1) : (flags & ~1);
+            flags = (this.info) ? (flags | 2) : (flags & ~2);
+            data.push(new TLInt(flags).serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly credentials: boolean,
+            readonly info: boolean) {}
+    
+    } // class ClearSavedInfo
+    } // namespace payments
+
+    export namespace stickers {
+    export class CreateStickerSet implements TLFunction<messages.StickerSet> {
+        static readonly cons = new TLInt(0x9bd86e6a);
+        static deserialized(_data: ByteStream): CreateStickerSet | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(CreateStickerSet.cons)) return undefined;
+            const flags = TLInt.deserialized(_data);
+            if (!flags) return undefined;
+            const masks = (flags.value & 1) !== 0;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const title = TLString.deserialized(_data);
+            if (!title) return undefined;
+            const shortName = TLString.deserialized(_data);
+            if (!shortName) return undefined;
+            const stickers = TLVector.deserialized(_data, API.InputStickerSetItem) as TLVector<API.InputStickerSetItem>;
+            if (!stickers) return undefined;
+            return new CreateStickerSet(
+                masks,
+                userId,
+                title,
+                shortName,
+                stickers)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = CreateStickerSet.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            let flags = 0;
+            flags = (this.masks) ? (flags | 1) : (flags & ~1);
+            data.push(new TLInt(flags).serialized());
+            data.push(this.userId.serialized());
+            data.push(this.title.serialized());
+            data.push(this.shortName.serialized());
+            data.push(this.stickers.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly masks: boolean,
+            readonly userId: InputUserType,
+            readonly title: TLString,
+            readonly shortName: TLString,
+            readonly stickers: TLVector<API.InputStickerSetItem>) {}
+    
+    } // class CreateStickerSet
+    } // namespace stickers
+
+    export namespace stickers {
+    export class RemoveStickerFromSet implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x4255934);
+        static deserialized(_data: ByteStream): RemoveStickerFromSet | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(RemoveStickerFromSet.cons)) return undefined;
+            const sticker = deserializedObject(_data) as InputDocumentType;
+            if (!sticker) return undefined;
+            return new RemoveStickerFromSet(
+                sticker)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = RemoveStickerFromSet.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.sticker.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly sticker: InputDocumentType) {}
+    
+    } // class RemoveStickerFromSet
+    } // namespace stickers
+
+    export namespace stickers {
+    export class ChangeStickerPosition implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x4ed705ca);
+        static deserialized(_data: ByteStream): ChangeStickerPosition | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ChangeStickerPosition.cons)) return undefined;
+            const sticker = deserializedObject(_data) as InputDocumentType;
+            if (!sticker) return undefined;
+            const position = TLInt.deserialized(_data);
+            if (!position) return undefined;
+            return new ChangeStickerPosition(
+                sticker,
+                position)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ChangeStickerPosition.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.sticker.serialized());
+            data.push(this.position.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly sticker: InputDocumentType,
+            readonly position: TLInt) {}
+    
+    } // class ChangeStickerPosition
+    } // namespace stickers
+
+    export namespace stickers {
+    export class AddStickerToSet implements TLFunction<messages.StickerSet> {
+        static readonly cons = new TLInt(0x8653febe);
+        static deserialized(_data: ByteStream): AddStickerToSet | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(AddStickerToSet.cons)) return undefined;
+            const stickerset = deserializedObject(_data) as InputStickerSetType;
+            if (!stickerset) return undefined;
+            const sticker = deserializedObject(_data) as API.InputStickerSetItem;
+            if (!sticker) return undefined;
+            return new AddStickerToSet(
+                stickerset,
+                sticker)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = AddStickerToSet.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.stickerset.serialized());
+            data.push(this.sticker.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly stickerset: InputStickerSetType,
+            readonly sticker: API.InputStickerSetItem) {}
+    
+    } // class AddStickerToSet
+    } // namespace stickers
+
+    export namespace phone {
+    export class GetCallConfig implements TLFunction<API.DataJSON> {
+        static readonly cons = new TLInt(0x55451fa9);
+        static deserialized(_data: ByteStream): GetCallConfig | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(GetCallConfig.cons)) return undefined;
+            return new GetCallConfig()
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = GetCallConfig.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+    
+            return concat(...data);
+        }
+    
+    } // class GetCallConfig
+    } // namespace phone
+
+    export namespace phone {
+    export class RequestCall implements TLFunction<phone.PhoneCall> {
+        static readonly cons = new TLInt(0x5b95b3d4);
+        static deserialized(_data: ByteStream): RequestCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(RequestCall.cons)) return undefined;
+            const userId = deserializedObject(_data) as InputUserType;
+            if (!userId) return undefined;
+            const randomId = TLInt.deserialized(_data);
+            if (!randomId) return undefined;
+            const gAHash = TLBytes.deserialized(_data);
+            if (!gAHash) return undefined;
+            const protocol = deserializedObject(_data) as API.PhoneCallProtocol;
+            if (!protocol) return undefined;
+            return new RequestCall(
+                userId,
+                randomId,
+                gAHash,
+                protocol)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = RequestCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.userId.serialized());
+            data.push(this.randomId.serialized());
+            data.push(this.gAHash.serialized());
+            data.push(this.protocol.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly userId: InputUserType,
+            readonly randomId: TLInt,
+            readonly gAHash: TLBytes,
+            readonly protocol: API.PhoneCallProtocol) {}
+    
+    } // class RequestCall
+    } // namespace phone
+
+    export namespace phone {
+    export class AcceptCall implements TLFunction<phone.PhoneCall> {
+        static readonly cons = new TLInt(0x3bd2b4a0);
+        static deserialized(_data: ByteStream): AcceptCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(AcceptCall.cons)) return undefined;
+            const peer = deserializedObject(_data) as API.InputPhoneCall;
+            if (!peer) return undefined;
+            const gB = TLBytes.deserialized(_data);
+            if (!gB) return undefined;
+            const protocol = deserializedObject(_data) as API.PhoneCallProtocol;
+            if (!protocol) return undefined;
+            return new AcceptCall(
+                peer,
+                gB,
+                protocol)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = AcceptCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+            data.push(this.gB.serialized());
+            data.push(this.protocol.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: API.InputPhoneCall,
+            readonly gB: TLBytes,
+            readonly protocol: API.PhoneCallProtocol) {}
+    
+    } // class AcceptCall
+    } // namespace phone
+
+    export namespace phone {
+    export class ConfirmCall implements TLFunction<phone.PhoneCall> {
+        static readonly cons = new TLInt(0x2efe1722);
+        static deserialized(_data: ByteStream): ConfirmCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ConfirmCall.cons)) return undefined;
+            const peer = deserializedObject(_data) as API.InputPhoneCall;
+            if (!peer) return undefined;
+            const gA = TLBytes.deserialized(_data);
+            if (!gA) return undefined;
+            const keyFingerprint = TLLong.deserialized(_data);
+            if (!keyFingerprint) return undefined;
+            const protocol = deserializedObject(_data) as API.PhoneCallProtocol;
+            if (!protocol) return undefined;
+            return new ConfirmCall(
+                peer,
+                gA,
+                keyFingerprint,
+                protocol)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ConfirmCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+            data.push(this.gA.serialized());
+            data.push(this.keyFingerprint.serialized());
+            data.push(this.protocol.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: API.InputPhoneCall,
+            readonly gA: TLBytes,
+            readonly keyFingerprint: TLLong,
+            readonly protocol: API.PhoneCallProtocol) {}
+    
+    } // class ConfirmCall
+    } // namespace phone
+
+    export namespace phone {
+    export class ReceivedCall implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x17d54f61);
+        static deserialized(_data: ByteStream): ReceivedCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(ReceivedCall.cons)) return undefined;
+            const peer = deserializedObject(_data) as API.InputPhoneCall;
+            if (!peer) return undefined;
+            return new ReceivedCall(
+                peer)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = ReceivedCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: API.InputPhoneCall) {}
+    
+    } // class ReceivedCall
+    } // namespace phone
+
+    export namespace phone {
+    export class DiscardCall implements TLFunction<UpdatesType> {
+        static readonly cons = new TLInt(0x78d413a6);
+        static deserialized(_data: ByteStream): DiscardCall | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(DiscardCall.cons)) return undefined;
+            const peer = deserializedObject(_data) as API.InputPhoneCall;
+            if (!peer) return undefined;
+            const duration = TLInt.deserialized(_data);
+            if (!duration) return undefined;
+            const reason = deserializedObject(_data) as PhoneCallDiscardReasonType;
+            if (!reason) return undefined;
+            const connectionId = TLLong.deserialized(_data);
+            if (!connectionId) return undefined;
+            return new DiscardCall(
+                peer,
+                duration,
+                reason,
+                connectionId)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = DiscardCall.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+            data.push(this.duration.serialized());
+            data.push(this.reason.serialized());
+            data.push(this.connectionId.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: API.InputPhoneCall,
+            readonly duration: TLInt,
+            readonly reason: PhoneCallDiscardReasonType,
+            readonly connectionId: TLLong) {}
+    
+    } // class DiscardCall
+    } // namespace phone
+
+    export namespace phone {
+    export class SetCallRating implements TLFunction<UpdatesType> {
+        static readonly cons = new TLInt(0x1c536a34);
+        static deserialized(_data: ByteStream): SetCallRating | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SetCallRating.cons)) return undefined;
+            const peer = deserializedObject(_data) as API.InputPhoneCall;
+            if (!peer) return undefined;
+            const rating = TLInt.deserialized(_data);
+            if (!rating) return undefined;
+            const comment = TLString.deserialized(_data);
+            if (!comment) return undefined;
+            return new SetCallRating(
+                peer,
+                rating,
+                comment)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SetCallRating.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+            data.push(this.rating.serialized());
+            data.push(this.comment.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: API.InputPhoneCall,
+            readonly rating: TLInt,
+            readonly comment: TLString) {}
+    
+    } // class SetCallRating
+    } // namespace phone
+
+    export namespace phone {
+    export class SaveCallDebug implements TLFunction<BoolType> {
+        static readonly cons = new TLInt(0x277add7e);
+        static deserialized(_data: ByteStream): SaveCallDebug | undefined {
+            const constructor = TLInt.deserialized(_data);
+            if (!constructor || !constructor.equals(SaveCallDebug.cons)) return undefined;
+            const peer = deserializedObject(_data) as API.InputPhoneCall;
+            if (!peer) return undefined;
+            const debug = deserializedObject(_data) as API.DataJSON;
+            if (!debug) return undefined;
+            return new SaveCallDebug(
+                peer,
+                debug)
+        }
+        
+        serialized(): Uint8Array {
+            const constructor = SaveCallDebug.cons.serialized();
+            const data: Uint8Array[] = [constructor];
+            data.push(this.peer.serialized());
+            data.push(this.debug.serialized());
+    
+            return concat(...data);
+        }
+    
+        constructor(
+            readonly peer: API.InputPhoneCall,
+            readonly debug: API.DataJSON) {}
+    
+    } // class SaveCallDebug
+    } // namespace phone
+
     export const constructables = ((): HashMap<TLInt, any> => {
-        const map = new HashMap<TLInt, any>(635);
+        const map = new HashMap<TLInt, any>(767);
     
         map.put(BoolFalse.cons, BoolFalse);
         map.put(BoolTrue.cons, BoolTrue);
@@ -21206,6 +25973,7 @@ export namespace API {
         map.put(InputMediaPhotoExternal.cons, InputMediaPhotoExternal);
         map.put(InputMediaDocumentExternal.cons, InputMediaDocumentExternal);
         map.put(InputMediaGame.cons, InputMediaGame);
+        map.put(InputMediaInvoice.cons, InputMediaInvoice);
         map.put(InputChatPhotoEmpty.cons, InputChatPhotoEmpty);
         map.put(InputChatUploadedPhoto.cons, InputChatUploadedPhoto);
         map.put(InputChatPhoto.cons, InputChatPhoto);
@@ -21221,13 +25989,13 @@ export namespace API {
         map.put(PeerChat.cons, PeerChat);
         map.put(PeerChannel.cons, PeerChannel);
         map.put(storage.FileUnknown.cons, storage.FileUnknown);
+        map.put(storage.FilePartial.cons, storage.FilePartial);
         map.put(storage.FileJpeg.cons, storage.FileJpeg);
         map.put(storage.FileGif.cons, storage.FileGif);
         map.put(storage.FilePng.cons, storage.FilePng);
         map.put(storage.FilePdf.cons, storage.FilePdf);
         map.put(storage.FileMp3.cons, storage.FileMp3);
         map.put(storage.FileMov.cons, storage.FileMov);
-        map.put(storage.FilePartial.cons, storage.FilePartial);
         map.put(storage.FileMp4.cons, storage.FileMp4);
         map.put(storage.FileWebp.cons, storage.FileWebp);
         map.put(FileLocationUnavailable.cons, FileLocationUnavailable);
@@ -21268,6 +26036,7 @@ export namespace API {
         map.put(MessageMediaWebPage.cons, MessageMediaWebPage);
         map.put(MessageMediaVenue.cons, MessageMediaVenue);
         map.put(MessageMediaGame.cons, MessageMediaGame);
+        map.put(MessageMediaInvoice.cons, MessageMediaInvoice);
         map.put(MessageActionEmpty.cons, MessageActionEmpty);
         map.put(MessageActionChatCreate.cons, MessageActionChatCreate);
         map.put(MessageActionChatEditTitle.cons, MessageActionChatEditTitle);
@@ -21282,6 +26051,9 @@ export namespace API {
         map.put(MessageActionPinMessage.cons, MessageActionPinMessage);
         map.put(MessageActionHistoryClear.cons, MessageActionHistoryClear);
         map.put(MessageActionGameScore.cons, MessageActionGameScore);
+        map.put(MessageActionPaymentSentMe.cons, MessageActionPaymentSentMe);
+        map.put(MessageActionPaymentSent.cons, MessageActionPaymentSent);
+        map.put(MessageActionPhoneCall.cons, MessageActionPhoneCall);
         map.put(Dialog.cons, Dialog);
         map.put(PhotoEmpty.cons, PhotoEmpty);
         map.put(Photo.cons, Photo);
@@ -21329,6 +26101,7 @@ export namespace API {
         map.put(messages.MessagesSlice.cons, messages.MessagesSlice);
         map.put(messages.ChannelMessages.cons, messages.ChannelMessages);
         map.put(messages.Chats.cons, messages.Chats);
+        map.put(messages.ChatsSlice.cons, messages.ChatsSlice);
         map.put(messages.ChatFull.cons, messages.ChatFull);
         map.put(messages.AffectedHistory.cons, messages.AffectedHistory);
         map.put(InputMessagesFilterEmpty.cons, InputMessagesFilterEmpty);
@@ -21342,6 +26115,9 @@ export namespace API {
         map.put(InputMessagesFilterVoice.cons, InputMessagesFilterVoice);
         map.put(InputMessagesFilterMusic.cons, InputMessagesFilterMusic);
         map.put(InputMessagesFilterChatPhotos.cons, InputMessagesFilterChatPhotos);
+        map.put(InputMessagesFilterPhoneCalls.cons, InputMessagesFilterPhoneCalls);
+        map.put(InputMessagesFilterRoundVoice.cons, InputMessagesFilterRoundVoice);
+        map.put(InputMessagesFilterRoundVideo.cons, InputMessagesFilterRoundVideo);
         map.put(UpdateNewMessage.cons, UpdateNewMessage);
         map.put(UpdateMessageID.cons, UpdateMessageID);
         map.put(UpdateDeleteMessages.cons, UpdateDeleteMessages);
@@ -21353,7 +26129,6 @@ export namespace API {
         map.put(UpdateUserPhoto.cons, UpdateUserPhoto);
         map.put(UpdateContactRegistered.cons, UpdateContactRegistered);
         map.put(UpdateContactLink.cons, UpdateContactLink);
-        map.put(UpdateNewAuthorization.cons, UpdateNewAuthorization);
         map.put(UpdateNewEncryptedMessage.cons, UpdateNewEncryptedMessage);
         map.put(UpdateEncryptedChatTyping.cons, UpdateEncryptedChatTyping);
         map.put(UpdateEncryption.cons, UpdateEncryption);
@@ -21395,10 +26170,19 @@ export namespace API {
         map.put(UpdateRecentStickers.cons, UpdateRecentStickers);
         map.put(UpdateConfig.cons, UpdateConfig);
         map.put(UpdatePtsChanged.cons, UpdatePtsChanged);
+        map.put(UpdateChannelWebPage.cons, UpdateChannelWebPage);
+        map.put(UpdateDialogPinned.cons, UpdateDialogPinned);
+        map.put(UpdatePinnedDialogs.cons, UpdatePinnedDialogs);
+        map.put(UpdateBotWebhookJSON.cons, UpdateBotWebhookJSON);
+        map.put(UpdateBotWebhookJSONQuery.cons, UpdateBotWebhookJSONQuery);
+        map.put(UpdateBotShippingQuery.cons, UpdateBotShippingQuery);
+        map.put(UpdateBotPrecheckoutQuery.cons, UpdateBotPrecheckoutQuery);
+        map.put(UpdatePhoneCall.cons, UpdatePhoneCall);
         map.put(updates.State.cons, updates.State);
         map.put(updates.DifferenceEmpty.cons, updates.DifferenceEmpty);
         map.put(updates.Difference.cons, updates.Difference);
         map.put(updates.DifferenceSlice.cons, updates.DifferenceSlice);
+        map.put(updates.DifferenceTooLong.cons, updates.DifferenceTooLong);
         map.put(UpdatesTooLong.cons, UpdatesTooLong);
         map.put(UpdateShortMessage.cons, UpdateShortMessage);
         map.put(UpdateShortChatMessage.cons, UpdateShortChatMessage);
@@ -21410,6 +26194,7 @@ export namespace API {
         map.put(photos.PhotosSlice.cons, photos.PhotosSlice);
         map.put(photos.Photo.cons, photos.Photo);
         map.put(upload.File.cons, upload.File);
+        map.put(upload.FileCdnRedirect.cons, upload.FileCdnRedirect);
         map.put(DcOption.cons, DcOption);
         map.put(Config.cons, Config);
         map.put(NearestDc.cons, NearestDc);
@@ -21454,11 +26239,15 @@ export namespace API {
         map.put(SendMessageGeoLocationAction.cons, SendMessageGeoLocationAction);
         map.put(SendMessageChooseContactAction.cons, SendMessageChooseContactAction);
         map.put(SendMessageGamePlayAction.cons, SendMessageGamePlayAction);
+        map.put(SendMessageRecordRoundAction.cons, SendMessageRecordRoundAction);
+        map.put(SendMessageUploadRoundAction.cons, SendMessageUploadRoundAction);
         map.put(contacts.Found.cons, contacts.Found);
         map.put(InputPrivacyKeyStatusTimestamp.cons, InputPrivacyKeyStatusTimestamp);
         map.put(InputPrivacyKeyChatInvite.cons, InputPrivacyKeyChatInvite);
+        map.put(InputPrivacyKeyPhoneCall.cons, InputPrivacyKeyPhoneCall);
         map.put(PrivacyKeyStatusTimestamp.cons, PrivacyKeyStatusTimestamp);
         map.put(PrivacyKeyChatInvite.cons, PrivacyKeyChatInvite);
+        map.put(PrivacyKeyPhoneCall.cons, PrivacyKeyPhoneCall);
         map.put(InputPrivacyValueAllowContacts.cons, InputPrivacyValueAllowContacts);
         map.put(InputPrivacyValueAllowAll.cons, InputPrivacyValueAllowAll);
         map.put(InputPrivacyValueAllowUsers.cons, InputPrivacyValueAllowUsers);
@@ -21494,6 +26283,7 @@ export namespace API {
         map.put(WebPageEmpty.cons, WebPageEmpty);
         map.put(WebPagePending.cons, WebPagePending);
         map.put(WebPage.cons, WebPage);
+        map.put(WebPageNotModified.cons, WebPageNotModified);
         map.put(Authorization.cons, Authorization);
         map.put(account.Authorizations.cons, account.Authorizations);
         map.put(account.NoPassword.cons, account.NoPassword);
@@ -21520,13 +26310,12 @@ export namespace API {
         map.put(KeyboardButtonRequestGeoLocation.cons, KeyboardButtonRequestGeoLocation);
         map.put(KeyboardButtonSwitchInline.cons, KeyboardButtonSwitchInline);
         map.put(KeyboardButtonGame.cons, KeyboardButtonGame);
+        map.put(KeyboardButtonBuy.cons, KeyboardButtonBuy);
         map.put(KeyboardButtonRow.cons, KeyboardButtonRow);
         map.put(ReplyKeyboardHide.cons, ReplyKeyboardHide);
         map.put(ReplyKeyboardForceReply.cons, ReplyKeyboardForceReply);
         map.put(ReplyKeyboardMarkup.cons, ReplyKeyboardMarkup);
         map.put(ReplyInlineMarkup.cons, ReplyInlineMarkup);
-        map.put(help.AppChangelogEmpty.cons, help.AppChangelogEmpty);
-        map.put(help.AppChangelog.cons, help.AppChangelog);
         map.put(MessageEntityUnknown.cons, MessageEntityUnknown);
         map.put(MessageEntityMention.cons, MessageEntityMention);
         map.put(MessageEntityHashtag.cons, MessageEntityHashtag);
@@ -21630,6 +26419,80 @@ export namespace API {
         map.put(InputGameShortName.cons, InputGameShortName);
         map.put(HighScore.cons, HighScore);
         map.put(messages.HighScores.cons, messages.HighScores);
+        map.put(TextEmpty.cons, TextEmpty);
+        map.put(TextPlain.cons, TextPlain);
+        map.put(TextBold.cons, TextBold);
+        map.put(TextItalic.cons, TextItalic);
+        map.put(TextUnderline.cons, TextUnderline);
+        map.put(TextStrike.cons, TextStrike);
+        map.put(TextFixed.cons, TextFixed);
+        map.put(TextUrl.cons, TextUrl);
+        map.put(TextEmail.cons, TextEmail);
+        map.put(TextConcat.cons, TextConcat);
+        map.put(PageBlockUnsupported.cons, PageBlockUnsupported);
+        map.put(PageBlockTitle.cons, PageBlockTitle);
+        map.put(PageBlockSubtitle.cons, PageBlockSubtitle);
+        map.put(PageBlockAuthorDate.cons, PageBlockAuthorDate);
+        map.put(PageBlockHeader.cons, PageBlockHeader);
+        map.put(PageBlockSubheader.cons, PageBlockSubheader);
+        map.put(PageBlockParagraph.cons, PageBlockParagraph);
+        map.put(PageBlockPreformatted.cons, PageBlockPreformatted);
+        map.put(PageBlockFooter.cons, PageBlockFooter);
+        map.put(PageBlockDivider.cons, PageBlockDivider);
+        map.put(PageBlockAnchor.cons, PageBlockAnchor);
+        map.put(PageBlockList.cons, PageBlockList);
+        map.put(PageBlockBlockquote.cons, PageBlockBlockquote);
+        map.put(PageBlockPullquote.cons, PageBlockPullquote);
+        map.put(PageBlockPhoto.cons, PageBlockPhoto);
+        map.put(PageBlockVideo.cons, PageBlockVideo);
+        map.put(PageBlockCover.cons, PageBlockCover);
+        map.put(PageBlockEmbed.cons, PageBlockEmbed);
+        map.put(PageBlockEmbedPost.cons, PageBlockEmbedPost);
+        map.put(PageBlockCollage.cons, PageBlockCollage);
+        map.put(PageBlockSlideshow.cons, PageBlockSlideshow);
+        map.put(PageBlockChannel.cons, PageBlockChannel);
+        map.put(PagePart.cons, PagePart);
+        map.put(PageFull.cons, PageFull);
+        map.put(PhoneCallDiscardReasonMissed.cons, PhoneCallDiscardReasonMissed);
+        map.put(PhoneCallDiscardReasonDisconnect.cons, PhoneCallDiscardReasonDisconnect);
+        map.put(PhoneCallDiscardReasonHangup.cons, PhoneCallDiscardReasonHangup);
+        map.put(PhoneCallDiscardReasonBusy.cons, PhoneCallDiscardReasonBusy);
+        map.put(DataJSON.cons, DataJSON);
+        map.put(LabeledPrice.cons, LabeledPrice);
+        map.put(Invoice.cons, Invoice);
+        map.put(PaymentCharge.cons, PaymentCharge);
+        map.put(PostAddress.cons, PostAddress);
+        map.put(PaymentRequestedInfo.cons, PaymentRequestedInfo);
+        map.put(PaymentSavedCredentialsCard.cons, PaymentSavedCredentialsCard);
+        map.put(WebDocument.cons, WebDocument);
+        map.put(InputWebDocument.cons, InputWebDocument);
+        map.put(InputWebFileLocation.cons, InputWebFileLocation);
+        map.put(upload.WebFile.cons, upload.WebFile);
+        map.put(payments.PaymentForm.cons, payments.PaymentForm);
+        map.put(payments.ValidatedRequestedInfo.cons, payments.ValidatedRequestedInfo);
+        map.put(payments.PaymentResult.cons, payments.PaymentResult);
+        map.put(payments.PaymentVerficationNeeded.cons, payments.PaymentVerficationNeeded);
+        map.put(payments.PaymentReceipt.cons, payments.PaymentReceipt);
+        map.put(payments.SavedInfo.cons, payments.SavedInfo);
+        map.put(InputPaymentCredentialsSaved.cons, InputPaymentCredentialsSaved);
+        map.put(InputPaymentCredentials.cons, InputPaymentCredentials);
+        map.put(account.TmpPassword.cons, account.TmpPassword);
+        map.put(ShippingOption.cons, ShippingOption);
+        map.put(InputStickerSetItem.cons, InputStickerSetItem);
+        map.put(InputPhoneCall.cons, InputPhoneCall);
+        map.put(PhoneCallEmpty.cons, PhoneCallEmpty);
+        map.put(PhoneCallWaiting.cons, PhoneCallWaiting);
+        map.put(PhoneCallRequested.cons, PhoneCallRequested);
+        map.put(PhoneCallAccepted.cons, PhoneCallAccepted);
+        map.put(PhoneCall.cons, PhoneCall);
+        map.put(PhoneCallDiscarded.cons, PhoneCallDiscarded);
+        map.put(PhoneConnection.cons, PhoneConnection);
+        map.put(PhoneCallProtocol.cons, PhoneCallProtocol);
+        map.put(phone.PhoneCall.cons, phone.PhoneCall);
+        map.put(upload.CdnFileReuploadNeeded.cons, upload.CdnFileReuploadNeeded);
+        map.put(upload.CdnFile.cons, upload.CdnFile);
+        map.put(CdnPublicKey.cons, CdnPublicKey);
+        map.put(CdnConfig.cons, CdnConfig);
         map.put(InvokeAfterMsg.cons, InvokeAfterMsg);
         map.put(InvokeAfterMsgs.cons, InvokeAfterMsgs);
         map.put(InitConnection.cons, InitConnection);
@@ -21678,6 +26541,7 @@ export namespace API {
         map.put(account.UpdatePasswordSettings.cons, account.UpdatePasswordSettings);
         map.put(account.SendConfirmPhoneCode.cons, account.SendConfirmPhoneCode);
         map.put(account.ConfirmPhone.cons, account.ConfirmPhone);
+        map.put(account.GetTmpPassword.cons, account.GetTmpPassword);
         map.put(users.GetUsers.cons, users.GetUsers);
         map.put(users.GetFullUser.cons, users.GetFullUser);
         map.put(contacts.GetStatuses.cons, contacts.GetStatuses);
@@ -21727,6 +26591,7 @@ export namespace API {
         map.put(messages.SendEncryptedFile.cons, messages.SendEncryptedFile);
         map.put(messages.SendEncryptedService.cons, messages.SendEncryptedService);
         map.put(messages.ReceivedQueue.cons, messages.ReceivedQueue);
+        map.put(messages.ReportEncryptedSpam.cons, messages.ReportEncryptedSpam);
         map.put(messages.ReadMessageContents.cons, messages.ReadMessageContents);
         map.put(messages.GetAllStickers.cons, messages.GetAllStickers);
         map.put(messages.GetWebPagePreview.cons, messages.GetWebPagePreview);
@@ -21770,6 +26635,15 @@ export namespace API {
         map.put(messages.SetInlineGameScore.cons, messages.SetInlineGameScore);
         map.put(messages.GetGameHighScores.cons, messages.GetGameHighScores);
         map.put(messages.GetInlineGameHighScores.cons, messages.GetInlineGameHighScores);
+        map.put(messages.GetCommonChats.cons, messages.GetCommonChats);
+        map.put(messages.GetAllChats.cons, messages.GetAllChats);
+        map.put(messages.GetWebPage.cons, messages.GetWebPage);
+        map.put(messages.ToggleDialogPin.cons, messages.ToggleDialogPin);
+        map.put(messages.ReorderPinnedDialogs.cons, messages.ReorderPinnedDialogs);
+        map.put(messages.GetPinnedDialogs.cons, messages.GetPinnedDialogs);
+        map.put(messages.SetBotShippingResults.cons, messages.SetBotShippingResults);
+        map.put(messages.SetBotPrecheckoutResults.cons, messages.SetBotPrecheckoutResults);
+        map.put(messages.UploadMedia.cons, messages.UploadMedia);
         map.put(updates.GetState.cons, updates.GetState);
         map.put(updates.GetDifference.cons, updates.GetDifference);
         map.put(updates.GetChannelDifference.cons, updates.GetChannelDifference);
@@ -21780,6 +26654,9 @@ export namespace API {
         map.put(upload.SaveFilePart.cons, upload.SaveFilePart);
         map.put(upload.GetFile.cons, upload.GetFile);
         map.put(upload.SaveBigFilePart.cons, upload.SaveBigFilePart);
+        map.put(upload.GetWebFile.cons, upload.GetWebFile);
+        map.put(upload.GetCdnFile.cons, upload.GetCdnFile);
+        map.put(upload.ReuploadCdnFile.cons, upload.ReuploadCdnFile);
         map.put(help.GetConfig.cons, help.GetConfig);
         map.put(help.GetNearestDc.cons, help.GetNearestDc);
         map.put(help.GetAppUpdate.cons, help.GetAppUpdate);
@@ -21788,6 +26665,8 @@ export namespace API {
         map.put(help.GetSupport.cons, help.GetSupport);
         map.put(help.GetAppChangelog.cons, help.GetAppChangelog);
         map.put(help.GetTermsOfService.cons, help.GetTermsOfService);
+        map.put(help.SetBotUpdatesStatus.cons, help.SetBotUpdatesStatus);
+        map.put(help.GetCdnConfig.cons, help.GetCdnConfig);
         map.put(channels.ReadHistory.cons, channels.ReadHistory);
         map.put(channels.DeleteMessages.cons, channels.DeleteMessages);
         map.put(channels.DeleteUserHistory.cons, channels.DeleteUserHistory);
@@ -21815,6 +26694,26 @@ export namespace API {
         map.put(channels.ToggleSignatures.cons, channels.ToggleSignatures);
         map.put(channels.UpdatePinnedMessage.cons, channels.UpdatePinnedMessage);
         map.put(channels.GetAdminedPublicChannels.cons, channels.GetAdminedPublicChannels);
+        map.put(bots.SendCustomRequest.cons, bots.SendCustomRequest);
+        map.put(bots.AnswerWebhookJSONQuery.cons, bots.AnswerWebhookJSONQuery);
+        map.put(payments.GetPaymentForm.cons, payments.GetPaymentForm);
+        map.put(payments.GetPaymentReceipt.cons, payments.GetPaymentReceipt);
+        map.put(payments.ValidateRequestedInfo.cons, payments.ValidateRequestedInfo);
+        map.put(payments.SendPaymentForm.cons, payments.SendPaymentForm);
+        map.put(payments.GetSavedInfo.cons, payments.GetSavedInfo);
+        map.put(payments.ClearSavedInfo.cons, payments.ClearSavedInfo);
+        map.put(stickers.CreateStickerSet.cons, stickers.CreateStickerSet);
+        map.put(stickers.RemoveStickerFromSet.cons, stickers.RemoveStickerFromSet);
+        map.put(stickers.ChangeStickerPosition.cons, stickers.ChangeStickerPosition);
+        map.put(stickers.AddStickerToSet.cons, stickers.AddStickerToSet);
+        map.put(phone.GetCallConfig.cons, phone.GetCallConfig);
+        map.put(phone.RequestCall.cons, phone.RequestCall);
+        map.put(phone.AcceptCall.cons, phone.AcceptCall);
+        map.put(phone.ConfirmCall.cons, phone.ConfirmCall);
+        map.put(phone.ReceivedCall.cons, phone.ReceivedCall);
+        map.put(phone.DiscardCall.cons, phone.DiscardCall);
+        map.put(phone.SetCallRating.cons, phone.SetCallRating);
+        map.put(phone.SaveCallDebug.cons, phone.SaveCallDebug);
     
         return map;
     })();

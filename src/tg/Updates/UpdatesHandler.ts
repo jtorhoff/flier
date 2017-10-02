@@ -28,8 +28,6 @@ export class UpdatesHandler {
         ptsCount: number,
         update: API.UpdatesType | API.UpdateShortSentMessage
     }[] = [];
-    private lastUserStatusExpirations = new HashMap<TLInt, Subscription>();
-
     readonly updates = new Subject<Update>();
 
     constructor(private readonly dataCenter: DataCenter,
@@ -127,6 +125,7 @@ export class UpdatesHandler {
     private obtainUpdatesDifference() {
         const getDifference = new API.updates.GetDifference(
             new TLInt(this.state.pts),
+            undefined,
             new TLInt(this.state.date),
             new TLInt(this.state.qts));
         this.dataCenter.call(getDifference).subscribe(
@@ -363,22 +362,6 @@ export class UpdatesHandler {
                             this.updates.next(new Update.User(user));
                         }
                     });
-                let subscription = this.lastUserStatusExpirations.get(upd.userId);
-                if (subscription) {
-                    subscription.unsubscribe();
-                }
-                if (upd.status instanceof API.UserStatusOnline) {
-                    subscription = Observable.of(new API.UserStatusOffline(upd.status.expires))
-                        .delay(moment.unix(upd.status.expires.value).toDate())
-                        .flatMap(status => this.storage.updateUser(
-                            upd.userId.value, { status: status }))
-                        .subscribe(user => {
-                            if (user) {
-                                this.updates.next(new Update.User(user));
-                            }
-                        });
-                    this.lastUserStatusExpirations.put(upd.userId, subscription);
-                }
             } break;
 
             case API.UpdateUserName: {
@@ -410,10 +393,6 @@ export class UpdatesHandler {
             } break;
 
             case API.UpdateContactLink: {
-                // TODO
-            } break;
-
-            case API.UpdateNewAuthorization: {
                 // TODO
             } break;
 

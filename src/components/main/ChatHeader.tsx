@@ -41,12 +41,14 @@ export class ChatHeader extends React.Component<Props, State> {
             case Update.UserTyping: {
                 const upd = update as Update.UserTyping;
                 if (this.props.chat.peerEquals(upd.peer)) {
-                    this.setState({
-                        typing: this.state.typing
-                            .filter(typing =>
-                                !typing!.user.id.equals(upd.user.id))
-                            .concat(upd)
-                            .toList()
+                    this.setState(state => {
+                        return {
+                            typing: state.typing
+                                .filter(typing =>
+                                    !typing!.user.id.equals(upd.user.id))
+                                .concat(upd)
+                                .toList()
+                        }
                     });
                 }
             } break;
@@ -54,8 +56,10 @@ export class ChatHeader extends React.Component<Props, State> {
             case Update.NewMessage: {
                 const upd = update as Update.NewMessage;
                 if (upd.message.peer && this.props.chat.peerEquals(upd.message.peer)) {
-                    this.setState({
-                        typing: this.state.typing.clear(),
+                    this.setState(state => {
+                        return {
+                            typing: state.typing.clear(),
+                        }
                     });
                 }
             } break;
@@ -64,10 +68,12 @@ export class ChatHeader extends React.Component<Props, State> {
 
     clearTypingActions() {
         const now = moment().unix();
-        this.setState({
-            typing: this.state.typing
-                .filter(typing => typing!.expires > now)
-                .toList(),
+        this.setState(state => {
+            return {
+                typing: state.typing
+                    .filter(typing => typing!.expires > now)
+                    .toList(),
+            }
         });
     }
 
@@ -86,8 +92,10 @@ export class ChatHeader extends React.Component<Props, State> {
 
     componentWillReceiveProps(nextProps: Props) {
         if (!nextProps.chat.peerEquals(this.props.chat.peer)) {
-            this.setState({
-                typing: this.state.typing.clear(),
+            this.setState(state => {
+                return {
+                    typing: state.typing.clear(),
+                }
             });
         }
     }
@@ -233,7 +241,7 @@ const typingElement = (chat: Chat, users: Array<API.User>) => {
             {
                 chat.peer instanceof API.PeerUser ?
                     "typing" :
-                    `${users.map(user => user.firstName!.string).join(", ")} typing`
+                    users.map(user => user.firstName!.string).join(", ")
             }
         </span>
     );
@@ -348,8 +356,8 @@ const progressKeyframes = `
 `;
 
 const typingDotStyle: CSSProperties = {
-    width: 5,
-    height: 5,
+    width: 6,
+    height: 6,
     background: "rgba(61,129,161,1)",
     marginRight: 3,
     borderRadius: "50%",
@@ -359,9 +367,9 @@ const typingDotStyle: CSSProperties = {
 
 const typingDots = (
     <span className="typing" style={{
-        marginRight: 6,
+        marginRight: 5,
         display: "inline-block",
-        height: 5,
+        height: 6,
         marginBottom: 1,
     }}>
         <span style={typingDotStyle}/>
@@ -373,18 +381,18 @@ const typingDots = (
 const typingStyle = `
 .typing span {
     animation-name: blink;
-    animation-duration: 1200ms;
+    animation-duration: 800ms;
     animation-iteration-count: infinite;
     animation-fill-mode: both;
     animation-timing-function: steps(16, end);
 }
 
 .typing span:nth-child(2) {
-    animation-delay: 200ms;
+    animation-delay: 150ms;
 }
 
 .typing span:nth-child(3) {
-    animation-delay: 400ms;
+    animation-delay: 250ms;
 }
 
 @keyframes blink {

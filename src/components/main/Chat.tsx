@@ -42,8 +42,13 @@ export class Chat extends React.Component<Props, State> {
             case Update.ReadHistoryInbox: {
                 const upd = update as Update.ReadHistoryInbox;
                 if (this.state.chat.peerEquals(upd.peer)) {
-                    this.setState({
-                        chat: this.state.chat.setReadInboxMaxId(upd.maxId)
+                    this.setState(state => {
+                        if (state.chat) {
+                            return {
+                                chat: state.chat.setReadInboxMaxId(upd.maxId),
+                            }
+                        }
+                        return {};
                     });
                 }
             } break;
@@ -51,8 +56,13 @@ export class Chat extends React.Component<Props, State> {
             case Update.ReadHistoryOutbox: {
                 const upd = update as Update.ReadHistoryOutbox;
                 if (this.state.chat.peerEquals(upd.peer)) {
-                    this.setState({
-                        chat: this.state.chat.setReadOutboxMaxId(upd.maxId)
+                    this.setState(state => {
+                        if (state.chat) {
+                            return {
+                                chat: state.chat.setReadOutboxMaxId(upd.maxId),
+                            }
+                        }
+                        return {};
                     });
                 }
             } break;
@@ -61,11 +71,16 @@ export class Chat extends React.Component<Props, State> {
                 const upd = update as Update.User;
                 if (this.state.chat.kind.kind === "dialog" &&
                     this.state.chat.kind.user.id.equals(upd.user.id)) {
-                    this.setState({
-                        chat: this.state.chat.setKind({
-                            kind: "dialog",
-                            user: upd.user,
-                        })
+                    this.setState(state => {
+                        if (state.chat) {
+                            return {
+                                chat: state.chat.setKind({
+                                    kind: "dialog",
+                                    user: upd.user,
+                                })
+                            }
+                        }
+                        return {};
                     });
                 }
             } break;
@@ -74,11 +89,16 @@ export class Chat extends React.Component<Props, State> {
                 const upd = update as Update.Chat;
                 if (this.state.chat.kind.kind === "chat" &&
                     this.state.chat.kind.chat.id.equals(upd.chat.id)) {
-                    this.setState({
-                        chat: this.state.chat.setKind({
-                            kind: "chat",
-                            chat: upd.chat,
-                        })
+                    this.setState(state => {
+                        if (state.chat) {
+                            return {
+                                chat: state.chat.setKind({
+                                    kind: "chat",
+                                    chat: upd.chat,
+                                })
+                            }
+                        }
+                        return {};
                     });
                 }
             } break;
@@ -87,11 +107,16 @@ export class Chat extends React.Component<Props, State> {
                 const upd = update as Update.Channel;
                 if (this.state.chat.kind.kind === "channel" &&
                     this.state.chat.kind.channel.id.equals(upd.channel.id)) {
-                    this.setState({
-                        chat: this.state.chat.setKind({
-                            kind: "channel",
-                            channel: upd.channel,
-                        })
+                    this.setState(state => {
+                        if (state.chat) {
+                            return {
+                                chat: state.chat.setKind({
+                                    kind: "channel",
+                                    channel: upd.channel,
+                                })
+                            }
+                        }
+                        return {};
                     });
                 }
             } break;
@@ -128,7 +153,7 @@ export class Chat extends React.Component<Props, State> {
         return (
             <div style={style}>
                 <ChatHeader chat={this.state.chat}/>
-                <ChatMessages/>
+                <ChatMessages chat={this.state.chat}/>
                 <ChatFooter/>
             </div>
         );

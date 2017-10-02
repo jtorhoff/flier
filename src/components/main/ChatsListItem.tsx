@@ -8,7 +8,7 @@ import { Chat } from "../../tg/TG";
 import { Avatar } from "../misc/Avatar";
 
 interface Props {
-    onTouchTap: () => void,
+    onClick: () => void,
     selected: boolean,
     chat: Chat,
     typing: Array<{
@@ -41,12 +41,11 @@ export class ChatsListItem extends React.Component<Props, State> {
         return (
             <div style={{
                 background: this.props.selected ? "rgba(61, 129, 161, 0.67)" : "none",
-                transition: "background 300ms ease",
                 height: 91,
                 overflow: "hidden",
             }}>
                 <ListItem
-                    onTouchTap={() => this.props.onTouchTap()}
+                    onClick={() => this.props.onClick()}
                     leftAvatar={
                         <div style={{
                             position: "absolute",
@@ -120,7 +119,7 @@ const readableDate = (timestamp: number): string => {
 const primaryTextStyle: CSSProperties = {
     display: "inline-flex",
     width: "100%",
-    alignItems: "baseline",
+    alignItems: "center",
     height: 18,
     lineHeight: "17px",
     overflow: "hidden",
@@ -130,6 +129,7 @@ const primaryTextTitleStyle: CSSProperties = {
     marginRight: 12,
     fontWeight: 500,
     wordBreak: "break-all",
+    alignSelf: "baseline",
 };
 
 const primaryTextDateStyle: CSSProperties = {
