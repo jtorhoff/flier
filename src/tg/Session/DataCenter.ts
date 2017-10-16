@@ -25,6 +25,68 @@ export class DataCenter {
     private readonly authorizedSubject = new BehaviorSubject(false);
     private readonly stateSubject = new BehaviorSubject(NetworkState.waitingForNetwork);
 
+    private readonly messageEventListener = (event: MessageEvent) => {
+        switch (event.data.type) {
+            case "keyGenCompleted": {
+                this.initConnection();
+            } break;
+
+            case "closed": {
+                this.sessionInitialized.next(false);
+            } break;
+
+            case "result": {
+                const reqId = TLInt.deserialized(
+                    new ByteStream(event.data.obj.reqId));
+                const result = deserializedObject(
+                    new ByteStream(event.data.obj.result));
+
+                if (!reqId) {
+                    console.error("Couldn't deserialize reqId");
+                    return;
+                }
+                if (!result) {
+                    console.error("Couldn't deserialize result");
+                    return;
+                }
+                console.debug(`[${this.host}]`, "deserialized", result);
+
+                const onResult = this.onResults.get(reqId);
+                if (onResult) {
+                    onResult(result);
+                }
+                this.onResults.remove(reqId);
+            } break;
+
+            case "authKey": {
+                this.authKey = event.data.obj;
+            } break;
+
+            case "newServerSessionCreated": {
+                if (this.delegate &&
+                    this.authorizedSubject.value &&
+                    this.delegate.shouldSyncUpdatesState) {
+                    this.delegate.shouldSyncUpdatesState();
+                }
+            } break;
+
+            case "updates": {
+                if (this.delegate && this.delegate.receivedUpdates) {
+                    this.delegate.receivedUpdates(
+                        deserializedObject(new ByteStream(event.data.obj))!)
+                }
+            } break;
+
+            case "waitingForNetwork": {
+                this.stateSubject.next(NetworkState.waitingForNetwork);
+            } break;
+
+            case "connecting": {
+                this.stateSubject.next(NetworkState.connecting);
+            } break;
+        }
+    };
+
     private readonly onlineEventListener = () => {
         this.worker.postMessage({
             type: "open",
@@ -62,67 +124,7 @@ export class DataCenter {
 
     constructor(readonly apiId: number) {
         this.worker = new SessionWorker();
-        this.worker.addEventListener("message", event => {
-            switch (event.data.type) {
-                case "keyGenCompleted": {
-                    this.initConnection();
-                } break;
-
-                case "closed": {
-                    this.sessionInitialized.next(false);
-                } break;
-
-                case "result": {
-                    const reqId = TLInt.deserialized(
-                        new ByteStream(event.data.obj.reqId));
-                    const result = deserializedObject(
-                        new ByteStream(event.data.obj.result));
-
-                    if (!reqId) {
-                        console.error("Couldn't deserialize reqId");
-                        return;
-                    }
-                    if (!result) {
-                        console.error("Couldn't deserialize result");
-                        return;
-                    }
-                    console.debug(`[${this.host}]`, "deserialized", result);
-
-                    const onResult = this.onResults.get(reqId);
-                    if (onResult) {
-                        onResult(result);
-                    }
-                    this.onResults.remove(reqId);
-                } break;
-
-                case "authKey": {
-                    this.authKey = event.data.obj;
-                } break;
-
-                case "newServerSessionCreated": {
-                    if (this.delegate &&
-                        this.authorizedSubject.value &&
-                        this.delegate.shouldSyncUpdatesState) {
-                        this.delegate.shouldSyncUpdatesState();
-                    }
-                } break;
-
-                case "updates": {
-                    if (this.delegate && this.delegate.receivedUpdates) {
-                        this.delegate.receivedUpdates(
-                            deserializedObject(new ByteStream(event.data.obj))!)
-                    }
-                } break;
-
-                case "waitingForNetwork": {
-                    this.stateSubject.next(NetworkState.waitingForNetwork);
-                } break;
-
-                case "connecting": {
-                    this.stateSubject.next(NetworkState.connecting);
-                } break;
-            }
-        });
+        this.worker.addEventListener("message", this.messageEventListener);
 
         window.addEventListener("online", this.onlineEventListener);
         window.addEventListener("offline", this.offlineEventListener);
@@ -161,7 +163,7 @@ export class DataCenter {
         this.worker.postMessage({
             type: "close",
         });
-        this.worker.removeEventListener("message");
+        this.worker.removeEventListener("message", this.messageEventListener);
         this.worker.terminate();
         this.requests.unsubscribe();
         this.sessionInitialized.unsubscribe();

@@ -34,7 +34,7 @@ export namespace PersistentStorage {
         readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number): Observable<Array<API.MessageType>>;
 
         readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined>;
-        appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<boolean>;
+        appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<{ complete: boolean, savedSize: number }>;
 
         readRecentStickers(): Observable<RecentStickers | undefined>;
         writeRecentStickers(stickers: RecentStickers): Observable<any>;

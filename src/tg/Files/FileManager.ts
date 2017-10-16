@@ -9,9 +9,11 @@ import { TLInt } from "../TL/Types/TLInt";
 import { TLLong } from "../TL/Types/TLLong";
 import { concat } from "../Utils/BytesConcat";
 import { FileDownloader } from "./FileDownloader";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export class FileManager {
     private downloaders = new HashMap<HashableFile, FileDownloader>();
+    private progress = new HashMap<HashableFile, BehaviorSubject<number>>();
 
     constructor(private storage: PersistentStorage.Storage,
                 private requestDc: (dcId: number) => Observable<DataCenter>) {
@@ -23,6 +25,10 @@ export class FileManager {
 
         return this.storage.readFile(location).flatMap(blob => {
             if (blob) {
+                const progress = this.progress.get(file);
+                if (progress) {
+                    progress.next(blob.size);
+                }
                 return Observable.of(blob);
             } else {
                 let downloader = this.downloaders.get(file);
@@ -32,12 +38,61 @@ export class FileManager {
                         this.storage,
                         this.requestDc(file.dcId.value));
                     this.downloaders.put(file, downloader);
+
+                    let progress = this.progress.get(file);
+                    if (progress) {
+                        downloader.progress.subscribe(progress);
+                    } else {
+                        this.progress.put(file, new BehaviorSubject(0));
+                    }
                 }
                 this.dispatchDownload();
                 return downloader.observable;
             }
         });
     }
+
+    getProgress(location: FileLocation | DocumentLocation): Observable<number> {
+        const file = new HashableFile(location);
+
+        let progress = this.progress.get(file);
+        if (!progress) {
+            progress = new BehaviorSubject(0);
+            this.progress.put(file, progress);
+        }
+
+        return progress;
+
+        // let downloader = this.downloaders.get(file);
+        //
+        // if (progress) {
+        //
+        // }
+        //
+        //
+        // if (!this.progress.get(file)) {
+        //     let progress = this.downloaders.get(file);
+        //     if (progress) {
+        //
+        //     }
+        //
+        //     // const progress = new BehaviorSubject(0);
+        //     // this.progress.put(file, progress);
+        //
+        //     return progress;
+        // }
+        //
+        // return this.progress.get(file);
+    }
+
+    // getProgress(location: FileLocation | DocumentLocation): Observable<number> {
+    //     const file = new HashableFile(location);
+    //     const subject = new BehaviorSubject(this.storage.readFile(location).flatMap())
+    // }
+
+    // getProgress(location: FileLocation | DocumentLocation): Observable<number> {
+    //
+    // }
 
     private dispatchDownload() {
         const maxConcurrentDownloadsPerDC = 3;

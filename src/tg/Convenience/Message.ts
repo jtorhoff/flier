@@ -7,6 +7,7 @@ export class ConvenienceMessage {
     readonly mentioned: boolean;
     readonly silent: boolean;
     readonly post: boolean;
+    readonly type: MessageType;
     readonly from?: API.UserType;
     readonly to?: API.PeerType;
     readonly fwdFrom?:
@@ -67,6 +68,8 @@ export class ConvenienceMessage {
         } else if (this.from) {
             this.peer = new API.PeerUser(this.from.id);
         }
+
+        this.type = extractType(this);
     }
 
     toString(): string {
@@ -197,3 +200,126 @@ const getLong = (long: number): string => {
     }
     return "W";
 };
+
+
+const extractType = (message: ConvenienceMessage): MessageType => {
+    if (message.message) {
+        return MessageType.Text;
+    } else if (message.media instanceof API.MessageMediaPhoto) {
+        return MessageType.Photo;
+    } else if (message.media instanceof API.MessageMediaGeo) {
+        return MessageType.Location;
+    } else if (message.media instanceof API.MessageMediaContact) {
+        return MessageType.Contact;
+    } else if (message.media instanceof API.MessageMediaDocument) {
+        const document = message.media.document;
+        if (document instanceof API.Document) {
+            const attrs = document.attributes.items;
+            let attr: API.DocumentAttributeType | undefined;
+            if (attrs.find(a =>
+                    a instanceof API.DocumentAttributeAnimated)) {
+                return MessageType.GIF;
+            } else if (attr = attrs.find(a =>
+                    a instanceof API.DocumentAttributeSticker)) {
+                return MessageType.Sticker;
+            } else if (attrs.find(a =>
+                    a instanceof API.DocumentAttributeVideo)) {
+                return MessageType.Video;
+            } else if (attr = attrs.find(a =>
+                    a instanceof API.DocumentAttributeAudio)) {
+                if ((attr as API.DocumentAttributeAudio).voice) {
+                    return MessageType.Voice;
+                }
+            } else if (attr = attrs.find(a =>
+                    a instanceof API.DocumentAttributeFilename)) {
+                return MessageType.Document;
+            }
+        }
+        return MessageType.Document;
+    } else if (message.media instanceof API.MessageMediaVenue) {
+        return MessageType.Venue;
+    } else if (message.media instanceof API.MessageMediaGame) {
+        return MessageType.Game;
+    }
+
+    return MessageType.NotSupported;
+};
+
+// if (this.action instanceof API.MessageActionChatCreate) {
+//     if (this.from instanceof API.User && this.from.firstName) {
+//         return `${this.from.firstName.string} created the group`;
+//     }
+// } else if (this.action instanceof API.MessageActionChatEditTitle) {
+//     if (this.from instanceof API.User && this.from.firstName) {
+//         if (this.peer instanceof API.PeerChat) {
+//             return `${this.from.firstName.string} changed the group name`;
+//         } else if (this.peer instanceof API.PeerChannel) {
+//             return "Channel name changed";
+//         }
+//     }
+// } else if (this.action instanceof API.MessageActionChatEditPhoto) {
+//     if (this.from instanceof API.User && this.from.firstName) {
+//         if (this.peer instanceof API.PeerChat) {
+//             return `${this.from.firstName.string} changed the group picture`;
+//         } else if (this.peer instanceof API.PeerChannel) {
+//             return "Channel picture changed";
+//         }
+//     }
+// } else if (this.action instanceof API.MessageActionChatDeletePhoto) {
+//     if (this.from instanceof API.User && this.from.firstName) {
+//         if (this.peer instanceof API.PeerChat) {
+//             return `${this.from.firstName.string} removed the group picture`;
+//         } else if (this.peer instanceof API.PeerChannel) {
+//             return "Channel picture removed";
+//         }
+//     }
+// } else if (this.action instanceof API.MessageActionChatAddUser) {
+//     if (this.from instanceof API.User && this.from.firstName) {
+//         return `${this.from.firstName.string} added user(s) to the group`;
+//     }
+// } else if (this.action instanceof API.MessageActionChatDeleteUser) {
+//     if (this.from instanceof API.User && this.from.firstName) {
+//         if (this.action.userId.equals(this.from.id)) {
+//             return `${this.from.firstName.string} left the group`;
+//         }
+//         return `${this.from.firstName.string} removed user from the group`;
+//     }
+// } else if (this.action instanceof API.MessageActionChatJoinedByLink) {
+//     if (this.from instanceof API.User && this.from.firstName) {
+//         return `${this.from.firstName.string} joined via invitation link`;
+//     }
+// } else if (this.action instanceof API.MessageActionChannelCreate) {
+//     return "Channel created";
+// } else if (this.action instanceof API.MessageActionChatMigrateTo) {
+//     // TODO
+// } else if (this.action instanceof API.MessageActionChannelMigrateFrom) {
+//     // TODO
+// } else if (this.action instanceof API.MessageActionPinMessage) {
+//     // TODO
+// } else if (this.action instanceof API.MessageActionHistoryClear) {
+//     return "No messages yet";
+// } else if (this.action instanceof API.MessageActionGameScore) {
+//     // TODO
+// }
+
+
+export enum MessageType {
+    Text,
+    Photo,
+    Location,
+    Contact,
+    GIF,
+    Sticker,
+    Video,
+    Voice,
+    Document,
+    Venue,
+    Game,
+    ChatCreate,
+    ChatEditTitle,
+    ChatDeletePhoto,
+    ChatAddUser,
+    ChatDeleteUser,
+    ChatJoinedByLink,
+    NotSupported,
+}

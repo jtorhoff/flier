@@ -2,17 +2,18 @@ import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";
 import { API } from "../../tg/Codegen/API/APISchema";
+import { MessageType } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
 import { TLString } from "../../tg/TL/Types/TLString";
 import { Avatar } from "../misc/Avatar";
-import { textMessage } from "./ChatMessagesTypes/TextMessage";
 import { photoMessage } from "./ChatMessagesTypes/PhotoMessage";
+import { stickerMessage } from "./ChatMessagesTypes/StickerMessage";
+import { textMessage } from "./ChatMessagesTypes/TextMessage";
 
 interface Props {
     chat: Chat,
     message: Message,
     compact: boolean,
-    onLoad: () => void,
 }
 
 interface State {
@@ -24,14 +25,6 @@ export class ChatMessagesItem extends React.Component<Props, State> {
         return nextProps.chat !== this.props.chat
             || nextProps.message !== this.props.message
             || nextProps.compact !== this.props.compact;
-    }
-
-    componentDidUpdate() {
-        this.props.onLoad();
-    }
-
-    componentDidMount() {
-        this.props.onLoad();
     }
 
     render() {
@@ -61,11 +54,15 @@ export class ChatMessagesItem extends React.Component<Props, State> {
         }
 
         let content: JSX.Element | string | undefined = undefined;
-        if (this.props.message.message) {
-            content = textMessage(this.props.message.message);
-        } else if (this.props.message.media instanceof API.MessageMediaPhoto) {
-            content = photoMessage(this.props.message.media);
+        if (this.props.message.type === MessageType.Text) {
+            content = textMessage(this.props.message.message!);
+        } else if (this.props.message.type === MessageType.Photo) {
+            content = photoMessage(this.props.message.media as API.MessageMediaPhoto);
+        } else if (this.props.message.type === MessageType.Sticker) {
+            content = stickerMessage((this.props.message.media as API.MessageMediaDocument).document as API.Document);
         }
+
+        const date = moment.unix(this.props.message.date);
 
         return (
             <div style={{
@@ -85,7 +82,7 @@ export class ChatMessagesItem extends React.Component<Props, State> {
                         !this.props.compact &&
                             <div style={titleStyle}>
                                 {
-                                 title
+                                    title
                                 }
                             </div>
                     }
@@ -103,9 +100,9 @@ export class ChatMessagesItem extends React.Component<Props, State> {
                     alignSelf: this.props.compact ? "center" : "baseline",
                 }}>
                     <span
-                        title={moment.unix(this.props.message.date).format("L, LTS")}>
+                        title={date.format("L, LTS")}>
                         {
-                            moment.unix(this.props.message.date).format("LT")
+                            date.format("LT")
                         }
                     </span>
                 </div>
@@ -124,6 +121,7 @@ const contentRowStyle: CSSProperties = {
     marginLeft: 12,
     marginRight: 32,
     flexGrow: 1,
+    flexShrink: 1,
     alignSelf: "baseline",
 };
 
@@ -132,6 +130,7 @@ const metaRowStyle: CSSProperties = {
     color: "rgba(0,0,0,0.44)",
     flexGrow: 0,
     flexShrink: 0,
+    cursor: "default",
 };
 
 const titleStyle: CSSProperties = {

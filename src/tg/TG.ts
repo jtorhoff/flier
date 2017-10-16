@@ -718,17 +718,7 @@ export class TG {
     //         })
     // }
 
-    getFile(location: {
-        readonly dcId: TLInt,
-        readonly volumeId: TLLong,
-        readonly localId: TLInt,
-        readonly secret: TLLong,
-    } | {
-        readonly dcId: TLInt,
-        readonly id: TLLong,
-        readonly accessHash: TLLong,
-        readonly version: TLInt,
-    }): Observable<Blob> {
+    getFile(location: FileLocationType): Observable<Blob> {
         let fileLocation: FileLocation | DocumentLocation;
         if (location.hasOwnProperty("volumeId")) {
             const loc = location as FileLocation;
@@ -743,6 +733,23 @@ export class TG {
         }
 
         return this.fileManager.getFile(fileLocation);
+    }
+
+    getDownloadProgress(location: FileLocationType): Observable<number> {
+        let fileLocation: FileLocation | DocumentLocation;
+        if (location.hasOwnProperty("volumeId")) {
+            const loc = location as FileLocation;
+            fileLocation = new FileLocation(
+                loc.dcId, loc.volumeId, loc.localId, loc.secret
+            );
+        } else {
+            const loc = location as DocumentLocation;
+            fileLocation = new DocumentLocation(
+                loc.dcId, loc.id, loc.accessHash, loc.version
+            );
+        }
+
+        return this.fileManager.getProgress(fileLocation);
     }
 
     getRecentStickers(): Observable<Array<API.Document>> {
@@ -784,3 +791,15 @@ export class TG {
         return this.mainDataCenter.call(new API.account.UpdateStatus(offline));
     }
 }
+
+type FileLocationType = {
+    readonly dcId: TLInt,
+    readonly volumeId: TLLong,
+    readonly localId: TLInt,
+    readonly secret: TLLong,
+} | {
+    readonly dcId: TLInt,
+    readonly id: TLLong,
+    readonly accessHash: TLLong,
+    readonly version: TLInt,
+};

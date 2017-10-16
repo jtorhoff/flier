@@ -1,11 +1,12 @@
 const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.tsx",
     output: {
         filename: "bundle.js",
         path: __dirname + "/dist",
-        publicPath: "/dist/",
+        publicPath: "/",
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -58,7 +59,15 @@ module.exports = {
                     }
                 }
             }
-        })
+        }),
+        new HtmlWebpackPlugin({
+            hash: true,
+            filename: "index.html",
+            template: "./src/templates/index.html",
+            files: {
+                js: ["bundle.js"],
+            }
+        }),
     ],
 
     // To prevent "Module not found: Error: Can't resolve 'fs' in 'webp'"

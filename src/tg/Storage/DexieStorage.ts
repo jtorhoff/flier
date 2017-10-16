@@ -30,11 +30,11 @@ export class DexieStorage implements PersistentStorage.Storage {
     readAuthorization(dcId?: number): Observable<PersistentStorage.Authorization | undefined> {
         if (dcId) {
             return Observable.fromPromise(
-                this.db.authorizations.where({ dcId: dcId }).first()
+                this.db.authorizations.get({ dcId: dcId })
             );
         } else {
             return Observable.fromPromise(
-                this.db.authorizations.where({ main: 1 }).first()
+                this.db.authorizations.get({ main: 1 })
             );
         }
     }
@@ -136,7 +136,7 @@ export class DexieStorage implements PersistentStorage.Storage {
     updateUser(id: number, update: Partial<API.User>): Observable<API.User | undefined> {
         return Observable.fromPromise(
             this.db.transaction("rw!", this.db.users, async () => {
-                const user = await this.db.users.where("id").equals(id).first();
+                const user = await this.db.users.get(id);
                 if (!user) return;
 
                 const apiUser = deserializedObject(
@@ -233,7 +233,7 @@ export class DexieStorage implements PersistentStorage.Storage {
     updateMessage(id: number, update: Partial<API.Message & API.MessageService>): Observable<API.Message | API.MessageService | undefined> {
         return Observable.fromPromise(
             this.db.transaction("rw!", this.db.messages, async () => {
-                const message = await this.db.messages.where("id").equals(id).first();
+                const message = await this.db.messages.get(id);
                 if (!message) return;
 
                 const apiMessage = deserializedObject(
@@ -268,11 +268,6 @@ export class DexieStorage implements PersistentStorage.Storage {
             throw new Error();
         }
 
-        // Observable.fromPromise(this.db.messages.where("peer").equals(dbPeer).count())
-        //     .subscribe(count => {
-        //         console.log(count)
-        //     });
-
         let collection = this.db.messages.where("peer").equals(dbPeer)
             .limit(limit)
             .reverse();
@@ -292,31 +287,42 @@ export class DexieStorage implements PersistentStorage.Storage {
         const key = location.serialized().buffer;
 
         return Observable
-            .fromPromise(this.db.files.where("key").equals(key).and(file => file.complete).first())
+            .fromPromise(this.db.files.get({ key: key })).map(file => {
+                if (file && file.complete) {
+                    return file;
+                }
+                return undefined;
+            })
             .map(file => file ? file.data : undefined);
     }
 
-    appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<boolean> {
+    appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<{ complete: boolean, savedSize: number }> {
         const key = location.serialized().buffer;
 
         return Observable.fromPromise(
             this.db.transaction("rw!", this.db.files, async () => {
-                const file = await this.db.files.where({ key: key }).first();
+                const file = await this.db.files.get({ key: key });
+                let size: number;
                 if (file) {
                     await this.db.files.put({
                         key: key,
                         data: new Blob([file.data, data]),
                         complete: complete,
                     });
+                    size = file.data.size + data.size;
                 } else {
                     await this.db.files.put({
                         key: key,
                         data: data,
                         complete: complete,
                     });
+                    size = data.size;
                 }
 
-                return complete;
+                return {
+                    complete: complete,
+                    savedSize: size,
+                };
             }));
     }
 
@@ -391,7 +397,7 @@ export class DexieStorage implements PersistentStorage.Storage {
                 } else {
                     throw new Error();
                 }
-                const dialog = await this.db.dialogs.where("peer").equals(dbPeer).first();
+                const dialog = await this.db.dialogs.get({ peer: dbPeer });
                 if (!dialog) return;
 
                 const apiDialog = deserializedObject(

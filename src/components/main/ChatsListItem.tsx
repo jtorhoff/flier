@@ -23,7 +23,8 @@ interface State {
 
 export class ChatsListItem extends React.Component<Props, State> {
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return nextProps.selected !== this.props.selected
+        return nextProps.onClick !== this.props.onClick
+            || nextProps.selected !== this.props.selected
             || nextProps.chat !== this.props.chat
             || nextProps.typing !== this.props.typing;
     }

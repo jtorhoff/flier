@@ -327,7 +327,8 @@ export class ChatsList extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return !nextState.chats.equals(this.state.chats)
+        return nextProps.selectedPeer !== this.props.selectedPeer
+            || !nextState.chats.equals(this.state.chats)
             || !nextState.typing.equals(this.state.typing)
             || nextState.selectedPeer !== this.state.selectedPeer;
     }

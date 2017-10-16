@@ -1,64 +1,88 @@
 import { List } from "immutable";
+import { spacing } from "material-ui/styles";
+import { fullBlack } from "material-ui/styles/colors";
+import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";
-import {
-    List as VirtualizedList,
-    InfiniteLoader,
-    AutoSizer,
-    ListRowProps,
-    IndexRange,
-    CellMeasurerCache,
-    CellMeasurer
-} from "react-virtualized";
+import { AutoSizer, ListRowProps } from "react-virtualized";
 import { Subscription } from "rxjs/Subscription";
+import { measureText } from "../../misc/TextMeasurer";
+import { API } from "../../tg/Codegen/API/APISchema";
+import { MessageType } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
 import { tg, muiTheme } from "../App";
-import { ChatMessagesItem } from "./ChatMessagesItem";
-import { spacing } from "material-ui/styles";
-import { API } from "../../tg/Codegen/API/APISchema";
-import { photoMessageMaxSize } from "./ChatMessagesTypes/PhotoMessage";
-import { measureText } from "../../misc/TextMeasurer";
 import { Photo } from "../misc/Photo";
+import { ReverseList } from "../misc/ReverseList";
+import { ChatMessagesItem } from "./ChatMessagesItem";
+import { photoMessageMaxSize } from "./ChatMessagesTypes/PhotoMessage";
 
 interface Props {
     chat: Chat,
 }
 
 interface State {
-    messages: List<Message>,
-    innerScrollContainerHeight: number,
-    scrollToIndex?: number,
+    messages: List<Message | PseudoMessage>,
+    loading: boolean,
+    scrollToBottom: boolean,
 }
 
 export class ChatMessages extends React.Component<Props, State> {
     private loadingMessages = false;
     private allMessagesLoaded = false;
     private messagesSubscription: Subscription;
-
-    private cellMeasurerCache = new CellMeasurerCache({
-        fixedWidth: true,
-    });
+    private listRef?: ReverseList;
 
     state: State = {
         messages: List(),
-        innerScrollContainerHeight: 0,
+        loading: false,
+        scrollToBottom: true,
     };
 
-    loadMessages() {
+    loadMessages(clearList: boolean, recomputeHeights?: boolean) {
+        if (this.loadingMessages || this.allMessagesLoaded) {
+            return;
+        }
+
+        let offsetId = undefined;
+        if (!clearList) {
+            const offsetMsg = this.state.messages
+                .filter(msg => !!msg && msg.type !== "pseudo")
+                .last();
+            offsetId = offsetMsg && offsetMsg.type !== "pseudo" ? offsetMsg.id : undefined;
+        }
+
         this.loadingMessages = true;
-        this.messagesSubscription = tg.getMessageHistory(this.props.chat, 100)
+        this.messagesSubscription = tg.getMessageHistory(this.props.chat, 20, offsetId)
             .subscribe({
                 next: messages => {
-                    console.log(messages);
-
                     if (messages.length === 0) {
                         this.allMessagesLoaded = true;
                     } else {
+                        let msgs: List<Message | PseudoMessage>;
+                        if (clearList) {
+                            msgs = populatePseudoMessages(messages);
+                        } else {
+                            msgs = populatePseudoMessages(
+                                (this.state.messages
+                                        .filter(msg =>
+                                            !!msg && msg.type !== "pseudo")
+                                        //.reverse()
+                                        .toArray() as Array<Message>
+                                ).concat(messages)
+                            );
+                        }
+
                         this.setState({
-                            messages: List(messages)
-                                .reverse()
-                                .toList(),
-                            scrollToIndex: messages.length - 1,
+                            scrollToBottom: clearList,
+                            messages: msgs,
+                        }, () => {
+                            this.setState({
+                                scrollToBottom: false,
+                            });
+
+                            if (recomputeHeights) {
+                                this.listRef!.recomputeRowHeights();
+                            }
                         });
                     }
                 },
@@ -69,27 +93,19 @@ export class ChatMessages extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        // console.log(this.props.chat);
-        this.loadMessages();
-    }
-
-    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return nextProps.chat !== this.props.chat
-            || !nextState.messages.equals(this.state.messages)
-            || nextState.innerScrollContainerHeight !== this.state.innerScrollContainerHeight
-            || nextState.scrollToIndex !== this.state.scrollToIndex;
+        this.loadMessages(true);
     }
 
     componentDidUpdate(prevProps: Props) {
         if (!this.props.chat.peerEquals(prevProps.chat.peer)) {
-            this.loadMessages();
-            // this.setState(state => {
-            //     return {
-            //         messages: state.messages.clear(),
-            //     }
-            // }, () => {
-            //     this.loadMessages();
-            // });
+            if (this.messagesSubscription) {
+                this.messagesSubscription.unsubscribe();
+            }
+
+            this.allMessagesLoaded = false;
+            this.loadingMessages = false;
+
+            this.loadMessages(true, true);
         }
     }
 
@@ -97,123 +113,116 @@ export class ChatMessages extends React.Component<Props, State> {
         this.messagesSubscription.unsubscribe();
     }
 
-    isRowLoaded(params: { index: number }): boolean {
-        return true;
-        // return this.allMessagesLoaded || params.index < this.state.messages.size;
-    }
-
-    loadMoreRows(params: IndexRange): Promise<any> {
-        // if (this.loadingMessages) return Promise.resolve();
-        //
-        // this.loadingMessages = true;
-        // this.messagesSubscription = tg.getMessageHistory(this.props.chat.peer, 10)
-        //     .subscribe({
-        //         next: messages => {
-        //             console.log("!!", messages);
-        //         },
-        //         complete: () => {
-        //             this.loadingMessages = false;
-        //         }
-        //     });
-        //
-        // this.loadingChats = true;
-        // tg.getChats(30, this.state.chats.get(params.startIndex - 1))
-        //     .subscribe(chats => {
-        //             if (chats.length === 0) {
-        //                 this.allChatsLoaded = true;
-        //             } else {
-        //                 this.setState({
-        //                     chats: this.state.chats.concat(chats).toList(),
-        //                 });
-        //             }
-        //         },
-        //         error => {
-        //
-        //         },
-        //         () => {
-        //             this.loadingChats = false;
-        //         });
-
-        return Promise.resolve();
-    }
-
     rowHeight(params: { index: number }, containerWidth: number): number {
         let height = 0;
-        if (!this.cellMeasurerCache.has(params.index, 0)) {
-            const msg = this.state.messages.get(params.index);
-            if (msg.message) {
-                const size = measureText(msg.message, {
-                    width: containerWidth - 150,
-                    wordBreak: "break-word",
-                    hyphens: "auto",
-                    whiteSpace: "pre-wrap",
-                    fontSize: "14px",
+        const msg = this.state.messages.get(params.index);
+        if (msg.type === MessageType.Text) {
+            const metaWidth = measureText(
+                moment(msg.date).format("LT"),
+                {
+                    fontSize: "12px",
                     fontFamily: muiTheme.fontFamily,
-                });
-                height = size.height;
-            } else if (msg.media instanceof API.MessageMediaPhoto
-                && msg.media.photo instanceof API.Photo) {
-                height = Photo.measure(
-                    msg.media.photo,
-                    photoMessageMaxSize,
-                    photoMessageMaxSize).height;
-            }
+                }).width;
 
-            if (this.isCompactMessage(msg, params.index)) {
-                height += 12;
-            } else {
-                height = Math.max(height + 28, 48);
-            }
+            const size = measureText(msg.message!, {
+                width: (containerWidth - 20 - 16 - 40 - 12 - 32 - metaWidth) + "px",
+                maxWidth: "60ch",
+                display: "inline-block",
+                wordBreak: "break-word",
+                hyphens: "auto",
+                whiteSpace: "pre-wrap",
+                fontSize: "14px",
+                fontFamily: muiTheme.fontFamily,
+                lineHeight: "16px",
+            });
+
+            height = size.height;
+        } else if (msg.type === MessageType.Photo) {
+            height = Photo.measure(
+                (msg.media as API.MessageMediaPhoto).photo as API.Photo,
+                photoMessageMaxSize,
+                photoMessageMaxSize).height;
+        } else if (msg.type === MessageType.Sticker) {
+            height = 170;
+        }
+
+        if (this.isCompactMessage(msg, params.index)) {
+            height += 12;
         } else {
-            height = this.cellMeasurerCache.rowHeight(params)!;
+            height = Math.max(height + 28, 48);
         }
 
         // Top message's (first from the bottom in the list)
         // height is greater to mimic padding
-        if (params.index === this.state.messages.size - 1) {
+        if (params.index === 0) {
             height += spacing.desktopGutterLess!;
         }
 
         return height;
     }
 
-    rowCount(): number {
-        return this.allMessagesLoaded ?
-            this.state.messages.size :
-            this.state.messages.size + 1;
-    }
-
     renderRow(params: ListRowProps): React.ReactNode {
+
         const msg = this.state.messages.get(params.index);
         const compact = this.isCompactMessage(msg, params.index);
 
+        let element: ChatMessagesItem | JSX.Element;
+        if (msg.type === "pseudo") {
+            const date = moment.unix(msg.date);
+            const now = new Date();
+            let readable: string;
+            if (date.isSame(now, "day")) {
+                readable = "Today";
+            } else if (date.isSame(now, "year")) {
+                readable = date.format("Do MMMM");
+            } else {
+                readable = date.format("L");
+            }
+            element = (
+                <div style={{
+                    lineHeight: "48px",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: fullBlack,
+                    textAlign: "center",
+                }}>
+                    {
+                        readable
+                    }
+                </div>
+            );
+        } else {
+            element = (
+                <ChatMessagesItem
+                    chat={this.props.chat}
+                    message={msg}
+                    compact={compact}/>
+            );
+        }
+
         return (
-            <CellMeasurer cache={this.cellMeasurerCache}
-                          columnIndex={0}
-                          key={params.key}
-                          rowIndex={params.index}
-                          parent={params.parent as any}>
-                {({ measure }) => (
-                    <div style={params.style}>
-                        <ChatMessagesItem
-                            chat={this.props.chat}
-                            message={msg}
-                            compact={compact}
-                            onLoad={measure}/>
-                    </div>
-                )}
-            </CellMeasurer>
+            <div key={params.key} style={params.style}>
+                {
+                    element
+                }
+            </div>
         );
     }
 
-    isCompactMessage(msg: Message, index: number): boolean {
+    isCompactMessage(msg: Message | PseudoMessage, index: number): boolean {
+        if (msg.type === "pseudo") {
+            return false;
+        }
         // Show message as compact, i.e. without the avatar and user name,
         // if the previous message is from the same user and no more than
         // 10 minutes have passed.
         const compactThreshold = 60 * 10;
         let compact = false;
-        if (index > 0) {
-            const prevMsg = this.state.messages.get(index - 1);
+        if (index < this.state.messages.size - 1) {
+            const prevMsg = this.state.messages.get(index + 1);
+            if (prevMsg.type === "pseudo") {
+                return false;
+            }
             if (prevMsg.date + compactThreshold >= msg.date) {
                 if (msg.from instanceof API.User && prevMsg.from instanceof API.User) {
                     if (msg.from.id.equals(prevMsg.from.id)) {
@@ -230,61 +239,51 @@ export class ChatMessages extends React.Component<Props, State> {
         return (
             <div style={style}>
                 <style type="text/css">{rotationStyle}</style>
-                <InfiniteLoader
-                    isRowLoaded={params => this.isRowLoaded(params)}
-                    loadMoreRows={params => this.loadMoreRows(params)}
-                    rowCount={this.rowCount()}>
-                    {({ onRowsRendered, registerChild }) => (
-                        <AutoSizer onResize={() => this.cellMeasurerCache.clearAll()}>
-                            {({ width, height }) => (
-                                <VirtualizedList
-                                    key={this.state.innerScrollContainerHeight}
-                                    ref={registerChild}
-                                    width={width}
-                                    height={height}
-                                    estimatedRowSize={48}
-                                    rowHeight={params => this.rowHeight(params, width)}
-                                    overscanRowCount={3}
-                                    rowCount={this.state.messages.size}
-                                    rowRenderer={params => this.renderRow(params)}
-                                    onRowsRendered={info => {
-                                        // if (info.startIndex === 0 &&
-                                        //     info.stopIndex === this.state.messages.size - 1) {
-                                        //     let height = 0;
-                                        //     for (let i = 0; i <= info.stopIndex; i++) {
-                                        //         height += this.cellMeasurerCache.rowHeight({ index: i }) || 0;
-                                        //     }
-                                        //     this.setState({
-                                        //         innerScrollContainerHeight: height,
-                                        //     });
-                                        // } else {
-                                        //     this.setState({
-                                        //         innerScrollContainerHeight: 0,
-                                        //     });
-                                        // }
-
-                                        onRowsRendered(info);
-                                    }}
-                                    onScroll={() => {
-                                        this.setState({
-                                            scrollToIndex: undefined,
-                                        });
-                                    }}
-                                    deferredMeasurementCache={this.cellMeasurerCache}
-                                    scrollToIndex={this.state.scrollToIndex}
-                                    style={{
-                                        outline: "none",
-                                        paddingTop: this.state.innerScrollContainerHeight !== 0 ?
-                                            height - this.state.innerScrollContainerHeight : 0,
-                                    }}/>
-                            )}
-                        </AutoSizer>
+                <AutoSizer onResize={() => {
+                    this.listRef && this.listRef.recomputeRowHeights();
+                }}>
+                    {({ width, height }) => (
+                        <ReverseList
+                            ref={ref => this.listRef = ref!}
+                            width={width}
+                            height={height}
+                            data={this.state.messages}
+                            overscanRowCount={0}
+                            rowHeight={params => this.rowHeight(params, width)}
+                            rowRenderer={params => this.renderRow(params)}
+                            loadMoreRows={() => this.loadMessages(false)}
+                            scrollToBottom={this.state.scrollToBottom}/>
                     )}
-                </InfiniteLoader>
+                </AutoSizer>
             </div>
         );
     }
 }
+
+type PseudoMessage = { date: number, type: "pseudo" };
+
+const populatePseudoMessages = (messages: Array<Message>) => {
+    const msgs: Array<Message | PseudoMessage> = [];
+    let currentDay = Math.floor(
+        messages[0].date / 60 / 60 / 24);
+    for (let msg of messages) {
+        const msgDay = Math.floor(msg.date / 60 / 60 / 24);
+        if (msgDay !== currentDay) {
+            msgs.push({
+                date: currentDay * 60 * 60 * 24,
+                type: "pseudo",
+            });
+        }
+        msgs.push(msg);
+        currentDay = msgDay;
+    }
+    msgs.push({
+        date: currentDay * 60 * 60 * 24,
+        type: "pseudo",
+    });
+
+    return List(msgs).toList();
+};
 
 const style: CSSProperties = {
     flexGrow: 1,

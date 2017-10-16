@@ -5,6 +5,7 @@ import { DataCenter } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
 import { FileLocation, DocumentLocation } from "./FileManager";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export class FileDownloader {
     private readonly inputLocation: API.InputFileLocationType;
@@ -18,6 +19,8 @@ export class FileDownloader {
     private lastRequestSentAt: number = 0;
     private subject = new Subject<Blob>();
     private _downloading = false;
+
+    readonly progress = new BehaviorSubject(0);
 
     constructor(readonly location: FileLocation | DocumentLocation,
                 private readonly storage: PersistentStorage.Storage,
@@ -91,8 +94,9 @@ export class FileDownloader {
                         type: mimeTypeForFileType(file.type)
                     }),
                     file.bytes.bytes.length < curLimit))
-            .flatMap(complete => {
-                if (complete) {
+            .flatMap(progress => {
+                this.progress.next(progress.savedSize);
+                if (progress.complete) {
                     return this.storage.readFile(this.location);
                 } else {
                     return Observable.of(undefined);

@@ -86,7 +86,9 @@ export class ChatFooter extends React.Component<Props, State> {
                 </IconButton>
                 <div style={{
                     flexGrow: 1,
-                    margin: `0 ${spacing.desktopGutterMini}px -6px ${spacing.desktopGutterMini}px`,
+                    flexShrink: 1,
+                    marginBottom: -6,
+                    padding: `0 ${spacing.desktopGutterMini}px`,
                 }}>
                     <TextField hintText={"Write a message\u2026"}
                                onChange={e => this.onInput(e)}
@@ -126,7 +128,7 @@ export class ChatFooter extends React.Component<Props, State> {
 }
 
 const style: CSSProperties = {
-    // minus bottom padding
+    width: "100%",
     minHeight: spacing.desktopToolbarHeight,
     borderTop: `1px solid ${faintBlack}`,
     padding: "0 12px 10px 12px",
