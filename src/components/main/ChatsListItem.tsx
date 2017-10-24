@@ -1,5 +1,5 @@
 import { ListItem, Badge } from "material-ui";
-import { lightBlack, faintBlack } from "material-ui/styles/colors";
+import { lightBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";

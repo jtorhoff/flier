@@ -39,6 +39,7 @@ export class App extends React.Component<Props, State> {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div style={containerStyle}>
+                    <style type="text/css">{linksStyle}</style>
                     {
                         typeof this.state.authorized !== "undefined" &&
                         <Component/>
@@ -74,6 +75,19 @@ const containerStyle: CSSProperties = {
     height: "100%",
     background: "linear-gradient(45deg, rgba(77,160,202,1) 0%, rgba(82,184,176,1) 100%)",
 };
+
+const linksStyle = `
+a {
+    color: ${primaryColor};
+    text-decoration: none;
+    -webkit-text-decoration-skip: ink;
+    text-decoration-skip: ink;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+`;
 
 const appConfig = new AppConfig(
     17622,

@@ -1,17 +1,17 @@
+import { List } from "immutable";
 import { spacing } from "material-ui/styles";
 import { faintBlack, lightBlack } from "material-ui/styles/colors";
+import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";
 import { CSSTransitionGroup } from "react-transition-group";
 import { Subscription } from "rxjs/Subscription";
+import { API } from "../../tg/Codegen/API/APISchema";
 import { NetworkState } from "../../tg/Session/DataCenter";
 import { Chat } from "../../tg/TG";
+import { Update } from "../../tg/Updates/Update";
 import { tg } from "../App";
 import { ReadableStatus } from "../misc/ReadableStatus";
-import { API } from "../../tg/Codegen/API/APISchema";
-import { Update } from "../../tg/Updates/Update";
-import moment = require("moment");
-import { List } from "immutable";
 
 interface Props {
     chat: Chat,

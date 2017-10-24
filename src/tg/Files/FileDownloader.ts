@@ -127,10 +127,10 @@ export class FileDownloader {
 const minLimit = 1 << 12;
 
 /**
- * Maximum file part size, 512 KB.
+ * Maximum file part size, 256 KB.
  * @type {number}
  */
-const maxLimit = 1 << 19;
+const maxLimit = 1 << 18;
 
 const uptime = (): number => {
     return performance.now() / 1000;

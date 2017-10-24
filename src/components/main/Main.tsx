@@ -1,11 +1,11 @@
 import { Paper } from "material-ui";
+import * as moment from "moment";
 import * as React from "react";
 import { CSSProperties } from "react";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
 import { Chat } from "./Chat";
 import { ChatsList } from "./ChatsList";
-import moment = require("moment");
 
 interface Props {
 
@@ -99,7 +99,7 @@ const style: CSSProperties = {
     transform: "translate(-50%, -50%)",
     width: "80vw",
     height: "calc(100% - 68px)",
-    maxWidth: 960,
+    maxWidth: 1152,
     minWidth: 560,
     display: "flex",
 };

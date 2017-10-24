@@ -6,14 +6,15 @@ import * as React from "react";
 import { CSSProperties } from "react";
 import { AutoSizer, ListRowProps } from "react-virtualized";
 import { Subscription } from "rxjs/Subscription";
+import { measureMedia } from "../../misc/MediaMeasurer";
 import { measureText } from "../../misc/TextMeasurer";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { MessageType } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
 import { tg, muiTheme } from "../App";
-import { Photo } from "../misc/Photo";
 import { ReverseList } from "../misc/ReverseList";
 import { ChatMessagesItem } from "./ChatMessagesItem";
+import { gifMessageMaxSize } from "./ChatMessagesTypes/GifMessage";
 import { photoMessageMaxSize } from "./ChatMessagesTypes/PhotoMessage";
 
 interface Props {
@@ -31,6 +32,7 @@ export class ChatMessages extends React.Component<Props, State> {
     private allMessagesLoaded = false;
     private messagesSubscription: Subscription;
     private listRef?: ReverseList;
+    private rowHeightsCache: { [index: string]: number } = {};
 
     state: State = {
         messages: List(),
@@ -66,7 +68,6 @@ export class ChatMessages extends React.Component<Props, State> {
                                 (this.state.messages
                                         .filter(msg =>
                                             !!msg && msg.type !== "pseudo")
-                                        //.reverse()
                                         .toArray() as Array<Message>
                                 ).concat(messages)
                             );
@@ -102,6 +103,8 @@ export class ChatMessages extends React.Component<Props, State> {
                 this.messagesSubscription.unsubscribe();
             }
 
+            this.rowHeightsCache = {};
+
             this.allMessagesLoaded = false;
             this.loadingMessages = false;
 
@@ -113,9 +116,20 @@ export class ChatMessages extends React.Component<Props, State> {
         this.messagesSubscription.unsubscribe();
     }
 
-    rowHeight(params: { index: number }, containerWidth: number): number {
+    rowHeight(index: number, containerWidth: number): number {
+        const msg = this.state.messages.get(index);
+        let key: string;
+        if ((msg as Message).id) {
+            key = (msg as Message).id.toString() + "-" + index.toString();
+        } else {
+            key = "!" + msg.date.toString() + "-" + index.toString();
+        }
+
+        if (this.rowHeightsCache[key]) {
+            return this.rowHeightsCache[key];
+        }
+
         let height = 0;
-        const msg = this.state.messages.get(params.index);
         if (msg.type === MessageType.Text) {
             const metaWidth = measureText(
                 moment(msg.date).format("LT"),
@@ -138,15 +152,31 @@ export class ChatMessages extends React.Component<Props, State> {
 
             height = size.height;
         } else if (msg.type === MessageType.Photo) {
-            height = Photo.measure(
-                (msg.media as API.MessageMediaPhoto).photo as API.Photo,
+            height = measureMedia(
                 photoMessageMaxSize,
-                photoMessageMaxSize).height;
+                photoMessageMaxSize,
+                ...((msg.media as API.MessageMediaPhoto).photo as API.Photo).sizes.items).height;
         } else if (msg.type === MessageType.Sticker) {
             height = 170;
+        } else if (msg.type === MessageType.Location) {
+            height = 144;
+        } else if (msg.type === MessageType.Venue) {
+            height = 96;
+        } else if (msg.type === MessageType.Contact) {
+            height = 48;
+        } else if (msg.type === MessageType.GIF) {
+            height = measureMedia(
+                gifMessageMaxSize,
+                gifMessageMaxSize,
+                ((msg.media as API.MessageMediaDocument).document as API.Document).thumb).height;
+        } else if (msg.type === MessageType.Video) {
+            height = measureMedia(
+                gifMessageMaxSize,
+                gifMessageMaxSize,
+                ((msg.media as API.MessageMediaDocument).document as API.Document).thumb).height;
         }
 
-        if (this.isCompactMessage(msg, params.index)) {
+        if (this.isCompactMessage(msg, index)) {
             height += 12;
         } else {
             height = Math.max(height + 28, 48);
@@ -154,15 +184,16 @@ export class ChatMessages extends React.Component<Props, State> {
 
         // Top message's (first from the bottom in the list)
         // height is greater to mimic padding
-        if (params.index === 0) {
+        if (index === 0) {
             height += spacing.desktopGutterLess!;
         }
+
+        this.rowHeightsCache[key] = height;
 
         return height;
     }
 
     renderRow(params: ListRowProps): React.ReactNode {
-
         const msg = this.state.messages.get(params.index);
         const compact = this.isCompactMessage(msg, params.index);
 
@@ -180,12 +211,12 @@ export class ChatMessages extends React.Component<Props, State> {
             }
             element = (
                 <div style={{
-                    lineHeight: "48px",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: fullBlack,
-                    textAlign: "center",
-                }}>
+                         lineHeight: "48px",
+                         fontSize: 14,
+                         fontWeight: 500,
+                         color: fullBlack,
+                         textAlign: "center",
+                     }}>
                     {
                         readable
                     }
@@ -200,8 +231,9 @@ export class ChatMessages extends React.Component<Props, State> {
             );
         }
 
+        const key = (msg as Message).id || -msg.date;
         return (
-            <div key={params.key} style={params.style}>
+            <div key={key} style={params.style}>
                 {
                     element
                 }
@@ -241,6 +273,7 @@ export class ChatMessages extends React.Component<Props, State> {
                 <style type="text/css">{rotationStyle}</style>
                 <AutoSizer onResize={() => {
                     this.listRef && this.listRef.recomputeRowHeights();
+                    this.rowHeightsCache = {};
                 }}>
                     {({ width, height }) => (
                         <ReverseList

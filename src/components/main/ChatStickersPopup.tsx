@@ -127,7 +127,7 @@ export class ChatStickersPopup extends React.Component<Props, State> {
         let element: JSX.Element;
         if (sticker instanceof API.Document) {
             element =
-                <TouchRipple>
+                <TouchRipple key={sticker.id.hashValue}>
                     <Sticker width={stickerSize}
                              height={stickerSize}
                              sticker={sticker}
@@ -190,8 +190,11 @@ export class ChatStickersPopup extends React.Component<Props, State> {
             element = item.thumbnail;
         } else {
             const sticker = item.stickers[0]!;
-            element =
-                <Sticker width={26} height={26} sticker={sticker} thumb={true}/>
+            element = <Sticker key={sticker.id.hashValue}
+                               width={26}
+                               height={26}
+                               sticker={sticker}
+                               thumb={true}/>
         }
 
         return (

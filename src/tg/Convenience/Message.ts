@@ -77,7 +77,7 @@ export class ConvenienceMessage {
             return this.message;
         } else if (this.media instanceof API.MessageMediaPhoto) {
             if (this.media.caption.string !== "") {
-                return `🖼 ${this.media.caption.string}`;
+                return `🖼\u2002${this.media.caption.string}`;
             }
             return "Picture";
         } else if (this.media instanceof API.MessageMediaGeo) {
@@ -85,8 +85,7 @@ export class ConvenienceMessage {
                 const lat = this.media.geo.lat.value;
                 const long = this.media.geo.long.value;
 
-                return `📍 ${lat.toFixed(4)}°${getLat(lat)}` +
-                    `${long.toFixed(4)}°${getLong(long)}`;
+                return `📍\u2002${lat.toFixed(4)}°${getLat(lat)} ${long.toFixed(4)}°${getLong(long)}`;
             }
             return "Location";
         } else if (this.media instanceof API.MessageMediaContact) {
@@ -103,7 +102,7 @@ export class ConvenienceMessage {
                         a instanceof API.DocumentAttributeSticker)) {
                     return `${
                         (attr as API.DocumentAttributeSticker).alt.string
-                    } Sticker`;
+                    }\u2002Sticker`;
                 } else if (attrs.find(a =>
                         a instanceof API.DocumentAttributeVideo)) {
                     return "Video";
@@ -114,16 +113,16 @@ export class ConvenienceMessage {
                     }
                 } else if (attr = attrs.find(a =>
                         a instanceof API.DocumentAttributeFilename)) {
-                    return `📎 ${
+                    return `📎\u2002${
                         (attr as API.DocumentAttributeFilename).fileName.string
                     }`;
                 }
             }
             return "Document";
         } else if (this.media instanceof API.MessageMediaVenue) {
-            return `📍 ${this.media.title.string}`;
+            return `📍\u2002${this.media.title.string}`;
         } else if (this.media instanceof API.MessageMediaGame) {
-            return `🎲 ${this.media.game.title.string}`;
+            return `🎲\u2002${this.media.game.title.string}`;
         }
 
         if (this.action instanceof API.MessageActionChatCreate) {
@@ -230,7 +229,7 @@ const extractType = (message: ConvenienceMessage): MessageType => {
                 if ((attr as API.DocumentAttributeAudio).voice) {
                     return MessageType.Voice;
                 }
-            } else if (attr = attrs.find(a =>
+            } else if (attrs.find(a =>
                     a instanceof API.DocumentAttributeFilename)) {
                 return MessageType.Document;
             }
@@ -244,64 +243,6 @@ const extractType = (message: ConvenienceMessage): MessageType => {
 
     return MessageType.NotSupported;
 };
-
-// if (this.action instanceof API.MessageActionChatCreate) {
-//     if (this.from instanceof API.User && this.from.firstName) {
-//         return `${this.from.firstName.string} created the group`;
-//     }
-// } else if (this.action instanceof API.MessageActionChatEditTitle) {
-//     if (this.from instanceof API.User && this.from.firstName) {
-//         if (this.peer instanceof API.PeerChat) {
-//             return `${this.from.firstName.string} changed the group name`;
-//         } else if (this.peer instanceof API.PeerChannel) {
-//             return "Channel name changed";
-//         }
-//     }
-// } else if (this.action instanceof API.MessageActionChatEditPhoto) {
-//     if (this.from instanceof API.User && this.from.firstName) {
-//         if (this.peer instanceof API.PeerChat) {
-//             return `${this.from.firstName.string} changed the group picture`;
-//         } else if (this.peer instanceof API.PeerChannel) {
-//             return "Channel picture changed";
-//         }
-//     }
-// } else if (this.action instanceof API.MessageActionChatDeletePhoto) {
-//     if (this.from instanceof API.User && this.from.firstName) {
-//         if (this.peer instanceof API.PeerChat) {
-//             return `${this.from.firstName.string} removed the group picture`;
-//         } else if (this.peer instanceof API.PeerChannel) {
-//             return "Channel picture removed";
-//         }
-//     }
-// } else if (this.action instanceof API.MessageActionChatAddUser) {
-//     if (this.from instanceof API.User && this.from.firstName) {
-//         return `${this.from.firstName.string} added user(s) to the group`;
-//     }
-// } else if (this.action instanceof API.MessageActionChatDeleteUser) {
-//     if (this.from instanceof API.User && this.from.firstName) {
-//         if (this.action.userId.equals(this.from.id)) {
-//             return `${this.from.firstName.string} left the group`;
-//         }
-//         return `${this.from.firstName.string} removed user from the group`;
-//     }
-// } else if (this.action instanceof API.MessageActionChatJoinedByLink) {
-//     if (this.from instanceof API.User && this.from.firstName) {
-//         return `${this.from.firstName.string} joined via invitation link`;
-//     }
-// } else if (this.action instanceof API.MessageActionChannelCreate) {
-//     return "Channel created";
-// } else if (this.action instanceof API.MessageActionChatMigrateTo) {
-//     // TODO
-// } else if (this.action instanceof API.MessageActionChannelMigrateFrom) {
-//     // TODO
-// } else if (this.action instanceof API.MessageActionPinMessage) {
-//     // TODO
-// } else if (this.action instanceof API.MessageActionHistoryClear) {
-//     return "No messages yet";
-// } else if (this.action instanceof API.MessageActionGameScore) {
-//     // TODO
-// }
-
 
 export enum MessageType {
     Text,

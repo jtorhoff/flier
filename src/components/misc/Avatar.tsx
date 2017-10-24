@@ -23,7 +23,6 @@ interface Props {
     id: number,
     title: string,
     photo?: API.FileLocation,
-    onLoad?: () => void,
 }
 
 interface State {
@@ -88,7 +87,7 @@ export class Avatar extends React.Component<Props, State> {
 
     render() {
         return (
-            <MuiAvatar style={style} backgroundColor={hashColor(this.props.id)}>
+            <MuiAvatar style={style} backgroundColor={this.props.photo ? "none" : hashColor(this.props.id)}>
                 {
                     extractInitials(this.props.title)
                 }

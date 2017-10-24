@@ -1,9 +1,7 @@
 import * as moment from "moment";
 import "rxjs/add/observable/never";
 import "rxjs/add/operator/delay";
-import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import { Subscription } from "rxjs/Subscription";
 import { tg } from "../../components/App";
 import { API } from "../Codegen/API/APISchema";
 import { convenienceMessageFor } from "../Convenience/MessageFor";

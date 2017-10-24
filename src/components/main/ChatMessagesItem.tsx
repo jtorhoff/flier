@@ -6,9 +6,16 @@ import { MessageType } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
 import { TLString } from "../../tg/TL/Types/TLString";
 import { Avatar } from "../misc/Avatar";
+import { contactMessage } from "./ChatMessagesTypes/ContactMessage";
+import { gifMessage } from "./ChatMessagesTypes/GifMessage";
+import {
+    locationMessage,
+    venueMessage
+} from "./ChatMessagesTypes/LocationMessage";
 import { photoMessage } from "./ChatMessagesTypes/PhotoMessage";
 import { stickerMessage } from "./ChatMessagesTypes/StickerMessage";
 import { textMessage } from "./ChatMessagesTypes/TextMessage";
+import { videoMessage } from "./ChatMessagesTypes/VideoMessage";
 
 interface Props {
     chat: Chat,
@@ -22,7 +29,10 @@ interface State {
 
 export class ChatMessagesItem extends React.Component<Props, State> {
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return nextProps.chat !== this.props.chat
+        return nextProps.chat.readInboxMaxId !== this.props.chat.readInboxMaxId
+            || nextProps.chat.readOutboxMaxId !== this.props.chat.readOutboxMaxId
+            || nextProps.chat.title !== this.props.chat.title
+            || nextProps.chat.photoSmall !== this.props.chat.photoSmall
             || nextProps.message !== this.props.message
             || nextProps.compact !== this.props.compact;
     }
@@ -55,15 +65,37 @@ export class ChatMessagesItem extends React.Component<Props, State> {
 
         let content: JSX.Element | string | undefined = undefined;
         if (this.props.message.type === MessageType.Text) {
-            content = textMessage(this.props.message.message!);
+            content = textMessage(this.props.message.message!, this.props.message.entities);
         } else if (this.props.message.type === MessageType.Photo) {
             content = photoMessage(this.props.message.media as API.MessageMediaPhoto);
         } else if (this.props.message.type === MessageType.Sticker) {
             content = stickerMessage((this.props.message.media as API.MessageMediaDocument).document as API.Document);
+        } else if (this.props.message.type === MessageType.Location) {
+            const geo = (this.props.message.media as API.MessageMediaGeo);
+            if (geo.geo instanceof API.GeoPoint) {
+                content = locationMessage(geo.geo);
+            }
+        } else if (this.props.message.type === MessageType.Venue) {
+            const venue = (this.props.message.media as API.MessageMediaVenue);
+            if (venue.geo instanceof API.GeoPoint) {
+                content = venueMessage(venue.geo, venue.title.string, venue.address.string);
+            }
+        } else if (this.props.message.type === MessageType.Contact) {
+            const contact = this.props.message.media as API.MessageMediaContact;
+            content = contactMessage(contact);
+        } else if (this.props.message.type === MessageType.GIF) {
+            const document = (this.props.message.media as API.MessageMediaDocument).document;
+            if (document instanceof API.Document) {
+                content = gifMessage(document);
+            }
+        } else if (this.props.message.type === MessageType.Video) {
+            const document = (this.props.message.media as API.MessageMediaDocument).document;
+            if (document instanceof API.Document) {
+                content = videoMessage(document);
+            }
         }
 
         const date = moment.unix(this.props.message.date);
-
         return (
             <div style={{
                 display: "flex",

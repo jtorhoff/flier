@@ -306,7 +306,7 @@ export class DexieStorage implements PersistentStorage.Storage {
                 if (file) {
                     await this.db.files.put({
                         key: key,
-                        data: new Blob([file.data, data]),
+                        data: new Blob([file.data, data], { type: data.type }),
                         complete: complete,
                     });
                     size = file.data.size + data.size;

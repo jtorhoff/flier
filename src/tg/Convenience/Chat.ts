@@ -106,7 +106,7 @@ export class ConvenienceChat {
                 return new API.InputPeerChat(this.kind.chat.id);
 
             case "channel": {
-                if (this.kind.channel instanceof API.User &&
+                if (this.kind.channel instanceof API.Channel &&
                     this.kind.channel.accessHash) {
                     return new API.InputPeerChannel(
                         this.kind.channel.id, this.kind.channel.accessHash);

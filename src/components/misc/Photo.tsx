@@ -1,11 +1,10 @@
-import { CircularProgress } from "material-ui";
-import { lightBlack } from "material-ui/styles/colors";
 import * as React from "react";
 import { CSSProperties } from "react";
 import "rxjs/add/operator/timeout";
 import { Subscription } from "rxjs/Subscription";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
+import { MediaProgress } from "./MediaProgress";
 
 interface Props {
     width: number,
@@ -15,8 +14,8 @@ interface Props {
 
 interface State {
     thumbDataURL?: string,
-    photoTotalSize: number,
-    photoProgress: number,
+    photoTotalSize?: number,
+    photoProgress?: number,
     photoDataURL?: string,
 }
 
@@ -25,24 +24,7 @@ export class Photo extends React.Component<Props, State> {
     private photoSubscription?: Subscription;
     private progressSubscription?: Subscription;
 
-    state: State = {
-        photoTotalSize: 100,
-        photoProgress: 5,
-    };
-
-    static measure(photo: API.Photo, maxWidth: number, maxHeight: number): { width: number, height: number } {
-        const thumb = photo.sizes.items
-            .find(size => !(size instanceof API.PhotoSizeEmpty)) as
-            API.PhotoSize | API.PhotoCachedSize;
-        const scale = Math.min(
-            maxWidth / thumb.w.value,
-            maxHeight / thumb.h.value);
-
-        return {
-            width: Math.floor(thumb.w.value * scale),
-            height: Math.floor(thumb.h.value * scale),
-        };
-    }
+    state: State = {};
 
     componentDidMount() {
         const thumb = this.props.photo.sizes.items
@@ -59,7 +41,7 @@ export class Photo extends React.Component<Props, State> {
                 if (size instanceof API.PhotoSize) {
                     return (size.w.value >= this.props.width * devicePixelRatio
                         && size.h.value >= this.props.height * devicePixelRatio)
-                        || index - 1 === this.props.photo.sizes.items.length;
+                        || index === this.props.photo.sizes.items.length - 1;
                 }
 
                 return false;
@@ -88,7 +70,9 @@ export class Photo extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return nextProps.photo !== this.props.photo
+        return nextProps.width !== this.props.width
+            || nextProps.height !== this.props.height
+            || nextProps.photo !== this.props.photo
             || nextState.thumbDataURL !== this.state.thumbDataURL
             || nextState.photoDataURL !== this.state.photoDataURL
             || nextState.photoTotalSize !== this.state.photoTotalSize
@@ -128,22 +112,11 @@ export class Photo extends React.Component<Props, State> {
                          height: this.props.height,
                          filter: this.state.photoDataURL ? "none" : "blur(3px)",
                      }}/>
-                <div style={{
-                    ...progressStyle,
-                    opacity: this.state.photoProgress === this.state.photoTotalSize ? 0 : 1,
-                    left: Math.floor((this.props.width || 0) / 2),
-                    top: Math.floor((this.props.height || 0) / 2),
-                    animationName: this.state.photoDataURL ? "none" : "rotate",
-                }}>
-                    <CircularProgress
-                        mode="determinate"
-                        size={40}
-                        thickness={3}
-                        min={this.state.photoTotalSize / 100 * 5}
-                        max={this.state.photoTotalSize}
-                        value={this.state.photoProgress}
-                        color="white"/>
-                </div>
+                <MediaProgress containerWidth={this.props.width}
+                               containerHeight={this.props.height}
+                               totalSize={this.state.photoTotalSize}
+                               progress={this.state.photoProgress}
+                               done={!!this.state.photoDataURL}/>
             </div>
         );
     }
@@ -153,23 +126,4 @@ const style: CSSProperties = {
     overflow: "hidden",
     position: "relative",
     borderRadius: 4,
-};
-
-const progressStyle: CSSProperties = {
-    width: 44,
-    height: 44,
-    marginTop: -22,
-    marginLeft: -22,
-    position: "absolute",
-    backgroundColor: lightBlack,
-    borderRadius: "50%",
-    boxSizing: "border-box",
-    padding: 2,
-
-    animationDuration: "1800ms",
-    animationIterationCount: "infinite",
-    animationFillMode: "both",
-    animationTimingFunction: "linear",
-
-    transition: "opacity 500ms ease",
 };

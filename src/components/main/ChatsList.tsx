@@ -88,10 +88,9 @@ export class ChatsList extends React.Component<Props, State> {
                 <ChatsListItem
                     selected={!!this.state.selectedPeer && chat.peerEquals(this.state.selectedPeer)}
                     onClick={() => {
+                        this.props.selectedPeer(chat.peer);
                         this.setState({
                             selectedPeer: chat.peer
-                        }, () => {
-                            this.props.selectedPeer(chat.peer);
                         });
                     }}
                     chat={chat}

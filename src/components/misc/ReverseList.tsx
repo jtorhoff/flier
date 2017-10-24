@@ -11,7 +11,7 @@ interface Props {
     width: number,
     height: number,
     data: List<any>,
-    rowHeight: ((params: { index: number }) => number),
+    rowHeight: (index: number) => number,
     rowRenderer: ListRowRenderer,
     loadMoreRows: () => void,
     overscanRowCount?: number,
@@ -19,22 +19,17 @@ interface Props {
 }
 
 interface State {
-    scrollTop?: number,
+
 }
 
 export class ReverseList extends React.Component<Props, State> {
-    private listRef?: VirtualList;
     private adjustingScroll = false;
-    private clientHeight = 0;
+    private scrollTop = 0;
 
-    state: State = {
-
-    };
+    state: State = {};
 
     recomputeRowHeights() {
-        if (this.listRef) {
-            this.listRef.recomputeRowHeights();
-        }
+        (this.refs["list"] as VirtualList).recomputeRowHeights();
     }
 
     onScroll(params: { clientHeight: number, scrollHeight: number, scrollTop: number }) {
@@ -42,13 +37,13 @@ export class ReverseList extends React.Component<Props, State> {
             this.props.loadMoreRows();
         }
 
-        this.clientHeight = params.clientHeight;
+        if (params.scrollTop > 0) {
+            this.scrollTop = params.scrollTop;
+        }
     }
 
     rowHeight(index: number): number {
-        return this.props.rowHeight({
-            index: this.props.data.size - index - 1,
-        });
+        return this.props.rowHeight(this.props.data.size - index - 1);
     }
 
     renderRow(params: ListRowProps): React.ReactNode {
@@ -66,25 +61,33 @@ export class ReverseList extends React.Component<Props, State> {
             || nextProps.rowRenderer !== this.props.rowRenderer
             || nextProps.loadMoreRows !== this.props.loadMoreRows
             || nextProps.overscanRowCount !== this.props.overscanRowCount
-            || nextProps.scrollToBottom !== this.props.scrollToBottom
-            || nextState.scrollTop !== this.state.scrollTop;
+            || nextProps.scrollToBottom !== this.props.scrollToBottom;
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        if (!prevProps.data.equals(this.props.data) && this.listRef && !prevProps.scrollToBottom) {
-            this.adjustingScroll = true;
+        if (!prevProps.data.equals(this.props.data) && this.refs["list"]) {
+            if (!prevProps.scrollToBottom) {
+                this.adjustingScroll = true;
 
-            this.listRef.measureAllRows();
-            let diff = 0;
-            for (let i = prevProps.data.size; i < this.props.data.size; i++) {
-                diff += this.props.rowHeight({ index: i });
+                (this.refs["list"] as VirtualList).measureAllRows();
+                let diff = 0;
+                for (let i = prevProps.data.size; i < this.props.data.size; i++) {
+                    diff += this.props.rowHeight(i);
+                }
+
+                const listEl = ReactDOM.findDOMNode(this.refs["list"])!;
+                requestAnimationFrame(() => {
+                    listEl.scrollTop += diff + this.scrollTop;
+                    this.adjustingScroll = false;
+                });
             }
 
-            const listEl = ReactDOM.findDOMNode(this.listRef)!;
-            requestAnimationFrame(() => {
-                listEl.scrollTop += diff + this.clientHeight;
-                this.adjustingScroll = false;
-            });
+            const listEl = ReactDOM.findDOMNode(this.refs["list"])!;
+            if (listEl.scrollHeight === listEl.clientHeight) {
+                requestAnimationFrame(() => {
+                    this.props.loadMoreRows();
+                });
+            }
         }
     }
 
@@ -94,9 +97,7 @@ export class ReverseList extends React.Component<Props, State> {
         return (
             <VirtualList
                 key={this.props.data.hashCode()}
-                ref={listRef => {
-                    this.listRef = listRef!;
-                }}
+                ref="list"
                 width={this.props.width}
                 height={this.props.height}
                 rowHeight={params => this.rowHeight(params.index)}
@@ -105,7 +106,6 @@ export class ReverseList extends React.Component<Props, State> {
                 rowRenderer={params => this.renderRow(params)}
                 scrollToIndex={scrollToIndex}
                 onScroll={(params: any) => this.onScroll(params)}
-                scrollTop={this.state.scrollTop}
                 style={{
                     outline: "none"
                 }}/>
