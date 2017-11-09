@@ -1,9 +1,9 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import * as React from "react";
-import { CSSProperties } from "react";
 import { Subscription } from "rxjs/Subscription";
 import { API } from "../../tg/Codegen/API/APISchema";
-import { MediaProgress } from "./MediaProgress";
 import { tg } from "../App";
+import { MediaProgress } from "./MediaProgress";
 
 interface Props {
     width: number,
@@ -86,38 +86,27 @@ export class GIF extends React.Component<Props, State> {
 
     render() {
         return (
-            <div style={{
-                ...style,
+            <div className={css(styles.root)} style={{
                 width: this.props.width,
                 height: this.props.height,
             }}>
                 {
-                    this.state.thumbDataURL &&
-                    <img width={this.props.width}
+                    <img className={css(this.state.thumbDataURL && !this.state.gifDataURL && styles.thumb)}
+                         width={this.props.width}
                          height={this.props.height}
-                         src={this.state.thumbDataURL}
-                         style={{
-                             width: this.props.width,
-                             height: this.props.height,
-                             filter: "blur(3px)",
-                         }}/>
+                         src={this.state.thumbDataURL}/>
                 }
                 {
                     this.state.gifDataURL &&
-                    <video src={this.state.gifDataURL}
+                    <video className={css(styles.video)}
+                           src={this.state.gifDataURL}
                            width={this.props.width}
                            height={this.props.height}
                            loop={true}
                            autoPlay={true}
                            playsInline={true}
                            controls={false}
-                           poster={this.state.thumbDataURL}
-                           style={{
-                               position: "absolute",
-                               left: 0,
-                               top: 0,
-                               borderRadius: 4,
-                           }}/>
+                           poster={this.state.thumbDataURL}/>
                 }
                 <MediaProgress containerWidth={this.props.width}
                                containerHeight={this.props.height}
@@ -129,8 +118,19 @@ export class GIF extends React.Component<Props, State> {
     }
 }
 
-const style: CSSProperties = {
-    overflow: "hidden",
-    position: "relative",
-    borderRadius: 4,
-};
+const styles = StyleSheet.create({
+    root: {
+        overflow: "hidden",
+        position: "relative",
+        borderRadius: 4,
+    },
+    thumb: {
+        filter: "blur(3px)",
+    },
+    video: {
+        position: "absolute",
+        left: 0,
+        top: 0,
+        borderRadius: 4,
+    }
+});

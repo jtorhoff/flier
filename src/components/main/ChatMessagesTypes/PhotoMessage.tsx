@@ -5,7 +5,7 @@ import { measureMedia } from "../../../misc/MediaMeasurer";
 
 export const photoMessage = (message: API.MessageMediaPhoto) => {
     if (!(message.photo instanceof API.Photo)) {
-        throw new Error();
+        return <div/>;
     }
 
     const size = measureMedia(photoMessageMaxSize, photoMessageMaxSize, ...message.photo.sizes.items);

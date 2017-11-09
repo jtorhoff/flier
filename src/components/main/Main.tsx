@@ -1,7 +1,7 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import { Paper } from "material-ui";
 import * as moment from "moment";
 import * as React from "react";
-import { CSSProperties } from "react";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
 import { Chat } from "./Chat";
@@ -13,27 +13,30 @@ interface Props {
 
 interface State {
     peer?: API.PeerType,
-    online: [boolean, number],
 }
 
 export class Main extends React.Component<Props, State> {
+    private online: [boolean, number] = [false, 0];
+
     private windowOnFocusListener = () => {
-        this.setState({
-            online: [true, moment().valueOf()],
-        });
+        this.setOnlineStatus([true, moment().valueOf()]);
     };
 
     private windowOnBlurListener = () => {
-        this.setState({
-            online: [false, moment().valueOf()],
-        });
+        this.setOnlineStatus([false, moment().valueOf()]);
     };
 
     private statusUpdateIntervalId = 0;
 
-    state: State = {
-        online: [false, 0],
-    };
+    state: State = {};
+
+    private setOnlineStatus(online: [boolean, number]) {
+        if (online[0] !== this.online[0]) {
+            tg.setStatus(online[0])
+                .subscribe();
+        }
+        this.online = online;
+    }
 
     componentDidMount() {
         window.addEventListener("focus", this.windowOnFocusListener);
@@ -41,32 +44,21 @@ export class Main extends React.Component<Props, State> {
         window.addEventListener("beforeunload", this.windowOnBlurListener);
 
         this.statusUpdateIntervalId = setInterval(() => {
-            if (this.state.online[0] &&
+            if (this.online[0] &&
                 tg.onlineUpdatePeriod > 0 &&
-                moment().valueOf() > this.state.online[1] + tg.onlineUpdatePeriod) {
-                this.setState({
-                    online: [true, moment().valueOf()],
-                });
+                moment().valueOf() > this.online[1] + tg.onlineUpdatePeriod) {
+
+                this.online = [true, moment().valueOf()];
                 tg.setStatus(true)
                     .subscribe();
             }
-        }, 5000);
+        }, 5000) as any;
 
-        this.setState({
-            online: [document.hasFocus(), moment().valueOf()],
-        });
+        this.setOnlineStatus([document.hasFocus(), moment().valueOf()]);
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return nextState.peer !== this.state.peer
-            || nextState.online !== this.state.online;
-    }
-
-    componentDidUpdate(prevPops: Props, prevState: State) {
-        if (this.state.online[0] !== prevState.online[0]) {
-            tg.setStatus(this.state.online[0])
-                .subscribe();
-        }
+        return nextState.peer !== this.state.peer;
     }
 
     componentWillUnmount() {
@@ -79,10 +71,10 @@ export class Main extends React.Component<Props, State> {
     render() {
         const child = this.state.peer ? <Chat peer={this.state.peer}/> : <div/>;
         return (
-            <Paper style={style} zDepth={1}>
+            <Paper className={css(styles.root)} zDepth={1}>
                 <ChatsList
                     selectedPeer={peer => this.setState({ peer: peer })}/>
-                <div style={childStyle}>
+                <div className={css(styles.child)}>
                     {
                         child
                     }
@@ -92,20 +84,22 @@ export class Main extends React.Component<Props, State> {
     }
 }
 
-const style: CSSProperties = {
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "80vw",
-    height: "calc(100% - 68px)",
-    maxWidth: 1152,
-    minWidth: 560,
-    display: "flex",
-};
-
-const childStyle: CSSProperties = {
-    height: "100%",
-    flexGrow: 2,
-    minWidth: 320,
-};
+const styles = StyleSheet.create({
+    root: {
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "80vw",
+        height: "calc(100% - 68px)",
+        maxWidth: 1152,
+        minWidth: 560,
+        display: "flex",
+        transition: "none !important",
+    },
+    child: {
+        height: "100%",
+        flexGrow: 2,
+        minWidth: 320,
+    }
+});

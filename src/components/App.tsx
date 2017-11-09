@@ -1,12 +1,13 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import { MuiThemeProvider, getMuiTheme } from "material-ui/styles";
 import * as moment from "moment";
 import "normalize.css";
 import * as React from "react";
-import { CSSProperties } from "react";
 import { Subscription } from "rxjs/Subscription";
 import { AppConfig } from "../tg/AppConfig";
 import { TG } from "../tg/TG";
 import { Auth } from "./auth/Auth";
+import "./global.css";
 import { Main } from "./main/Main";
 
 interface Props {
@@ -38,8 +39,7 @@ export class App extends React.Component<Props, State> {
         const Component = this.state.authorized ? Main : Auth;
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
-                <div style={containerStyle}>
-                    <style type="text/css">{linksStyle}</style>
+                <div className={css(styles.root)}>
                     {
                         typeof this.state.authorized !== "undefined" &&
                         <Component/>
@@ -70,24 +70,13 @@ export const muiTheme = getMuiTheme({
     },
 });
 
-const containerStyle: CSSProperties = {
-    width: "100%",
-    height: "100%",
-    background: "linear-gradient(45deg, rgba(77,160,202,1) 0%, rgba(82,184,176,1) 100%)",
-};
-
-const linksStyle = `
-a {
-    color: ${primaryColor};
-    text-decoration: none;
-    -webkit-text-decoration-skip: ink;
-    text-decoration-skip: ink;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-`;
+const styles = StyleSheet.create({
+    root: {
+        width: "100%",
+        height: "100%",
+        background: "linear-gradient(45deg, rgba(77,160,202,1) 0%, rgba(82,184,176,1) 100%)",
+    },
+});
 
 const appConfig = new AppConfig(
     17622,

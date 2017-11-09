@@ -1,10 +1,10 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import { List } from "immutable";
 import { spacing } from "material-ui/styles";
 import { fullBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
-import { CSSProperties } from "react";
-import { AutoSizer, ListRowProps } from "react-virtualized";
+import { AutoSizer } from "react-virtualized";
 import { Subscription } from "rxjs/Subscription";
 import { measureMedia } from "../../misc/MediaMeasurer";
 import { measureText } from "../../misc/TextMeasurer";
@@ -12,7 +12,7 @@ import { API } from "../../tg/Codegen/API/APISchema";
 import { MessageType } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
 import { tg, muiTheme } from "../App";
-import { ReverseList } from "../misc/ReverseList";
+import { ReverseList, ListRowProps } from "../misc/ReverseList";
 import { ChatMessagesItem } from "./ChatMessagesItem";
 import { gifMessageMaxSize } from "./ChatMessagesTypes/GifMessage";
 import { photoMessageMaxSize } from "./ChatMessagesTypes/PhotoMessage";
@@ -23,7 +23,6 @@ interface Props {
 
 interface State {
     messages: List<Message | PseudoMessage>,
-    loading: boolean,
     scrollToBottom: boolean,
 }
 
@@ -32,11 +31,9 @@ export class ChatMessages extends React.Component<Props, State> {
     private allMessagesLoaded = false;
     private messagesSubscription: Subscription;
     private listRef?: ReverseList;
-    private rowHeightsCache: { [index: string]: number } = {};
 
     state: State = {
         messages: List(),
-        loading: false,
         scrollToBottom: true,
     };
 
@@ -97,13 +94,17 @@ export class ChatMessages extends React.Component<Props, State> {
         this.loadMessages(true);
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        return nextProps.chat !== this.props.chat
+            || !nextState.messages.equals(this.state.messages)
+            || nextState.scrollToBottom !== this.state.scrollToBottom;
+    }
+
     componentDidUpdate(prevProps: Props) {
         if (!this.props.chat.peerEquals(prevProps.chat.peer)) {
             if (this.messagesSubscription) {
                 this.messagesSubscription.unsubscribe();
             }
-
-            this.rowHeightsCache = {};
 
             this.allMessagesLoaded = false;
             this.loadingMessages = false;
@@ -118,17 +119,6 @@ export class ChatMessages extends React.Component<Props, State> {
 
     rowHeight(index: number, containerWidth: number): number {
         const msg = this.state.messages.get(index);
-        let key: string;
-        if ((msg as Message).id) {
-            key = (msg as Message).id.toString() + "-" + index.toString();
-        } else {
-            key = "!" + msg.date.toString() + "-" + index.toString();
-        }
-
-        if (this.rowHeightsCache[key]) {
-            return this.rowHeightsCache[key];
-        }
-
         let height = 0;
         if (msg.type === MessageType.Text) {
             const metaWidth = measureText(
@@ -152,10 +142,13 @@ export class ChatMessages extends React.Component<Props, State> {
 
             height = size.height;
         } else if (msg.type === MessageType.Photo) {
-            height = measureMedia(
-                photoMessageMaxSize,
-                photoMessageMaxSize,
-                ...((msg.media as API.MessageMediaPhoto).photo as API.Photo).sizes.items).height;
+            if ((msg.media as API.MessageMediaPhoto).photo instanceof API.Photo) {
+                height = measureMedia(
+                    photoMessageMaxSize,
+                    photoMessageMaxSize,
+                    ...((msg.media as API.MessageMediaPhoto).photo as API.Photo).sizes.items)
+                    .height;
+            }
         } else if (msg.type === MessageType.Sticker) {
             height = 170;
         } else if (msg.type === MessageType.Location) {
@@ -187,8 +180,6 @@ export class ChatMessages extends React.Component<Props, State> {
         if (index === 0) {
             height += spacing.desktopGutterLess!;
         }
-
-        this.rowHeightsCache[key] = height;
 
         return height;
     }
@@ -256,7 +247,10 @@ export class ChatMessages extends React.Component<Props, State> {
                 return false;
             }
             if (prevMsg.date + compactThreshold >= msg.date) {
-                if (msg.from instanceof API.User && prevMsg.from instanceof API.User) {
+                if (this.props.chat.kind.kind === "channel") {
+                    compact = true;
+                } else if (msg.from instanceof API.User &&
+                    prevMsg.from instanceof API.User) {
                     if (msg.from.id.equals(prevMsg.from.id)) {
                         compact = true;
                     }
@@ -269,23 +263,19 @@ export class ChatMessages extends React.Component<Props, State> {
 
     render() {
         return (
-            <div style={style}>
-                <style type="text/css">{rotationStyle}</style>
-                <AutoSizer onResize={() => {
-                    this.listRef && this.listRef.recomputeRowHeights();
-                    this.rowHeightsCache = {};
-                }}>
+            <div className={css(styles.root)}>
+                <AutoSizer>
                     {({ width, height }) => (
                         <ReverseList
                             ref={ref => this.listRef = ref!}
                             width={width}
                             height={height}
-                            data={this.state.messages}
-                            overscanRowCount={0}
-                            rowHeight={params => this.rowHeight(params, width)}
+                            rowCount={this.state.messages.size}
+                            rowHeight={index => this.rowHeight(index, width)}
                             rowRenderer={params => this.renderRow(params)}
-                            loadMoreRows={() => this.loadMessages(false)}
-                            scrollToBottom={this.state.scrollToBottom}/>
+                            scrollToBottom={this.state.scrollToBottom}
+                            dataHash={this.state.messages.hashCode()}
+                            loadMoreRows={() => this.loadMessages(false)}/>
                     )}
                 </AutoSizer>
             </div>
@@ -318,16 +308,8 @@ const populatePseudoMessages = (messages: Array<Message>) => {
     return List(msgs).toList();
 };
 
-const style: CSSProperties = {
-    flexGrow: 1,
-};
-
-const rotationStyle = `
-@keyframes rotate {
-    0% {
-        transform: rotate(-90deg);
-    }
-    100% {
-        transform: rotate(270deg);
-    }
-}`;
+const styles = StyleSheet.create({
+    root: {
+        flexGrow: 1
+    },
+});

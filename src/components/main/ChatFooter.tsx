@@ -1,3 +1,4 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import { TextField, IconButton } from "material-ui";
 import { spacing } from "material-ui/styles";
 import { faintBlack } from "material-ui/styles/colors";
@@ -9,6 +10,7 @@ import {
 } from "material-ui/svg-icons";
 import * as React from "react";
 import { CSSProperties } from "react";
+import * as ReactDOM from "react-dom";
 import { CSSTransitionGroup } from "react-transition-group";
 import { primaryColor } from "../App";
 import { ChatStickersPopup } from "./ChatStickersPopup";
@@ -21,10 +23,11 @@ interface Props {
 interface State {
     message: string | undefined,
     stickersPopupOpen: boolean,
-    stickersPopupAnchor?: React.ReactInstance,
 }
 
 export class ChatFooter extends React.Component<Props, State> {
+    private stickersPopupAnchor?: Element;
+
     state: State = {
         message: undefined,
         stickersPopupOpen: false,
@@ -43,7 +46,6 @@ export class ChatFooter extends React.Component<Props, State> {
 
         this.setState({
             stickersPopupOpen: true,
-            stickersPopupAnchor: event.currentTarget,
         });
     }
 
@@ -53,10 +55,13 @@ export class ChatFooter extends React.Component<Props, State> {
         });
     }
 
+    componentDidMount() {
+        this.stickersPopupAnchor = ReactDOM.findDOMNode(this.refs["stickersPopupAnchor"]);
+    }
+
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
         return nextState.message !== this.state.message
-            || nextState.stickersPopupOpen !== this.state.stickersPopupOpen
-            || nextState.stickersPopupAnchor !== this.state.stickersPopupAnchor;
+            || nextState.stickersPopupOpen !== this.state.stickersPopupOpen;
     }
 
     render() {
@@ -76,7 +81,7 @@ export class ChatFooter extends React.Component<Props, State> {
                     hoverColor={primaryColor}/>
             </IconButton>;
         return (
-            <div style={style}>
+            <div className={css(styles.root)}>
                 <style type="text/css">{transitionStyle}</style>
                 <IconButton style={iconButtonStyle}
                             iconStyle={iconButtonIconStyle}
@@ -84,12 +89,7 @@ export class ChatFooter extends React.Component<Props, State> {
                     <EditorAttachFile color={"rgba(0,0,0,0.4)"}
                                       hoverColor={primaryColor}/>
                 </IconButton>
-                <div style={{
-                    flexGrow: 1,
-                    flexShrink: 1,
-                    marginBottom: -6,
-                    padding: `0 ${spacing.desktopGutterMini}px`,
-                }}>
+                <div className={css(styles.textField)}>
                     <TextField hintText={"Write a message\u2026"}
                                onChange={e => this.onInput(e)}
                                fullWidth={true}
@@ -98,7 +98,8 @@ export class ChatFooter extends React.Component<Props, State> {
                                underlineShow={false}
                                ref={ref => ref && ref.focus()}/>
                 </div>
-                <IconButton style={iconButtonStyle}
+                <IconButton ref="stickersPopupAnchor"
+                            style={iconButtonStyle}
                             iconStyle={iconButtonIconStyle}
                             onClick={e => this.onInsertEmoticonClick(e)}
                             onMouseEnter={e => this.onInsertEmoticonClick(e)}>
@@ -117,30 +118,40 @@ export class ChatFooter extends React.Component<Props, State> {
                                     }}
                                     transitionEnterTimeout={100}
                                     transitionLeaveTimeout={100}>
-                    {action}
+                    {
+                        action
+                    }
                 </CSSTransitionGroup>
                 <ChatStickersPopup open={this.state.stickersPopupOpen}
                                    onClose={() => this.onStickerPopupClose()}
-                                   anchorEl={this.state.stickersPopupAnchor}/>
+                                   anchorEl={this.stickersPopupAnchor}/>
             </div>
         );
     }
 }
 
-const style: CSSProperties = {
-    width: "100%",
-    minHeight: spacing.desktopToolbarHeight,
-    borderTop: `1px solid ${faintBlack}`,
-    padding: "0 12px 10px 12px",
-    flexGrow: 0,
-    flexShrink: 0,
-    display: "flex",
-    flexBasis: "auto",
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-    boxSizing: "border-box",
-};
+const styles = StyleSheet.create({
+    root: {
+        width: "100%",
+        minHeight: spacing.desktopToolbarHeight,
+        borderTop: `1px solid ${faintBlack}`,
+        padding: "0 12px 10px 12px",
+        flexGrow: 0,
+        flexShrink: 0,
+        display: "flex",
+        flexBasis: "auto",
+        flexDirection: "row",
+        alignItems: "flex-end",
+        justifyContent: "flex-end",
+        boxSizing: "border-box",
+    },
+    textField: {
+        flexGrow: 1,
+        flexShrink: 1,
+        marginBottom: -6,
+        padding: `0 ${spacing.desktopGutterMini}px`,
+    }
+});
 
 const transitionStyle = `
 .transition-enter {

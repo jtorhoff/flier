@@ -48,7 +48,7 @@ export class Session {
     timeDifference?: number;
 
     constructor(private readonly host: string) {
-        this.monitoringIntervalId = setInterval(() => this.monitor(), 5000);
+        this.monitoringIntervalId = setInterval(() => this.monitor(), 5000) as any;
 
         console.debug(
             `[${this.host}]`,

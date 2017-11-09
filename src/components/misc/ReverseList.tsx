@@ -1,114 +1,161 @@
-import { List } from "immutable";
 import * as React from "react";
+import { ReactNode } from "react";
 import * as ReactDOM from "react-dom";
-import {
-    List as VirtualList,
-    ListRowRenderer,
-    ListRowProps
-} from "react-virtualized";
+import { Grid, GridCellProps } from "react-virtualized";
 
 interface Props {
     width: number,
     height: number,
-    data: List<any>,
+    rowCount: number,
     rowHeight: (index: number) => number,
-    rowRenderer: ListRowRenderer,
+    rowRenderer: (params: ListRowProps) => ReactNode,
+    scrollToBottom: boolean,
+    dataHash: number,
     loadMoreRows: () => void,
-    overscanRowCount?: number,
-    scrollToBottom?: boolean,
 }
 
 interface State {
-
+    paddingTop: number,
 }
 
 export class ReverseList extends React.Component<Props, State> {
+    private listHeight = 0;
+    private rowHeights: Array<number> = [];
+    private gridRef?: Grid;
     private adjustingScroll = false;
-    private scrollTop = 0;
+    private loadingExtraToFillScreen = false;
 
-    state: State = {};
+    state: State = {
+        paddingTop: 0,
+    };
 
     recomputeRowHeights() {
-        (this.refs["list"] as VirtualList).recomputeRowHeights();
+        if (this.props.rowCount > 0) {
+            this.gridRef!.recomputeGridSize();
+        }
+    }
+
+    updateRowHeightsAndOffsets(props: Props) {
+        const rowHeights = new Array(props.rowCount)
+            .fill(0)
+            .map((_, index) => props.rowHeight(index));
+        const offsets = new Array(...rowHeights);
+        for (let i = 0, offset = 0; i < offsets.length; i++) {
+            offsets[i] = offset;
+            offset += rowHeights[i];
+        }
+        this.rowHeights = rowHeights;
+        this.listHeight = rowHeights.reduce((sum, height) => sum + height, 0);
     }
 
     onScroll(params: { clientHeight: number, scrollHeight: number, scrollTop: number }) {
         if (params.scrollTop < params.clientHeight && !this.adjustingScroll && !this.props.scrollToBottom) {
             this.props.loadMoreRows();
         }
+    }
 
-        if (params.scrollTop > 0) {
-            this.scrollTop = params.scrollTop;
+    componentWillReceiveProps(nextProps: Props) {
+        if (nextProps.dataHash !== this.props.dataHash) {
+            this.updateRowHeightsAndOffsets(nextProps);
+        }
+        if (nextProps.width !== this.props.width) {
+            this.updateRowHeightsAndOffsets(nextProps);
+            this.recomputeRowHeights();
         }
     }
 
-    rowHeight(index: number): number {
-        return this.props.rowHeight(this.props.data.size - index - 1);
-    }
-
-    renderRow(params: ListRowProps): React.ReactNode {
-        return this.props.rowRenderer({
-            ...params,
-            index: this.props.data.size - params.index - 1
-        });
-    }
-
-    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
         return nextProps.width !== this.props.width
             || nextProps.height !== this.props.height
-            || !nextProps.data.equals(this.props.data)
+            || nextProps.rowCount !== this.props.rowCount
             || nextProps.rowHeight !== this.props.rowHeight
             || nextProps.rowRenderer !== this.props.rowRenderer
+            || nextProps.scrollToBottom !== this.props.scrollToBottom
+            || nextProps.dataHash !== this.props.dataHash
             || nextProps.loadMoreRows !== this.props.loadMoreRows
-            || nextProps.overscanRowCount !== this.props.overscanRowCount
-            || nextProps.scrollToBottom !== this.props.scrollToBottom;
+            || nextState.paddingTop !== this.state.paddingTop;
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        if (!prevProps.data.equals(this.props.data) && this.refs["list"]) {
+        if (prevProps.dataHash !== this.props.dataHash && this.gridRef) {
             if (!prevProps.scrollToBottom) {
                 this.adjustingScroll = true;
 
-                (this.refs["list"] as VirtualList).measureAllRows();
                 let diff = 0;
-                for (let i = prevProps.data.size; i < this.props.data.size; i++) {
-                    diff += this.props.rowHeight(i);
+                for (let i = prevProps.rowCount; i < this.props.rowCount; i++) {
+                    diff += this.rowHeights[i];
                 }
 
-                const listEl = ReactDOM.findDOMNode(this.refs["list"])!;
+                const listEl = ReactDOM.findDOMNode(this.gridRef);
                 requestAnimationFrame(() => {
-                    listEl.scrollTop += diff + this.scrollTop;
+                    listEl.scrollTop += diff;
                     this.adjustingScroll = false;
+                    this.loadingExtraToFillScreen = false;
                 });
             }
 
-            const listEl = ReactDOM.findDOMNode(this.refs["list"])!;
+            // Call load one more time if the there are not enough items to scroll
+            const listEl = ReactDOM.findDOMNode(this.gridRef);
             if (listEl.scrollHeight === listEl.clientHeight) {
                 requestAnimationFrame(() => {
+                    this.loadingExtraToFillScreen = true;
                     this.props.loadMoreRows();
+                });
+            }
+
+            if (this.listHeight < listEl.clientHeight) {
+                this.setState({
+                    paddingTop: listEl.clientHeight - this.listHeight,
+                });
+            } else {
+                this.setState({
+                    paddingTop: 0,
                 });
             }
         }
     }
 
+    rowHeight(index: number) {
+        return this.rowHeights[this.props.rowCount - index - 1];
+    }
+
+    renderRow(params: GridCellProps): React.ReactNode {
+        return this.props.rowRenderer({
+            index: this.props.rowCount - params.rowIndex - 1,
+            key: params.key,
+            style: params.style,
+        });
+    }
+
     render() {
-        const scrollToIndex = this.props.scrollToBottom ?
-            this.props.data.size - 1 : undefined;
+        const scrollToIndex = this.props.scrollToBottom || this.loadingExtraToFillScreen ?
+            this.props.rowCount - 1 : undefined;
         return (
-            <VirtualList
-                key={this.props.data.hashCode()}
-                ref="list"
+            <Grid
+                ref={ref => this.gridRef = ref!}
                 width={this.props.width}
                 height={this.props.height}
+                rowCount={this.props.rowCount}
+                columnCount={1}
+                columnWidth={this.props.width}
                 rowHeight={params => this.rowHeight(params.index)}
-                overscanRowCount={this.props.overscanRowCount || 0}
-                rowCount={this.props.data.size}
-                rowRenderer={params => this.renderRow(params)}
-                scrollToIndex={scrollToIndex}
+                cellRenderer={params => this.renderRow(params)}
+                horizontalOverscanSize={0}
+                verticalOverscanSize={0}
+                scrollingResetTimeInterval={0}
+                scrollToRow={scrollToIndex}
                 onScroll={(params: any) => this.onScroll(params)}
                 style={{
-                    outline: "none"
+                    outline: "none",
+                    overflowX: "hidden",
+                    paddingTop: this.state.paddingTop,
                 }}/>
         );
     }
 }
+
+export type ListRowProps = {
+    index: number,
+    key: any,
+    style?: React.CSSProperties,
+};

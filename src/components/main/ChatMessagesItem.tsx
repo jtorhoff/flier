@@ -1,6 +1,6 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import * as moment from "moment";
 import * as React from "react";
-import { CSSProperties } from "react";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { MessageType } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
@@ -97,11 +97,10 @@ export class ChatMessagesItem extends React.Component<Props, State> {
 
         const date = moment.unix(this.props.message.date);
         return (
-            <div style={{
-                display: "flex",
+            <div className={css(styles.root)} style={{
                 padding: this.props.compact ? "6px 20px 6px 16px" : "4px 20px 4px 16px",
             }}>
-                <div style={avatarRowStyle}>
+                <div className={css(styles.avatarRow)}>
                     {
                         !this.props.compact &&
                         <Avatar id={id}
@@ -109,17 +108,16 @@ export class ChatMessagesItem extends React.Component<Props, State> {
                                 photo={photo}/>
                     }
                 </div>
-                <div style={contentRowStyle}>
+                <div className={css(styles.contentRow)}>
                     {
                         !this.props.compact &&
-                            <div style={titleStyle}>
-                                {
-                                    title
-                                }
-                            </div>
+                        <div className={css(styles.title)}>
+                            {
+                                title
+                            }
+                        </div>
                     }
-                    <div style={{
-                        ...contentStyle,
+                    <div className={css(styles.content)} style={{
                         marginTop: this.props.compact ? undefined : 4
                     }}>
                         {
@@ -127,8 +125,7 @@ export class ChatMessagesItem extends React.Component<Props, State> {
                         }
                     </div>
                 </div>
-                <div style={{
-                    ...metaRowStyle,
+                <div className={css(styles.metaRow)} style={{
                     alignSelf: this.props.compact ? "center" : "baseline",
                 }}>
                     <span
@@ -143,41 +140,42 @@ export class ChatMessagesItem extends React.Component<Props, State> {
     }
 }
 
-const avatarRowStyle: CSSProperties = {
-    width: 40,
-    flexGrow: 0,
-    flexShrink: 0,
-};
-
-const contentRowStyle: CSSProperties = {
-    marginLeft: 12,
-    marginRight: 32,
-    flexGrow: 1,
-    flexShrink: 1,
-    alignSelf: "baseline",
-};
-
-const metaRowStyle: CSSProperties = {
-    fontSize: 12,
-    color: "rgba(0,0,0,0.44)",
-    flexGrow: 0,
-    flexShrink: 0,
-    cursor: "default",
-};
-
-const titleStyle: CSSProperties = {
-    width: "100%",
-    height: 16,
-    fontSize: 14,
-    lineHeight: "16px",
-    fontWeight: 500,
-    alignSelf: "baseline",
-    wordBreak: "break-all",
-    overflow: "hidden",
-    color: "rgba(61, 129, 161, 1)",
-};
-
-const contentStyle: CSSProperties = {
-    width: "100%",
-    fontSize: 14,
-};
+const styles = StyleSheet.create({
+    root: {
+        display: "flex",
+    },
+    avatarRow: {
+        width: 40,
+        flexGrow: 0,
+        flexShrink: 0,
+    },
+    contentRow: {
+        marginLeft: 12,
+        marginRight: 32,
+        flexGrow: 1,
+        flexShrink: 1,
+        alignSelf: "baseline",
+    },
+    metaRow: {
+        fontSize: 12,
+        color: "rgba(0,0,0,0.44)",
+        flexGrow: 0,
+        flexShrink: 0,
+        cursor: "default",
+    },
+    title: {
+        width: "100%",
+        height: 16,
+        fontSize: 14,
+        lineHeight: "16px",
+        fontWeight: 500,
+        alignSelf: "baseline",
+        wordBreak: "break-all",
+        overflow: "hidden",
+        color: "rgba(61, 129, 161, 1)",
+    },
+    content: {
+        width: "100%",
+        fontSize: 14,
+    }
+});

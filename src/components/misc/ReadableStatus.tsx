@@ -17,7 +17,7 @@ export class ReadableStatus extends React.Component<Props, State> {
     componentDidMount() {
         this.statusIntervalId = setInterval(
             () => this.forceUpdate(),
-            5000);
+            5000) as any;
     }
 
     shouldComponentUpdate(nextProps: Props) {

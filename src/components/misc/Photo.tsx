@@ -1,5 +1,5 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import * as React from "react";
-import { CSSProperties } from "react";
 import "rxjs/add/operator/timeout";
 import { Subscription } from "rxjs/Subscription";
 import { API } from "../../tg/Codegen/API/APISchema";
@@ -99,19 +99,14 @@ export class Photo extends React.Component<Props, State> {
 
     render() {
         return (
-            <div style={{
-                ...style,
+            <div className={css(styles.root)} style={{
                 width: this.props.width,
                 height: this.props.height,
             }}>
-                <img width={this.props.width}
+                <img className={css(!this.state.photoDataURL && this.state.thumbDataURL && styles.thumb)}
+                     width={this.props.width}
                      height={this.props.height}
-                     src={this.state.photoDataURL ? this.state.photoDataURL : this.state.thumbDataURL}
-                     style={{
-                         width: this.props.width,
-                         height: this.props.height,
-                         filter: this.state.photoDataURL ? "none" : "blur(3px)",
-                     }}/>
+                     src={this.state.photoDataURL ? this.state.photoDataURL : this.state.thumbDataURL}/>
                 <MediaProgress containerWidth={this.props.width}
                                containerHeight={this.props.height}
                                totalSize={this.state.photoTotalSize}
@@ -122,8 +117,13 @@ export class Photo extends React.Component<Props, State> {
     }
 }
 
-const style: CSSProperties = {
-    overflow: "hidden",
-    position: "relative",
-    borderRadius: 4,
-};
+const styles = StyleSheet.create({
+    root: {
+        overflow: "hidden",
+        position: "relative",
+        borderRadius: 4,
+    },
+    thumb: {
+        filter: "blur(3px)",
+    },
+});

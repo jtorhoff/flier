@@ -1,9 +1,9 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import { List } from "immutable";
 import { List as MaterialList, makeSelectable, Divider } from "material-ui";
 import { faintBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
-import { CSSProperties } from "react";
 import {
     List as VirtualizedList,
     InfiniteLoader,
@@ -94,7 +94,7 @@ export class ChatsList extends React.Component<Props, State> {
                         });
                     }}
                     chat={chat}
-                    typing={this.state.typing.get(params.index)}/>
+                    typing={this.state.typing.get(params.index) || []}/>
                 {
                     // Don't show divider for the last item
                     params.index < this.state.chats.size - 1 &&
@@ -102,7 +102,7 @@ export class ChatsList extends React.Component<Props, State> {
                     selectedIndex !== params.index &&
                     // ...and for the item above
                     selectedIndex !== params.index + 1 &&
-                    <Divider inset={true}/>
+                    <hr className={css(styles.divider)}/>
                 }
             </div>
         );
@@ -322,7 +322,7 @@ export class ChatsList extends React.Component<Props, State> {
 
         this.typingIntervalId = setInterval(
             () => this.clearTypingActions(),
-            5000);
+            5000) as any;
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
@@ -340,8 +340,7 @@ export class ChatsList extends React.Component<Props, State> {
 
     render() {
         return (
-            <SelectableList style={style}>
-                <style type="text/css">{typingStyle}</style>
+            <SelectableList className={css(styles.root)} style={{ padding: 0 }}>
                 <InfiniteLoader
                     isRowLoaded={params => this.isRowLoaded(params)}
                     loadMoreRows={params => this.loadMoreRows(params)}
@@ -370,46 +369,24 @@ export class ChatsList extends React.Component<Props, State> {
     }
 }
 
-let SelectableList = makeSelectable(MaterialList);
+const SelectableList: any = makeSelectable(MaterialList);
 
-const style: CSSProperties = {
-    height: "100%",
-    maxWidth: 320,
-    minWidth: 240,
-    borderRight: `1px solid ${faintBlack}`,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 240,
-    overflowY: "auto",
-    overflowX: "hidden",
-    padding: 0,
-};
-
-const typingStyle = `
-.typing span {
-    animation-name: blink;
-    animation-duration: 1200ms;
-    animation-iteration-count: infinite;
-    animation-fill-mode: both;
-    animation-timing-function: steps(16, end);
-}
-
-.typing span:nth-child(2) {
-    animation-delay: 200ms;
-}
-
-.typing span:nth-child(3) {
-    animation-delay: 400ms;
-}
-
-@keyframes blink {
-    0% {
-        opacity: .1;
+const styles = StyleSheet.create({
+    root: {
+        height: "100%",
+        maxWidth: 320,
+        minWidth: 240,
+        borderRight: `1px solid ${faintBlack}`,
+        flexGrow: 1,
+        flexShrink: 1,
+        flexBasis: 240,
+        overflowY: "auto",
+        overflowX: "hidden",
+    },
+    divider: {
+        margin: "-1px 0px 0px 72px",
+        height: 1,
+        border: "none",
+        backgroundColor: "rgb(224, 224, 224)",
     }
-    20% {
-        opacity: 1;
-    }
-    100% {
-        opacity: .1;
-    }
-}`;
+});

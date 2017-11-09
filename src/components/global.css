@@ -1,0 +1,14 @@
+a {
+    color: rgb(61, 129, 161);
+    text-decoration: none;
+    -webkit-text-decoration-skip: ink !important;
+    text-decoration-skip: ink !important;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img:not([src]) {
+    display: none;
+}

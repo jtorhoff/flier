@@ -1,4 +1,4 @@
-import { Avatar as MuiAvatar } from "material-ui";
+import { StyleSheet, css } from "aphrodite/no-important";
 import {
     red300,
     pink300,
@@ -14,7 +14,6 @@ import {
     purple300
 } from "material-ui/styles/colors";
 import * as React from "react";
-import { CSSProperties } from "react";
 import { Subscription } from "rxjs/Subscription";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
@@ -30,7 +29,7 @@ interface State {
 }
 
 export class Avatar extends React.Component<Props, State> {
-    photoSubscription?: Subscription;
+    private photoSubscription?: Subscription;
 
     state: State = {
         photoDataURL: undefined,
@@ -43,13 +42,9 @@ export class Avatar extends React.Component<Props, State> {
         this.photoSubscription = tg.getFile(photo)
             .map(blob => URL.createObjectURL(blob))
             .subscribe(dataURL => {
-                const prevPhotoDataURL = this.state.photoDataURL;
                 this.setState({
                     photoDataURL: dataURL,
                 });
-                if (prevPhotoDataURL) {
-                    URL.revokeObjectURL(prevPhotoDataURL);
-                }
             });
     }
 
@@ -76,6 +71,12 @@ export class Avatar extends React.Component<Props, State> {
             || nextState.photoDataURL !== this.state.photoDataURL;
     }
 
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        if (prevState.photoDataURL !== this.state.photoDataURL && prevState.photoDataURL) {
+            URL.revokeObjectURL(prevState.photoDataURL);
+        }
+    }
+
     componentWillUnmount() {
         if (this.photoSubscription) {
             this.photoSubscription.unsubscribe();
@@ -87,16 +88,22 @@ export class Avatar extends React.Component<Props, State> {
 
     render() {
         return (
-            <MuiAvatar style={style} backgroundColor={this.props.photo ? "none" : hashColor(this.props.id)}>
+            <div className={css(styles.root)}
+                 style={{
+                     backgroundColor: !this.props.photo && hashColor(this.props.id)
+                 }}>
                 {
+                    !this.props.photo &&
                     extractInitials(this.props.title)
                 }
-                <img src={this.state.photoDataURL}
+                <img className={css(styles.img)}
                      style={{
-                         ...imgStyle,
                          opacity: this.state.photoDataURL ? 1 : 0,
-                     }}/>
-            </MuiAvatar>
+                     }}
+                     width={40}
+                     height={40}
+                     src={this.state.photoDataURL}/>
+            </div>
         );
     }
 }
@@ -129,22 +136,30 @@ const hashColor = (x: number): string => {
     // Hashing function for integers taken from h2 database
     x = ((x >> 16) ^ x) * 0x45d9f3b;
     x = ((x >> 16) ^ x) * 0x45d9f3b;
-    x = (x >> 16) ^ x;
+    x = ((x >> 16) ^ x);
 
     return colors[x % colors.length];
 };
 
-const style: CSSProperties = {
-    overflow: "hidden",
-    position: "relative",
-};
-
-const imgStyle: CSSProperties = {
-    width: 40,
-    height: 40,
-    top: 0,
-    left: 0,
-    position: "absolute",
-    transition: "opacity 200ms ease",
-    borderRadius: "50%",
-};
+const styles = StyleSheet.create({
+    root: {
+        overflow: "hidden",
+        position: "relative",
+        color: "rgb(255, 255, 255)",
+        userSelect: "none",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 20,
+        borderRadius: "50%",
+        height: 40,
+        width: 40,
+    },
+    img: {
+        top: 0,
+        left: 0,
+        position: "absolute",
+        transition: "opacity 200ms ease",
+        borderRadius: "50%",
+    }
+});

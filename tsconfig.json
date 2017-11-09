@@ -8,6 +8,7 @@
     "noImplicitReturns": true,
     "module": "commonjs",
     "target": "es5",
+    "strictFunctionTypes": false,
     "lib": [
       "dom",
       "es5",

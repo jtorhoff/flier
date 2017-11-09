@@ -1,7 +1,7 @@
-import { darkWhite, lightBlack } from "material-ui/styles/colors";
+import { StyleSheet, css } from "aphrodite/no-important";
+import { darkWhite, lightBlack, darkBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
-import { CSSProperties } from "react";
 import { Subscription } from "rxjs/Subscription";
 import { readableFileSize } from "../../misc/ReadableFileSize";
 import { API } from "../../tg/Codegen/API/APISchema";
@@ -59,47 +59,72 @@ export class Video extends React.Component<Props, State> {
         const videoAttr = this.props.document.attributes.items
             .find(attr => attr instanceof API.DocumentAttributeVideo) as
             API.DocumentAttributeVideo;
-
         const duration = moment.utc(videoAttr.duration.value * 1000)
             .format("m:ss");
+        const round = videoAttr.roundMessage;
 
         return (
-            <div style={{
-                ...style,
-                width: this.props.width,
-                height: this.props.height,
-            }}>
-                <img width={this.props.width}
+            <div className={css(round ? styles.rootRound : styles.root)}
+                 style={{
+                     width: this.props.width,
+                     height: this.props.height,
+                 }}>
+                <img className={css(this.state.thumbDataURL && styles.thumb)}
+                     width={this.props.width}
                      height={this.props.height}
-                     src={this.state.thumbDataURL}
-                     style={{
-                         width: this.props.width,
-                         height: this.props.height,
-                         filter: "blur(3px)",
-                     }}/>
-                <div style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    background: lightBlack,
-                    color: darkWhite,
-                    fontSize: 12,
-                    padding: "2px 5px",
-                    margin: "5px 7px",
-                    borderRadius: 12,
-                    fontWeight: "lighter",
-                }}>
-                    {
-                        `${duration}, ${readableFileSize(this.props.document.size.value)}`
-                    }
-                </div>
+                     src={this.state.thumbDataURL}/>
+                {
+                    !round &&
+                    <div className={css(styles.meta)}>
+                        {
+                            `${duration}, ${readableFileSize(this.props.document.size.value)}`
+                        }
+                    </div>
+                }
+                {
+                    round &&
+                    <div className={css(styles.metaRound)}>
+                        {
+                            duration
+                        }
+                    </div>
+                }
             </div>
         );
     }
 }
 
-const style: CSSProperties = {
-    overflow: "hidden",
-    position: "relative",
-    borderRadius: 4,
-};
+const styles = StyleSheet.create({
+    root: {
+        overflow: "hidden",
+        position: "relative",
+        borderRadius: 4,
+    },
+    rootRound: {
+        overflow: "hidden",
+        position: "static",
+        borderRadius: "50%",
+    },
+    thumb: {
+        filter: "blur(3px)",
+    },
+    meta: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        background: lightBlack,
+        color: darkWhite,
+        fontSize: 12,
+        padding: "2px 5px",
+        margin: "5px 7px",
+        borderRadius: 12,
+        fontWeight: "lighter",
+    },
+    metaRound: {
+        position: "absolute",
+        bottom: 0,
+        margin: 10,
+        color: lightBlack,
+        fontSize: 14,
+    }
+});

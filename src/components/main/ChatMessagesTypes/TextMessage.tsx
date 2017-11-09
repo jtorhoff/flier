@@ -1,11 +1,11 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import { darkBlack } from "material-ui/styles/colors";
 import * as React from "react";
-import { CSSProperties } from "react";
 import { API } from "../../../tg/Codegen/API/APISchema";
 
 export const textMessage = (message: string, entities?: Array<API.MessageEntityType>) => {
     return (
-        <span style={style}>
+        <span className={css(styles.root)}>
             {
                 entities ? resolveEntities(message, entities) : message
             }
@@ -57,7 +57,7 @@ const jsxElementForEntity = (msg: string, entity: API.MessageEntityType) => {
         );
     } else if (entity instanceof API.MessageEntityCode) {
         return (
-            <span key={entityOffset} style={entityCodeSpanStyle}>
+            <span key={entityOffset} className={css(styles.pre)}>
                 {
                     spannedString
                 }
@@ -82,11 +82,11 @@ const jsxElementForEntity = (msg: string, entity: API.MessageEntityType) => {
         );
     } else if (entity instanceof API.MessageEntityItalic) {
         return (
-            <i key={entityOffset}>
+            <em key={entityOffset}>
                 {
                     spannedString
                 }
-            </i>
+            </em>
         );
     } else if (entity instanceof API.MessageEntityMention) {
         // TODO
@@ -108,7 +108,7 @@ const jsxElementForEntity = (msg: string, entity: API.MessageEntityType) => {
         );
     } else if (entity instanceof API.MessageEntityPre) {
         return (
-            <span key={entityOffset} style={entityPreSpanStyle}>
+            <span key={entityOffset} className={css(styles.pre)}>
                 {
                     spannedString
                 }
@@ -123,8 +123,9 @@ const jsxElementForEntity = (msg: string, entity: API.MessageEntityType) => {
             </a>
         );
     } else if (entity instanceof API.MessageEntityUrl) {
+        const href = spannedString.startsWith("http") ? spannedString : "//" + spannedString;
         return (
-            <a key={entityOffset} href={spannedString} target="_blank">
+            <a key={entityOffset} href={href} target="_blank">
                 {
                     spannedString
                 }
@@ -135,19 +136,18 @@ const jsxElementForEntity = (msg: string, entity: API.MessageEntityType) => {
     return spannedString;
 };
 
-const style: CSSProperties = {
-    color: darkBlack,
-    maxWidth: "60ch",
-    display: "inline-block",
-    wordBreak: "break-word",
-    hyphens: "auto",
-    whiteSpace: "pre-wrap",
-};
-
-const entityCodeSpanStyle: CSSProperties = {
-    fontFamily: "Menlo, Monaco, 'Courier New', Courier, monospace",
-};
-
-const entityPreSpanStyle: CSSProperties = {
-    fontFamily: "Menlo, Monaco, 'Courier New', Courier, monospace",
-};
+const styles = StyleSheet.create({
+    root: {
+        color: darkBlack,
+        maxWidth: "60ch",
+        display: "inline-block",
+        wordBreak: "break-word",
+        hyphens: "auto",
+        whiteSpace: "pre-wrap",
+        fontSize: "14px",
+        lineHeight: "16px",
+    },
+    pre: {
+        fontFamily: "Menlo, Monaco, 'Courier New', Courier, monospace",
+    }
+});

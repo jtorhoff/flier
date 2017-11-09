@@ -51,7 +51,7 @@ export class SendCode extends React.Component<Props, State> {
         };
 
         interval();
-        this.waitForTimeout = setInterval(interval, 1000);
+        this.waitForTimeout = setInterval(interval, 1000) as any;
     }
 
     validate(number: string): boolean {

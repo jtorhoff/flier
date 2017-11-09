@@ -1,13 +1,13 @@
+import { StyleSheet, css } from "aphrodite/no-important";
 import * as React from "react";
-import { CSSProperties } from "react";
+import { Subscription } from "rxjs/Subscription";
+import { API } from "../../tg/Codegen/API/APISchema";
 import { Chat as TgChat } from "../../tg/TG";
+import { Update } from "../../tg/Updates/Update";
+import { tg } from "../App";
 import { ChatFooter } from "./ChatFooter";
 import { ChatHeader } from "./ChatHeader";
 import { ChatMessages } from "./ChatMessages";
-import { API } from "../../tg/Codegen/API/APISchema";
-import { tg } from "../App";
-import { Subscription } from "rxjs/Subscription";
-import { Update } from "../../tg/Updates/Update";
 
 interface Props {
     peer: API.PeerType,
@@ -151,7 +151,7 @@ export class Chat extends React.Component<Props, State> {
         }
 
         return (
-            <div style={style}>
+            <div className={css(styles.root)}>
                 <ChatHeader chat={this.state.chat}/>
                 <ChatMessages chat={this.state.chat}/>
                 <ChatFooter/>
@@ -160,8 +160,10 @@ export class Chat extends React.Component<Props, State> {
     }
 }
 
-const style: CSSProperties = {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-};
+const styles = StyleSheet.create({
+    root: {
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+    }
+});
