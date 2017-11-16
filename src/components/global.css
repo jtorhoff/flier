@@ -10,5 +10,5 @@ a:hover {
 }
 
 img:not([src]) {
-    display: none;
+    opacity: 0;
 }

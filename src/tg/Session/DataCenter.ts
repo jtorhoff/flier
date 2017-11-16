@@ -49,7 +49,9 @@ export class DataCenter {
                     console.error("Couldn't deserialize result");
                     return;
                 }
-                console.debug(`[${this.host}]`, "deserialized", result);
+                if (DEBUG) {
+                    console.debug(`[${this.host}]`, "deserialized", result);
+                }
 
                 const onResult = this.onResults.get(reqId);
                 if (onResult) {

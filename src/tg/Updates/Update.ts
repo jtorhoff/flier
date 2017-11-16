@@ -1,8 +1,7 @@
 import { API } from "../Codegen/API/APISchema";
 import { Message } from "../TG";
-import { Hashable } from "../DataStructures/HashMap/Hashable";
 import { HashMap } from "../DataStructures/HashMap/HashMap";
-import { HashablePeer } from "../Hashable/HashablePeer";
+import { HashablePeer } from "./UpdatesHandler";
 
 export abstract class Update {
     //noinspection JSMethodCanBeStatic

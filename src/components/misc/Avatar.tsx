@@ -17,6 +17,7 @@ import * as React from "react";
 import { Subscription } from "rxjs/Subscription";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
+import { TLInt } from "../../tg/TL/Types/TLInt";
 
 interface Props {
     id: number,
@@ -93,13 +94,9 @@ export class Avatar extends React.Component<Props, State> {
                      backgroundColor: !this.props.photo && hashColor(this.props.id)
                  }}>
                 {
-                    !this.props.photo &&
                     extractInitials(this.props.title)
                 }
-                <img className={css(styles.img)}
-                     style={{
-                         opacity: this.state.photoDataURL ? 1 : 0,
-                     }}
+                <img className={css(styles.img, this.state.photoDataURL && styles.opacity)}
                      width={40}
                      height={40}
                      src={this.state.photoDataURL}/>
@@ -145,7 +142,7 @@ const styles = StyleSheet.create({
     root: {
         overflow: "hidden",
         position: "relative",
-        color: "rgb(255, 255, 255)",
+        color: "white",
         userSelect: "none",
         display: "inline-flex",
         alignItems: "center",
@@ -161,5 +158,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         transition: "opacity 200ms ease",
         borderRadius: "50%",
+        opacity: 0,
+    },
+    opacity: {
+        opacity: 1,
     }
 });

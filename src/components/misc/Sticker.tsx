@@ -96,7 +96,7 @@ export class Sticker extends React.Component<Props, State> {
         if (this.state.stickerDataURL) {
             element = <img src={this.state.stickerDataURL}
                            style={{
-                               maxWidth: this.props.width,
+                               width: this.props.width,
                                maxHeight: this.props.height,
                            }}/>;
         } else {
@@ -104,7 +104,7 @@ export class Sticker extends React.Component<Props, State> {
                               width={this.props.width}
                               height={this.props.height}
                               style={{
-                                  maxWidth: this.props.width,
+                                  width: this.props.width,
                                   maxHeight: this.props.height,
                               }}/>
         }

@@ -140,6 +140,7 @@ export class ReverseList extends React.Component<Props, State> {
                 columnWidth={this.props.width}
                 rowHeight={params => this.rowHeight(params.index)}
                 cellRenderer={params => this.renderRow(params)}
+                estimatedRowSize={48}
                 horizontalOverscanSize={0}
                 verticalOverscanSize={0}
                 scrollingResetTimeInterval={0}

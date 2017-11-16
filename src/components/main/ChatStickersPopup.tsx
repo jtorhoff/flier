@@ -10,6 +10,7 @@ import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
 import { Popover } from "../misc/Popover";
 import { Sticker } from "../misc/Sticker";
+import { measureMedia } from "../../misc/MediaMeasurer";
 
 interface Props {
     open: boolean,
@@ -120,10 +121,11 @@ export class ChatStickersPopup extends React.Component<Props, State> {
         const sticker = this.state.stickers.get(group).stickers[indexWithinGroup];
         let element: JSX.Element;
         if (sticker instanceof API.Document) {
+            const size = measureMedia(stickerSize, stickerSize, sticker.thumb);
             element =
                 <TouchRipple>
-                    <Sticker width={stickerSize}
-                             height={stickerSize}
+                    <Sticker width={size.width}
+                             height={size.height}
                              sticker={sticker}
                              thumb={true}/>
                 </TouchRipple>
@@ -175,10 +177,13 @@ export class ChatStickersPopup extends React.Component<Props, State> {
         if (item.thumbnail) {
             element = item.thumbnail;
         } else {
+            const sticker = item.stickers[0]!;
+            const size = measureMedia(26, 26, sticker.thumb);
+
             element = <Sticker key={params.key}
-                               width={26}
-                               height={26}
-                               sticker={item.stickers[0]!}
+                               width={size.width}
+                               height={size.height}
+                               sticker={sticker}
                                thumb={true}/>
         }
 

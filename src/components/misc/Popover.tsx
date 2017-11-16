@@ -29,6 +29,9 @@ export class Popover extends React.Component<Props, State> {
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.open && !this.props.open) {
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+            }
             this.setState({
                 mountChildren: true,
             });

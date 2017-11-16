@@ -167,6 +167,8 @@ export class ChatMessages extends React.Component<Props, State> {
                 gifMessageMaxSize,
                 gifMessageMaxSize,
                 ((msg.media as API.MessageMediaDocument).document as API.Document).thumb).height;
+        } else if (msg.type === MessageType.Voice) {
+            height = 48;
         }
 
         if (this.isCompactMessage(msg, index)) {
@@ -222,7 +224,7 @@ export class ChatMessages extends React.Component<Props, State> {
             );
         }
 
-        const key = (msg as Message).id || -msg.date;
+        const key = ((msg as Message).id || -msg.date) + "-" + this.props.chat.peerId;
         return (
             <div key={key} style={params.style}>
                 {

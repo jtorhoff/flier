@@ -1,7 +1,10 @@
 import "rxjs/add/observable/of";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
+import { combineHash } from "../DataStructures/HashMap/Combine";
 import { Hashable } from "../DataStructures/HashMap/Hashable";
 import { HashMap } from "../DataStructures/HashMap/HashMap";
+import { LRUCache } from "../DataStructures/LRUCache";
 import { DataCenter } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLSerializable } from "../TL/Interfaces/TLSerializable";
@@ -9,11 +12,11 @@ import { TLInt } from "../TL/Types/TLInt";
 import { TLLong } from "../TL/Types/TLLong";
 import { concat } from "../Utils/BytesConcat";
 import { FileDownloader } from "./FileDownloader";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export class FileManager {
     private downloaders = new HashMap<HashableFile, FileDownloader>();
     private progress = new HashMap<HashableFile, BehaviorSubject<number>>();
+    private cache = new LRUCache<HashableFile, Blob>(32);
 
     constructor(private storage: PersistentStorage.Storage,
                 private requestDc: (dcId: number) => Observable<DataCenter>) {
@@ -23,11 +26,19 @@ export class FileManager {
     getFile(location: FileLocation | DocumentLocation): Observable<Blob> {
         const file = new HashableFile(location);
 
+        const cached = this.cache.get(file);
+        if (cached) {
+            return Observable.of(cached);
+        }
+
         return this.storage.readFile(location).flatMap(blob => {
             if (blob) {
                 const progress = this.progress.get(file);
-                if (progress) {
+                if (progress && progress.value !== blob.size) {
                     progress.next(blob.size);
+                }
+                if (blob.size <= memoryFileSizeCache) {
+                    this.cache.put(file, blob);
                 }
                 return Observable.of(blob);
             } else {
@@ -62,40 +73,10 @@ export class FileManager {
         }
 
         return progress;
-
-        // let downloader = this.downloaders.get(file);
-        //
-        // if (progress) {
-        //
-        // }
-        //
-        //
-        // if (!this.progress.get(file)) {
-        //     let progress = this.downloaders.get(file);
-        //     if (progress) {
-        //
-        //     }
-        //
-        //     // const progress = new BehaviorSubject(0);
-        //     // this.progress.put(file, progress);
-        //
-        //     return progress;
-        // }
-        //
-        // return this.progress.get(file);
     }
 
-    // getProgress(location: FileLocation | DocumentLocation): Observable<number> {
-    //     const file = new HashableFile(location);
-    //     const subject = new BehaviorSubject(this.storage.readFile(location).flatMap())
-    // }
-
-    // getProgress(location: FileLocation | DocumentLocation): Observable<number> {
-    //
-    // }
-
     private dispatchDownload() {
-        const maxConcurrentDownloadsPerDC = 3;
+        const maxConcurrentDownloadsPerDC = 4;
         this.downloaders.forEach((file, downloader) => {
             const busyDownloaders = this.downloaders.entries
                 .filter(entry =>
@@ -158,15 +139,17 @@ class HashableFile implements Hashable {
 
     get hashValue(): number {
         if (this.file instanceof FileLocation) {
-            return this.file.dcId.hashValue ^
-                this.file.volumeId.hashValue ^
-                this.file.localId.hashValue ^
-                this.file.secret.hashValue;
+            return combineHash(
+                this.file.dcId.hashValue,
+                this.file.volumeId.hashValue,
+                this.file.localId.hashValue,
+                this.file.secret.hashValue);
         } else if (this.file instanceof DocumentLocation) {
-            return this.file.dcId.hashValue ^
-                this.file.id.hashValue ^
-                this.file.accessHash.hashValue ^
-                this.file.version.hashValue;
+            return combineHash(
+                this.file.dcId.hashValue,
+                this.file.id.hashValue,
+                this.file.accessHash.hashValue,
+                this.file.version.hashValue);
         }
 
         throw new Error();
@@ -188,3 +171,5 @@ class HashableFile implements Hashable {
         return false;
     }
 }
+
+const memoryFileSizeCache = 32 * 1024;

@@ -48,7 +48,8 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            VERSION: JSON.stringify(require("./package.json").version)
+            VERSION: JSON.stringify(require("./package.json").version),
+            DEBUG: process.argv.indexOf("--p") === -1,
         }),
         new webpack.LoaderOptionsPlugin({
             options: {

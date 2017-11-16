@@ -10,13 +10,4 @@ declare module "webp" {
 
     const ModuleWebP: ModuleWebP;
     export = ModuleWebP;
-    //
-    // export class ModuleWebP {
-    //     new(): this;
-        // cwrap: (funcName: string, returnType: CType, argTypes: Array<CType>) => Function;
-        // canvas: HTMLCanvasElement | null;
-    // }
-
-    // const ModuleWebP: ModuleWebP;
-    // export default ModuleWebP;
 }

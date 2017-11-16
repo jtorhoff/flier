@@ -16,6 +16,7 @@ import { photoMessage } from "./ChatMessagesTypes/PhotoMessage";
 import { stickerMessage } from "./ChatMessagesTypes/StickerMessage";
 import { textMessage } from "./ChatMessagesTypes/TextMessage";
 import { videoMessage } from "./ChatMessagesTypes/VideoMessage";
+import { voiceMessage } from "./ChatMessagesTypes/VoiceMessage";
 
 interface Props {
     chat: Chat,
@@ -93,6 +94,11 @@ export class ChatMessagesItem extends React.Component<Props, State> {
             if (document instanceof API.Document) {
                 content = videoMessage(document);
             }
+        } else if (this.props.message.type === MessageType.Voice) {
+            const document = (this.props.message.media as API.MessageMediaDocument).document;
+            if (document instanceof API.Document) {
+                content = voiceMessage(document);
+            }
         }
 
         const date = moment.unix(this.props.message.date);
@@ -125,15 +131,10 @@ export class ChatMessagesItem extends React.Component<Props, State> {
                         }
                     </div>
                 </div>
-                <div className={css(styles.metaRow)} style={{
-                    alignSelf: this.props.compact ? "center" : "baseline",
-                }}>
-                    <span
-                        title={date.format("L, LTS")}>
-                        {
-                            date.format("LT")
-                        }
-                    </span>
+                <div className={css(styles.metaRow, this.props.compact && styles.contentRowCompact)}>
+                    {
+                        date.format("LT")
+                    }
                 </div>
             </div>
         );
@@ -155,6 +156,9 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         flexShrink: 1,
         alignSelf: "baseline",
+    },
+    contentRowCompact: {
+        alignSelf: "center",
     },
     metaRow: {
         fontSize: 12,

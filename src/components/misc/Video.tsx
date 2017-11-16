@@ -125,6 +125,6 @@ const styles = StyleSheet.create({
         bottom: 0,
         margin: 10,
         color: lightBlack,
-        fontSize: 14,
+        fontSize: 13,
     }
 });

@@ -102,6 +102,10 @@ export class GIF extends React.Component<Props, State> {
                            src={this.state.gifDataURL}
                            width={this.props.width}
                            height={this.props.height}
+                           style={{
+                               width: this.props.width,
+                               height: this.props.height,
+                           }}
                            loop={true}
                            autoPlay={true}
                            playsInline={true}
@@ -131,6 +135,6 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 0,
         top: 0,
-        borderRadius: 4,
+        // borderRadius: 4,
     }
 });

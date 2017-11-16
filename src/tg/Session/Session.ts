@@ -50,12 +50,14 @@ export class Session {
     constructor(private readonly host: string) {
         this.monitoringIntervalId = setInterval(() => this.monitor(), 5000) as any;
 
-        console.debug(
-            `[${this.host}]`,
-            "Created session",
-            Array.from(this.sessionId)
-                .map(x => x.toString(16).slice(-2))
-                .join(""));
+        if (DEBUG) {
+            console.debug(
+                `[${this.host}]`,
+                "Created session",
+                Array.from(this.sessionId)
+                    .map(x => x.toString(16).slice(-2))
+                    .join(""));
+        }
     }
 
     /**
@@ -82,12 +84,14 @@ export class Session {
             this.closed = true;
         }
 
-        console.debug(
-            `[${this.host}]`,
-            "Closing session",
-            Array.from(this.sessionId)
-                .map(x => x.toString(16).slice(-2))
-                .join(""));
+        if (DEBUG) {
+            console.debug(
+                `[${this.host}]`,
+                "Closing session",
+                Array.from(this.sessionId)
+                    .map(x => x.toString(16).slice(-2))
+                    .join(""));
+        }
 
         this.pendingRequests.forEach((_, value) => {
             value.abort();
@@ -242,11 +246,13 @@ export class Session {
         xhr.open("POST", `http://${ this.host }/apiw1`, true);
         xhr.send(message.serialized().buffer);
 
-        console.debug(
-            `[${this.host}]`,
-            "<<<",
-            request.reqMsgId.value.toString(),
-            request.content);
+        if (DEBUG) {
+            console.debug(
+                `[${this.host}]`,
+                "<<<",
+                request.reqMsgId.value.toString(),
+                request.content);
+        }
     }
 
     private dispatchInput(bytes: Uint8Array) {
@@ -262,11 +268,13 @@ export class Session {
                 this.serverSalt,
                 this.sessionId);
             if (message) {
-                console.debug(
-                    `[${this.host}]`,
-                    ">>>",
-                    message.messageId.value.toString(),
-                    message.content);
+                if (DEBUG) {
+                    console.debug(
+                        `[${this.host}]`,
+                        ">>>",
+                        message.messageId.value.toString(),
+                        message.content);
+                }
                 this.processIncomingEncryptedMessage(message);
             }
             if (this.pendingRequests.size === 0) {
@@ -277,11 +285,13 @@ export class Session {
             const message = TLMessage.deserialized(byteStream);
             if (!message) return;
 
-            console.debug(
-                `[${this.host}]`,
-                ">>>",
-                message.messageId.value.toString(),
-                message.content);
+            if (DEBUG) {
+                console.debug(
+                    `[${this.host}]`,
+                    ">>>",
+                    message.messageId.value.toString(),
+                    message.content);
+            }
 
             const reqMsgId = this.onResults
                 .keys
@@ -509,7 +519,9 @@ export class Session {
             } break;
 
             default: {
-                console.debug(`[${this.host}]`, "Ignored message", message);
+                if (DEBUG) {
+                    console.debug(`[${this.host}]`, "Ignored message", message);
+                }
             } break;
         }
     }

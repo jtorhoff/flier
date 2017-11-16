@@ -2,6 +2,7 @@ import * as Long from "long";
 import { ByteStream } from "../../DataStructures/ByteStream";
 import { Hashable } from "../../DataStructures/HashMap/Hashable";
 import { TLSerializable } from "../Interfaces/TLSerializable";
+import { combineHash } from "../../DataStructures/HashMap/Combine";
 
 export class TLLong implements TLSerializable, Hashable {
     static deserialized(data: ByteStream): TLLong | undefined {
@@ -40,7 +41,7 @@ export class TLLong implements TLSerializable, Hashable {
     }
 
     get hashValue(): number {
-        return this.value.low ^ this.value.high;
+        return combineHash(this.value.low, this.value.high);
     }
 
     equals(to: TLLong): boolean {

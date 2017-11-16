@@ -1,7 +1,7 @@
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { API } from "../Codegen/API/APISchema";
-import { DataCenter } from "../Session/DataCenter";
+import { DataCenter, GenericError, ErrorType } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
 import { FileLocation, DocumentLocation } from "./FileManager";
@@ -11,11 +11,7 @@ export class FileDownloader {
     private readonly inputLocation: API.InputFileLocationType;
 
     private offset: number = 0;
-    /**
-     * File part size limit, 32 KB.
-     * @type {number}
-     */
-    private limit: number = 1 << 15;
+    private limit: number = 32 * 1024;
     private lastRequestSentAt: number = 0;
     private subject = new Subject<Blob>();
     private _downloading = false;
@@ -37,6 +33,7 @@ export class FileDownloader {
                 location.accessHash,
                 location.version,
             );
+            this.limit = maxLimit;
         } else {
             throw new Error();
         }
@@ -59,9 +56,13 @@ export class FileDownloader {
 
     private downloadPart() {
         const now = uptime();
-        if (this.lastRequestSentAt > 0) {
+        if (this.lastRequestSentAt > 0 &&
+            this.inputLocation instanceof API.InputFileLocation) {
             // Decrease the limit if more than one second has passed
-            // since the last download request, otherwise increase
+            // since the last download request, otherwise increase.
+            // Note that we do it only with files and not documents,
+            // since the experience has showed that the backend throws
+            // LIMIT_INVALID if we constantly change the limit for documents.
             if (now - this.lastRequestSentAt > 1) {
                 if (this.limit > minLimit) {
                     this.limit >>= 1;
@@ -83,9 +84,7 @@ export class FileDownloader {
             new TLInt(this.offset),
             new TLInt(this.limit));
         this.offset += this.limit;
-
         const curLimit = this.limit;
-
         dc.call(fun)
             .flatMap((file: API.upload.File) =>
                 this.storage.appendFile(
@@ -112,7 +111,7 @@ export class FileDownloader {
                         this.downloadPart();
                     }
                 },
-                error => {
+                (error: GenericError) => {
                     this.subject.error(error);
                     this.subject.complete();
                     this._downloading = false;
@@ -124,13 +123,13 @@ export class FileDownloader {
  * Minimum file part size, 4 KB.
  * @type {number}
  */
-const minLimit = 1 << 12;
+const minLimit = 4 * 1024;
 
 /**
- * Maximum file part size, 256 KB.
+ * Maximum file part size, 128 KB.
  * @type {number}
  */
-const maxLimit = 1 << 18;
+const maxLimit = 128 * 1024;
 
 const uptime = (): number => {
     return performance.now() / 1000;

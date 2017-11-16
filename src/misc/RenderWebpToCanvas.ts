@@ -6,7 +6,7 @@ let webpToCanvas: Function;
 export const renderWebpToCanvas = (data: Uint8Array, canvas: HTMLCanvasElement) => {
     if (!webp && !webpToCanvas) {
         webp = new ModuleWebP();
-        webpToCanvas = webp.cwrap("WebpToSDL", "number", ["array", "number"]);
+        webpToCanvas = webp.cwrap("WebpToSDL", "number", ["array", "number", "number", "number"]);
     }
 
     const ctx = canvas.getContext("2d");
@@ -14,6 +14,7 @@ export const renderWebpToCanvas = (data: Uint8Array, canvas: HTMLCanvasElement) 
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     webp.canvas = canvas;
-    webpToCanvas(data, data.byteLength);
+    webpToCanvas(data, data.byteLength, canvas.width * devicePixelRatio, canvas.height * devicePixelRatio);
+
     webp.canvas = null;
 };

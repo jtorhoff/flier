@@ -31,6 +31,10 @@ export class App extends React.Component<Props, State> {
             });
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        return nextState.authorized !== this.state.authorized;
+    }
+
     componentWillUnmount() {
         this.authorizedSubscription.unsubscribe();
     }

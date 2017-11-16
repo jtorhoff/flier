@@ -18,7 +18,7 @@ export class TLDouble implements TLSerializable {
     }
 
     get hashValue(): number {
-        return this.value;
+        return this.value | 0;
     }
 
     constructor(readonly value: number) {}

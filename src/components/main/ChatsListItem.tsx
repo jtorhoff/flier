@@ -22,11 +22,23 @@ interface State {
 }
 
 export class ChatsListItem extends React.Component<Props, State> {
+    private date: string;
+
+    componentWillMount() {
+        this.date = readableDate(this.props.chat.topMessage.date);
+    }
+
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
         return nextProps.onClick !== this.props.onClick
             || nextProps.selected !== this.props.selected
             || nextProps.chat !== this.props.chat
             || nextProps.typing !== this.props.typing;
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.chat.topMessage.date !== prevProps.chat.topMessage.date) {
+            this.date = readableDate(this.props.chat.topMessage.date)
+        }
     }
 
     render() {
@@ -72,7 +84,7 @@ export class ChatsListItem extends React.Component<Props, State> {
                                         }}/>
                                 }
                                 {
-                                    readableDate(this.props.chat.topMessage.date)
+                                    this.date
                                 }
                             </span>
                         </span>
