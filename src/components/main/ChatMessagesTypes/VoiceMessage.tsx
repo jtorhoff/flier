@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     waveform: {
+        height: 40,
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
@@ -63,6 +64,5 @@ const styles = StyleSheet.create({
         color: lightBlack,
         fontSize: 13,
         marginTop: 4,
-        marginBottom: 6,
     }
 });

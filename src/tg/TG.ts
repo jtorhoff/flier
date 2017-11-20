@@ -37,6 +37,7 @@ import { TLString } from "./TL/Types/TLString";
 import { Update } from "./Updates/Update";
 import { UpdatesHandler } from "./Updates/UpdatesHandler";
 import { concat } from "./Utils/BytesConcat";
+import { instanceOf } from "prop-types";
 
 export type Chat = ConvenienceChat;
 export type Message = ConvenienceMessage;
@@ -566,6 +567,12 @@ export class TG {
     setStatus(online: boolean): Observable<any> {
         const offline = online ? new API.BoolFalse() : new API.BoolTrue();
         return this.mainDataCenter.call(new API.account.UpdateStatus(offline));
+    }
+
+    getUsers(...userIds: number[]): Observable<Array<API.User>> {
+        return this.storage
+            .readUsers(...userIds)
+            .map(users => users.filter(user => user instanceof API.User) as Array<API.User>);
     }
 }
 

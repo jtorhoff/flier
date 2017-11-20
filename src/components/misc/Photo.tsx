@@ -10,6 +10,8 @@ interface Props {
     width: number,
     height: number,
     photo: API.Photo,
+    round?: boolean,
+    withProgress?: boolean,
 }
 
 interface State {
@@ -20,7 +22,12 @@ interface State {
 }
 
 export class Photo extends React.Component<Props, State> {
-    private thumbSubscription?: Subscription;
+    // noinspection JSUnusedGlobalSymbols
+    public static defaultProps: Partial<Props> = {
+        round: false,
+        withProgress: true,
+    };
+
     private photoSubscription?: Subscription;
     private progressSubscription?: Subscription;
 
@@ -60,12 +67,14 @@ export class Photo extends React.Component<Props, State> {
                     });
                 });
 
-            this.progressSubscription = tg.getDownloadProgress(size.location)
-                .subscribe(progress => {
-                    this.setState({
-                        photoProgress: progress,
+            if (this.props.withProgress) {
+                this.progressSubscription = tg.getDownloadProgress(size.location)
+                    .subscribe(progress => {
+                        this.setState({
+                            photoProgress: progress,
+                        });
                     });
-                });
+            }
         }
     }
 
@@ -73,6 +82,8 @@ export class Photo extends React.Component<Props, State> {
         return nextProps.width !== this.props.width
             || nextProps.height !== this.props.height
             || nextProps.photo !== this.props.photo
+            || nextProps.round !== this.props.round
+            || nextProps.withProgress !== this.props.withProgress
             || nextState.thumbDataURL !== this.state.thumbDataURL
             || nextState.photoDataURL !== this.state.photoDataURL
             || nextState.photoTotalSize !== this.state.photoTotalSize
@@ -80,9 +91,6 @@ export class Photo extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.thumbSubscription) {
-            this.thumbSubscription.unsubscribe();
-        }
         if (this.photoSubscription) {
             this.photoSubscription.unsubscribe();
         }
@@ -99,19 +107,24 @@ export class Photo extends React.Component<Props, State> {
 
     render() {
         return (
-            <div className={css(styles.root)} style={{
+            <div className={css(styles.root, this.props.round && styles.round)} style={{
                 width: this.props.width,
                 height: this.props.height,
             }}>
-                <img className={css(!this.state.photoDataURL && this.state.thumbDataURL && styles.thumb)}
+                <img className={css(
+                    !this.state.photoDataURL && this.state.thumbDataURL && styles.thumb,
+                    this.props.round && styles.round)}
                      width={this.props.width}
                      height={this.props.height}
                      src={this.state.photoDataURL ? this.state.photoDataURL : this.state.thumbDataURL}/>
-                <MediaProgress containerWidth={this.props.width}
-                               containerHeight={this.props.height}
-                               totalSize={this.state.photoTotalSize}
-                               progress={this.state.photoProgress}
-                               done={!!this.state.photoDataURL}/>
+                {
+                    this.props.withProgress &&
+                    <MediaProgress containerWidth={this.props.width}
+                                   containerHeight={this.props.height}
+                                   totalSize={this.state.photoTotalSize}
+                                   progress={this.state.photoProgress}
+                                   done={!!this.state.photoDataURL}/>
+                }
             </div>
         );
     }
@@ -126,4 +139,7 @@ const styles = StyleSheet.create({
     thumb: {
         filter: "blur(3px)",
     },
+    round: {
+        borderRadius: "50%",
+    }
 });

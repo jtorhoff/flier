@@ -17,6 +17,8 @@ import { stickerMessage } from "./ChatMessagesTypes/StickerMessage";
 import { textMessage } from "./ChatMessagesTypes/TextMessage";
 import { videoMessage } from "./ChatMessagesTypes/VideoMessage";
 import { voiceMessage } from "./ChatMessagesTypes/VoiceMessage";
+import { documentMessage } from "./ChatMessagesTypes/DocumentMessage";
+import { gameMessage } from "./ChatMessagesTypes/GameMessage";
 
 interface Props {
     chat: Chat,
@@ -99,6 +101,15 @@ export class ChatMessagesItem extends React.Component<Props, State> {
             if (document instanceof API.Document) {
                 content = voiceMessage(document);
             }
+        } else if (this.props.message.type === MessageType.Document) {
+            const document = (this.props.message.media as API.MessageMediaDocument).document;
+            if (document instanceof API.Document) {
+                content = documentMessage(document);
+            }
+        } else if (this.props.message.type === MessageType.Game) {
+            content = gameMessage((this.props.message.media as API.MessageMediaGame).game);
+        } else {
+            content = "Unsupported";
         }
 
         const date = moment.unix(this.props.message.date);

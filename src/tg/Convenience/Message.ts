@@ -241,6 +241,34 @@ const extractType = (message: ConvenienceMessage): MessageType => {
         return MessageType.Game;
     }
 
+    if (message.action instanceof API.MessageActionChatCreate) {
+        return MessageType.ChatCreate;
+    } else if (message.action instanceof API.MessageActionChatEditTitle) {
+        return MessageType.ChatEditTitle;
+    } else if (message.action instanceof API.MessageActionChatEditPhoto) {
+        return MessageType.ChatEditPhoto;
+    } else if (message.action instanceof API.MessageActionChatDeletePhoto) {
+        return MessageType.ChatDeletePhoto;
+    } else if (message.action instanceof API.MessageActionChatAddUser) {
+        return MessageType.ChatAddUser;
+    } else if (message.action instanceof API.MessageActionChatDeleteUser) {
+        return MessageType.ChatDeleteUser;
+    } else if (message.action instanceof API.MessageActionChatJoinedByLink) {
+        return MessageType.ChatJoinedByLink;
+    } else if (message.action instanceof API.MessageActionChannelCreate) {
+        return MessageType.ChannelCreate;
+    } else if (message.action instanceof API.MessageActionChatMigrateTo) {
+        return MessageType.ChatMigrateTo;
+    } else if (message.action instanceof API.MessageActionChannelMigrateFrom) {
+        return MessageType.ChannelMigrateFrom;
+    } else if (message.action instanceof API.MessageActionPinMessage) {
+        return MessageType.PinMessage;
+    } else if (message.action instanceof API.MessageActionHistoryClear) {
+        return MessageType.HistoryClear;
+    } else if (message.action instanceof API.MessageActionGameScore) {
+        return MessageType.GameScore;
+    }
+
     return MessageType.NotSupported;
 };
 
@@ -258,9 +286,32 @@ export enum MessageType {
     Game,
     ChatCreate,
     ChatEditTitle,
+    ChatEditPhoto,
     ChatDeletePhoto,
     ChatAddUser,
     ChatDeleteUser,
     ChatJoinedByLink,
+    ChannelCreate,
+    ChatMigrateTo,
+    ChannelMigrateFrom,
+    PinMessage,
+    HistoryClear,
+    GameScore,
     NotSupported,
 }
+
+export const MessageActionTypes = [
+    MessageType.ChatCreate,
+    MessageType.ChatEditTitle,
+    MessageType.ChatEditPhoto,
+    MessageType.ChatDeletePhoto,
+    MessageType.ChatAddUser,
+    MessageType.ChatDeleteUser,
+    MessageType.ChatJoinedByLink,
+    MessageType.ChannelCreate,
+    MessageType.ChatMigrateTo,
+    MessageType.ChannelMigrateFrom,
+    MessageType.PinMessage,
+    MessageType.HistoryClear,
+    MessageType.GameScore,
+];

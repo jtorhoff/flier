@@ -1,7 +1,7 @@
 import { StyleSheet, css } from "aphrodite/no-important";
 import { List } from "immutable";
 import { spacing } from "material-ui/styles";
-import { fullBlack } from "material-ui/styles/colors";
+import { fullBlack, lightBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
@@ -9,11 +9,15 @@ import { Subscription } from "rxjs/Subscription";
 import { measureMedia } from "../../misc/MediaMeasurer";
 import { measureText } from "../../misc/TextMeasurer";
 import { API } from "../../tg/Codegen/API/APISchema";
-import { MessageType } from "../../tg/Convenience/Message";
+import { MessageType, MessageActionTypes } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
 import { tg, muiTheme } from "../App";
+import { Photo } from "../misc/Photo";
 import { ReverseList, ListRowProps } from "../misc/ReverseList";
 import { ChatMessagesItem } from "./ChatMessagesItem";
+import { ChatAddedUsersMessage } from "./ChatMessagesTypes/actions/ChatAddedUsersMessage";
+import { ChatDeleteUserMessage } from "./ChatMessagesTypes/Actions/ChatDeleteUserMessage";
+import { gameMessagePreviewMaxSize } from "./ChatMessagesTypes/GameMessage";
 import { gifMessageMaxSize } from "./ChatMessagesTypes/GifMessage";
 import { photoMessageMaxSize } from "./ChatMessagesTypes/PhotoMessage";
 
@@ -100,7 +104,7 @@ export class ChatMessages extends React.Component<Props, State> {
             || nextState.scrollToBottom !== this.state.scrollToBottom;
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         if (!this.props.chat.peerEquals(prevProps.chat.peer)) {
             if (this.messagesSubscription) {
                 this.messagesSubscription.unsubscribe();
@@ -169,6 +173,23 @@ export class ChatMessages extends React.Component<Props, State> {
                 ((msg.media as API.MessageMediaDocument).document as API.Document).thumb).height;
         } else if (msg.type === MessageType.Voice) {
             height = 48;
+        } else if (msg.type === MessageType.Document) {
+            height = 48;
+        } else if (msg.type === MessageType.Game) {
+            const game = (msg.media as API.MessageMediaGame).game;
+            if (game.document instanceof API.Document) {
+                height = measureMedia(
+                    gameMessagePreviewMaxSize,
+                    gameMessagePreviewMaxSize,
+                    game.document.thumb).height + 18 + 4;
+            } else if (game.photo instanceof API.Photo) {
+                height = measureMedia(
+                    gameMessagePreviewMaxSize,
+                    gameMessagePreviewMaxSize,
+                    ...game.photo.sizes.items).height + 18 + 4;
+            }
+        } else if (msg.type === MessageType.ChatEditPhoto) {
+            height = 68;
         }
 
         if (this.isCompactMessage(msg, index)) {
@@ -203,15 +224,97 @@ export class ChatMessages extends React.Component<Props, State> {
                 readable = date.format("L");
             }
             element = (
-                <div style={{
-                         lineHeight: "48px",
-                         fontSize: 14,
-                         fontWeight: 500,
-                         color: fullBlack,
-                         textAlign: "center",
-                     }}>
+                <div className={css(styles.pseudoMessage)}>
                     {
                         readable
+                    }
+                </div>
+            );
+        } else if (MessageActionTypes.indexOf(msg.type) !== -1) {
+            let content: JSX.Element | string | undefined = undefined;
+            if (msg.type === MessageType.ChatCreate) {
+                const action = msg.action as API.MessageActionChatCreate;
+                const from = msg.from as API.User;
+                content = `${from.firstName!.string} created the group "${action.title.string}"`;
+            } else if (msg.type === MessageType.ChatEditTitle) {
+                const action = msg.action as API.MessageActionChatEditTitle;
+                if (msg.from instanceof API.User) {
+                    content = `${msg.from.firstName!.string} changed the group name to ${action.title.string}`;
+                } else {
+                    content = `Channel name changed to ${action.title.string}`;
+                }
+            } else if (msg.type === MessageType.ChatEditPhoto) {
+                const action = msg.action as API.MessageActionChatEditPhoto;
+                let text: string;
+                if (msg.from instanceof API.User) {
+                    text = `${msg.from.firstName!.string} changed the group picture`;
+                } else {
+                    text = "Channel picture has been changed";
+                }
+
+                content = (
+                    <div className={css(styles.actionMessageChatPictureChange)}>
+                        <span className={css(styles.actionMessageChatPictureChangeText)}>
+                            {
+                                text
+                            }
+                        </span>
+                        {
+                            action.photo instanceof API.Photo &&
+                            <Photo width={60}
+                                   height={60}
+                                   photo={action.photo}
+                                   round={true}
+                                   withProgress={false}/>
+                        }
+                    </div>
+                );
+            } else if (msg.type === MessageType.ChatDeletePhoto) {
+                if (msg.from instanceof API.User) {
+                    content = `${msg.from.firstName!.string} removed the group picture`;
+                } else {
+                    content = "Channel picture has been removed";
+                }
+            } else if (msg.type === MessageType.ChatAddUser) {
+                const action = msg.action as API.MessageActionChatAddUser;
+                const from = msg.from as API.User;
+                content = <ChatAddedUsersMessage
+                    from={from}
+                    userIds={action.users.items.map(userId => userId.value)}/>;
+            } else if (msg.type === MessageType.ChatDeleteUser) {
+                const action = msg.action as API.MessageActionChatDeleteUser;
+                const from = msg.from as API.User;
+                content = <ChatDeleteUserMessage
+                    from={from}
+                    userId={action.userId.value}/>;
+            } else if (msg.type === MessageType.ChatJoinedByLink) {
+                if (msg.from instanceof API.User) {
+                    content = `${msg.from.firstName!.string} joined the group via invitation link`;
+                }
+            } else if (msg.type === MessageType.ChannelCreate) {
+                const action = msg.action as API.MessageActionChannelCreate;
+                content = `Channel "${action.title.string}" has been created`;
+            } else if (msg.type === MessageType.ChatMigrateTo) {
+                // TODO link to channel
+                content = "This group has been upgraded to a channel";
+            } else if (msg.type === MessageType.ChannelMigrateFrom) {
+                // TODO
+            } else if (msg.type === MessageType.PinMessage) {
+                // TODO
+            } else if (msg.type === MessageType.HistoryClear) {
+                content = "Chat history has been cleared";
+            } else if (msg.type === MessageType.GameScore) {
+                const action = msg.action as API.MessageActionGameScore;
+                if (msg.from instanceof API.User) {
+                    // TODO add game name
+                    content = `${msg.from.firstName!.string} has achieved ${action.score.value} in a game`;
+                }
+            }
+
+            element = (
+                <div className={css(styles.actionMessage)}>
+                    {
+                        content
                     }
                 </div>
             );
@@ -235,7 +338,7 @@ export class ChatMessages extends React.Component<Props, State> {
     }
 
     isCompactMessage(msg: Message | PseudoMessage, index: number): boolean {
-        if (msg.type === "pseudo") {
+        if (msg.type === "pseudo" || MessageActionTypes.indexOf(msg.type) !== -1) {
             return false;
         }
         // Show message as compact, i.e. without the avatar and user name,
@@ -245,7 +348,7 @@ export class ChatMessages extends React.Component<Props, State> {
         let compact = false;
         if (index < this.state.messages.size - 1) {
             const prevMsg = this.state.messages.get(index + 1);
-            if (prevMsg.type === "pseudo") {
+            if (prevMsg.type === "pseudo" || MessageActionTypes.indexOf(prevMsg.type) !== -1) {
                 return false;
             }
             if (prevMsg.date + compactThreshold >= msg.date) {
@@ -314,4 +417,27 @@ const styles = StyleSheet.create({
     root: {
         flexGrow: 1
     },
+    pseudoMessage: {
+        lineHeight: "48px",
+        fontSize: 14,
+        fontWeight: 500,
+        color: fullBlack,
+        textAlign: "center",
+    },
+    actionMessage: {
+        lineHeight: "48px",
+        fontSize: 14,
+        color: lightBlack,
+        textAlign: "center",
+    },
+    actionMessageChatPictureChange: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: 6,
+    },
+    actionMessageChatPictureChangeText: {
+        lineHeight: "18px",
+        marginBottom: 6,
+    }
 });

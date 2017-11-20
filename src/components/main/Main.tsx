@@ -30,12 +30,18 @@ export class Main extends React.Component<Props, State> {
 
     state: State = {};
 
-    private setOnlineStatus(online: [boolean, number]) {
+    setOnlineStatus(online: [boolean, number]) {
         if (online[0] !== this.online[0]) {
             tg.setStatus(online[0])
                 .subscribe();
         }
         this.online = online;
+    }
+
+    setPeer(peer: API.PeerType) {
+        this.setState({
+            peer: peer
+        });
     }
 
     componentDidMount() {
@@ -73,7 +79,7 @@ export class Main extends React.Component<Props, State> {
         return (
             <Paper className={css(styles.root)} zDepth={1}>
                 <ChatsList
-                    selectedPeer={peer => this.setState({ peer: peer })}/>
+                    selectedPeer={peer => this.setPeer(peer)}/>
                 <div className={css(styles.child)}>
                     {
                         child
