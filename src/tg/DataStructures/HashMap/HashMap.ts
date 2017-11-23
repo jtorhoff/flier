@@ -270,6 +270,6 @@ const randomHashFunction = <K extends Hashable>(buckets: number): HashFunction<K
 };
 
 const randomInt = (): number => {
-    const max = 2 ** 32 - 1;
+    const max = 2 ** 31 - 1;
     return Math.floor(Math.random() * max);
 };
