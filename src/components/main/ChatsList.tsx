@@ -12,6 +12,7 @@ import {
     IndexRange
 } from "react-virtualized";
 import { Subscription } from "rxjs/Subscription";
+import { buffersEqual } from "../../misc/CompareArrayBuffer";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { Chat } from "../../tg/TG";
 import { Update } from "../../tg/Updates/Update";
@@ -126,8 +127,22 @@ export class ChatsList extends React.Component<Props, State> {
                             typing: state.typing.set(index, []),
                         }
                     });
-                } else {
-                    // TODO insert at top
+                } else if (message.peer) {
+                    tg.getChat(message.peer)
+                        .subscribe(chat => {
+                            this.setState(state => {
+                                const index = state.chats
+                                    .find(item => item!.peerEquals(chat.peer));
+                                if (index) {
+                                    return {};
+                                }
+
+                                return {
+                                    chats: state.chats
+                                        .insert(0, chat),
+                                }
+                            });
+                        });
                 }
             } break;
 
@@ -268,7 +283,8 @@ export class ChatsList extends React.Component<Props, State> {
                 const upd = update as Update.EditMessage;
                 const index = this.state.chats
                     .findIndex(chat =>
-                        !!chat && chat.topMessage.id === upd.message.id);
+                        !!chat && (chat.topMessage.id === upd.message.id
+                        || buffersEqual(chat.topMessage.randomId, upd.message.randomId)));
                 if (index !== -1) {
                     this.setState(state => {
                         const chat = state.chats.get(index)

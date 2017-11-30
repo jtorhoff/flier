@@ -156,16 +156,18 @@ export class DexieStorage implements PersistentStorage.Storage {
         );
     }
 
-    readMessages(...ids: number[]): Observable<Array<API.MessageType>> {
+    readMessages(...ids: number[]): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>> {
         return Observable.fromPromise(this.db.messages.where("id").anyOf(ids).toArray())
             .map(messages => {
                 return messages.map(msg => {
-                    return deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType
+                    const apiMessage = deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType;
+                    Object.assign(apiMessage, { randomId: msg.randomId });
+                    return apiMessage;
                 })
             });
     }
 
-    writeMessages(...messages: API.MessageType[]): Observable<any> {
+    writeMessages(...messages: Array<API.MessageType & { randomId?: ArrayBuffer }>): Observable<any> {
         return Observable.fromPromise(
             this.db.messages.bulkPut(messages.map(msg => {
                 let peer: ["u" | "g" | "c", number] | undefined = undefined;
@@ -183,15 +185,18 @@ export class DexieStorage implements PersistentStorage.Storage {
                     } else if (msg.fromId) {
                         peer = ["u", msg.fromId.value];
                     }
+                } else {
+                    return undefined;
                 }
 
                 return {
                     id: msg.id.value,
-                    // randomId: 0,
+                    randomId: msg.randomId,
                     message: msg.serialized().buffer,
                     peer: peer,
+                    date: (msg as API.Message & API.MessageService).date.value,
                 }
-            }))
+            }).filter(msg => typeof msg !== "undefined") as Array<PersistentStorage.Message>)
         );
     }
 
@@ -230,10 +235,15 @@ export class DexieStorage implements PersistentStorage.Storage {
         );
     }
 
-    updateMessage(id: number, update: Partial<API.Message & API.MessageService>): Observable<API.Message | API.MessageService | undefined> {
+    updateMessage(id: number | ArrayBuffer, update: Partial<API.Message & API.MessageService & { randomId?: ArrayBuffer }>): Observable<API.Message & { randomId?: ArrayBuffer } | API.MessageService & { randomId?: ArrayBuffer } | undefined> {
         return Observable.fromPromise(
             this.db.transaction("rw!", this.db.messages, async () => {
-                const message = await this.db.messages.get(id);
+                let message;
+                if (typeof id === "number") {
+                    message = await this.db.messages.get({ id: id });
+                } else {
+                    message = await this.db.messages.get({ randomId: id });
+                }
                 if (!message) return;
 
                 const apiMessage = deserializedObject(
@@ -246,17 +256,30 @@ export class DexieStorage implements PersistentStorage.Storage {
                     return undefined;
                 }
 
+                if (typeof id === "number") {
+                    await this.db.messages.where({ id: id }).delete();
+                } else {
+                    await this.db.messages.where({ randomId: id }).delete();
+                }
+
                 await this.db.messages.put({
-                    id: id,
+                    id: update.id ? update.id.value : message.id,
+                    randomId: update.randomId,
                     message: apiMessage.serialized().buffer,
+                    date: apiMessage.date.value,
+                    peer: message.peer,
                 });
+
+                if (apiMessage) {
+                    Object.assign(apiMessage, { randomId: update.randomId });
+                }
 
                 return apiMessage;
             })
         );
     }
 
-    readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number): Observable<Array<API.MessageType>> {
+    readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number, offsetDate?: number): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>> {
         let dbPeer: ["u" | "g" | "c", number];
         if (peer instanceof API.PeerUser) {
             dbPeer = ["u", peer.userId.value];
@@ -271,14 +294,16 @@ export class DexieStorage implements PersistentStorage.Storage {
         let collection = this.db.messages.where("peer").equals(dbPeer)
             .limit(limit)
             .reverse();
-        if (offsetId) {
-            collection = collection.filter(msg => msg.id < offsetId);
+        if (offsetId && offsetDate) {
+            collection = collection.filter(msg => msg.id < offsetId && msg.date <= offsetDate);
         }
 
         return Observable.fromPromise(collection.toArray())
             .map(messages =>
                 messages.map(msg => {
-                    return deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType
+                    const apiMessage = deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType;
+                    Object.assign(apiMessage, { randomId: msg.randomId });
+                    return apiMessage;
                 })
             );
     }
@@ -377,7 +402,6 @@ export class DexieStorage implements PersistentStorage.Storage {
 
                 return {
                     peer: peer,
-                    topMessageId: dialog.topMessage.value,
                     dialog: dialog.serialized().buffer,
                 }
             }))
@@ -406,7 +430,6 @@ export class DexieStorage implements PersistentStorage.Storage {
                     partialAssign(apiDialog, update);
                     await this.db.dialogs.put({
                         peer: dbPeer,
-                        topMessageId: apiDialog.topMessage.value,
                         dialog: apiDialog.serialized().buffer,
                     });
                     return apiDialog;
@@ -436,10 +459,10 @@ class Database extends Dexie {
             updatesState: "_",
             chats: "id",
             users: "id",
-            messages: "id,randomId,peer",
+            messages: "[date+id],id,randomId,peer,date",
             files: "key",
             recentStickers: "_",
-            dialogs: "peer,topMessageId",
+            dialogs: "peer",
         });
     }
 }

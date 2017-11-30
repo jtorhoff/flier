@@ -30,6 +30,8 @@ export class Sticker extends React.Component<Props, State> {
 
     componentDidMount() {
         let file: API.Document | API.FileLocation | undefined;
+        let stickerWidth = 0;
+        let stickerHeight = 0;
         if (this.props.thumb) {
             if (this.props.sticker.thumb instanceof API.PhotoSize ||
                 this.props.sticker.thumb instanceof API.PhotoCachedSize) {
@@ -37,9 +39,16 @@ export class Sticker extends React.Component<Props, State> {
                 if (thumb.location instanceof API.FileLocation) {
                     file = thumb.location;
                 }
+                stickerWidth = thumb.w.value;
+                stickerHeight = thumb.h.value;
             }
         } else {
             file = this.props.sticker;
+            const size = this.props.sticker.attributes.items
+                .find(attr => attr instanceof API.DocumentAttributeImageSize) as
+                API.DocumentAttributeImageSize;
+            stickerWidth = size.w.value;
+            stickerHeight = size.h.value;
         }
         if (!file) return;
 
@@ -62,7 +71,11 @@ export class Sticker extends React.Component<Props, State> {
                     this.setState({
                         stickerLoaded: true,
                     }, () => {
-                        renderWebpToCanvas(new Uint8Array(data), this.canvasRef!)
+                        renderWebpToCanvas(
+                            new Uint8Array(data),
+                            stickerWidth,
+                            stickerHeight,
+                            this.canvasRef!)
                     });
                 }
             });

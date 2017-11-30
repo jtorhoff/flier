@@ -12,33 +12,58 @@ import * as React from "react";
 import { CSSProperties } from "react";
 import * as ReactDOM from "react-dom";
 import { CSSTransitionGroup } from "react-transition-group";
-import { primaryColor } from "../App";
+import { API } from "../../tg/Codegen/API/APISchema";
+import { primaryColor, tg } from "../App";
 import { ChatStickersPopup } from "./ChatStickersPopup";
 import TextFieldProps = __MaterialUI.TextFieldProps;
 
 interface Props {
-
+    peer: API.PeerType,
 }
 
 interface State {
-    message: string | undefined,
+    message: string,
     stickersPopupOpen: boolean,
 }
 
 export class ChatFooter extends React.Component<Props, State> {
     private stickersPopupAnchor?: Element;
+    private lastTypingSentAt = 0;
 
     state: State = {
-        message: undefined,
+        message: "",
         stickersPopupOpen: false,
     };
 
-    onInput(event: React.SyntheticEvent<TextFieldProps>) {
+    submit() {
+        if (this.state.message) {
+            tg.sendMessage(this.props.peer, { message: this.state.message })
+                .subscribe();
+        }
+    }
+
+    onKeyPress(event: React.KeyboardEvent<any>) {
+        if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            this.submit();
+            this.setState({
+                message: "",
+            });
+        }
+    }
+
+    onInput(event: React.FormEvent<TextFieldProps>) {
         event.preventDefault();
 
         this.setState({
             message: event.currentTarget.value as string,
-        })
+        });
+
+        if (performance.now() / 1000 - this.lastTypingSentAt > 0.5 && event.currentTarget.value) {
+            tg.setTyping(this.props.peer, new API.SendMessageTypingAction())
+                .subscribe();
+            this.lastTypingSentAt = performance.now() / 1000;
+        }
     }
 
     onInsertEmoticonClick(event: React.SyntheticEvent<any>) {
@@ -60,7 +85,8 @@ export class ChatFooter extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-        return nextState.message !== this.state.message
+        return nextProps.peer !== this.props.peer
+            || nextState.message !== this.state.message
             || nextState.stickersPopupOpen !== this.state.stickersPopupOpen;
     }
 
@@ -68,9 +94,9 @@ export class ChatFooter extends React.Component<Props, State> {
         const action = this.state.message ?
             <IconButton key={"send"}
                         style={iconButtonStyle}
-                        iconStyle={iconButtonIconStyle}>
-                <ContentSend
-                    color={primaryColor}/>
+                        iconStyle={iconButtonIconStyle}
+                        onClick={this.submit.bind(this)}>
+                <ContentSend color={primaryColor}/>
             </IconButton> :
             <IconButton key={"mic"}
                         style={iconButtonStyle}
@@ -81,7 +107,7 @@ export class ChatFooter extends React.Component<Props, State> {
                     hoverColor={primaryColor}/>
             </IconButton>;
         return (
-            <div className={css(styles.root)}>
+            <form className={css(styles.root)} onSubmit={this.submit.bind(this)}>
                 <style type="text/css">{transitionStyle}</style>
                 <IconButton style={iconButtonStyle}
                             iconStyle={iconButtonIconStyle}
@@ -90,8 +116,10 @@ export class ChatFooter extends React.Component<Props, State> {
                                       hoverColor={primaryColor}/>
                 </IconButton>
                 <div className={css(styles.textField)}>
-                    <TextField hintText={"Write a message\u2026"}
-                               onChange={e => this.onInput(e)}
+                    <TextField value={this.state.message}
+                               hintText={"Write a message\u2026"}
+                               onChange={this.onInput.bind(this)}
+                               onKeyPress={this.onKeyPress.bind(this)}
                                fullWidth={true}
                                multiLine={true}
                                rowsMax={3}
@@ -101,8 +129,8 @@ export class ChatFooter extends React.Component<Props, State> {
                 <IconButton ref="stickersPopupAnchor"
                             style={iconButtonStyle}
                             iconStyle={iconButtonIconStyle}
-                            onClick={e => this.onInsertEmoticonClick(e)}
-                            onMouseEnter={e => this.onInsertEmoticonClick(e)}>
+                            onClick={this.onInsertEmoticonClick.bind(this)}
+                            onMouseEnter={this.onInsertEmoticonClick.bind(this)}>
                     <EditorInsertEmoticon
                         color={"rgba(0,0,0,0.4)"}
                         hoverColor={primaryColor}/>
@@ -123,9 +151,9 @@ export class ChatFooter extends React.Component<Props, State> {
                     }
                 </CSSTransitionGroup>
                 <ChatStickersPopup open={this.state.stickersPopupOpen}
-                                   onClose={() => this.onStickerPopupClose()}
+                                   onClose={this.onStickerPopupClose.bind(this)}
                                    anchorEl={this.stickersPopupAnchor}/>
-            </div>
+            </form>
         );
     }
 }

@@ -1,6 +1,7 @@
 import { API } from "../Codegen/API/APISchema";
 import { TLString } from "../TL/Types/TLString";
 import { ConvenienceMessage } from "./Message";
+import { peerEquals } from "./PeerEquals";
 
 export type ConvenienceChatKind =
     { kind: "dialog", user: API.User } |
@@ -16,22 +17,8 @@ export class ConvenienceChat {
                 readonly kind: ConvenienceChatKind) {
     }
 
-    peerEquals(peer: API.PeerType): boolean {
-        if (this.peer instanceof API.PeerUser &&
-            peer instanceof API.PeerUser &&
-            this.peer.userId.equals(peer.userId)) {
-            return true;
-        } else if (this.peer instanceof API.PeerChat &&
-            peer instanceof API.PeerChat &&
-            this.peer.chatId.equals(peer.chatId)) {
-            return true;
-        } else if (this.peer instanceof API.PeerChannel &&
-            peer instanceof API.PeerChannel &&
-            this.peer.channelId.equals(peer.channelId)) {
-            return true;
-        }
-
-        return false;
+    peerEquals(peer?: API.PeerType): boolean {
+        return peerEquals(this.peer, peer);
     }
 
     setReadInboxMaxId(id: number): ConvenienceChat {

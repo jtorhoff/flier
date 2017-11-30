@@ -7,18 +7,19 @@ import { Message, Chat } from "../../tg/TG";
 import { TLString } from "../../tg/TL/Types/TLString";
 import { Avatar } from "../misc/Avatar";
 import { contactMessage } from "./ChatMessagesTypes/ContactMessage";
+import { documentMessage } from "./ChatMessagesTypes/DocumentMessage";
+import { gameMessage } from "./ChatMessagesTypes/GameMessage";
 import { gifMessage } from "./ChatMessagesTypes/GifMessage";
 import {
     locationMessage,
     venueMessage
 } from "./ChatMessagesTypes/LocationMessage";
+import { phoneCallMessage } from "./ChatMessagesTypes/PhoneCallMessage";
 import { photoMessage } from "./ChatMessagesTypes/PhotoMessage";
 import { stickerMessage } from "./ChatMessagesTypes/StickerMessage";
 import { textMessage } from "./ChatMessagesTypes/TextMessage";
 import { videoMessage } from "./ChatMessagesTypes/VideoMessage";
 import { voiceMessage } from "./ChatMessagesTypes/VoiceMessage";
-import { documentMessage } from "./ChatMessagesTypes/DocumentMessage";
-import { gameMessage } from "./ChatMessagesTypes/GameMessage";
 
 interface Props {
     chat: Chat,
@@ -108,6 +109,10 @@ export class ChatMessagesItem extends React.Component<Props, State> {
             }
         } else if (this.props.message.type === MessageType.Game) {
             content = gameMessage((this.props.message.media as API.MessageMediaGame).game);
+        } else if (this.props.message.type === MessageType.Call) {
+            content = phoneCallMessage(
+                this.props.message.action as API.MessageActionPhoneCall,
+                this.props.message.out);
         } else {
             content = "Unsupported";
         }
@@ -144,6 +149,10 @@ export class ChatMessagesItem extends React.Component<Props, State> {
                 </div>
                 <div className={css(styles.metaRow, this.props.compact && styles.contentRowCompact)}>
                     {
+                        !isMessageRead(this.props.chat, this.props.message) &&
+                        <span className={css(styles.messageNotRead)}/>
+                    }
+                    {
                         date.format("LT")
                     }
                 </div>
@@ -151,6 +160,10 @@ export class ChatMessagesItem extends React.Component<Props, State> {
         );
     }
 }
+
+const isMessageRead = (chat: Chat, message: Message): boolean => {
+    return !message.out || chat.readOutboxMaxId >= message.id;
+};
 
 const styles = StyleSheet.create({
     root: {
@@ -192,5 +205,13 @@ const styles = StyleSheet.create({
     content: {
         width: "100%",
         fontSize: 14,
-    }
+    },
+    messageNotRead: {
+        width: 8,
+        height: 8,
+        background: "rgba(42,174,245,1)",
+        display: "inline-flex",
+        marginRight: 8,
+        borderRadius: "50%",
+    },
 });

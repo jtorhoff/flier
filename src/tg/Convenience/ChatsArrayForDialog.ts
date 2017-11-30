@@ -2,6 +2,7 @@ import { API } from "../Codegen/API/APISchema";
 import { ConvenienceChat, ConvenienceChatKind } from "./Chat";
 import { ConvenienceMessage } from "./Message";
 import { convenienceMessageFor } from "./MessageFor";
+import { peerEquals } from "./PeerEquals";
 
 export const convenienceChatsArrayForDialogs = (dialogs: {
     readonly dialogs: API.Dialog[],
@@ -9,12 +10,48 @@ export const convenienceChatsArrayForDialogs = (dialogs: {
     readonly chats: API.ChatType[],
     readonly users: API.UserType[]
 }): Array<ConvenienceChat> => {
-    const result: ConvenienceChat[] = [];
+    const messages = dialogs.messages.map(item => {
+        let msg: ConvenienceMessage | undefined;
+        let fromId = (item as API.Message & API.MessageService).fromId;
+        if (fromId) {
+            const from = dialogs.users
+                .find(item => item.id.equals(fromId!));
+            msg = convenienceMessageFor(item, from);
+        } else {
+            msg = convenienceMessageFor(item);
+        }
+        return msg;
+    }).filter(msg => typeof msg !== "undefined");
 
+    // console.log(messages);
+
+    const result: ConvenienceChat[] = [];
     for (let dialog of dialogs.dialogs) {
-        const message = dialogs.messages
-            .find(item => item.id.equals(dialog.topMessage));
-        if (!message) continue;
+        const msg = messages.find(msg => {
+            return peerEquals(msg!.peer, dialog.peer)
+        });
+        if (!msg) continue;
+
+        // const message = dialogs.messages
+        //     .find(msg => {
+        //         if (!(msg instanceof API.Message) || !(msg instanceof API.MessageService)) {
+        //             return;
+        //         }
+        //         let peer: API.PeerType | undefined = undefined;
+        //         if (msg.toId instanceof API.PeerChat ||
+        //             msg.toId instanceof API.PeerChannel ||
+        //             (msg.toId && msg.out)) {
+        //             peer = msg.toId;
+        //         } else if (msg.fromId) {
+        //             peer = new API.PeerUser(msg.fromId);
+        //         }
+        //
+        //         return
+        //     })
+        //
+        // const message = dialogs.messages
+        //     .find(item => (item as API.Message & API.MessageService) item.id.equals(dialog.topMessage));
+        // if (!message) continue;
 
         let kind: ConvenienceChatKind;
         switch (dialog.peer.constructor) {
@@ -57,16 +94,16 @@ export const convenienceChatsArrayForDialogs = (dialogs: {
                 continue;
         }
 
-        let msg: ConvenienceMessage | undefined;
-        let fromId = (message as API.Message & API.MessageService).fromId;
-        if (fromId) {
-            const from = dialogs.users
-                .find(item => item.id.equals(fromId!));
-            msg = convenienceMessageFor(message, from);
-        } else {
-            msg = convenienceMessageFor(message);
-        }
-        if (!msg) continue;
+        // let msg: ConvenienceMessage | undefined;
+        // let fromId = (message as API.Message & API.MessageService).fromId;
+        // if (fromId) {
+        //     const from = dialogs.users
+        //         .find(item => item.id.equals(fromId!));
+        //     msg = convenienceMessageFor(message, from);
+        // } else {
+        //     msg = convenienceMessageFor(message);
+        // }
+        // if (!msg) continue;
 
         const chat = new ConvenienceChat(
             dialog.peer,

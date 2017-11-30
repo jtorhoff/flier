@@ -24,6 +24,7 @@ export class ReverseList extends React.Component<Props, State> {
     private gridRef?: Grid;
     private adjustingScroll = false;
     private loadingExtraToFillScreen = false;
+    private scrolledToBottom = false;
 
     state: State = {
         paddingTop: 0,
@@ -31,7 +32,10 @@ export class ReverseList extends React.Component<Props, State> {
 
     recomputeRowHeights() {
         if (this.props.rowCount > 0) {
-            this.gridRef!.recomputeGridSize();
+            this.gridRef!.invalidateCellSizeAfterRender({
+                columnIndex: 0,
+                rowIndex: 0,
+            });
         }
     }
 
@@ -52,6 +56,8 @@ export class ReverseList extends React.Component<Props, State> {
         if (params.scrollTop < params.clientHeight && !this.adjustingScroll && !this.props.scrollToBottom) {
             this.props.loadMoreRows();
         }
+
+        this.scrolledToBottom = params.scrollHeight - params.clientHeight === params.scrollTop;
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -104,14 +110,28 @@ export class ReverseList extends React.Component<Props, State> {
             }
 
             if (this.listHeight < listEl.clientHeight) {
-                this.setState({
-                    paddingTop: listEl.clientHeight - this.listHeight,
-                });
+                if (this.state.paddingTop !== listEl.clientHeight - this.listHeight) {
+                    this.setState({
+                        paddingTop: listEl.clientHeight - this.listHeight,
+                    });
+                }
             } else {
-                this.setState({
-                    paddingTop: 0,
-                });
+                if (this.state.paddingTop !== 0) {
+                    this.setState({
+                        paddingTop: 0,
+                    });
+                }
             }
+
+            // if (this.scrolledToBottom) {
+            //     console.log(listEl.scrollTop, listEl.scrollHeight, listEl.clientHeight);
+            //
+            //     // console.log(listEl.scrollHeight - listEl.clientHeight)
+            //     //
+            //     // requestAnimationFrame(() => {
+            //     //     listEl.scrollTop = listEl.scrollHeight - listEl.clientHeight;
+            //     // });
+            // }
         }
     }
 
@@ -145,6 +165,7 @@ export class ReverseList extends React.Component<Props, State> {
                 verticalOverscanSize={0}
                 scrollingResetTimeInterval={0}
                 scrollToRow={scrollToIndex}
+                scrollToAlignment={"end"}
                 onScroll={(params: any) => this.onScroll(params)}
                 style={{
                     outline: "none",

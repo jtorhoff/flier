@@ -5,14 +5,14 @@ import { Subject } from "rxjs/Subject";
 import { tg } from "../../components/App";
 import { API } from "../Codegen/API/APISchema";
 import { convenienceMessageFor } from "../Convenience/MessageFor";
+import { combineHash } from "../DataStructures/HashMap/Combine";
+import { Hashable } from "../DataStructures/HashMap/Hashable";
 import { HashMap } from "../DataStructures/HashMap/HashMap";
 import { DataCenter } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
 import { TLVector } from "../TL/Types/TLVector";
 import { Update } from "./Update";
-import { Hashable } from "../DataStructures/HashMap/Hashable";
-import { combineHash } from "../DataStructures/HashMap/Combine";
 
 export class UpdatesHandler {
     private state: UpdatesState = {
@@ -21,12 +21,6 @@ export class UpdatesHandler {
         qts: 0,
         seq: 0,
     };
-    private shouldSyncUpdatesState = false;
-    private pendingPtsUpdates: {
-        pts: number,
-        ptsCount: number,
-        update: API.UpdatesType | API.UpdateShortSentMessage
-    }[] = [];
     readonly updates = new Subject<Update>();
 
     constructor(private readonly dataCenter: DataCenter,
@@ -38,20 +32,67 @@ export class UpdatesHandler {
         });
     }
 
-    feedUpdates(updates: API.UpdatesType) {
+    feedUpdates(updates: API.UpdatesType | (API.UpdateShortSentMessage & { randomId: ArrayBuffer })) {
         switch (updates.constructor) {
             case API.UpdatesTooLong: {
                 this.obtainUpdatesDifference();
             } break;
 
             case API.UpdateShortMessage: {
-                // TODO avoid unnecessary sync
-                this.obtainUpdatesDifference();
+                const update = updates as API.UpdateShortMessage;
+                this.storage.readMyUserId()
+                    .filter(myUserId => !!myUserId)
+                    .subscribe(myUserId => {
+                        const fromId = update.out ? myUserId! : update.userId.value;
+                        const toId = update.out ? update.userId.value : myUserId!;
+                        const msg = new API.Message(
+                            update.out,
+                            update.mentioned,
+                            update.mediaUnread,
+                            update.silent,
+                            false,
+                            update.id,
+                            new TLInt(fromId),
+                            new API.PeerUser(new TLInt(toId)),
+                            update.fwdFrom,
+                            update.viaBotId,
+                            update.replyToMsgId,
+                            update.date,
+                            update.message,
+                            undefined,
+                            undefined,
+                            update.entities,
+                            undefined,
+                            undefined
+                        );
+                        this.processUpdate(new API.UpdateNewMessage(msg, update.pts, update.ptsCount));
+                    });
             } break;
 
             case API.UpdateShortChatMessage: {
-                // TODO avoid unnecessary sync
-                this.obtainUpdatesDifference();
+                const update = updates as API.UpdateShortChatMessage;
+                const msg = new API.Message(
+                    update.out,
+                    update.mentioned,
+                    update.mediaUnread,
+                    update.silent,
+                    false,
+                    update.id,
+                    update.fromId,
+                    new API.PeerChat(update.chatId),
+                    update.fwdFrom,
+                    update.viaBotId,
+                    update.replyToMsgId,
+                    update.date,
+                    update.message,
+                    undefined,
+                    undefined,
+                    update.entities,
+                    undefined,
+                    undefined
+                );
+
+                this.processUpdate(new API.UpdateNewMessage(msg, update.pts, update.ptsCount));
             } break;
 
             case API.UpdateShort: {
@@ -65,7 +106,7 @@ export class UpdatesHandler {
             case API.UpdatesCombined: {
                 const upd = updates as API.UpdatesCombined;
                 if (Math.max(upd.seq.value, upd.seqStart.value) > this.state.seq + 1) {
-                    this.shouldSyncUpdatesState = true;
+                    this.obtainUpdatesDifference();
                 }
                 this.applyUpdatesState({
                     date: upd.date.value,
@@ -81,7 +122,7 @@ export class UpdatesHandler {
             case API.Updates: {
                 const upd = updates as API.Updates;
                 if (upd.seq.value > this.state.seq + 1) {
-                    this.shouldSyncUpdatesState = true;
+                    this.obtainUpdatesDifference();
                 }
                 this.applyUpdatesState({
                     date: upd.date.value,
@@ -95,7 +136,11 @@ export class UpdatesHandler {
             } break;
 
             case API.UpdateShortSentMessage: {
-                this.processUpdate(updates as API.UpdateShortSentMessage);
+                const upd = updates as API.UpdateShortSentMessage & { randomId: ArrayBuffer };
+                this.applyUpdatesState({
+                    date: upd.date.value,
+                });
+                this.processUpdate(upd);
             } break;
         }
     }
@@ -227,35 +272,26 @@ export class UpdatesHandler {
         }
     }
 
-    private processUpdate(update: API.UpdateType | API.UpdateShortSentMessage) {
+    private processUpdate(update: API.UpdateType | (API.UpdateShortSentMessage & { randomId: ArrayBuffer })) {
         const meta = UpdatesHandler.metadataForUpdate(update);
         if (meta) {
             const pts = meta.pts;
             const ptsCount = meta.ptsCount;
 
-            if (pts < this.state.pts) {
-                return;
-            }
-
             if (this.state.pts + ptsCount !== pts) {
-                this.pendingPtsUpdates.push({
-                    pts: pts,
-                    ptsCount: ptsCount,
-                    update: update,
-                });
-                this.shouldSyncUpdatesState = true;
+                this.obtainUpdatesDifference();
+                return;
             } else {
                 this.applyUpdatesState({
                     pts: pts,
                 });
-                this.dropPendingUpdates();
             }
         }
 
         this.applyUpdate(update);
     }
 
-    private applyUpdate(update: API.UpdateType | API.UpdateShortSentMessage) {
+    applyUpdate(update: API.UpdateType | (API.UpdateShortSentMessage & { randomId: ArrayBuffer })) {
         switch (update.constructor) {
             case API.UpdateNewMessage: {
                 const message = (update as API.UpdateNewMessage).message;
@@ -271,10 +307,6 @@ export class UpdatesHandler {
                     })
                     .do(msg => {
                         if (msg) {
-                            if (msg.peer) {
-                                this.storage.updateDialog(msg.peer, { topMessage: new TLInt(msg.id) })
-                                    .subscribe();
-                            }
                             this.updates.next(new Update.NewMessage(msg));
                         }
                     })
@@ -282,7 +314,56 @@ export class UpdatesHandler {
             } break;
 
             case API.UpdateMessageID: {
-                // TODO
+                const upd = update as API.UpdateMessageID;
+                this.storage.updateMessage(upd.randomId.serialized().buffer, {
+                    id: upd.id,
+                }).flatMap(msg => {
+                    if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                        if (msg.fromId) {
+                            return this.storage.readUsers(msg.fromId.value)
+                                .map(users => [msg, users[0]]);
+                        }
+                    }
+                    throw new Error();
+                }).map(msgUser => {
+                    if (msgUser && msgUser[1]) {
+                        return convenienceMessageFor(msgUser[0], msgUser[1]);
+                    }
+                    return undefined;
+                }).subscribe(msg => {
+                    if (msg) {
+                        this.updates.next(new Update.EditMessage(msg));
+                    }
+                });
+            } break;
+
+            case API.UpdateShortSentMessage: {
+                const upd = update as API.UpdateShortSentMessage & { randomId: ArrayBuffer };
+
+                this.storage.updateMessage(upd.randomId, {
+                    id: upd.id,
+                    date: upd.date,
+                    entities: upd.entities,
+                    media: upd.media,
+                }).flatMap(msg => {
+                    if (msg instanceof API.Message || msg instanceof API.MessageService) {
+                        if (msg.fromId) {
+                            return this.storage.readUsers(msg.fromId.value)
+                                .map(users => [msg, users[0]]);
+                        }
+                    }
+                    throw new Error();
+                }).map(msgUser => {
+                    if (msgUser && msgUser[1]) {
+                        return convenienceMessageFor(msgUser[0], msgUser[1]);
+                    }
+                    return undefined;
+                }).subscribe(msg => {
+                    if (msg) {
+                        Object.assign(msg, { randomId: upd.randomId });
+                        this.updates.next(new Update.EditMessage(msg));
+                    }
+                });
             } break;
 
             case API.UpdateDeleteMessages: {
@@ -306,13 +387,6 @@ export class UpdatesHandler {
                         map.keys.map(peer => {
                             tg.getMessageHistory(peer.peer, 1)
                                 .flatMap(msgs => msgs)
-                                .flatMap(msg => {
-                                    const update = {
-                                        topMessage: new TLInt(msg.id),
-                                    };
-                                    return this.storage.updateDialog(peer.peer, update)
-                                        .map(dialog => msg);
-                                })
                                 .subscribe(msg => {
                                     if (msg) {
                                         this.updates.next(new Update.TopMessage(msg));
@@ -607,37 +681,8 @@ export class UpdatesHandler {
             case API.UpdatePtsChanged:
                 break;
 
-            case API.UpdateShortSentMessage: {
-                // TODO
-            } break;
-
             default:
                 throw new Error();
-        }
-    }
-
-    private dropPendingUpdates() {
-        this.pendingPtsUpdates.sort((a, b) => {
-            return a.pts - b.pts;
-        });
-
-        let curPts = this.state.pts;
-        let goodPts = 0;
-        let goodIndex = 0;
-        this.pendingPtsUpdates.forEach((update, index) => {
-             curPts += update.ptsCount;
-             if (curPts >= update.pts) {
-                 goodPts = update.pts;
-                 goodIndex = index;
-             }
-        });
-
-        if (goodPts > 0) {
-            this.state.pts = goodPts;
-            for (let update of this.pendingPtsUpdates.slice(0, goodIndex + 1)) {
-                this.applyUpdate(update.update);
-            }
-            this.pendingPtsUpdates = this.pendingPtsUpdates.slice(goodIndex,);
         }
     }
 

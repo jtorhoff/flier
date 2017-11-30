@@ -51,90 +51,90 @@ export class ChatsListItem extends React.Component<Props, State> {
             user = this.props.chat.topMessage.from.firstName.string;
         }
         return (
-                <ListItem
-                    className={css(styles.root, this.props.selected && styles.selected)}
-                    onClick={this.props.onClick}
-                    leftAvatar={
-                        <div className={css(styles.avatar)}>
-                            <Avatar id={this.props.chat.peerId}
-                                    title={title}
-                                    photo={this.props.chat.photoSmall}/>
-                        </div>
-                    }
-                    primaryText={
-                        <span className={css(styles.primaryText)}>
-                            <span className={css(styles.primaryTextTitle)}
-                                  style={{
-                                      color: this.props.selected && "white",
-                                  }}>
-                            {
-                                title
-                            }
-                            </span>
-                            <span className={css(styles.primaryTextDate)}
-                                  style={{
-                                      color: this.props.selected && "white",
-                                  }}>
-                                {
-                                    !isLastMessageRead(this.props.chat) &&
-                                    <span
-                                        className={css(styles.lastMessageNotRead)}
-                                        style={{
-                                            background: this.props.selected && "white",
-                                        }}/>
-                                }
-                                {
-                                    this.date
-                                }
-                            </span>
+            <ListItem
+                className={css(styles.root, this.props.selected && styles.selected)}
+                onClick={this.props.onClick}
+                leftAvatar={
+                    <div className={css(styles.avatar)}>
+                        <Avatar id={this.props.chat.peerId}
+                                title={title}
+                                photo={this.props.chat.photoSmall}/>
+                    </div>
+                }
+                primaryText={
+                    <span className={css(styles.primaryText)}>
+                        <span className={css(styles.primaryTextTitle)}
+                              style={{
+                                  color: this.props.selected && "white",
+                              }}>
+                        {
+                            title
+                        }
                         </span>
-                    }
-                    secondaryText={
-                        <span className={css(styles.secondaryText, this.props.chat.unreadCount > 0 && styles.secondaryTextWithBadge)}
+                        <span className={css(styles.primaryTextDate)}
                               style={{
                                   color: this.props.selected && "white",
                               }}>
                             {
-                                this.props.typing.length > 0 &&
-                                typingElement(
-                                    this.props.chat,
-                                    this.props.typing
-                                        .map(typing => typing.user))
-                            }
-                            {
-                                this.props.typing.length === 0 && user &&
-                                <span>
-                                    <span style={{ color: this.props.selected ? "white" : darkBlack }}>
-                                        {
-                                            user + ": "
-                                        }
-                                    </span>
-                                    <span>
-                                        {
-                                            this.props.chat.topMessage.toString()
-                                        }
-                                    </span>
-                                </span>
-                            }
-                            {
-                                this.props.typing.length === 0 && !user &&
-                                this.props.chat.topMessage.toString()
-                            }
-                            {
-                                this.props.chat.unreadCount > 0 &&
-                                <Badge
-                                    className={css(styles.secondaryTextBadge)}
-                                    badgeContent={this.props.chat.unreadCount}
+                                !isLastMessageRead(this.props.chat) &&
+                                <span
+                                    className={css(styles.lastMessageNotRead)}
                                     style={{
-                                        display: undefined,
-                                        padding: undefined,
-                                    }}
-                                    primary={true}/>
+                                        background: this.props.selected && "white",
+                                    }}/>
+                            }
+                            {
+                                this.date
                             }
                         </span>
-                    }
-                    secondaryTextLines={2}>
-                </ListItem>
+                    </span>
+                }
+                secondaryText={
+                    <span className={css(styles.secondaryText, this.props.chat.unreadCount > 0 && styles.secondaryTextWithBadge)}
+                          style={{
+                              color: this.props.selected && "white",
+                          }}>
+                        {
+                            this.props.typing.length > 0 &&
+                            typingElement(
+                                this.props.chat,
+                                this.props.typing
+                                    .map(typing => typing.user))
+                        }
+                        {
+                            this.props.typing.length === 0 && user &&
+                            <span>
+                                <span style={{ color: this.props.selected ? "white" : darkBlack }}>
+                                    {
+                                        user + ": "
+                                    }
+                                </span>
+                                <span>
+                                    {
+                                        this.props.chat.topMessage.toString()
+                                    }
+                                </span>
+                            </span>
+                        }
+                        {
+                            this.props.typing.length === 0 && !user &&
+                            this.props.chat.topMessage.toString()
+                        }
+                        {
+                            this.props.chat.unreadCount > 0 &&
+                            <Badge
+                                className={css(styles.secondaryTextBadge)}
+                                badgeContent={this.props.chat.unreadCount}
+                                style={{
+                                    display: undefined,
+                                    padding: undefined,
+                                }}
+                                primary={true}/>
+                        }
+                    </span>
+                }
+                secondaryTextLines={2}>
+            </ListItem>
         );
     }
 }

@@ -1,18 +1,13 @@
-import "rxjs/add/observable/interval";
+import * as moment from "moment";
+import "rxjs/add/observable/concat";
 import "rxjs/add/operator/combineAll";
 import "rxjs/add/operator/combineLatest";
-import "rxjs/add/operator/concatAll";
-import "rxjs/add/operator/concatMap";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/mergeAll";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/reduce";
-import "rxjs/add/operator/scan";
-import "rxjs/add/operator/single";
 import "rxjs/add/operator/skip";
-import "rxjs/add/operator/take";
-import "rxjs/add/operator/toArray";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
@@ -22,11 +17,13 @@ import { ConvenienceChat } from "./Convenience/Chat";
 import { convenienceChatsArrayForDialogs } from "./Convenience/ChatsArrayForDialog";
 import { ConvenienceMessage } from "./Convenience/Message";
 import { convenienceMessageFor } from "./Convenience/MessageFor";
+import { ByteStream } from "./DataStructures/ByteStream";
 import {
     FileManager,
     FileLocation,
     DocumentLocation
 } from "./Files/FileManager";
+import { SecureRandom } from "./SecureRandom/SecureRandom";
 import { DataCenter, ErrorType, NetworkState } from "./Session/DataCenter";
 import { sha256 } from "./SHA/SHA";
 import { PersistentStorage } from "./Storage/PersistentStorage";
@@ -37,7 +34,6 @@ import { TLString } from "./TL/Types/TLString";
 import { Update } from "./Updates/Update";
 import { UpdatesHandler } from "./Updates/UpdatesHandler";
 import { concat } from "./Utils/BytesConcat";
-import { instanceOf } from "prop-types";
 
 export type Chat = ConvenienceChat;
 export type Message = ConvenienceMessage;
@@ -52,6 +48,8 @@ export class TG {
     private mainDataCenter: DataCenter;
     private updatesHandler: UpdatesHandler;
     private fileManager: FileManager;
+
+    private sentMessageIdCounter = 0;
 
     constructor(readonly appConfig: AppConfig) {
         this.mainDataCenter = new DataCenter(appConfig.apiId);
@@ -341,18 +339,19 @@ export class TG {
                 } else {
                     throw new Error();
                 }
+
                 const msgObservable = this.storage
-                    .readMessages(dialog.topMessage.value)
+                    .readMessageHistory(dialog.peer, 1)
                     .map(msgs => msgs[0]);
 
-                return Observable.merge(
+                return Observable.concat(
                     Observable.of(dialog),
                     peerObservable,
                     msgObservable
                         .flatMap(msg => {
                             if (msg instanceof API.Message || msg instanceof API.MessageService) {
                                 if (msg.fromId) {
-                                    return Observable.merge(
+                                    return Observable.concat(
                                         Observable.of(msg),
                                         this.storage.readUsers(msg.fromId.value)
                                             .map(users => users[0]));
@@ -388,7 +387,8 @@ export class TG {
 
     getMessageHistory(peerChat: API.PeerType | Chat,
                       limit: number,
-                      offsetId?: number): Observable<Array<Message>> {
+                      offsetId?: number,
+                      offsetDate?: number): Observable<Array<Message>> {
         let inputPeerObservable: Observable<API.InputPeerType>;
         let peer: API.PeerType;
         if (peerChat instanceof API.PeerUser ||
@@ -402,7 +402,7 @@ export class TG {
         }
 
         return inputPeerObservable.flatMap(inputPeer =>
-                this.storage.readMessageHistory(peer, limit, offsetId)
+                this.storage.readMessageHistory(peer, limit, offsetId, offsetDate)
                     .map(msgs => [inputPeer, msgs])
             )
             .switchMap((inputPeerMsgs: [API.InputPeerUser | API.InputPeerChat | API.InputPeerChannel, API.MessageType[]]) => {
@@ -415,7 +415,7 @@ export class TG {
                         new API.messages.GetHistory(
                             inputPeer,
                             new TLInt(offsetId || 0),
-                            new TLInt(0),
+                            new TLInt(offsetDate || 0),
                             new TLInt(0),
                             new TLInt(limit),
                             new TLInt(0),
@@ -441,7 +441,7 @@ export class TG {
                     }
                     return 0;
                 });
-                return Observable.merge(
+                return Observable.concat(
                     Observable.of(msgs),
                     this.storage.readUsers(...users));
             })
@@ -573,6 +573,81 @@ export class TG {
         return this.storage
             .readUsers(...userIds)
             .map(users => users.filter(user => user instanceof API.User) as Array<API.User>);
+    }
+
+    setTyping(peer: API.PeerType, action: API.SendMessageActionType): Observable<any> {
+        return this.inputPeerByPeer(peer)
+            .flatMap(inputPeer => this.mainDataCenter.call(new API.messages.SetTyping(inputPeer, action)));
+    }
+
+    sendMessage(peer: API.PeerType, message: {
+        message: string,
+        replyTo?: number,
+    }): Observable<any> {
+        const randomId = SecureRandom.bytes(8);
+
+        return this.inputPeerByPeer(peer)
+            .map(inputPeer =>
+                new API.messages.SendMessage(
+                    false,
+                    false,
+                    false,
+                    false,
+                    inputPeer,
+                    undefined,
+                    new TLString(message.message),
+                    TLLong.deserialized(new ByteStream(randomId))!,
+                    undefined,
+                    undefined)
+            )
+            .flatMap(sendMsg => Observable.concat(
+                Observable.of(sendMsg),
+                this.storage.readMyUserId())
+            )
+            .combineLatest()
+            .reduce((acc: any[], item) => acc.concat(item))
+            .do((sendMsgUserId: [API.messages.SendMessage, number]) => {
+                const sendMsg = sendMsgUserId[0];
+                const userId = sendMsgUserId[1];
+                const message = new API.Message(
+                    true,
+                    false,
+                    false,
+                    sendMsg.silent,
+                    false,
+                    new TLInt(this.sentMessageIdCounter++),
+                    new TLInt(userId),
+                    peer,
+                    undefined,
+                    undefined,
+                    sendMsg.replyToMsgId,
+                    new TLInt(moment().unix()),
+                    sendMsg.message,
+                    undefined,
+                    sendMsg.replyMarkup,
+                    sendMsg.entities,
+                    undefined,
+                    undefined);
+                Object.assign(message, { randomId: sendMsg.randomId.serialized().buffer });
+                this.updatesHandler.applyUpdate(
+                    new API.UpdateNewMessage(message, new TLInt(0), new TLInt(0)));
+            })
+            .flatMap((sendMsgUserId: [API.messages.SendMessage, number]) =>
+                Observable.concat(
+                    Observable.of(sendMsgUserId[0]),
+                    this.mainDataCenter.call(sendMsgUserId[0])
+                )
+            )
+            .combineLatest()
+            .reduce((acc: any[], item) => acc.concat(item))
+            .do((sendMessageUpdates: [API.messages.SendMessage, API.UpdateShortSentMessage]) => {
+                const sentMessage = sendMessageUpdates[1];
+                Object.assign(sentMessage, { randomId: randomId.buffer });
+                this.updatesHandler.feedUpdates(sentMessage);
+            })
+            .map((sendMessageUpdates: [API.messages.SendMessage, API.UpdateShortSentMessage]) =>
+                sendMessageUpdates[1]
+            )
     }
 }
 

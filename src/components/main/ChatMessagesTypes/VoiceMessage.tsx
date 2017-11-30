@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexShrink: 0,
     },
     waveform: {
         height: 40,

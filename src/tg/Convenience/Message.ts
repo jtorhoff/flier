@@ -1,4 +1,6 @@
 import { API } from "../Codegen/API/APISchema";
+import * as moment from "moment";
+import { Moment } from "moment";
 
 export class ConvenienceMessage {
     readonly id: number;
@@ -22,6 +24,7 @@ export class ConvenienceMessage {
     readonly editDate?: number;
     readonly action?: API.MessageActionType;
     readonly peer?: API.PeerType;
+    readonly randomId?: ArrayBuffer;
 
     constructor(message: {
         id: number,
@@ -42,6 +45,7 @@ export class ConvenienceMessage {
         views?: number,
         editDate?: number,
         action?: API.MessageActionType,
+        randomId?: ArrayBuffer,
     }) {
         this.id = message.id;
         this.date = message.date;
@@ -60,6 +64,7 @@ export class ConvenienceMessage {
         this.views = message.views;
         this.editDate = message.editDate;
         this.action = message.action;
+        this.randomId = message.randomId;
 
         if (this.to instanceof API.PeerChat ||
             this.to instanceof API.PeerChannel ||
@@ -180,6 +185,27 @@ export class ConvenienceMessage {
             return "No messages yet";
         } else if (this.action instanceof API.MessageActionGameScore) {
             // TODO
+        } else if (this.action instanceof API.MessageActionPhoneCall) {
+            if (this.action.reason instanceof API.PhoneCallDiscardReasonHangup && this.action.duration) {
+                let duration: Moment | string = moment.utc(this.action.duration.value * 1000);
+                if (duration.hours()) {
+                    duration = `${duration.hours()} hours ${duration.minutes()} minutes`;
+                } else if (duration.minutes()) {
+                    duration = `${duration.minutes()} minutes`;
+                } else if (duration.seconds()) {
+                    duration = `${duration.seconds()} seconds`;
+                }
+
+                if (this.out) {
+                    return `Outgoing call (${duration})`;
+                } else {
+                    return `Incoming call (${duration})`;
+                }
+            } else if (this.action.reason instanceof API.PhoneCallDiscardReasonMissed) {
+                return "Missed call";
+            } else {
+                return "Cancelled call";
+            }
         }
 
         return "Not supported yet";
@@ -267,6 +293,8 @@ const extractType = (message: ConvenienceMessage): MessageType => {
         return MessageType.HistoryClear;
     } else if (message.action instanceof API.MessageActionGameScore) {
         return MessageType.GameScore;
+    } else if (message.action instanceof API.MessageActionPhoneCall) {
+        return MessageType.Call;
     }
 
     return MessageType.NotSupported;
@@ -297,6 +325,7 @@ export enum MessageType {
     PinMessage,
     HistoryClear,
     GameScore,
+    Call,
     NotSupported,
 }
 

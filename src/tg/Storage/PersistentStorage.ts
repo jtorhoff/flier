@@ -2,6 +2,7 @@ import { Observable } from "rxjs/Observable";
 import { API } from "../Codegen/API/APISchema";
 import { FileLocation, DocumentLocation } from "../Files/FileManager";
 import { DexieStorage } from "./DexieStorage";
+import { TLInt } from "../TL/Types/TLInt";
 
 export namespace PersistentStorage {
     export interface Storage {
@@ -27,11 +28,17 @@ export namespace PersistentStorage {
         deleteUsers(...ids: number[]): Observable<any>;
         updateUser(id: number, update: Partial<API.User>): Observable<API.User | undefined>;
 
-        readMessages(...ids: number[]): Observable<Array<API.MessageType>>;
-        writeMessages(...messages: API.MessageType[]): Observable<any>;
+        readMessages(...ids: number[]): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>>;
+        writeMessages(...messages: Array<API.MessageType & { randomId?: ArrayBuffer }>): Observable<any>;
         deleteMessages(...ids: number[]): Observable<Array<{ peer: API.PeerType, msgId: number}>>;
-        updateMessage(id: number, update: Partial<API.Message & API.MessageService>): Observable<API.Message | API.MessageService | undefined>;
-        readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number): Observable<Array<API.MessageType>>;
+
+        /**
+         * @param {number | ArrayBuffer} id Message's integer identifier of randomId.
+         * @param {Partial<API.Message & API.MessageService & {randomId?: ArrayBuffer}>} update
+         * @returns {Observable<(API.Message & {randomId?: ArrayBuffer}) | (API.MessageService & {randomId?: ArrayBuffer})>}
+         */
+        updateMessage(id: number | ArrayBuffer, update: Partial<API.Message & API.MessageService & { randomId?: ArrayBuffer }>): Observable<API.Message & { randomId?: ArrayBuffer } | API.MessageService & { randomId?: ArrayBuffer } | undefined>;
+        readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number, offsetDate?: number): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>>;
 
         readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined>;
         appendFile(location: FileLocation | DocumentLocation, data: Blob, complete: boolean): Observable<{ complete: boolean, savedSize: number }>;
@@ -39,9 +46,9 @@ export namespace PersistentStorage {
         readRecentStickers(): Observable<RecentStickers | undefined>;
         writeRecentStickers(stickers: RecentStickers): Observable<any>;
 
-        readDialogs(...peers: API.PeerType[]): Observable<Array<API.Dialog>>;
-        writeDialogs(...dialogs: API.Dialog[]): Observable<any>;
-        updateDialog(peer: API.PeerType, update: Partial<API.Dialog>): Observable<API.Dialog | undefined>;
+        readDialogs(...peers: API.PeerType[]): Observable<Array<API.Dialog & { topMessage: TLInt | ArrayBuffer }>>;
+        writeDialogs(...dialogs: Array<API.Dialog & { topMessage: TLInt | ArrayBuffer }>): Observable<any>;
+        updateDialog(peer: API.PeerType, update: Partial<API.Dialog & { topMessage: TLInt | ArrayBuffer }>): Observable<API.Dialog & { topMessage: TLInt | ArrayBuffer } | undefined>;
     }
 
     export interface Authorization {
@@ -75,8 +82,9 @@ export namespace PersistentStorage {
     export interface Message {
         readonly id: number;
         readonly message: ArrayBuffer;
-        readonly randomId?: number;
-        readonly peer?: ["u" | "g" | "c", number];
+        readonly randomId?: ArrayBuffer;
+        readonly peer: ["u" | "g" | "c", number];
+        readonly date: number,
     }
 
     export interface File {
@@ -92,7 +100,6 @@ export namespace PersistentStorage {
 
     export interface Dialogs {
         readonly peer: ["u" | "g" | "c", number],
-        readonly topMessageId: number,
         readonly dialog: ArrayBuffer,
     }
 

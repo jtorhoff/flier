@@ -153,8 +153,8 @@ export class Chat extends React.Component<Props, State> {
         return (
             <div className={css(styles.root)}>
                 <ChatHeader chat={this.state.chat}/>
-                <ChatMessages chat={this.state.chat}/>
-                <ChatFooter/>
+                <ChatMessages key={this.state.chat.peerId} chat={this.state.chat}/>
+                <ChatFooter peer={this.props.peer}/>
             </div>
         );
     }

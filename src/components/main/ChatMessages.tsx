@@ -6,11 +6,13 @@ import * as moment from "moment";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import { Subscription } from "rxjs/Subscription";
+import { buffersEqual } from "../../misc/CompareArrayBuffer";
 import { measureMedia } from "../../misc/MediaMeasurer";
 import { measureText } from "../../misc/TextMeasurer";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { MessageType, MessageActionTypes } from "../../tg/Convenience/Message";
 import { Message, Chat } from "../../tg/TG";
+import { Update } from "../../tg/Updates/Update";
 import { tg, muiTheme } from "../App";
 import { Photo } from "../misc/Photo";
 import { ReverseList, ListRowProps } from "../misc/ReverseList";
@@ -35,6 +37,7 @@ export class ChatMessages extends React.Component<Props, State> {
     private allMessagesLoaded = false;
     private messagesSubscription: Subscription;
     private listRef?: ReverseList;
+    private updatesSubscription: Subscription;
 
     state: State = {
         messages: List(),
@@ -47,15 +50,17 @@ export class ChatMessages extends React.Component<Props, State> {
         }
 
         let offsetId = undefined;
+        let offsetDate = undefined;
         if (!clearList) {
             const offsetMsg = this.state.messages
                 .filter(msg => !!msg && msg.type !== "pseudo")
-                .last();
-            offsetId = offsetMsg && offsetMsg.type !== "pseudo" ? offsetMsg.id : undefined;
+                .last() as Message | undefined;
+            offsetId = offsetMsg && offsetMsg.id;
+            offsetDate = offsetMsg && offsetMsg.date;
         }
 
         this.loadingMessages = true;
-        this.messagesSubscription = tg.getMessageHistory(this.props.chat, 20, offsetId)
+        this.messagesSubscription = tg.getMessageHistory(this.props.chat, 20, offsetId, offsetDate)
             .subscribe({
                 next: messages => {
                     if (messages.length === 0) {
@@ -94,8 +99,56 @@ export class ChatMessages extends React.Component<Props, State> {
             });
     }
 
+    handleUpdate(update: Update) {
+        switch (update.constructor) {
+            case Update.NewMessage: {
+                const message = (update as Update.NewMessage).message;
+                if (this.props.chat.peerEquals(message.peer)) {
+                    this.setState(state => {
+                        return {
+                            messages: state.messages.insert(0, message),
+                        }
+                    });
+                }
+            } break;
+
+            case Update.DeleteMessages: {
+                // noinspection UnnecessaryLocalVariableJS
+                const deletedMessages = (update as Update.DeleteMessages).messages;
+                deletedMessages.forEach((peer, msgIds) => {
+                    if (this.props.chat.peerEquals(peer.peer)) {
+                        this.setState(state => {
+                            return {
+                                messages: state.messages.filter(msg => {
+                                    return (!!msg && msg.type === "pseudo")
+                                        || (!!msg && msgIds.indexOf(msg.id) === -1)
+                                })
+                            }
+                        })
+                    }
+                });
+            } break;
+
+            case Update.EditMessage: {
+                const message = (update as Update.EditMessage).message;
+                if (this.props.chat.peerEquals(message.peer)) {
+                    this.setState(state => {
+                        const index = state.messages.findIndex(msg =>
+                            !!msg && msg.type !== "pseudo" &&
+                            (msg.id === message.id || buffersEqual(msg.randomId, message.randomId)));
+                        return {
+                            messages: state.messages.set(index, message),
+                        }
+                    })
+                }
+            } break;
+        }
+    }
+
     componentDidMount() {
         this.loadMessages(true);
+        this.updatesSubscription = tg.updates
+            .subscribe(update => this.handleUpdate(update));
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -119,6 +172,7 @@ export class ChatMessages extends React.Component<Props, State> {
 
     componentWillUnmount() {
         this.messagesSubscription.unsubscribe();
+        this.updatesSubscription.unsubscribe();
     }
 
     rowHeight(index: number, containerWidth: number): number {
@@ -190,6 +244,8 @@ export class ChatMessages extends React.Component<Props, State> {
             }
         } else if (msg.type === MessageType.ChatEditPhoto) {
             height = 68;
+        } else if (msg.type === MessageType.Call) {
+            height = 48;
         }
 
         if (this.isCompactMessage(msg, index)) {
@@ -327,7 +383,7 @@ export class ChatMessages extends React.Component<Props, State> {
             );
         }
 
-        const key = ((msg as Message).id || -msg.date) + "-" + this.props.chat.peerId;
+        const key = ((msg as Message).id || -msg.date) + "-" + this.props.chat.peerId + "-" + msg.date;
         return (
             <div key={key} style={params.style}>
                 {
