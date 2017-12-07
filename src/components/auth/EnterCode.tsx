@@ -1,7 +1,13 @@
+/* Copyright (c) 2017 Juri Torhoff
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import { TextField, RaisedButton } from "material-ui";
 import { CardTitle, CardText } from "material-ui/Card";
 import * as React from "react";
-import { GenericError, ErrorType } from "../../tg/Session/DataCenter";
+import { ErrorType } from "../../tg/Session/DataCenter";
 import { tg } from "../App";
 import { shallowEquals } from "./Auth";
 import TextFieldProps = __MaterialUI.TextFieldProps;

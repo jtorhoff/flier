@@ -1,11 +1,17 @@
+/* Copyright (c) 2017 Juri Torhoff
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { API } from "../Codegen/API/APISchema";
-import { DataCenter, GenericError, ErrorType } from "../Session/DataCenter";
+import { DataCenter, GenericError } from "../Session/DataCenter";
 import { PersistentStorage } from "../Storage/PersistentStorage";
 import { TLInt } from "../TL/Types/TLInt";
 import { FileLocation, DocumentLocation } from "./FileManager";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export class FileDownloader {
     private readonly inputLocation: API.InputFileLocationType;

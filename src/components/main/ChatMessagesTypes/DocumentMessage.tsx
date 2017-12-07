@@ -1,9 +1,15 @@
+/* Copyright (c) 2017 Juri Torhoff
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import { StyleSheet, css } from "aphrodite/no-important";
 import { fullWhite, lightBlack } from "material-ui/styles/colors";
 import { EditorInsertDriveFile } from "material-ui/svg-icons";
 import * as React from "react";
-import { API } from "../../../tg/Codegen/API/APISchema";
 import { readableFileSize } from "../../../misc/ReadableFileSize";
+import { API } from "../../../tg/Codegen/API/APISchema";
 
 export const documentMessage = (document: API.Document) => {
     const filename = document.attributes.items.find(

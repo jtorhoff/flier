@@ -1,3 +1,9 @@
+/* Copyright (c) 2017 Juri Torhoff
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import { StyleSheet, css } from "aphrodite/no-important";
 import { ListItem, Badge } from "material-ui";
 import { lightBlack, darkBlack, red500 } from "material-ui/styles/colors";

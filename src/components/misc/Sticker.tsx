@@ -1,4 +1,11 @@
+/* Copyright (c) 2017 Juri Torhoff
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import * as React from "react";
+import "rxjs/add/operator/switchMap";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 import { blobToArrayBuffer } from "../../misc/BlobToArrayBuffer";
@@ -6,7 +13,6 @@ import { nativeWebPSupport } from "../../misc/NativeWebPSupport";
 import { renderWebpToCanvas } from "../../misc/RenderWebpToCanvas";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
-import "rxjs/add/operator/switchMap";
 
 interface Props {
     width: number,

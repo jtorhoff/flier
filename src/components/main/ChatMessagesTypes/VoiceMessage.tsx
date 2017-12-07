@@ -1,11 +1,17 @@
+/* Copyright (c) 2017 Juri Torhoff
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 import { StyleSheet, css } from "aphrodite/no-important";
-import { darkWhite, fullWhite, lightBlack } from "material-ui/styles/colors";
+import { fullWhite, lightBlack } from "material-ui/styles/colors";
 import { AvPlayArrow } from "material-ui/svg-icons";
+import * as moment from "moment";
 import * as React from "react";
 import { decodePCM } from "../../../misc/PCMUtils";
 import { API } from "../../../tg/Codegen/API/APISchema";
 import { Waveform } from "../../misc/Waveform";
-import * as moment from "moment";
 
 export const voiceMessage = (document: API.Document) => {
     const attr = document.attributes.items.find(
