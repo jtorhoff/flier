@@ -1,4 +1,6 @@
 import { StyleSheet, css } from "aphrodite/no-important";
+import { lightBlack, red500 } from "material-ui/styles/colors";
+import { DeviceAccessTime, AlertErrorOutline } from "material-ui/svg-icons";
 import * as moment from "moment";
 import * as React from "react";
 import { API } from "../../tg/Codegen/API/APISchema";
@@ -149,6 +151,33 @@ export class ChatMessagesItem extends React.Component<Props, State> {
                 </div>
                 <div className={css(styles.metaRow, this.props.compact && styles.contentRowCompact)}>
                     {
+                        this.props.message.id < 0 && !this.props.message.randomId &&
+                        <span className={css(styles.messageFailed)}>
+                            <span className={css(styles.messageFailedIcon)}>
+                                <AlertErrorOutline
+                                    style={{
+                                        width: 16,
+                                        height: 16,
+                                        color: red500,
+                                    }}/>
+                            </span>
+                        </span>
+                    }
+                    {
+                        this.props.message.id < 0 && this.props.message.randomId &&
+                        <span className={css(styles.messagePending)}>
+                            <span className={css(styles.messagePendingIcon)}>
+                                <DeviceAccessTime
+                                    style={{
+                                        width: 14,
+                                        height: 14,
+                                        color: lightBlack,
+                                    }}/>
+                            </span>
+                        </span>
+
+                    }
+                    {
                         !isMessageRead(this.props.chat, this.props.message) &&
                         <span className={css(styles.messageNotRead)}/>
                     }
@@ -213,5 +242,27 @@ const styles = StyleSheet.create({
         display: "inline-flex",
         marginRight: 8,
         borderRadius: "50%",
+    },
+    messagePending: {
+        display: "inline-flex",
+        marginRight: 5,
+        position: "relative",
+        width: 14,
+        height: 14,
+    },
+    messagePendingIcon: {
+        position: "absolute",
+        paddingTop: 2,
+    },
+    messageFailed: {
+        display: "inline-flex",
+        marginRight: 4,
+        position: "relative",
+        width: 16,
+        height: 16,
+    },
+    messageFailedIcon: {
+        position: "absolute",
+        paddingTop: 3,
     },
 });

@@ -1,6 +1,7 @@
 import { StyleSheet, css } from "aphrodite/no-important";
 import { ListItem, Badge } from "material-ui";
-import { lightBlack, darkBlack } from "material-ui/styles/colors";
+import { lightBlack, darkBlack, red500 } from "material-ui/styles/colors";
+import { DeviceAccessTime, AlertErrorOutline } from "material-ui/svg-icons";
 import * as moment from "moment";
 import * as React from "react";
 import { API } from "../../tg/Codegen/API/APISchema";
@@ -76,6 +77,34 @@ export class ChatsListItem extends React.Component<Props, State> {
                                   color: this.props.selected && "white",
                               }}>
                             {
+                                this.props.chat.topMessage.id < 0 && !this.props.chat.topMessage.randomId &&
+                                <span
+                                    className={css(styles.lastMessageFailed)}>
+                                    <span className={css(styles.lastMessageFailedIcon)}>
+                                        <AlertErrorOutline
+                                            style={{
+                                                width: 16,
+                                                height: 16,
+                                                color: red500,
+                                            }}/>
+                                    </span>
+                                </span>
+                            }
+                            {
+                                this.props.chat.topMessage.id < 0 && this.props.chat.topMessage.randomId &&
+                                <span className={css(styles.lastMessagePending)}>
+                                    <span
+                                        className={css(styles.lastMessagePendingIcon)}>
+                                        <DeviceAccessTime
+                                            style={{
+                                                width: 14,
+                                                height: 14,
+                                                color: this.props.selected ? "white" : lightBlack,
+                                            }}/>
+                                    </span>
+                                </span>
+                            }
+                            {
                                 !isLastMessageRead(this.props.chat) &&
                                 <span
                                     className={css(styles.lastMessageNotRead)}
@@ -140,7 +169,7 @@ export class ChatsListItem extends React.Component<Props, State> {
 }
 
 const isLastMessageRead = (chat: Chat): boolean => {
-    return chat.readOutboxMaxId === chat.topMessage.id || !chat.topMessage.out;
+    return chat.readOutboxMaxId === chat.topMessage.id || !chat.topMessage.out || chat.topMessage.id < 0;
 };
 
 const readableDate = (timestamp: number): string => {
@@ -227,6 +256,28 @@ const styles = StyleSheet.create({
         display: "inline-flex",
         marginRight: 8,
         borderRadius: "50%",
+    },
+    lastMessagePending: {
+        display: "inline-flex",
+        marginRight: 5,
+        position: "relative",
+        width: 14,
+        height: 14,
+    },
+    lastMessagePendingIcon: {
+        position: "absolute",
+        paddingTop: 2,
+    },
+    lastMessageFailed: {
+        display: "inline-flex",
+        marginRight: 4,
+        position: "relative",
+        width: 16,
+        height: 16,
+    },
+    lastMessageFailedIcon: {
+        position: "absolute",
+        paddingTop: 3,
     },
     typing: {
         animationName: typingAnimation,

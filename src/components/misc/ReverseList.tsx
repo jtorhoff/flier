@@ -11,11 +11,14 @@ interface Props {
     rowRenderer: (params: ListRowProps) => ReactNode,
     scrollToBottom: boolean,
     dataHash: number,
+    firstItem: any,
+    lastItem: any,
     loadMoreRows: () => void,
+    onRowsRendered?: (params: { startIndex: number, stopIndex: number }) => void,
 }
 
 interface State {
-    paddingTop: number,
+
 }
 
 export class ReverseList extends React.Component<Props, State> {
@@ -25,10 +28,7 @@ export class ReverseList extends React.Component<Props, State> {
     private adjustingScroll = false;
     private loadingExtraToFillScreen = false;
     private scrolledToBottom = false;
-
-    state: State = {
-        paddingTop: 0,
-    };
+    private paddingTop = 0;
 
     recomputeRowHeights() {
         if (this.props.rowCount > 0) {
@@ -79,12 +79,19 @@ export class ReverseList extends React.Component<Props, State> {
             || nextProps.scrollToBottom !== this.props.scrollToBottom
             || nextProps.dataHash !== this.props.dataHash
             || nextProps.loadMoreRows !== this.props.loadMoreRows
-            || nextState.paddingTop !== this.state.paddingTop;
+            || nextProps.onRowsRendered !== this.props.onRowsRendered;
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
         if (prevProps.dataHash !== this.props.dataHash && this.gridRef) {
-            if (!prevProps.scrollToBottom) {
+            if (this.scrolledToBottom &&
+                !prevProps.scrollToBottom &&
+                prevProps.firstItem !== this.props.firstItem) {
+                this.gridRef.scrollToCell({
+                    columnIndex: 0,
+                    rowIndex: this.props.rowCount - 1,
+                });
+            } else if (prevProps.lastItem !== this.props.lastItem) {
                 this.adjustingScroll = true;
 
                 let diff = 0;
@@ -110,28 +117,16 @@ export class ReverseList extends React.Component<Props, State> {
             }
 
             if (this.listHeight < listEl.clientHeight) {
-                if (this.state.paddingTop !== listEl.clientHeight - this.listHeight) {
-                    this.setState({
-                        paddingTop: listEl.clientHeight - this.listHeight,
-                    });
+                if (this.paddingTop !== listEl.clientHeight - this.listHeight) {
+                    this.paddingTop = listEl.clientHeight - this.listHeight;
+                    (listEl as HTMLElement).style.paddingTop = this.paddingTop + "px";
                 }
             } else {
-                if (this.state.paddingTop !== 0) {
-                    this.setState({
-                        paddingTop: 0,
-                    });
+                if (this.paddingTop !== 0) {
+                    this.paddingTop = 0;
+                    (listEl as HTMLElement).style.paddingTop = "0px";
                 }
             }
-
-            // if (this.scrolledToBottom) {
-            //     console.log(listEl.scrollTop, listEl.scrollHeight, listEl.clientHeight);
-            //
-            //     // console.log(listEl.scrollHeight - listEl.clientHeight)
-            //     //
-            //     // requestAnimationFrame(() => {
-            //     //     listEl.scrollTop = listEl.scrollHeight - listEl.clientHeight;
-            //     // });
-            // }
         }
     }
 
@@ -160,6 +155,13 @@ export class ReverseList extends React.Component<Props, State> {
                 columnWidth={this.props.width}
                 rowHeight={params => this.rowHeight(params.index)}
                 cellRenderer={params => this.renderRow(params)}
+                onSectionRendered={params => {
+                    if (!this.props.onRowsRendered) return;
+                    this.props.onRowsRendered({
+                        startIndex: Math.abs(params.rowStopIndex - this.props.rowCount + 1),
+                        stopIndex: Math.abs(params.rowStartIndex - this.props.rowCount + 1),
+                    })
+                }}
                 estimatedRowSize={48}
                 horizontalOverscanSize={0}
                 verticalOverscanSize={0}
@@ -170,7 +172,6 @@ export class ReverseList extends React.Component<Props, State> {
                 style={{
                     outline: "none",
                     overflowX: "hidden",
-                    paddingTop: this.state.paddingTop,
                 }}/>
         );
     }

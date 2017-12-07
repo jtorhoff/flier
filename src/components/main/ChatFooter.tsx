@@ -13,6 +13,7 @@ import { CSSProperties } from "react";
 import * as ReactDOM from "react-dom";
 import { CSSTransitionGroup } from "react-transition-group";
 import { API } from "../../tg/Codegen/API/APISchema";
+import { TLString } from "../../tg/TL/Types/TLString";
 import { primaryColor, tg } from "../App";
 import { ChatStickersPopup } from "./ChatStickersPopup";
 import TextFieldProps = __MaterialUI.TextFieldProps;
@@ -35,20 +36,31 @@ export class ChatFooter extends React.Component<Props, State> {
         stickersPopupOpen: false,
     };
 
-    submit() {
+    submitMessage() {
         if (this.state.message) {
             tg.sendMessage(this.props.peer, { message: this.state.message })
                 .subscribe();
+            this.setState({
+                message: "",
+            });
         }
+    }
+
+    submitSticker(sticker: API.Document) {
+        setTimeout(() => {
+            this.setState({
+                stickersPopupOpen: false,
+            });
+        }, 200);
+        tg.sendMessage(this.props.peer, {
+            media: new API.MessageMediaDocument(sticker, new TLString(""))
+        }).subscribe();
     }
 
     onKeyPress(event: React.KeyboardEvent<any>) {
         if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
-            this.submit();
-            this.setState({
-                message: "",
-            });
+            this.submitMessage();
         }
     }
 
@@ -95,7 +107,7 @@ export class ChatFooter extends React.Component<Props, State> {
             <IconButton key={"send"}
                         style={iconButtonStyle}
                         iconStyle={iconButtonIconStyle}
-                        onClick={this.submit.bind(this)}>
+                        onClick={this.submitMessage.bind(this)}>
                 <ContentSend color={primaryColor}/>
             </IconButton> :
             <IconButton key={"mic"}
@@ -107,7 +119,7 @@ export class ChatFooter extends React.Component<Props, State> {
                     hoverColor={primaryColor}/>
             </IconButton>;
         return (
-            <form className={css(styles.root)} onSubmit={this.submit.bind(this)}>
+            <form className={css(styles.root)} onSubmit={this.submitMessage.bind(this)}>
                 <style type="text/css">{transitionStyle}</style>
                 <IconButton style={iconButtonStyle}
                             iconStyle={iconButtonIconStyle}
@@ -152,7 +164,8 @@ export class ChatFooter extends React.Component<Props, State> {
                 </CSSTransitionGroup>
                 <ChatStickersPopup open={this.state.stickersPopupOpen}
                                    onClose={this.onStickerPopupClose.bind(this)}
-                                   anchorEl={this.stickersPopupAnchor}/>
+                                   anchorEl={this.stickersPopupAnchor}
+                                   onClick={sticker => this.submitSticker(sticker)}/>
             </form>
         );
     }

@@ -156,8 +156,10 @@ export class DexieStorage implements PersistentStorage.Storage {
         );
     }
 
-    readMessages(...ids: number[]): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>> {
-        return Observable.fromPromise(this.db.messages.where("id").anyOf(ids).toArray())
+    readMessages(...ids: Array<number | ArrayBuffer>): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>> {
+        return Observable.fromPromise(
+            this.db.messages.where("id").anyOf(ids)
+                .or("randomId").anyOf(ids).toArray())
             .map(messages => {
                 return messages.map(msg => {
                     const apiMessage = deserializedObject(new ByteStream(new Uint8Array(msg.message))) as API.MessageType;
@@ -275,6 +277,29 @@ export class DexieStorage implements PersistentStorage.Storage {
                 }
 
                 return apiMessage;
+            })
+        );
+    }
+
+    clearMessageRandomIds(except: Array<ArrayBuffer>): Observable<any> {
+        return Observable.fromPromise(
+            this.db.transaction("rw!", this.db.messages, async () => {
+                const msgs = (await this.db.messages
+                    .where("randomId")
+                    .noneOf(except)
+                    .toArray()
+                ).filter(item => item.randomId);
+
+                for (let msg of msgs) {
+                    await this.db.messages.where("randomId").equals(msg.randomId!).delete();
+                    await this.db.messages.put({
+                        id: msg.id,
+                        randomId: undefined,
+                        message: msg.message,
+                        date: msg.date,
+                        peer: msg.peer,
+                    });
+                }
             })
         );
     }

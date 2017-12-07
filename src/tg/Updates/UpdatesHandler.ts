@@ -21,6 +21,7 @@ export class UpdatesHandler {
         qts: 0,
         seq: 0,
     };
+    private shouldSyncState = false;
     readonly updates = new Subject<Update>();
 
     constructor(private readonly dataCenter: DataCenter,
@@ -30,6 +31,12 @@ export class UpdatesHandler {
                 this.state = state;
             }
         });
+        setInterval(() => {
+            if (this.shouldSyncState) {
+                this.shouldSyncState = false;
+                this.obtainUpdatesDifference();
+            }
+        }, 5000);
     }
 
     feedUpdates(updates: API.UpdatesType | (API.UpdateShortSentMessage & { randomId: ArrayBuffer })) {
@@ -172,7 +179,22 @@ export class UpdatesHandler {
             undefined,
             new TLInt(this.state.date),
             new TLInt(this.state.qts));
-        this.dataCenter.call(getDifference).subscribe(
+        this.dataCenter.call(getDifference)
+            .do(diff => {
+                let otherUpdates: Array<API.UpdateType> = [];
+                if (diff instanceof API.updates.Difference) {
+                    otherUpdates = diff.otherUpdates.items;
+                } else if (diff instanceof API.updates.DifferenceSlice) {
+                    otherUpdates = diff.otherUpdates.items;
+                }
+                const randomIds = otherUpdates
+                    .filter(upd => upd instanceof API.UpdateMessageID)
+                    .map(upd => (upd as API.UpdateMessageID).randomId.serialized().buffer);
+
+                this.storage.clearMessageRandomIds(randomIds)
+                    .subscribe();
+            })
+            .subscribe(
             diff => {
                 if (diff instanceof API.updates.DifferenceEmpty) {
                     this.applyUpdatesState({
@@ -217,7 +239,45 @@ export class UpdatesHandler {
         users: TLVector<API.UserType>
     }>) {
         if (updates.messages) {
-            this.storage.writeMessages(...updates.messages.items).subscribe();
+            for (let message of updates.messages.items) {
+                let updMsgId: API.UpdateMessageID | undefined = undefined;
+                if (updates.updates) {
+                    updMsgId = updates.updates.items.find(upd =>
+                        upd instanceof API.UpdateMessageID &&
+                        upd.id.equals(message.id)) as API.UpdateMessageID;
+                }
+                if (updMsgId) {
+                    this.storage.readMessages(updMsgId.randomId.serialized().buffer)
+                        .map(msgs => msgs[0])
+                        .subscribe(msg => {
+                            if (msg && (msg instanceof API.Message || msg instanceof API.MessageService)) {
+                                const upd = new API.UpdateShortSentMessage(
+                                    msg.out,
+                                    message.id,
+                                    new TLInt(0),
+                                    new TLInt(0),
+                                    msg.date,
+                                    msg instanceof API.Message ? msg.media : undefined,
+                                    msg instanceof API.Message ? msg.entities : undefined,
+                                );
+                                Object.assign(upd, { randomId: updMsgId!.randomId.serialized().buffer });
+                                this.applyUpdate(upd);
+                            } else {
+                                this.storage.readMessages(message.id.value)
+                                    .map(msgs => msgs[0])
+                                    .subscribe(msg => {
+                                        if (!msg) {
+                                            this.applyUpdate(new API.UpdateNewMessage(
+                                                message, new TLInt(0), new TLInt(0)));
+                                        }
+                                    })
+                            }
+                        });
+                } else {
+                    this.applyUpdate(new API.UpdateNewMessage(
+                        message, new TLInt(0), new TLInt(0)));
+                }
+            }
         }
         if (updates.chats) {
             this.storage.writeChats(...updates.chats.items).subscribe();
@@ -225,27 +285,31 @@ export class UpdatesHandler {
         if (updates.users) {
             this.storage.writeUsers(...updates.users.items).subscribe();
         }
+
         if (updates.updates) {
             for (let update of updates.updates.items) {
-                this.processUpdate(update);
-            }
-        }
-
-        if (updates.messages) {
-            for (let message of updates.messages.items) {
-                const fromId = (message as API.Message & API.MessageService)
-                    .fromId;
-                if (!fromId) continue;
-
-                this.storage.readUsers(fromId.value).subscribe(
-                    user => {
-                        if (user[0]) {
-                            const msg = convenienceMessageFor(message, user[0]);
-                            if (msg) {
-                                this.updates.next(new Update.NewMessage(msg));
-                            }
-                        }
-                    });
+                if (update instanceof API.UpdateNewMessage) {
+                    const updMsgId = updates.updates.items.find(upd =>
+                        upd instanceof API.UpdateMessageID &&
+                        upd.id.equals((update as API.UpdateNewMessage).message.id)) as API.UpdateMessageID;
+                    if (updMsgId && (update.message instanceof API.Message || update.message instanceof API.MessageService)) {
+                        const upd = new API.UpdateShortSentMessage(
+                            update.message.out,
+                            update.message.id,
+                            update.pts,
+                            update.ptsCount,
+                            update.message.date,
+                            update.message instanceof API.Message ? update.message.media : undefined,
+                            update.message instanceof API.Message ? update.message.entities : undefined,
+                        );
+                        Object.assign(upd, { randomId: updMsgId.randomId.serialized().buffer });
+                        this.processUpdate(upd);
+                    } else {
+                        this.processUpdate(update);
+                    }
+                } else {
+                    this.processUpdate(update);
+                }
             }
         }
 
@@ -279,7 +343,7 @@ export class UpdatesHandler {
             const ptsCount = meta.ptsCount;
 
             if (this.state.pts + ptsCount !== pts) {
-                this.obtainUpdatesDifference();
+                this.shouldSyncState = true;
                 return;
             } else {
                 this.applyUpdatesState({
@@ -300,7 +364,7 @@ export class UpdatesHandler {
                 if (!fromId) break;
 
                 this.storage.writeMessages(message)
-                    .flatMap(any => this.storage.readUsers(fromId.value))
+                    .flatMap(() => this.storage.readUsers(fromId.value))
                     .flatMap(users => users)
                     .map(user => {
                         return convenienceMessageFor(message, user);
@@ -314,27 +378,7 @@ export class UpdatesHandler {
             } break;
 
             case API.UpdateMessageID: {
-                const upd = update as API.UpdateMessageID;
-                this.storage.updateMessage(upd.randomId.serialized().buffer, {
-                    id: upd.id,
-                }).flatMap(msg => {
-                    if (msg instanceof API.Message || msg instanceof API.MessageService) {
-                        if (msg.fromId) {
-                            return this.storage.readUsers(msg.fromId.value)
-                                .map(users => [msg, users[0]]);
-                        }
-                    }
-                    throw new Error();
-                }).map(msgUser => {
-                    if (msgUser && msgUser[1]) {
-                        return convenienceMessageFor(msgUser[0], msgUser[1]);
-                    }
-                    return undefined;
-                }).subscribe(msg => {
-                    if (msg) {
-                        this.updates.next(new Update.EditMessage(msg));
-                    }
-                });
+                // ignore
             } break;
 
             case API.UpdateShortSentMessage: {

@@ -3,6 +3,7 @@ import { List } from "immutable";
 import { spacing } from "material-ui/styles";
 import { fullBlack, lightBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
+import { number } from "prop-types";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import { Subscription } from "rxjs/Subscription";
@@ -38,6 +39,7 @@ export class ChatMessages extends React.Component<Props, State> {
     private messagesSubscription: Subscription;
     private listRef?: ReverseList;
     private updatesSubscription: Subscription;
+    private maxReadId = 0;
 
     state: State = {
         messages: List(),
@@ -105,8 +107,10 @@ export class ChatMessages extends React.Component<Props, State> {
                 const message = (update as Update.NewMessage).message;
                 if (this.props.chat.peerEquals(message.peer)) {
                     this.setState(state => {
+                        const index = state.messages
+                            .findIndex(msg => !!msg && msg.date < message.date);
                         return {
-                            messages: state.messages.insert(0, message),
+                            messages: state.messages.insert(index, message),
                         }
                     });
                 }
@@ -149,6 +153,7 @@ export class ChatMessages extends React.Component<Props, State> {
         this.loadMessages(true);
         this.updatesSubscription = tg.updates
             .subscribe(update => this.handleUpdate(update));
+        this.maxReadId = this.props.chat.readInboxMaxId;
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -168,6 +173,8 @@ export class ChatMessages extends React.Component<Props, State> {
 
             this.loadMessages(true, true);
         }
+
+        this.maxReadId = this.props.chat.readInboxMaxId;
     }
 
     componentWillUnmount() {
@@ -436,7 +443,19 @@ export class ChatMessages extends React.Component<Props, State> {
                             rowRenderer={params => this.renderRow(params)}
                             scrollToBottom={this.state.scrollToBottom}
                             dataHash={this.state.messages.hashCode()}
-                            loadMoreRows={() => this.loadMessages(false)}/>
+                            firstItem={this.state.messages.first()}
+                            lastItem={this.state.messages.last()}
+                            loadMoreRows={() => this.loadMessages(false)}
+                            onRowsRendered={params => {
+                                const top = this.state.messages.slice(params.startIndex)
+                                    .filter(msg => !!msg && msg.type !== "pseudo" && !msg.out)
+                                    .first();
+                                if (top && (top as Message).id > this.maxReadId) {
+                                    tg.markHistoryAsRead(this.props.chat.peer, (top as Message).id)
+                                        .subscribe();
+                                    this.maxReadId = (top as Message).id;
+                                }
+                            }}/>
                     )}
                 </AutoSizer>
             </div>

@@ -1,3 +1,4 @@
+import { strictEqual } from "assert";
 import * as moment from "moment";
 import "rxjs/add/observable/concat";
 import "rxjs/add/operator/combineAll";
@@ -49,7 +50,7 @@ export class TG {
     private updatesHandler: UpdatesHandler;
     private fileManager: FileManager;
 
-    private sentMessageIdCounter = 0;
+    private sentMessageIdCounter = -(2 ** 31);
 
     constructor(readonly appConfig: AppConfig) {
         this.mainDataCenter = new DataCenter(appConfig.apiId);
@@ -58,20 +59,22 @@ export class TG {
         this.initFileManager();
     }
 
-    private initMainDc() {
-        this.storage.readAuthorization()
-            .subscribe(auth => {
-                if (auth) {
-                    this.mainDataCenter.init(
-                        this.appConfig.rsaKeys,
-                        auth.host,
-                        auth.authKey);
-                } else {
-                    this.mainDataCenter.init(
-                        this.appConfig.rsaKeys,
-                        this.appConfig.entryDC);
-                }
-            });
+    private initMainDc(initCalled?: boolean) {
+        if (!initCalled) {
+            this.storage.readAuthorization()
+                .subscribe(auth => {
+                    if (auth) {
+                        this.mainDataCenter.init(
+                            this.appConfig.rsaKeys,
+                            auth.host,
+                            auth.authKey);
+                    } else {
+                        this.mainDataCenter.init(
+                            this.appConfig.rsaKeys,
+                            this.appConfig.entryDC);
+                    }
+                });
+        }
 
         this.mainDataCenter.delegate = {
             authorized: this.didAuthorize.bind(this),
@@ -175,7 +178,7 @@ export class TG {
     private migrated(from: DataCenter, to: DataCenter) {
         if (from === this.mainDataCenter) {
             this.mainDataCenter = to;
-            this.initMainDc();
+            this.initMainDc(true);
             this.initFileManager();
             from.close();
         }
@@ -582,57 +585,110 @@ export class TG {
 
     sendMessage(peer: API.PeerType, message: {
         message: string,
-        replyTo?: number,
+    } | {
+        media: API.MessageMediaType,
     }): Observable<any> {
         const randomId = SecureRandom.bytes(8);
-
         return this.inputPeerByPeer(peer)
-            .map(inputPeer =>
-                new API.messages.SendMessage(
-                    false,
-                    false,
-                    false,
-                    false,
-                    inputPeer,
-                    undefined,
-                    new TLString(message.message),
-                    TLLong.deserialized(new ByteStream(randomId))!,
-                    undefined,
-                    undefined)
-            )
+            .map(inputPeer => {
+                let sendMsg;
+                if (message.hasOwnProperty("message")) {
+                    sendMsg = new API.messages.SendMessage(
+                        false,
+                        false,
+                        false,
+                        false,
+                        inputPeer,
+                        undefined,
+                        new TLString((message as any).message),
+                        TLLong.deserialized(new ByteStream(randomId))!,
+                        undefined,
+                        undefined);
+                } else if (message.hasOwnProperty("media")) {
+                    const media = (message as any).media as API.MessageMediaType;
+                    let inputMedia;
+                    if (media instanceof API.MessageMediaDocument &&
+                        media.document instanceof API.Document) {
+                        inputMedia = new API.InputMediaDocument(
+                            new API.InputDocument(
+                                media.document.id,
+                                media.document.accessHash),
+                            media.caption);
+                    } else {
+                        throw new Error();
+                    }
+                    sendMsg = new API.messages.SendMedia(
+                        false,
+                        false,
+                        false,
+                        inputPeer,
+                        undefined,
+                        inputMedia,
+                        TLLong.deserialized(new ByteStream(randomId))!,
+                        undefined);
+                } else {
+                    throw new Error();
+                }
+                return sendMsg;
+            })
             .flatMap(sendMsg => Observable.concat(
                 Observable.of(sendMsg),
                 this.storage.readMyUserId())
             )
             .combineLatest()
             .reduce((acc: any[], item) => acc.concat(item))
-            .do((sendMsgUserId: [API.messages.SendMessage, number]) => {
+            .do((sendMsgUserId: [API.messages.SendMessage | API.messages.SendMedia, number]) => {
                 const sendMsg = sendMsgUserId[0];
                 const userId = sendMsgUserId[1];
-                const message = new API.Message(
-                    true,
-                    false,
-                    false,
-                    sendMsg.silent,
-                    false,
-                    new TLInt(this.sentMessageIdCounter++),
-                    new TLInt(userId),
-                    peer,
-                    undefined,
-                    undefined,
-                    sendMsg.replyToMsgId,
-                    new TLInt(moment().unix()),
-                    sendMsg.message,
-                    undefined,
-                    sendMsg.replyMarkup,
-                    sendMsg.entities,
-                    undefined,
-                    undefined);
-                Object.assign(message, { randomId: sendMsg.randomId.serialized().buffer });
+                let msg;
+                if (sendMsg instanceof API.messages.SendMessage) {
+                    msg = new API.Message(
+                        true,
+                        false,
+                        false,
+                        sendMsg.silent,
+                        false,
+                        new TLInt(this.sentMessageIdCounter++),
+                        new TLInt(userId),
+                        peer,
+                        undefined,
+                        undefined,
+                        sendMsg.replyToMsgId,
+                        new TLInt(moment().unix()),
+                        sendMsg.message,
+                        undefined,
+                        sendMsg.replyMarkup,
+                        sendMsg.entities,
+                        undefined,
+                        undefined);
+                } else if (sendMsg instanceof API.messages.SendMedia) {
+                    msg = new API.Message(
+                        true,
+                        false,
+                        false,
+                        sendMsg.silent,
+                        false,
+                        new TLInt(this.sentMessageIdCounter++),
+                        new TLInt(userId),
+                        peer,
+                        undefined,
+                        undefined,
+                        sendMsg.replyToMsgId,
+                        new TLInt(moment().unix()),
+                        new TLString(""),
+                        (message as any).media as API.MessageMediaType,
+                        sendMsg.replyMarkup,
+                        undefined,
+                        undefined,
+                        undefined);
+                } else {
+                    throw new Error();
+                }
+                Object.assign(msg, { randomId: sendMsg.randomId.serialized().buffer });
                 this.updatesHandler.applyUpdate(
-                    new API.UpdateNewMessage(message, new TLInt(0), new TLInt(0)));
+                    new API.UpdateNewMessage(msg, new TLInt(0), new TLInt(0)));
             })
-            .flatMap((sendMsgUserId: [API.messages.SendMessage, number]) =>
+            .flatMap((sendMsgUserId: [API.messages.SendMessage | API.messages.SendMedia, number]) =>
                 Observable.concat(
                     Observable.of(sendMsgUserId[0]),
                     this.mainDataCenter.call(sendMsgUserId[0])
@@ -640,14 +696,28 @@ export class TG {
             )
             .combineLatest()
             .reduce((acc: any[], item) => acc.concat(item))
-            .do((sendMessageUpdates: [API.messages.SendMessage, API.UpdateShortSentMessage]) => {
+            .do((sendMessageUpdates: [API.messages.SendMessage | API.messages.SendMedia, API.UpdateShortSentMessage]) => {
                 const sentMessage = sendMessageUpdates[1];
                 Object.assign(sentMessage, { randomId: randomId.buffer });
                 this.updatesHandler.feedUpdates(sentMessage);
             })
-            .map((sendMessageUpdates: [API.messages.SendMessage, API.UpdateShortSentMessage]) =>
+            .map((sendMessageUpdates: [API.messages.SendMessage | API.messages.SendMedia, API.UpdateShortSentMessage]) =>
                 sendMessageUpdates[1]
             )
+    }
+
+    markHistoryAsRead(peer: API.PeerType, maxId: number): Observable<any> {
+        return this.inputPeerByPeer(peer)
+            .flatMap(inputPeer => this.mainDataCenter.call(
+                new API.messages.ReadHistory(inputPeer, new TLInt(maxId))))
+            .do((affectedMessages: API.messages.AffectedMessages) => {
+                this.updatesHandler.applyUpdate(
+                    new API.UpdateReadHistoryInbox(
+                        peer,
+                        new TLInt(maxId),
+                        affectedMessages.pts,
+                        affectedMessages.ptsCount));
+            });
     }
 }
 

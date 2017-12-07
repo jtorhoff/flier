@@ -1,8 +1,8 @@
 import { Observable } from "rxjs/Observable";
 import { API } from "../Codegen/API/APISchema";
 import { FileLocation, DocumentLocation } from "../Files/FileManager";
-import { DexieStorage } from "./DexieStorage";
 import { TLInt } from "../TL/Types/TLInt";
+import { DexieStorage } from "./DexieStorage";
 
 export namespace PersistentStorage {
     export interface Storage {
@@ -28,7 +28,7 @@ export namespace PersistentStorage {
         deleteUsers(...ids: number[]): Observable<any>;
         updateUser(id: number, update: Partial<API.User>): Observable<API.User | undefined>;
 
-        readMessages(...ids: number[]): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>>;
+        readMessages(...ids: Array<number | ArrayBuffer>): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>>;
         writeMessages(...messages: Array<API.MessageType & { randomId?: ArrayBuffer }>): Observable<any>;
         deleteMessages(...ids: number[]): Observable<Array<{ peer: API.PeerType, msgId: number}>>;
 
@@ -38,6 +38,7 @@ export namespace PersistentStorage {
          * @returns {Observable<(API.Message & {randomId?: ArrayBuffer}) | (API.MessageService & {randomId?: ArrayBuffer})>}
          */
         updateMessage(id: number | ArrayBuffer, update: Partial<API.Message & API.MessageService & { randomId?: ArrayBuffer }>): Observable<API.Message & { randomId?: ArrayBuffer } | API.MessageService & { randomId?: ArrayBuffer } | undefined>;
+        clearMessageRandomIds(except: Array<ArrayBuffer>): Observable<any>;
         readMessageHistory(peer: API.PeerType, limit: number, offsetId?: number, offsetDate?: number): Observable<Array<API.MessageType & { randomId?: ArrayBuffer }>>;
 
         readFile(location: FileLocation | DocumentLocation): Observable<Blob | undefined>;

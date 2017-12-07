@@ -58,7 +58,7 @@ export class Sticker extends React.Component<Props, State> {
                     if (nativeWebP) {
                         return Observable.of(URL.createObjectURL(blob));
                     } else {
-                        return blobToArrayBuffer(blob);
+                        return blobToArrayBuffer(blob) as any;
                     }
                 }))
             .subscribe(data => {
@@ -72,7 +72,7 @@ export class Sticker extends React.Component<Props, State> {
                         stickerLoaded: true,
                     }, () => {
                         renderWebpToCanvas(
-                            new Uint8Array(data),
+                            new Uint8Array(data as ArrayBuffer),
                             stickerWidth,
                             stickerHeight,
                             this.canvasRef!)
@@ -102,7 +102,12 @@ export class Sticker extends React.Component<Props, State> {
 
     render() {
         if (!this.state.stickerLoaded) {
-            return (<span/>);
+            return (
+                <div style={{
+                    width: this.props.width,
+                    height: this.props.height,
+                }}/>
+            );
         }
 
         let element: JSX.Element;

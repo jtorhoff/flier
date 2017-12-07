@@ -95,7 +95,7 @@ const appConfig = new AppConfig(
         Slv8kg9qv1m6XHVQY3PnEw+QQtqSIXklHwIDAQAB
         -----END RSA PUBLIC KEY-----`,
     ],
-    "149.154.167.51:443",
+    "149.154.167.50",
 );
 
 export const tg = new TG(appConfig);

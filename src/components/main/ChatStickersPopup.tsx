@@ -6,16 +6,17 @@ import { DeviceAccessTime } from "material-ui/svg-icons";
 import * as React from "react";
 import { ScrollParams, Grid, GridCellProps } from "react-virtualized";
 import { Subscription } from "rxjs/Subscription";
+import { measureMedia } from "../../misc/MediaMeasurer";
 import { API } from "../../tg/Codegen/API/APISchema";
 import { tg } from "../App";
 import { Popover } from "../misc/Popover";
 import { Sticker } from "../misc/Sticker";
-import { measureMedia } from "../../misc/MediaMeasurer";
 
 interface Props {
     open: boolean,
     onClose: () => void,
     anchorEl?: Element,
+    onClick?: (sticker: API.Document) => void,
 }
 
 interface State {
@@ -85,6 +86,7 @@ export class ChatStickersPopup extends React.Component<Props, State> {
         return nextProps.open !== this.props.open
             || nextProps.onClose !== this.props.onClose
             || nextProps.anchorEl !== this.props.anchorEl
+            || nextProps.onClick !== this.props.onClick
             || !nextState.stickers.equals(this.state.stickers)
             || nextState.activeSet !== this.state.activeSet
             || nextState.scrollToSet !== this.state.scrollToSet;
@@ -134,15 +136,21 @@ export class ChatStickersPopup extends React.Component<Props, State> {
         }
 
         return (
-            <div key={params.key} style={{
-                ...params.style,
-                userSelect: "none",
-                cursor: element === dummySticker ? "default" : "pointer",
-                width: stickerSize,
-                height: stickerSize,
-                top: params.style.top + 8,
-                left: params.style.left + 8,
-            }}>
+            <div key={params.key}
+                 onClick={() => {
+                     if (this.props.onClick && sticker instanceof API.Document) {
+                         this.props.onClick(sticker);
+                     }
+                 }}
+                 style={{
+                     ...params.style,
+                     userSelect: "none",
+                     cursor: element === dummySticker ? "default" : "pointer",
+                     width: stickerSize,
+                     height: stickerSize,
+                     top: params.style.top + 8,
+                     left: params.style.left + 8,
+                 }}>
                 {
                     element
                 }

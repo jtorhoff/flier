@@ -105,6 +105,8 @@ export class DataCenter {
     private host?: string;
     private authKey?: Uint8Array;
     private dcId?: number;
+    private migratingTo?: DataCenter;
+    private rsaKeys: Array<string> = [];
 
     delegate?: DataCenterDelegate;
 
@@ -123,6 +125,27 @@ export class DataCenter {
     get state(): Observable<NetworkState> {
         return this.stateSubject.asObservable();
     }
+    //
+    // /**
+    //  * Return a an observable that emits a list of pending messages' random ids
+    //  * @returns {Observable<Array<ArrayBuffer>>}
+    //  */
+    // get pendingMessages(): Observable<Array<ArrayBuffer>> {
+    //     return this.requests
+    //         .asObservable()
+    //         .filter(req =>
+    //             req.content instanceof API.messages.SendMessage ||
+    //             req.content instanceof API.messages.SendMedia)
+    //         .map(req => {
+    //             if (req.hasOwnProperty("randomId")) {
+    //                 return (req.content as TLObject & { randomId: ArrayBuffer }).randomId;
+    //             }
+    //             return undefined;
+    //         })
+    //         .filter(obj => obj instanceof ArrayBuffer)
+    //         .combineLatest()
+    //         .reduce((ids: Array<ArrayBuffer>, id: ArrayBuffer) => ids.concat(id)) as Observable<Array<ArrayBuffer>>;
+    // }
 
     constructor(readonly apiId: number) {
         this.worker = new SessionWorker();
@@ -145,6 +168,8 @@ export class DataCenter {
     init(rsaKeys: string[],
          host: string,
          authKey?: ArrayBuffer) {
+        this.rsaKeys = rsaKeys;
+
         this.host = host;
         this.authKey = authKey ? new Uint8Array(authKey) : undefined;
         this.worker.postMessage({
@@ -199,11 +224,25 @@ export class DataCenter {
                     if (result instanceof MTProto.RpcError) {
                         const error = errorForRpcError(result);
                         if (error.type === ErrorType.seeOther) {
-                            // TODO migrate
+                            if (!this.migratingTo) {
+                                this.migratingTo = new DataCenter(this.apiId);
+                                this.migrate(error.dcId!);
+                            }
+                            this.migratingTo.call(fun)
+                                .do(() => {
+                                    if (this.delegate && this.delegate.migrated) {
+                                        this.delegate.migrated(this, this.migratingTo!);
+                                    }
+                                })
+                                .subscribe(observer);
                         } else if (error.type === ErrorType.unauthorized) {
                             this.authorizedSubject.next(false);
+                            observer.error(error);
+                            observer.complete();
+                        } else {
+                            observer.error(error);
+                            observer.complete();
                         }
-                        observer.error(error);
                     } else {
                         if (result instanceof API.auth.Authorization) {
                             if (this.delegate) {
@@ -219,8 +258,8 @@ export class DataCenter {
                             this.authorizedSubject.next(true);
                         }
                         observer.next(result as ResultType);
+                        observer.complete();
                     }
-                    observer.complete();
                 },
             });
         });
@@ -268,6 +307,16 @@ export class DataCenter {
                 this.close();
             }
         });
+    }
+
+    private migrate(to: number) {
+        if (!this.migratingTo) throw new Error();
+
+        this.dcOptions
+            .subscribe(options => {
+                const host = options.find(opt => opt.id.value === to);
+                this.migratingTo!.init(this.rsaKeys, host!.ipAddress.string);
+            });
     }
 }
 

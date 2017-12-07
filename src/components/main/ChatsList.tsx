@@ -1,6 +1,6 @@
 import { StyleSheet, css } from "aphrodite/no-important";
 import { List } from "immutable";
-import { List as MaterialList, makeSelectable, Divider } from "material-ui";
+import { List as MaterialList, makeSelectable } from "material-ui";
 import { faintBlack } from "material-ui/styles/colors";
 import * as moment from "moment";
 import * as React from "react";
@@ -118,6 +118,9 @@ export class ChatsList extends React.Component<Props, State> {
                         !!message.peer && !!chat && chat.peerEquals(message.peer));
                 if (index !== -1) {
                     this.setState(state => {
+                        if (state.chats.get(index).topMessage.date > message.date) {
+                            return {};
+                        }
                         const chat = state.chats.get(index)
                             .setTopMessage(message);
                         return {
