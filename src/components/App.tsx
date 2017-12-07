@@ -101,7 +101,7 @@ const appConfig = new AppConfig(
         Slv8kg9qv1m6XHVQY3PnEw+QQtqSIXklHwIDAQAB
         -----END RSA PUBLIC KEY-----`,
     ],
-    "149.154.167.50",
+    TG.sslDcAddresses[1],
 );
 
 export const tg = new TG(appConfig);

@@ -13,6 +13,7 @@ import { API } from "../Codegen/API/APISchema";
 import { MTProto } from "../Codegen/MTProto/MTProtoSchema";
 import { ByteStream } from "../DataStructures/ByteStream";
 import { HashMap } from "../DataStructures/HashMap/HashMap";
+import { TG } from "../TG";
 import { TLFunction } from "../TL/Interfaces/TLFunction";
 import { TLObject } from "../TL/Interfaces/TLObject";
 import { deserializedObject } from "../TL/TLObjectDeserializer";
@@ -131,27 +132,6 @@ export class DataCenter {
     get state(): Observable<NetworkState> {
         return this.stateSubject.asObservable();
     }
-    //
-    // /**
-    //  * Return a an observable that emits a list of pending messages' random ids
-    //  * @returns {Observable<Array<ArrayBuffer>>}
-    //  */
-    // get pendingMessages(): Observable<Array<ArrayBuffer>> {
-    //     return this.requests
-    //         .asObservable()
-    //         .filter(req =>
-    //             req.content instanceof API.messages.SendMessage ||
-    //             req.content instanceof API.messages.SendMedia)
-    //         .map(req => {
-    //             if (req.hasOwnProperty("randomId")) {
-    //                 return (req.content as TLObject & { randomId: ArrayBuffer }).randomId;
-    //             }
-    //             return undefined;
-    //         })
-    //         .filter(obj => obj instanceof ArrayBuffer)
-    //         .combineLatest()
-    //         .reduce((ids: Array<ArrayBuffer>, id: ArrayBuffer) => ids.concat(id)) as Observable<Array<ArrayBuffer>>;
-    // }
 
     constructor(readonly apiId: number) {
         this.worker = new SessionWorker();
@@ -320,8 +300,8 @@ export class DataCenter {
 
         this.dcOptions
             .subscribe(options => {
-                const host = options.find(opt => opt.id.value === to);
-                this.migratingTo!.init(this.rsaKeys, host!.ipAddress.string);
+                const host = options.find(opt => opt.id.value === to)!;
+                this.migratingTo!.init(this.rsaKeys, TG.sslDcAddresses[host.id.value - 1]);
             });
     }
 }

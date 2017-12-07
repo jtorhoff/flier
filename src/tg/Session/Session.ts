@@ -249,7 +249,7 @@ export class Session {
         };
 
         xhr.responseType = "arraybuffer";
-        xhr.open("POST", `http://${ this.host }/apiw1`, true);
+        xhr.open("POST", `https://${ this.host }/apiw1`, true);
         xhr.send(message.serialized().buffer);
 
         if (DEBUG) {

@@ -45,6 +45,10 @@ export type Chat = ConvenienceChat;
 export type Message = ConvenienceMessage;
 
 export class TG {
+    public static readonly sslDcAddresses = [
+        "pluto", "venus", "aurora", "vesta", "flora"
+    ].map(subdomain => `${subdomain}.web.telegram.org`);
+
     private readonly storage = PersistentStorage.defaultStorage;
     private readonly authorizedSubject = new BehaviorSubject(false);
     private readonly fileDataCenters: { [index: number]: DataCenter } = {};
@@ -71,7 +75,7 @@ export class TG {
                     if (auth) {
                         this.mainDataCenter.init(
                             this.appConfig.rsaKeys,
-                            auth.host,
+                            TG.sslDcAddresses[auth.dcId - 1],
                             auth.authKey);
                     } else {
                         this.mainDataCenter.init(
@@ -138,7 +142,7 @@ export class TG {
                         .map(auth => {
                             dc.init(
                                 this.appConfig.rsaKeys,
-                                `${option.ipAddress.string}:${option.port.value}`,
+                                TG.sslDcAddresses[option.id.value - 1],
                                 auth ? auth.authKey : undefined);
                         })
                         .subscribe();
