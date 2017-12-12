@@ -15,6 +15,7 @@ export const renderWebpToCanvas = (data: Uint8Array,
                                    canvas: HTMLCanvasElement) => {
     if (!webp && !webpToCanvas) {
         webp = new ModuleWebP();
+        webp.doNotCaptureKeyboard = true;
         webpToCanvas = webp.cwrap("WebpToSDL", "number", ["array", "number", "number", "number"]);
     }
 

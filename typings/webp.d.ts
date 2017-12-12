@@ -11,6 +11,7 @@ declare module "webp" {
         new(): this;
         cwrap: (funcName: string, returnType: CType, argTypes: Array<CType>) => Function;
         canvas: HTMLCanvasElement | null;
+        doNotCaptureKeyboard: boolean;
     }
 
     const ModuleWebP: ModuleWebP;
