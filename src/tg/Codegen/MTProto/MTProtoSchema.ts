@@ -184,6 +184,55 @@ export namespace MTProto {
             readonly expiresIn: TLInt) {}
     }
 
+    export class BindAuthKeyInner implements TLObject {
+        static readonly cons = new TLInt(0x75a3f765);
+    
+        static deserialized(data: ByteStream): BindAuthKeyInner | undefined {
+            const constructor = TLInt.deserialized(data);
+            if (!constructor || !constructor.equals(BindAuthKeyInner.cons)) return undefined;
+    
+            const nonce = TLLong.deserialized(data);
+            if (!nonce) return undefined;
+    
+            const tempAuthKeyId = TLLong.deserialized(data);
+            if (!tempAuthKeyId) return undefined;
+    
+            const permAuthKeyId = TLLong.deserialized(data);
+            if (!permAuthKeyId) return undefined;
+    
+            const tempSessionId = TLLong.deserialized(data);
+            if (!tempSessionId) return undefined;
+    
+            const expiresAt = TLInt.deserialized(data);
+            if (!expiresAt) return undefined;
+    
+            return new BindAuthKeyInner(
+                nonce,
+                tempAuthKeyId,
+                permAuthKeyId,
+                tempSessionId,
+                expiresAt)
+        }
+    
+        serialized(): Uint8Array {
+            const constructor = BindAuthKeyInner.cons.serialized();
+            const nonce = this.nonce.serialized();
+            const tempAuthKeyId = this.tempAuthKeyId.serialized();
+            const permAuthKeyId = this.permAuthKeyId.serialized();
+            const tempSessionId = this.tempSessionId.serialized();
+            const expiresAt = this.expiresAt.serialized();
+    
+            return concat(constructor, nonce, tempAuthKeyId, permAuthKeyId, tempSessionId, expiresAt);
+        }
+    
+        constructor(
+            readonly nonce: TLLong,
+            readonly tempAuthKeyId: TLLong,
+            readonly permAuthKeyId: TLLong,
+            readonly tempSessionId: TLLong,
+            readonly expiresAt: TLInt) {}
+    }
+
     export class ServerDHParamsFail implements TLObject {
         static readonly cons = new TLInt(0x79cb045d);
     
@@ -1408,11 +1457,12 @@ export namespace MTProto {
     }
 
     export const constructables = ((): HashMap<TLInt, any> => {
-        const map = new HashMap<TLInt, any>(40);
+        const map = new HashMap<TLInt, any>(41);
     
         map.put(ResPQ.cons, ResPQ);
         map.put(PQInnerData.cons, PQInnerData);
         map.put(PQInnerDataTemp.cons, PQInnerDataTemp);
+        map.put(BindAuthKeyInner.cons, BindAuthKeyInner);
         map.put(ServerDHParamsFail.cons, ServerDHParamsFail);
         map.put(ServerDHParamsOk.cons, ServerDHParamsOk);
         map.put(ServerDHInnerData.cons, ServerDHInnerData);

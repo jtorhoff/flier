@@ -19,6 +19,7 @@ import { SecureRandom } from "../SecureRandom/SecureRandom";
 import { sha1 } from "../SHA/SHA";
 import { TLObject } from "../TL/Interfaces/TLObject";
 import { TLEncryptedMessage } from "../TL/TLEncryptedMessage";
+import { TLLegacyEncryptedMessage } from "../TL/TLLegacyEncryptedMessage";
 import { TLMessage } from "../TL/TLMessage";
 import { deserializedObject } from "../TL/TLObjectDeserializer";
 import { TLBytes } from "../TL/Types/TLBytes";
@@ -670,45 +671,28 @@ const bindTempAuthKey = (messageId: TLLong,
                          tempAuthKey: Uint8Array,
                          permAuthKey: Uint8Array,
                          serverTime: number): API.auth.BindTempAuthKey => {
-    const nonce = SecureRandom.bytes(8);
-    const tempAuthKeyId = sha1(tempAuthKey).slice(12,);
-    const permAuthKeyId = sha1(permAuthKey).slice(12,);
+    const nonce = TLLong.deserialized(new ByteStream(SecureRandom.bytes(8)))!;
+    const tempAuthKeyId = TLLong.deserialized(new ByteStream(sha1(tempAuthKey).slice(12,)))!;
+    const permAuthKeyId = TLLong.deserialized(new ByteStream(sha1(permAuthKey).slice(12,)))!;
     const expiresAt = new TLInt(
         serverTime + AuthKeyGenerator.temporaryKeyExpiresIn);
 
-    const encryptedMessage = new TLEncryptedMessage(
+    const encryptedMessage = new TLLegacyEncryptedMessage(
         permAuthKey,
         SecureRandom.bytes(8),
         SecureRandom.bytes(8),
         messageId,
         new TLInt(0),
-        new BindAuthKeyInner(
-            nonce, tempAuthKeyId, permAuthKeyId, sessionId, expiresAt));
+        new MTProto.BindAuthKeyInner(
+            nonce,
+            tempAuthKeyId,
+            permAuthKeyId,
+            TLLong.deserialized(new ByteStream(sessionId))!,
+            expiresAt));
 
     return new API.auth.BindTempAuthKey(
-        TLLong.deserialized(new ByteStream(permAuthKeyId))!,
-        TLLong.deserialized(new ByteStream(nonce))!,
+        permAuthKeyId,
+        nonce,
         expiresAt,
         new TLBytes(encryptedMessage.serialized()));
 };
-
-class BindAuthKeyInner implements TLObject {
-    static readonly cons = new TLInt(0x75a3f765);
-
-    serialized(): Uint8Array {
-        return concat(
-            BindAuthKeyInner.cons.serialized(),
-            this.nonce,
-            this.tempAuthKeyId,
-            this.permAuthKeyId,
-            this.tempSessionId,
-            this.expiresAt.serialized(),
-        );
-    }
-
-    constructor(readonly nonce: Uint8Array,
-                readonly tempAuthKeyId: Uint8Array,
-                readonly permAuthKeyId: Uint8Array,
-                readonly tempSessionId: Uint8Array,
-                readonly expiresAt: TLInt) {}
-}

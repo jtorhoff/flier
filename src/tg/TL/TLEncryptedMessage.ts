@@ -6,7 +6,8 @@
 
 import { IGE } from "../AES/IGE";
 import { ByteStream } from "../DataStructures/ByteStream";
-import { sha1 } from "../SHA/SHA";
+import { SecureRandom } from "../SecureRandom/SecureRandom";
+import { sha1, sha256 } from "../SHA/SHA";
 import { concat } from "../Utils/BytesConcat";
 import { TLObject } from "./Interfaces/TLObject";
 import { TLSerializable } from "./Interfaces/TLSerializable";
@@ -59,13 +60,14 @@ export class TLEncryptedMessage implements TLSerializable {
         if (!len) return undefined;
 
         const lenDiff = (bytes.bytes.length - bytes.cursor) - len.value;
-        if (len.value % 4 !== 0 || lenDiff < 0 || lenDiff > 16) {
+        if (len.value % 4 !== 0 || lenDiff < 12 || lenDiff > 1024) {
             return undefined;
         }
 
-        const hash = sha1(
-            new Uint8Array(decrypted.slice(0, decrypted.byteLength - lenDiff)));
-        if (!constEql(hash.slice(4,), messageKey)) {
+        const hash = sha256(
+            concat(authKey.slice(96, 128),
+                new Uint8Array(decrypted))).slice(8, 24);
+        if (!constEql(hash, messageKey)) {
             return undefined;
         }
 
@@ -91,10 +93,17 @@ export class TLEncryptedMessage implements TLSerializable {
             content,
         );
 
-        const messageKey = sha1(toEncrypt).slice(4,);
+        // Choose padding randomly so that 12 <= padLen <= toEncrypt.length / 4 <= 1024
+        // and padLen mod 16 = 0.
+        const r = rand(12, toEncrypt.length >>> 2);
+        const padLen = Math.min(((((-toEncrypt.length - r) % 16) + 16) % 16) + r, 1024);
+        const padding = SecureRandom.bytes(padLen);
+        const payload = concat(toEncrypt, padding);
+
+        const messageKey = sha256(concat(this.authKey.slice(88, 120), payload)).slice(8, 24);
         const {key, iv} = aesParams(messageKey, this.authKey, true);
         const encrypted = new IGE(key.buffer)
-            .encrypt(toEncrypt.buffer, iv.buffer);
+            .encrypt(payload.buffer, iv.buffer);
         const authKeyId = sha1(this.authKey).slice(12,);
 
         return concat(authKeyId, messageKey, new Uint8Array(encrypted));
@@ -113,15 +122,10 @@ const aesParams = (messageKey: Uint8Array,
                    outgoing: boolean): {key: Uint8Array, iv: Uint8Array} => {
     const x = outgoing ? 0 : 8;
 
-    const a = sha1(concat(messageKey, authKey.slice(x, x + 32)));
-    const b = sha1(concat(authKey.slice(x + 32, x + 48),
-                          messageKey,
-                          authKey.slice(x + 48, x + 64)));
-    const c = sha1(concat(authKey.slice(x + 64, x + 96), messageKey));
-    const d = sha1(concat(messageKey, authKey.slice(x + 96, x + 128)));
-
-    const key = concat(a.slice(0, 8), b.slice(8,), c.slice(4, 16));
-    const iv = concat(a.slice(8,), b.slice(0, 8), c.slice(16,), d.slice(0, 8));
+    const a = sha256(concat(messageKey, authKey.slice(x, x + 36)));
+    const b = sha256(concat(authKey.slice(x + 40, x + 76), messageKey));
+    const key = concat(a.slice(0, 8), b.slice(8, 24), a.slice(24, 32));
+    const iv = concat(b.slice(0, 8), a.slice(8, 24), b.slice(24, 32));
 
     return {key, iv};
 };
@@ -143,4 +147,8 @@ const constEql = (a: Uint8Array, b: Uint8Array): boolean => {
     }
 
     return result === 0;
+};
+
+const rand = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
