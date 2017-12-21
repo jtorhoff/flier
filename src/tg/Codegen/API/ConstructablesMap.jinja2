@@ -1,8 +1,0 @@
-export const constructables = ((): HashMap<TLInt, any> => {
-    const map = new HashMap<TLInt, any>({{ constructables | length }});
-{% for constructable in constructables %}
-    map.put({{ constructable }}.cons, {{ constructable }});
-{%- endfor %}
-
-    return map;
-})();
