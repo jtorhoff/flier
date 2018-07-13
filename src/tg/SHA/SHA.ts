@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import * as fastSHA256 from "fast-sha256";
-import * as Rusha from "Rusha";
+import * as Rusha from "rusha";
 
 const rusha = new Rusha();
 

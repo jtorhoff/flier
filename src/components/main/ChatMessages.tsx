@@ -23,7 +23,7 @@ import { tg, muiTheme } from "../App";
 import { Photo } from "../misc/Photo";
 import { ReverseList, ListRowProps } from "../misc/ReverseList";
 import { ChatMessagesItem } from "./ChatMessagesItem";
-import { ChatAddedUsersMessage } from "./ChatMessagesTypes/actions/ChatAddedUsersMessage";
+import { ChatAddedUsersMessage } from "./ChatMessagesTypes/Actions/ChatAddedUsersMessage";
 import { ChatDeleteUserMessage } from "./ChatMessagesTypes/Actions/ChatDeleteUserMessage";
 import { gameMessagePreviewMaxSize } from "./ChatMessagesTypes/GameMessage";
 import { gifMessageMaxSize } from "./ChatMessagesTypes/GifMessage";
